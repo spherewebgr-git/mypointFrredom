@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://laravel.com" target="_blank">
-<img src="https://sphereweb.mypointapp.gr/images/logo/mypoint-logo.png" alt="myPoint logo">" width="400"></a></p>
+<a href="https://mypointapp.gr" target="_blank">
+<img src="https://sphereweb.mypointapp.gr/images/logo/mypoint-logo.png" alt="myPoint logo"></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
