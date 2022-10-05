@@ -1,0 +1,695 @@
+[
+    {
+        "id": "1",
+        "invoice_number": "\u03a4\u0394121-1263647",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2020-01-07",
+        "price": "16.85",
+        "vat": "4.05",
+        "file": "plaisio-1263647.pdf"
+    },
+    {
+        "id": "3",
+        "invoice_number": "11404931",
+        "shop": "JCE Paddle.com",
+        "date": "2020-01-27",
+        "price": "29",
+        "vat": "0",
+        "file": "paddle.com-Order11404931.pdf"
+    },
+    {
+        "id": "4",
+        "invoice_number": "27060",
+        "shop": "TopHost",
+        "date": "2020-01-28",
+        "price": "35",
+        "vat": "8.40",
+        "file": "tophost-Invoice27060.pdf"
+    },
+    {
+        "id": "35",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-09220",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-10-27",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_53899.pdf"
+    },
+    {
+        "id": "6",
+        "invoice_number": "27358",
+        "shop": "TopHost",
+        "date": "2020-03-04",
+        "price": "35",
+        "vat": "8.4",
+        "file": "tophost-27358.pdf"
+    },
+    {
+        "id": "7",
+        "invoice_number": "16775",
+        "shop": "Hellas Digital",
+        "date": "2020-03-30",
+        "price": "22.31",
+        "vat": "5.35",
+        "file": "hellas-digital.pdf"
+    },
+    {
+        "id": "8",
+        "invoice_number": "282",
+        "shop": "innoesys",
+        "date": "2020-03-27",
+        "price": "73.06",
+        "vat": "17.53",
+        "file": "innoesys.pdf"
+    },
+    {
+        "id": "9",
+        "invoice_number": "\u03a4\u0394431-4212190",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-03-13",
+        "price": "82.90",
+        "vat": "19.90",
+        "file": "plaisio-4212190.pdf"
+    },
+    {
+        "id": "10",
+        "invoice_number": "\u03a4\u03a0\u03a5-157863",
+        "shop": "TopHost",
+        "date": "2020-04-06",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_51168.pdf"
+    },
+    {
+        "id": "11",
+        "invoice_number": "\u03a4\u03a0\u03a5-161761",
+        "shop": "TopHost",
+        "date": "2020-05-19",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_52256.pdf"
+    },
+    {
+        "id": "12",
+        "invoice_number": "XMIND2006170056",
+        "shop": "XMIND",
+        "date": "2020-06-16",
+        "price": "55.14",
+        "vat": "0",
+        "file": "Invoice_ XMIND2006170056.pdf"
+    },
+    {
+        "id": "13",
+        "invoice_number": "\u03a4\u03a0\u03a5-160600",
+        "shop": "TopHost",
+        "date": "2020-05-07",
+        "price": "35",
+        "vat": "8.40",
+        "file": "tophost-160600.pdf"
+    },
+    {
+        "id": "14",
+        "invoice_number": "\u03a4\u0394431-4267573",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-04-29",
+        "price": "14.44",
+        "vat": "3.46",
+        "file": "plaisio-td431-4267573.pdf"
+    },
+    {
+        "id": "15",
+        "invoice_number": "\u03a4\u0394431-4269207",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-04-29",
+        "price": "9.60",
+        "vat": "2.30",
+        "file": "plaisio-td431-4269207.pdf"
+    },
+    {
+        "id": "16",
+        "invoice_number": "\u0391\u0391 00002862",
+        "shop": "\u0396\u0395\u039b\u039b\u039f\u0397 \u039c.\u0399.\u039a.\u0395.",
+        "date": "2020-04-27",
+        "price": "27.53",
+        "vat": "6.61",
+        "file": "\u039a\u0391\u03a1\u0391\u0393\u0399\u0391\u039d\u039d\u0397\u03a3_\u03a3\u03a0\u03a5\u03a1\u0399\u0394\u03a9\u039d_\u03a4\u0399\u039c\u039f\u039b\u039f\u0393\u0399\u039f.pdf"
+    },
+    {
+        "id": "17",
+        "invoice_number": "1034136",
+        "shop": "WPForms, LLC",
+        "date": "2020-10-14",
+        "price": "33.68",
+        "vat": "0",
+        "file": "Billing - WPForms.pdf"
+    },
+    {
+        "id": "18",
+        "invoice_number": "NGECJhCrOZD3oYCRUT3t",
+        "shop": "JETIMPEX, INC.",
+        "date": "2020-07-22",
+        "price": "88.63",
+        "vat": "0",
+        "file": "invoice_8OM50C4DOCY3EHJSB3FG4637I120PX.pdf"
+    },
+    {
+        "id": "19",
+        "invoice_number": "w\u03a4\u0394\u0391 - 3572",
+        "shop": "KOOQIE \u039c\u039f\u039d \u0399\u039a\u0395",
+        "date": "2020-07-16",
+        "price": "52.34",
+        "vat": "12.95",
+        "file": "kooqie.jpg"
+    },
+    {
+        "id": "20",
+        "invoice_number": "\u03a4\u0394121-1284247",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-07-30",
+        "price": "76.68",
+        "vat": "18.40",
+        "file": "plaisio-tv.jpg"
+    },
+    {
+        "id": "21",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-01978",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-07-01",
+        "price": "35",
+        "vat": "8.40",
+        "file": "enartia-t-01978.pdf"
+    },
+    {
+        "id": "22",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-04067",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-08-28",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice-28904.pdf"
+    },
+    {
+        "id": "23",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-06482",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-09-28",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice-28-09-2020-enartia.pdf"
+    },
+    {
+        "id": "24",
+        "invoice_number": "\u03a4\u03a0\u03a5-681192",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-09-24",
+        "price": "23.89",
+        "vat": "5.73",
+        "file": "Invoice_2134465.pdf"
+    },
+    {
+        "id": "25",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-01-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-1-2020.pdf"
+    },
+    {
+        "id": "26",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-02-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-2-2020.pdf"
+    },
+    {
+        "id": "27",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-03-15",
+        "price": "20.26",
+        "vat": "4.87",
+        "file": "vodafone-15-3-2020.pdf"
+    },
+    {
+        "id": "28",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-04-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-4-2020.pdf"
+    },
+    {
+        "id": "29",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-05-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-5-2020.pdf"
+    },
+    {
+        "id": "30",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-06-15",
+        "price": "15.38",
+        "vat": "3.69",
+        "file": "vodafone-15-6-2020.pdf"
+    },
+    {
+        "id": "31",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-07-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-7-2020.pdf"
+    },
+    {
+        "id": "32",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-08-15",
+        "price": "23.60",
+        "vat": "5.66",
+        "file": "vodafone-15-8-2020.pdf"
+    },
+    {
+        "id": "33",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-09-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-9-2020.pdf"
+    },
+    {
+        "id": "34",
+        "invoice_number": "46945847",
+        "shop": "Vodafone",
+        "date": "2020-10-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-10-2020.pdf"
+    },
+    {
+        "id": "36",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-12104",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-11-27",
+        "price": "35",
+        "vat": "8.40",
+        "file": "enartia-12104.pdf"
+    },
+    {
+        "id": "37",
+        "invoice_number": "8187861191",
+        "shop": "Vodafone",
+        "date": "2020-11-15",
+        "price": "20.26",
+        "vat": "4.87",
+        "file": "vodafone-15-11.pdf"
+    },
+    {
+        "id": "38",
+        "invoice_number": "8189614248",
+        "shop": "Vodafone",
+        "date": "2020-12-15",
+        "price": "14.57",
+        "vat": "3.5",
+        "file": "vodafone-15-12.pdf"
+    },
+    {
+        "id": "39",
+        "invoice_number": "\u03a4\u0394431-4458023",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-11-02",
+        "price": "216.94",
+        "vat": "52.06",
+        "file": "plaisio-4458023.pdf"
+    },
+    {
+        "id": "40",
+        "invoice_number": "\u03a4\u0394432-202406",
+        "shop": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf",
+        "date": "2020-12-26",
+        "price": "34.51",
+        "vat": "8.29",
+        "file": "plaisio-202406.pdf"
+    },
+    {
+        "id": "41",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-15000",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-12-28",
+        "price": "35.00",
+        "vat": "8.40",
+        "file": "Invoice-tophost-1500.pdf"
+    },
+    {
+        "id": "43",
+        "invoice_number": "BV52091828",
+        "shop": "Avangate BV dba 2Checkout",
+        "date": "2021-01-19",
+        "price": "45",
+        "vat": "0",
+        "file": "invoice_BV52091828.pdf"
+    },
+    {
+        "id": "44",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-20328",
+        "shop": "ENARTIA \u0391\u039d\u03a9\u039d\u03a5\u039c\u0397 \u0395\u03a4\u0391\u0399\u03a1\u0395\u0399\u0391",
+        "date": "2021-02-25",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_55306.pdf"
+    },
+    {
+        "id": "45",
+        "invoice_number": "\u03a4\u03a0\u03a5-739726",
+        "shop": "ENARTIA A.E.",
+        "date": "2021-02-18",
+        "price": "9.25",
+        "vat": "2.22",
+        "file": "Invoice_2263719.pdf"
+    },
+    {
+        "id": "46",
+        "invoice_number": "PAYID-MAKUN2I8JS949042U136220G",
+        "shop": "Web Coder Pro Ltd",
+        "date": "2021-01-30",
+        "price": "19",
+        "vat": "0",
+        "file": "Invoice-web-coder-pro.pdf"
+    },
+    {
+        "id": "47",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-17643",
+        "shop": "ENARTIA A.E.",
+        "date": "2021-01-25",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice-17643.pdf"
+    },
+    {
+        "id": "48",
+        "invoice_number": "8191377630",
+        "shop": "Vodafone",
+        "date": "2021-01-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-01-2021.pdf"
+    },
+    {
+        "id": "49",
+        "invoice_number": "8193140693",
+        "shop": "Vodafone",
+        "date": "2021-02-27",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-02-2021.pdf"
+    },
+    {
+        "id": "50",
+        "invoice_number": "\u03a4\u0394-431 4632212",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2021-02-11",
+        "price": "103.95",
+        "vat": "24.95",
+        "file": "plasio4632212.pdf"
+    },
+    {
+        "id": "51",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-23066",
+        "shop": "ENARTIA \u0391\u039d\u03a9\u039d\u03a5\u039c\u0397 \u0395\u03a4\u0391\u0399\u03a1\u0395\u0399\u0391",
+        "date": "2021-03-26",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_55674.pdf"
+    },
+    {
+        "id": "52",
+        "invoice_number": "A20032 ",
+        "shop": "WP SYNTEX",
+        "date": "2021-03-10",
+        "price": "139",
+        "vat": "0",
+        "file": "Invoice-A20032 (1).pdf"
+    },
+    {
+        "id": "53",
+        "invoice_number": "8194967292",
+        "shop": "Vodafone",
+        "date": "2021-03-15",
+        "price": "14.57",
+        "vat": "3.50",
+        "file": "vodafone-15-03-2021.pdf"
+    },
+    {
+        "id": "54",
+        "invoice_number": "D-\u03a4\u0394\u0391 5341",
+        "shop": "SPM NETWORK IKE",
+        "date": "2021-05-21",
+        "price": "14.48",
+        "vat": "3.48",
+        "file": "D_\u03a4\u0394\u03910000005341.PDF"
+    },
+    {
+        "id": "55",
+        "invoice_number": "\u03a4\u03a0\u03a5-610196",
+        "shop": "ENARTIA \u0391.\u0395.",
+        "date": "2020-02-16",
+        "price": "8.75",
+        "vat": "2.10",
+        "file": "Invoice_1976332.pdf"
+    },
+    {
+        "id": "56",
+        "invoice_number": "\u03a4\u0394-131 4785677",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2021-05-20",
+        "price": "310",
+        "vat": "74.40",
+        "file": "plaisio-td131-478677.jpg"
+    },
+    {
+        "id": "57",
+        "invoice_number": "E0100EJYYP",
+        "shop": "Microsoft",
+        "date": "2021-05-21",
+        "price": "105.60",
+        "vat": "0",
+        "file": "E0100EJYYP.pdf"
+    },
+    {
+        "id": "58",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-28238",
+        "shop": "ENARTIA \u0391\u039d\u03a9\u039d\u03a5\u039c\u0397 \u0395\u03a4\u0391\u0399\u03a1\u0395\u0399\u0391",
+        "date": "2021-05-24",
+        "price": "35",
+        "vat": "8.40",
+        "file": "Invoice_56425.pdf"
+    },
+    {
+        "id": "63",
+        "invoice_number": "\u03a4\u0394445-57606",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2020-07-29",
+        "price": "63.71",
+        "vat": "15.29",
+        "file": "plaisio-td445-57606.jpg"
+    },
+    {
+        "id": "62",
+        "invoice_number": "\u03a4\u0394431-4363441",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2020-07-29",
+        "price": "12.90",
+        "vat": "3.09",
+        "file": "plaisio-td431-4363441.jpg"
+    },
+    {
+        "id": "64",
+        "invoice_number": "\u03a4\u03a02433-146531",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2020-07-30",
+        "price": "-12.90",
+        "vat": "-3.09",
+        "file": "pt-2433-146531.jpg"
+    },
+    {
+        "id": "65",
+        "invoice_number": "\u03a0\u03a42433-147271",
+        "shop": "\u03a0\u039b\u0391\u0399\u03a3\u0399\u039f",
+        "date": "2020-08-24",
+        "price": "-12.90",
+        "vat": "-3.09",
+        "file": "plaisio-pt-2433-147271.jpg"
+    },
+    {
+        "id": "66",
+        "invoice_number": "\u03a4\u03a0\u03a5-\u03a4-25850",
+        "shop": "ENTARTIA AE",
+        "date": "2021-04-26",
+        "price": "35",
+        "vat": "8.40",
+        "file": "enartia-t-25850.pdf"
+    },
+    {
+        "id": "67",
+        "invoice_number": "\u03a4\u0394\u039b\u03a5-\u03918356",
+        "shop": "MSYSTEMS \u0399.\u039a.\u0395.",
+        "date": "2021-04-09",
+        "price": "347.52",
+        "vat": "83.40",
+        "file": "msystems-1.pdf"
+    },
+    {
+        "id": "68",
+        "invoice_number": "\u03a4\u03941-24024 000278",
+        "shop": "\u039a\u03a9\u03a4\u03a3\u039f\u0392\u039f\u039b\u039f\u03a3",
+        "date": "2021-06-08",
+        "price": "137.02",
+        "vat": "32.88",
+        "file": "kotsovolos-keyboard.pdf"
+    },
+    {
+        "id": "69",
+        "invoice_number": "23151",
+        "shop": "Hitech Store - \u0391&\u03a7 \u03a3\u03a9\u03a4\u0397\u03a1\u0399\u039f\u03a5 \u039f.\u0395.",
+        "date": "2021-07-09",
+        "price": "55.64",
+        "vat": "13.35",
+        "file": "hitech-store-cat6a.pdf"
+    },
+    {
+        "id": "70",
+        "invoice_number": "\u03a0\u03a4\u0395\u039a\u0394\u03a5-\u0391172",
+        "shop": "MSYSTEMS \u0399.\u039a.\u0395.",
+        "date": "2021-04-21",
+        "price": "-62.02",
+        "vat": "-14.88",
+        "file": "msystems-pistotitko.pdf"
+    },
+    {
+        "id": "71",
+        "invoice_number": "\u03a4\u0394\u039b\u03a5-\u03919320",
+        "shop": "MSYSTEMS \u0399.\u039a.\u0395.",
+        "date": "2021-04-21",
+        "price": "74.11",
+        "vat": "17.79",
+        "file": "msystems-xreostiko.pdf"
+    },
+    {
+        "id": "74",
+        "invoice_number": "E0100EVD86",
+        "shop": "Microsoft",
+        "date": "2021-06-21",
+        "price": "105.6",
+        "vat": "0",
+        "file": "E0100EVD86.pdf"
+    },
+    {
+        "id": "73",
+        "invoice_number": "\u03a4\u0394\u0391-3",
+        "shop": "Innoesys \u0399.\u039a.\u0395.",
+        "date": "2021-05-04",
+        "price": "10.32",
+        "vat": "2.48",
+        "file": "innoesys-tda-3.pdf"
+    },
+    {
+        "id": "75",
+        "invoice_number": "E0100F781Y",
+        "shop": "Microsoft",
+        "date": "2021-07-21",
+        "price": "-84.48",
+        "vat": "0",
+        "file": "E0100F781Y.pdf"
+    },
+    {
+        "id": "76",
+        "invoice_number": "BV57914927",
+        "shop": "Avangate BV dba 2Checkout",
+        "date": "2021-09-25",
+        "price": "19.99",
+        "vat": "0",
+        "file": "invoice_BV57914927.pdf"
+    },
+    {
+        "id": "77",
+        "invoice_number": "1634301771",
+        "shop": "Fonticons, Inc.",
+        "date": "2021-10-15",
+        "price": "88.47",
+        "vat": "0",
+        "file": "Invoice _ Font Awesome.pdf"
+    },
+    {
+        "id": "78",
+        "invoice_number": "12205",
+        "shop": "\u0399\u03a9\u0391\u039d\u039d\u0397\u03a3 \u0392\u039b\u0391\u03a3\u03a3\u0397\u03a3 & \u03a3\u0399\u0391 \u039f\u0395",
+        "date": "2021-07-01",
+        "price": "8.87",
+        "vat": "2.13",
+        "file": "all-about-office-invoice.pdf"
+    },
+    {
+        "id": "79",
+        "invoice_number": "AA 00006982",
+        "shop": "ZELLOH M.\u0399.\u039a.\u0395.",
+        "date": "2021-10-18",
+        "price": "25.03",
+        "vat": "6.01",
+        "file": "Invoice_Code_98657.pdf"
+    },
+    {
+        "id": "80",
+        "invoice_number": "ΤΔ431-5015445",
+        "shop": "Πλαίσιο Computers ΑΕΒΕ",
+        "date": "2021-11-30",
+        "price": "43.55",
+        "vat": "10.45",
+        "file": "plaisio.5015445.pdf"
+    },
+    {
+        "id": "81",
+        "invoice_number": "ΔΕΑΤΛ168651",
+        "shop": "WEB SUPPLIES AE",
+        "date": "2021-12-08",
+        "price": "247.42",
+        "vat": "59.38",
+        "file": "websupplies-168651.pdf"
+    },
+    {
+        "id": "82",
+        "invoice_number": "00ΤΔΑ-24158",
+        "shop": "ΦΡΑΓΚΑΚΗΣ ΧΑΡΑΛΑΜΠΟΣ",
+        "date": "2021-12-21",
+        "price": "61.36",
+        "vat": "14.73",
+        "file": "fragakis-24158.pdf"
+    },
+    {
+        "id": "83",
+        "invoice_number": "ΤΔΑ-Ε-05-Α-005035",
+        "shop": "ELECTROINVEST A.E.",
+        "date": "2021-12-31",
+        "price": "199.51",
+        "vat": "47.88",
+        "file": "meidanis-31-12-2021.pdf"
+    },
+    {
+        "id": "84",
+        "invoice_number": "ΤΔΛΥ-Α0940",
+        "shop": "MSYSTEMS I.K.E.",
+        "date": "2022-01-19",
+        "price": "280.65",
+        "vat": "67.36",
+        "file": "msystems.jpeg"
+    }
+]

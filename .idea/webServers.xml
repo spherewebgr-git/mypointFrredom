@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="00914850-7e0e-424d-b5eb-e783489a6df2" name="MyPointApp" url="http://gnldm1084.siteground.biz">
+        <fileTransfer host="gnldm1084.siteground.biz" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="6e778d05-624b-4cdb-a2cc-bcc17826b0d6" name="Thinking Pixel" url="http://gnldm1084.siteground.biz">
+        <fileTransfer host="gnldm1084.siteground.biz" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

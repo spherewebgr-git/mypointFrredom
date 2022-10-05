@@ -1,0 +1,134 @@
+{
+    "menu": [
+        {
+            "url": "/",
+            "name": "Αρχική Σελίδα",
+            "i18n": "Αρχική Σελίδα",
+            "class": "waves-effect waves-cyan",
+            "icon": "home",
+            "slug": "/"
+        },
+        {
+            "navheader": "ΔΙΑΧΕΙΡΙΣΗ ",
+            "icon": "more_horiz"
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Πελάτες",
+            "i18n": "Πελάτες",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "clients",
+            "icon": "contacts",
+            "submenu": [
+                {
+                    "url": "/clients",
+                    "name": "Λίστα Πελατών",
+                    "i18n": "Λίστα Πελατών",
+                    "slug": "clients"
+                },
+                {
+                    "url": "/add-client",
+                    "name": "Προσθήκη Πελάτη",
+                    "i18n": "Προσθήκη Πελάτη",
+                    "slug": "add-client"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Τιμολόγια",
+            "i18n": "Τιμολόγια",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "invoices",
+            "icon": "toc",
+            "submenu": [
+                {
+                    "url": "/invoices",
+                    "name": "Λίστα Τιμολογίων",
+                    "i18n": "Λίστα Τιμολογίων",
+                    "slug": "invoices"
+                },
+                {
+                    "url": "/create-invoice",
+                    "name": "Νέο Τιμολόγιο",
+                    "i18n": "Νέο Τιμολόγιο",
+                    "slug": "add-invoice"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Παραστατικά Εξόδων",
+            "i18n": "Παραστατικά Εξόδων",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "outcomes",
+            "icon": "zoom_out_map",
+            "submenu": [
+                {
+                    "url": "/outcomes",
+                    "name": "Λίστα Παραστατικών",
+                    "i18n": "Λίστα Παραστατικών",
+                    "slug": "outcomes"
+                },
+                {
+                    "url": "/create-outcome",
+                    "name": "Νέο Παραστατικό",
+                    "i18n": "Νέο Παραστατικό",
+                    "slug": "create-outcome"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Αποδείξεις Λιανικής",
+            "i18n": "Αποδείξεις Λιανικής",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "retail-receipts",
+            "icon": "receipt",
+            "submenu": [
+                {
+                    "url": "/retail-receipts",
+                    "name": "Αποδείξεις Λιανικής",
+                    "i18n": "Αποδείξεις Λιανικής",
+                    "slug": "retail-receipts"
+                },
+                {
+                    "url": "/create-retail-receipt",
+                    "name": "Νέα Απόδειξη Λιανικής",
+                    "i18n": "Νέα Απόδειξη Λιανικής",
+                    "slug": "add-retail-receipt"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Υπενθυμίσεις",
+            "i18n": "Υπενθυμίσεις",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "tasks",
+            "icon": "playlist_add_check",
+            "submenu": [
+                {
+                    "url": "/tasks",
+                    "name": "Λίστα Υπενθυμίσεων",
+                    "i18n": "Λίστα Υπενθυμίσεων",
+                    "slug": "tasks"
+                },
+                {
+                    "url": "/store-task",
+                    "name": "Νέα Υπεθύμιση",
+                    "i18n": "Νέα Υπεθύμιση",
+                    "slug": "store-task"
+                }
+            ]
+        },
+        {
+            "url": "/application-settings",
+            "name": "Ρυθμίσεις",
+            "i18n": "Ρυθμίσεις",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "settings",
+            "icon": "settings"
+        }
+    ]
+}

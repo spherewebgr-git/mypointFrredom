@@ -1,0 +1,138 @@
+@import "./components/color-variables";
+@import "./components/color-classes";
+@import "./pages/variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700;800&display=swap');
+
+html {
+    font-family: 'Manrope', sans-serif !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif !important;
+    font-weight: 200;
+}
+// sidebar brand logo
+.brand-sidebar span.logo-text{
+  padding-left: 0;
+}
+
+table {
+    &.dataTable {
+        & tbody {
+            & tr {
+                &.finals {
+                    color: $white;
+                    font-weight: bold;
+                }
+                &.disabled {
+                    background-color: #d1d1d1;
+                    & td {
+                        color: #939393;
+                    }
+                }
+                & td {
+                    &.bold {
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    & input {
+        &[type=checkbox]:not(:checked), &[type=checkbox]:checked {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+    }
+}
+
+.priority-label {
+    & label {
+        top: -35px;
+        font-size: 13px;
+    }
+    & .priority-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        position: relative;
+        top: -10px;
+    }
+}
+
+.addToInvoice {
+    opacity: 0;
+    transition: opacity 0.25s linear;
+    &.active {
+        opacity: 1;
+        transition: opacity 0.25s linear;
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow: auto;
+}
+.client-tabs {
+    margin-top: 45px;
+    padding: 0!important;
+}
+
+.invoice-head {
+    &--left {
+        @media (max-width: 1600px) {
+            width: 100%;
+        }
+    }
+    &--right {
+        @media (max-width: 1600px) {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}
+
+#binDropdown {
+
+    & li {
+        padding: 5px 20px;
+        cursor: auto;
+        & .black-text {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        & h6 {
+            margin: 12px 0 0 0;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        & time {
+            font-size: 12px;
+            margin-left: 33px;
+            position: relative;
+            top: -5px;
+        }
+    }
+}
+
+.waves-button-input {
+    color: #ffffff;
+}
+
+
+aside {
+    &.nav-collapsed {
+        img {
+            &.hide-on-med-and-down {
+                display: none;
+            }
+            &.hide-on-med-and-up {
+                display: block!important;
+                margin: 0 auto;
+            }
+        }
+    }
+}

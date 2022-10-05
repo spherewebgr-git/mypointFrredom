@@ -1,0 +1,976 @@
+
+[
+    {
+        "id": "1",
+        "client_id": "1",
+        "invoice_number": "86",
+        "date": "2019-11-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "2",
+        "client_id": "14",
+        "invoice_number": "90",
+        "date": "2019-12-27",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "4",
+        "client_id": "17",
+        "invoice_number": "51",
+        "date": "2019-01-09",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+
+    {
+        "id": "6",
+        "client_id": "4",
+        "invoice_number": "52",
+        "date": "2019-01-17",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "7",
+        "client_id": "18",
+        "invoice_number": "53",
+        "date": "2019-01-18",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "8",
+        "client_id": "18",
+        "invoice_number": "54",
+        "date": "2019-01-22",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "9",
+        "client_id": "19",
+        "invoice_number": "55",
+        "date": "2019-01-24",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "10",
+        "client_id": "1",
+        "invoice_number": "56",
+        "date": "2019-01-28",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "11",
+        "client_id": "1",
+        "invoice_number": "57",
+        "date": "2019-01-31",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "12",
+        "client_id": "20",
+        "invoice_number": "58",
+        "date": "2019-02-11",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "13",
+        "client_id": "1",
+        "invoice_number": "59",
+        "date": "2019-02-15",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "14",
+        "client_id": "15",
+        "invoice_number": "60",
+        "date": "2019-02-25",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "15",
+        "client_id": "13",
+        "invoice_number": "61",
+        "date": "2019-02-25",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "16",
+        "client_id": "21",
+        "invoice_number": "62",
+        "date": "2019-02-25",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "17",
+        "client_id": "1",
+        "invoice_number": "63",
+        "date": "2019-02-25",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "18",
+        "client_id": "1",
+        "invoice_number": "64",
+        "date": "2019-02-28",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "19",
+        "client_id": "2",
+        "invoice_number": "65",
+        "date": "2019-03-29",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "20",
+        "client_id": "1",
+        "invoice_number": "66",
+        "date": "2019-04-02",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "21",
+        "client_id": "1",
+        "invoice_number": "67",
+        "date": "2019-04-02",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "22",
+        "client_id": "22",
+        "invoice_number": "68",
+        "date": "2019-04-10",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "26",
+        "client_id": "23",
+        "invoice_number": "69",
+        "date": "2019-04-18",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "27",
+        "client_id": "1",
+        "invoice_number": "70",
+        "date": "2019-05-02",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "28",
+        "client_id": "1",
+        "invoice_number": "71",
+        "date": "2019-05-15",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "29",
+        "client_id": "1",
+        "invoice_number": "72",
+        "date": "2019-06-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "30",
+        "client_id": "22",
+        "invoice_number": "73",
+        "date": "2019-07-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "31",
+        "client_id": "24",
+        "invoice_number": "74",
+        "date": "2019-07-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "32",
+        "client_id": "1",
+        "invoice_number": "75",
+        "date": "2019-08-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "33",
+        "client_id": "25",
+        "invoice_number": "76",
+        "date": "2019-08-28",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "34",
+        "client_id": "1",
+        "invoice_number": "77",
+        "date": "2019-09-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "35",
+        "client_id": "26",
+        "invoice_number": "78",
+        "date": "2019-09-09",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "39",
+        "client_id": "28",
+        "invoice_number": "79",
+        "date": "2019-09-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "40",
+        "client_id": "1",
+        "invoice_number": "80",
+        "date": "2019-09-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "41",
+        "client_id": "1",
+        "invoice_number": "81",
+        "date": "2019-09-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "42",
+        "client_id": "1",
+        "invoice_number": "82",
+        "date": "2019-09-12",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "43",
+        "client_id": "14",
+        "invoice_number": "83",
+        "date": "2019-10-01",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "45",
+        "client_id": "5",
+        "invoice_number": "84",
+        "date": "2019-10-02",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "47",
+        "client_id": "1",
+        "invoice_number": "85",
+        "date": "2019-10-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "48",
+        "client_id": "1",
+        "invoice_number": "87",
+        "date": "2019-12-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "49",
+        "client_id": "27",
+        "invoice_number": "88",
+        "date": "2019-12-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "50",
+        "client_id": "27",
+        "invoice_number": "89",
+        "date": "2019-12-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "51",
+        "client_id": "1",
+        "invoice_number": "91",
+        "date": "2020-01-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "52",
+        "client_id": "18",
+        "invoice_number": "92",
+        "date": "2020-01-21",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "53",
+        "client_id": "1",
+        "invoice_number": "93",
+        "date": "2020-02-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "54",
+        "client_id": "22",
+        "invoice_number": "94",
+        "date": "2020-02-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "55",
+        "client_id": "31",
+        "invoice_number": "95",
+        "date": "2020-02-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "57",
+        "client_id": "13",
+        "invoice_number": "96",
+        "date": "2020-02-26",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "59",
+        "client_id": "1",
+        "invoice_number": "97",
+        "date": "2020-03-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "60",
+        "client_id": "1",
+        "invoice_number": "98",
+        "date": "2020-04-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "61",
+        "client_id": "1",
+        "invoice_number": "99",
+        "date": "2020-04-05",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "63",
+        "client_id": "1",
+        "invoice_number": "100",
+        "date": "2020-04-08",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "64",
+        "client_id": "1",
+        "invoice_number": "101",
+        "date": "2020-05-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "65",
+        "client_id": "1",
+        "invoice_number": "102",
+        "date": "2020-06-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "66",
+        "client_id": "1",
+        "invoice_number": "103",
+        "date": "2020-07-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "67",
+        "client_id": "33",
+        "invoice_number": "104",
+        "date": "2020-07-15",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "68",
+        "client_id": "1",
+        "invoice_number": "105",
+        "date": "2020-08-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "69",
+        "client_id": "1",
+        "invoice_number": "106",
+        "date": "2020-08-31",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "70",
+        "client_id": "1",
+        "invoice_number": "107",
+        "date": "2020-09-15",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "71",
+        "client_id": "34",
+        "invoice_number": "108",
+        "date": "2020-09-18",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "72",
+        "client_id": "1",
+        "invoice_number": "109",
+        "date": "2020-10-05",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "73",
+        "client_id": "1",
+        "invoice_number": "110",
+        "date": "2020-11-03",
+        "paid": "0",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "74",
+        "client_id": "15",
+        "invoice_number": "112",
+        "date": "2020-11-29",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "75",
+        "client_id": "31",
+        "invoice_number": "111",
+        "date": "2020-11-26",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "76",
+        "client_id": "1",
+        "invoice_number": "113",
+        "date": "2020-11-30",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "78",
+        "client_id": "1",
+        "invoice_number": "114",
+        "date": "2020-11-30",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "82",
+        "client_id": "1",
+        "invoice_number": "115",
+        "date": "2020-12-03",
+        "paid": "0",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "83",
+        "client_id": "1",
+        "invoice_number": "116",
+        "date": "2020-12-17",
+        "paid": "0",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "84",
+        "client_id": "1",
+        "invoice_number": "117",
+        "date": "2021-01-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "85",
+        "client_id": "35",
+        "invoice_number": "118",
+        "date": "2021-01-21",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "86",
+        "client_id": "1",
+        "invoice_number": "119",
+        "date": "2021-02-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "87",
+        "client_id": "1",
+        "invoice_number": "120",
+        "date": "2021-02-08",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "91",
+        "client_id": "1",
+        "invoice_number": "121",
+        "date": "2021-02-08",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "95",
+        "client_id": "1",
+        "invoice_number": "122",
+        "date": "2021-02-28",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "100",
+        "client_id": "36",
+        "invoice_number": "123",
+        "date": "2021-03-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "101",
+        "client_id": "1",
+        "invoice_number": "124",
+        "date": "2021-03-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "102",
+        "client_id": "36",
+        "invoice_number": "125",
+        "date": "2021-03-23",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "103",
+        "client_id": "1",
+        "invoice_number": "126",
+        "date": "2021-04-05",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "104",
+        "client_id": "1",
+        "invoice_number": "127",
+        "date": "2021-04-05",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "105",
+        "client_id": "1",
+        "invoice_number": "128",
+        "date": "2021-04-05",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "106",
+        "client_id": "36",
+        "invoice_number": "129",
+        "date": "2021-04-20",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "107",
+        "client_id": "1",
+        "invoice_number": "130",
+        "date": "2021-05-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "108",
+        "client_id": "36",
+        "invoice_number": "131",
+        "date": "2021-05-24",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "109",
+        "client_id": "36",
+        "invoice_number": "132",
+        "date": "2021-06-28",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "110",
+        "client_id": "1",
+        "invoice_number": "133",
+        "date": "2021-07-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "111",
+        "client_id": "1",
+        "invoice_number": "134",
+        "date": "2021-07-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "112",
+        "client_id": "1",
+        "invoice_number": "135",
+        "date": "2021-07-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "113",
+        "client_id": "1",
+        "invoice_number": "136",
+        "date": "2021-07-07",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "114",
+        "client_id": "36",
+        "invoice_number": "137",
+        "date": "2021-07-23",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "115",
+        "client_id": "37",
+        "invoice_number": "138",
+        "date": "2021-07-23",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "116",
+        "client_id": "18",
+        "invoice_number": "139",
+        "date": "2021-07-23",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "117",
+        "client_id": "1",
+        "invoice_number": "140",
+        "date": "2021-08-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "118",
+        "client_id": "36",
+        "invoice_number": "141",
+        "date": "2021-09-01",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "119",
+        "client_id": "21",
+        "invoice_number": "142",
+        "date": "2021-09-02",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "120",
+        "client_id": "1",
+        "invoice_number": "143",
+        "date": "2021-09-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "121",
+        "client_id": "36",
+        "invoice_number": "144",
+        "date": "2021-09-29",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "122",
+        "client_id": "1",
+        "invoice_number": "145",
+        "date": "2021-10-04",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "123",
+        "client_id": "1",
+        "invoice_number": "146",
+        "date": "2021-10-08",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "124",
+        "client_id": "1",
+        "invoice_number": "147",
+        "date": "2021-10-08",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "125",
+        "client_id": "36",
+        "invoice_number": "148",
+        "date": "2021-10-21",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "126",
+        "client_id": "1",
+        "invoice_number": "149",
+        "date": "2021-11-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "127",
+        "client_id": "36",
+        "invoice_number": "150",
+        "date": "2021-11-24",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "128",
+        "client_id": "1",
+        "invoice_number": "151",
+        "date": "2021-12-03",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "129",
+        "client_id": "38",
+        "invoice_number": "152",
+        "date": "2021-12-14",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "130",
+        "client_id": "36",
+        "invoice_number": "153",
+        "date": "2021-12-30",
+        "paid": "1",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "131",
+        "client_id": "1",
+        "invoice_number": "154",
+        "date": "2021-12-30",
+        "paid": "0",
+        "created_at": "2021-11-22 21:36:47",
+        "updated_at": "2021-11-22 21:36:47"
+    },
+    {
+        "id": "132",
+        "client_id": "1",
+        "invoice_number": "155",
+        "date": "2022-01-26",
+        "paid": "0",
+        "created_at": "2022-01-22 21:36:47",
+        "updated_at": "2022-01-22 21:36:47"
+    },
+    {
+        "id": "133",
+        "client_id": "36",
+        "invoice_number": "156",
+        "date": "2022-01-31",
+        "paid": "1",
+        "created_at": "2022-01-22 21:36:47",
+        "updated_at": "2022-01-22 21:36:47"
+    },
+    {
+        "id": "134",
+        "client_id": "1",
+        "invoice_number": "157",
+        "date": "2022-02-22",
+        "paid": "0",
+        "created_at": "2022-02-22 21:36:47",
+        "updated_at": "2022-02-22 21:36:47"
+    },
+    {
+        "id": "135",
+        "client_id": "36",
+        "invoice_number": "158",
+        "date": "2022-02-23",
+        "paid": "0",
+        "created_at": "2022-02-23 21:36:47",
+        "updated_at": "2022-02-23 21:36:47"
+    }
+]
