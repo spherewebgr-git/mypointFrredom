@@ -25,6 +25,21 @@
                 <div class="col s10 m6 l6">
                     <h5 class="breadcrumbs-title mt-0 mb-0"><span>Λίστα Τιμολογίων</span></h5>
                 </div>
+                <div class="invoice-head--right row col s12 m6 display-flex justify-content-end align-items-center">
+                    <div class="invoice-create-btn col">
+                        <a href="{{route('invoice.create')}}"
+                           class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                            <i class="material-icons">add</i>
+                            <span>Νέο Τιμολόγιο</span>
+                        </a>
+                    </div>
+                    <div class="invoice-filter-action col">
+                        <a href="javascript:if(window.print)window.print()" class="btn waves-effect waves-light invoice-export border-round z-depth-4">
+                            <i class="material-icons">print</i>
+                            <span>Εκτύπωση Λίστας</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,25 +68,7 @@
                                     <i class="material-icons" style="margin-right: 5px;">search</i> <span>Προσαρμογή Φίλτρου</span></button>
                             </div>
                         </div>
-                        <div class="invoice-head--right row col">
-                            <div class="invoice-create-btn col">
-                                <a href="{{route('invoice.create')}}"
-                                   class="btn waves-effect waves-light invoice-create border-round z-depth-4">
-                                    <i class="material-icons">add</i>
-                                    <span>Νέο Τιμολόγιο</span>
-                                </a>
-                            </div>
-                            <div class="invoice-filter-action col">
-                                <a href="javascript:if(window.print)window.print()" class="btn waves-effect waves-light invoice-export border-round z-depth-4">
-                                    <i class="material-icons">print</i>
-                                    <span>Εκτύπωση</span>
-                                </a>
-                            </div>
-                        </div>
-
-
                     </form>
-
                 </div>
             </div>
 
@@ -127,7 +124,7 @@
                                     <input type="checkbox" class="select-all-myData" name="myDataAll">
                                     <span></span>
                                 </label></th>
-                            <th>
+                            <th class="center-align">
                                 <span>Τ.Π.Υ.</span>
                             </th>
                             <th>Πελάτης</th>
@@ -135,7 +132,7 @@
                             <th class="center-align" style="width: 85px!important;">Τιμή</th>
                             <th class="center-align hide-on-med-and-down" style="width: 85px!important;">Παρ/ση</th>
                             <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
-                            <th class="center-align print-hide hide-on-med-and-down" style="width: 85px!important;">Καθαρό</th>
+                            <th class="center-align print-hide hide-on-med-and-down" style="width: 85px!important;">Σύνολο</th>
                             <th class="center-align print-hide">Κατάσταση</th>
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
@@ -151,7 +148,7 @@
                                     </label>
                                 </td>
                                 <td class="sorting_1 center-align">
-                                    m{{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}
+                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}
                                 </td>
                                 <td class="bold">
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
@@ -160,23 +157,22 @@
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format(getFinalPrices($invoice->invoiceID), '2', ',', '.')}}</td>
-                                <td class="center-align count-parakratisi hide-on-med-and-down" @if(getFinalPrices($invoice->invoiceID) > 300) data-price="{{(20 / 100) * getFinalPrices($invoice->invoiceID)}}" @endif>
-                                    @if(getFinalPrices($invoice->invoiceID) <= 300)
-                                        <span class="bullet blue"></span>
+                                    &euro; {{number_format(getFinalPrices($invoice->hashID), '2', ',', '.')}}</td>
+                                <td class="center-align count-parakratisi hide-on-med-and-down" @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1) data-price="{{(20 / 100) * getFinalPrices($invoice->hashID)}}" @endif>
+                                    @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
+                                    &euro; {{number_format((20 / 100) * getFinalPrices($invoice->hashID), '2', ',', '.')}}
+
                                         @else
-                                        &euro; {{number_format((20 / 100) * getFinalPrices($invoice->invoiceID), '2', ',', '.')}}
+                                        <span class="bullet blue"></span>
                                     @endif
                                 </td>
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->invoiceID), '2', ',', '.')}}
+                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->hashID), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
-                                    @if(getFinalPrices($invoice->invoiceID) <= 300)
-                                    {{number_format(getFinalPrices($invoice->invoiceID), '2', ',', '.')}}
-                                    @else
-                                    &euro; {{number_format(getFinalPrices($invoice->invoiceID) - ((20 / 100) * getFinalPrices($invoice->invoiceID)), '2', ',', '.')}}
-                                    @endif
+
+                                    &euro; {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), '2', ',', '.')}}
+
                                 </td>
                                 <td class="center-align print-hide">
                                     @if($invoice->paid == 1)
@@ -190,17 +186,17 @@
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($invoice->mark)
-                                            <a href="{{route('invoice.view', ['invoiceID' => $invoice->invoiceID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else
-                                            <a href="{{route('invoice.view', ['invoiceID' => $invoice->invoiceID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
-                                            <a href="{{route('invoice.edit', $invoice)}}" class="invoice-action-edit">
+                                            <a href="{{route('invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a href="{{route('invoice.delete', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
@@ -218,7 +214,8 @@
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
                             <td class="center-align parakratisi-synolo tooltipped" data-position="top" data-tooltip="Σύνολο Παρακράτησης Φόρου"></td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format(((24 / 100) * $finals),  2, ',', '.')}}</td>
-                            <td colspan="3" class="tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Καθαρού Κέρδους">&euro; {{number_format(($finals - ((20 / 100) * $finals)) ,2, ',', '.' )}}</td>
+
+                            <td colspan="3" class="tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
                         </tr>
                         </tbody>
                     </table>

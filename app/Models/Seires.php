@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Retails extends Model
+class Seires extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'hashID', 'retailID', 'date', 'seira', 'price', 'payment_method', 'vat', 'service', 'description', 'mark'
+        'letter', 'type'
     ];
 }

@@ -28,11 +28,17 @@
                             <!-- header section -->
                             <div class="row mb-3">
                                 <div class="col xl4 m12 display-flex align-items-center">
-                                    <h6 class="invoice-number mr-4 mb-5">Τ.Π.Υ# Σειρά: m</h6>
-                                    <input type="text" name="invoiceID" placeholder="000"
+                                    <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
+                                    <select name="seira" id="seira">
+                                        @foreach($seires as $seira)
+                                        <option value="{{$seira->letter}}" @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
+                                        @endforeach
+                                    </select>
+                                    <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.Υ# </h6>
+                                    <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
                                            @if(isset($invoice))
-                                           value="{{old('invoiceID', str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT))}}"
-                                           disabled @elseif($last) value="{{str_pad($last + 1, 4, '0', STR_PAD_LEFT)}}" @endif>
+                                           value="{{old('invoiceID', $invoice->invoiceID)}}"
+                                           disabled @elseif($last != '') value="{{$last + 1}}" @endif>
                                 </div>
                                 <div class="col xl8 m12">
                                     <div class="invoice-date-picker display-flex align-items-center">
@@ -75,6 +81,23 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col l6 s12">
+                                    <h6>Τρόπος πληρωμής</h6>
+                                    <div class="col s12  input-field">
+                                        <div class="col s12 m12">
+                                            <label class="m-0" for="paymentMethod">Επιλέξτε τρόπο πληρωμής</label>
+                                        </div>
+                                        <select name="paymentMethod" id="paymentMethod">
+                                            <option value="1" @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
+                                            <option value="2" @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
+                                            <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
+                                            <option value="4" @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>Επιταγή</option>
+                                            <option value="5" @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
@@ -199,7 +222,7 @@
                                                 <h6 class="invoice-subtotal-value">&euro; <span
                                                         id="finalPrice">00.00</span></h6>
                                             </li>
-                                            <li class="display-flex justify-content-between">
+                                            <li class="display-flex justify-content-between" id="parakratisiTotal">
                                                 <span class="invoice-subtotal-title">Παρακράτηση</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span
                                                         id="parakratisi">00.00</span></h6>
@@ -251,10 +274,20 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="display-flex justify-content-between pb-2">
+                            <span title="Εφαρμογή παρακράτησης φόρου (στα 300 &euro; και άνω)">Εφαρμογή παρακράτησης</span>
+                            <div class="switch">
+                                <label>
+                                    <input type="checkbox" name="hasParakratisi" id="hasParakratisi"
+                                            checked>
+                                    <span class="lever"></span>
+                                </label>
+                            </div>
+                        </div>
 
                         @if(!isset($invoice->mark))
                         <div class="display-flex justify-content-between pb-2">
-                            <span>Αποσολή στο myData</span>
+                            <span>Αποστολή στο myData</span>
                             <div class="switch">
                                 <label>
                                     <input type="checkbox" name="sendInvoice">
@@ -266,6 +299,19 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="ajax-preloader">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -289,6 +335,33 @@
             });
             @endif
 
+            $m('select#seira').on('change', function () {
+                $m('.ajax-preloader').addClass('active');
+
+                let invoiceLetter = $m('select#seira option:selected').text();
+
+                let pageToken = $m('meta[name="csrf-token"]').attr('content');
+
+                $m.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': pageToken
+                    }
+                });
+
+                $m.ajax({
+                    url: "{{ url('/last-invoice-ajax') }}",
+                    method: 'post',
+                    data: {
+                        seira: invoiceLetter
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        $m('.ajax-preloader').removeClass('active');
+                        $m('input#invoiceID').val(result);
+                    }
+                });
+            });
+
         });
         $m('input[type="submit"]').on('click', function () {
             $m('.progress').show();
@@ -303,12 +376,14 @@
             $m('#subtotal').text(parseFloat(finalPrice).toFixed(2));
             $m('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
             $m('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
-            if (finalPrice > 300) {
+            if (finalPrice > 300 && $m('input#hasParakratisi').is(':checked')) {
                 $m('#parakratisi').text(parseFloat((20 / 100) * finalPrice).toFixed(2));
                 $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice - (20 / 100) * finalPrice).toFixed(2));
+                $m('#parakratisiTotal').show();
             } else {
                 $m('#parakratisi').text(parseFloat(0).toFixed(2));
                 $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+                $m('#parakratisiTotal').hide();
             }
         }
 
@@ -319,4 +394,14 @@
 
     </script>
 
+@endsection
+
+@section('page-script')
+    {{--    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>--}}
+    <script>
+        $r = jQuery.noConflict();
+        $r(document).ready(function() {
+
+        });
+    </script>
 @endsection

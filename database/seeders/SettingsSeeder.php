@@ -15,8 +15,8 @@ class SettingsSeeder extends Seeder
     public function run()
     {
         DB::table('settings')->insert([
-            'title' => '',
-            'company' => '',
+            'title' => 'ΔΙΑΚΡΙΤΙΚΟΣ ΤΙΤΛΟΣ',
+            'company' => 'ΕΠΩΝΥΜΙΑ ΕΠΙΧΕΙΡΗΣΗΣ',
             'business' => '',
             'email' => '',
             'address' => '',
@@ -24,9 +24,9 @@ class SettingsSeeder extends Seeder
             'phone' => '',
             'vat' => '',
             'doy' => '',
-            'logo' => 'temp-logo.png',
-            'invoice_logo' => 'temp-tim-logo.jpg',
-            'signature' => 'tem-signature-logo',
+            'logo' => '',
+            'invoice_logo' => '',
+            'signature' => '',
             'mail_account' => '',
         ]);
     }

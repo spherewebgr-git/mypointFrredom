@@ -22,6 +22,11 @@ class Client extends Model
         return $this->hasMany(Services::class);
     }
 
+//    public function client()
+//    {
+//        return $this->hasOne(Client::class, 'id', 'client_id');
+//    }
+
     public static function getFilePath() {
         return str_replace(['/', '\\'],DIRECTORY_SEPARATOR, storage_path('app/public/files/clients/logos').DIRECTORY_SEPARATOR);
     }

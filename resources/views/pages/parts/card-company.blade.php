@@ -4,8 +4,9 @@
             <img class="activator" src="{{asset('images/gallery/3.png')}}" alt="user bg"/>
         </div>
         <div class="card-content mb-1">
+            @if(settings()->logo)
             <img src="{{url('images/system/'.settings()->logo)}}" alt="logo"
-                 class="circle responsive-img activator card-profile-image mb-1 waves-effect waves-light  accent-2 z-depth-4 "/>
+                 class="circle responsive-img activator card-profile-image mb-1 waves-effect waves-light  accent-2 z-depth-4 "/> @endif
             <a class="btn-floating activator btn-move-up waves-effect waves-light red accent-2 z-depth-3 right">
                 <i class="material-icons">visibility</i>
             </a>
@@ -13,7 +14,9 @@
             <p><i class="material-icons profile-card-i">perm_identity</i> {{settings()->company}}</p>
             <p><i class="material-icons profile-card-i">domain</i> {{settings()->address}}</p>
             <p><i class="material-icons profile-card-i">phone_android</i> {{settings()->mobile}}</p>
+            @if(settings()->email)
             <p><i class="material-icons profile-card-i">email</i> {{settings()->email}}</p>
+            @endif
         </div>
         <div class="card-reveal">
                   <span class="card-title grey-text text-darken-4">{{settings()->company}} - {{settings()->title}} <i

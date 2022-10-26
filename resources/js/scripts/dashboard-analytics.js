@@ -389,14 +389,7 @@ Trending Bar Chart
        */
 
       // Total Sales - Bar
-      $("#sales-compositebar").sparkline([4, 6, 7, 7, 4, 3, 2, 3, 1, 4, 6, 5, 9, 4, 6, 7, 7, 4, 6, 5, 9], {
-         type: "bar",
-         barColor: "#F6CAFD",
-         height: "25",
-         width: "100%",
-         barWidth: "7",
-         barSpacing: 4
-      });
+      
       //Total Sales - Line
       $("#sales-compositebar").sparkline([4, 1, 5, 7, 9, 9, 8, 8, 4, 2, 5, 6, 7], {
          composite: true,

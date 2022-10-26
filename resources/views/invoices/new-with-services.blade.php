@@ -27,9 +27,9 @@
                             <!-- header section -->
                             <div class="row mb-3">
                                 <div class="col xl4 m12 display-flex align-items-center">
-                                    <h6 class="invoice-number mr-4 mb-5">Τ.Π.Υ# Σειρά: m</h6>
+                                    <h6 class="invoice-number mr-4 mb-5">Τ.Π.Υ# </h6>
                                     <input type="text" name="invoiceID" placeholder="000"
-                                            value="{{str_pad($last + 1, 4, '0', STR_PAD_LEFT)}}">
+                                            value="{{$last + 1}}">
                                 </div>
                                 <div class="col xl8 m12">
                                     <div class="invoice-date-picker display-flex align-items-center">

@@ -33,7 +33,7 @@
             <div class="card print-hide">
                 <div class="card-content container">
                     <h4 class="card-title">Αναζήτηση Βάσει Ημερομηνίας</h4>
-                    <form action="{{route('invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
+                    <form action="{{route('retail-receipts.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
                         @csrf
                         <div class="invoice-head--left row display-flex col align-items-center">
                             <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
@@ -85,11 +85,13 @@
                             <th class="control sorting_disabled" rowspan="1" colspan="1"
                                 style="width: 19.8906px; display: none;" aria-label=""></th>
                             <th class="center-align"><span>Αρ. Απόδειξης</span></th>
-                            <th class="center-align"><span>Υπηρεσία</span></th>
+                            <th><span>Υπηρεσία</span></th>
                             <th class="center-align">Ημ/νία Έκδοσης</th>
                             <th class="center-align">Ώρα Έκδοσης</th>
-                            <th class="center-align" style="width: 85px!important;">Τιμή</th>
+                            <th class="center-align" style="width: 85px!important;">Καθαρό</th>
                             <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
+                            <th class="center-align" style="width: 85px!important;">Σύνολο</th>
+
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
                         </thead>
@@ -97,7 +99,7 @@
                         @foreach($retails as $retail)
                             <tr role="row" class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td class="sorting_1 center-align">{{$retail->seira}} {{str_pad($retail->retailID, 4, '0', STR_PAD_LEFT)}}</td>
+                                <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif{{$retail->retailID}}</a></td>
                                 <td>{{$retail->service}}</td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->date))->format('d/m/Y')}}</small>
@@ -106,28 +108,38 @@
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->created_at))->format('H:i')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format($retail->price, '2', ',', '.')}}</td>
+                                    &euro; {{number_format($retail->price - $retail->vat, '2', ',', '.')}}</td>
                                 <td class="center-align print-hide">
                                     &euro; {{number_format($retail->vat, '2', ',', '.')}}
                                 </td>
+                                <td class="center-align">
+                                    &euro; {{number_format($retail->price, '2', ',', '.')}}</td>
+
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($retail->mark)
                                             <a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
-                                            <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="invoice-action-view mr-4 ">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else
-                                            <a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}" class="invoice-action-view mr-4">
-                                                <i class="material-icons">remove_red_eye</i>
+                                            <a href="#" class="invoice-action-mydata mr-4 default" data-retail="{{$retail->hashID}}" title="Αποστολή στο MyData" data-hash="{{$retail->hashID}}">
+                                                <i class="material-icons">cloud_upload</i>
                                             </a>
-                                            <a href="{{route('retail-receipts.edit', $retail)}}" class="invoice-action-edit">
+                                            <a href="{{route('retail-receipts.edit', $retail->hashID)}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="{{route('retail-receipts.delete', ['retail' => $retail->retailID])}}" class="invoice-action-edit">
+                                            <a href="{{route('retail-receipts.delete', ['retail' => $retail->retailID])}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">delete</i>
+                                            </a>
+
+                                            <a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}" class="hasMark invoice-action-view mr-4 hide">
+                                                <i class="material-icons">remove_red_eye</i>
+                                            </a>
+                                            <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="hasMark invoice-action-view mr-4 hide">
+                                                <i class="material-icons">cloud_download</i>
                                             </a>
                                         @endif
 
@@ -138,8 +150,9 @@
                         <tr class="finals gradient-45deg-blue-grey-blue-grey">
                             <td></td>
                             <td colspan="3" class="right-align">Σύνολα:</td>
-                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals - $vats, '2', ',', '.')}}</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format($vats,  2, ',', '.')}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format($finals,  2, ',', '.')}}</td>
                             <td></td>
                         </tr>
                         </tbody>
@@ -149,8 +162,56 @@
             </div>
         </div>
     </section>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('page-script')
     <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
+    <script>
+        $i = jQuery.noConflict();
+        $i(document).ready(function() {
+            $i('a.invoice-action-mydata').on('click', function (e) {
+                e.preventDefault();
+
+                $i('.ajax-preloader').addClass('active');
+
+                let retailHash = $i(this).data('retail');
+                let pageToken = $i('meta[name="csrf-token"]').attr('content');
+
+                $i.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': pageToken
+                    }
+                });
+
+                $i.ajax({
+                    url: "{{ url('/myData-ajax-single') }}",
+                    method: 'post',
+                    data: {
+                        retail: retailHash
+                    },
+                    success: function (result) {
+                        $i('.ajax-preloader').removeClass('active');
+                        $i('.hasMark').each(function() {
+                           $i(this).removeClass('hide');
+                        });
+                        $i('a.default[data-retail="'+retailHash+'"]').addClass('hide');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

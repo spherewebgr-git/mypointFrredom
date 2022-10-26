@@ -5,6 +5,11 @@
     <div class="nav-wrapper">
         @yield('header-left')
       <ul class="navbar-list right">
+          <li class="hide-on-med-and-down">
+              <div class="waves-effect waves-block waves-light" id="tour">
+                  <i class="material-icons">slideshow</i>
+              </div>
+          </li>
         <li class="hide-on-med-and-down">
           <a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);">
             <i class="material-icons">settings_overscan</i>
@@ -24,9 +29,13 @@
         <li>
           <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" title="{{settings()->company. ' - ' . settings()->title}}"
             data-target="profile-dropdown">
-            <span class="avatar-status avatar-online">
-              <img src="{{asset('images/system/'.settings()->logo)}}" alt="{{settings()->company}} Logo"><i></i>
-            </span>
+              @if(settings()->logo)
+                <span class="avatar-status avatar-online">
+                  <img src="{{asset('images/system/'.settings()->logo)}}" alt="{{settings()->company}} Logo"><i></i>
+                </span>
+                  @else
+                  <span id="avatar-name">{{settings()->company}}</span>
+              @endif
           </a>
         </li>
       </ul>

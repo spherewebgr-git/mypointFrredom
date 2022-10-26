@@ -75,7 +75,9 @@ mix.js('resources/js/materialize.js', 'public/js')
     .sass('resources/sass/laravel-custom.scss', 'public/css');
 
 
-mix.copy('resources/js/vendors.min.js', 'public/js/vendors.min.js');
+mix.copy('resources/js/vendors.min.js', 'public/js/vendors.min.js')
+    .copy('resources/js/scripts/sheperd.min.js', 'public/js/sheperd.min.js')
+    .copy('resources/css/sheperd-theme.min.css', 'public/css/sheperd-theme.min.css');
 
 mix.then(() => {
     if (process.env.MIX_CONTENT_DIRECTION === "rtl") {
@@ -85,17 +87,6 @@ mix.then(() => {
                 console.log(err);
             }
         });
-        // exec('./node_modules/rtlcss/bin/rtlcss.js -d -e ".css" ./public/css/ ./public/css/');
     }
 });
-
-// if (mix.inProduction()) {
-//     mix.version();
-//     mix.webpackConfig({
-//         output: {
-//             publicPath: '/materialize-material-design-admin-template/laravel/demo-1/'
-//         }
-//     });
-//     mix.setResourceRoot("/materialize-material-design-admin-template/laravel/demo-1/");
-// }
 

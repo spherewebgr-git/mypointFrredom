@@ -36,6 +36,62 @@
         },
         {
             "url": "javascript:void(0)",
+            "name": "Προμηθευτές",
+            "i18n": "Προμηθευτές",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "providers",
+            "icon": "airport_shuttle",
+            "submenu": [
+                {
+                    "url": "/providers",
+                    "name": "Λίστα Προμηθευττών",
+                    "i18n": "Λίστα Προμηθευττών",
+                    "slug": "providers"
+                },
+                {
+                    "url": "/add-provider",
+                    "name": "Προσθήκη Προμηθευτή",
+                    "i18n": "Προσθήκη Προμηθευτή",
+                    "slug": "add-client"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Υπενθυμίσεις",
+            "i18n": "Υπενθυμίσεις",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "tasks",
+            "icon": "playlist_add_check",
+            "submenu": [
+                {
+                    "url": "/tasks",
+                    "name": "Λίστα Υπενθυμίσεων",
+                    "i18n": "Λίστα Υπενθυμίσεων",
+                    "slug": "tasks"
+                },
+                {
+                    "url": "/store-task",
+                    "name": "Νέα Υπεθύμιση",
+                    "i18n": "Νέα Υπεθύμιση",
+                    "slug": "store-task"
+                }
+            ]
+        },
+        {
+            "url": "/application-settings",
+            "name": "Ρυθμίσεις",
+            "i18n": "Ρυθμίσεις",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "settings",
+            "icon": "settings"
+        },
+        {
+            "navheader": "ΠΑΡΑΣΤΑΤΙΚΑ ",
+            "icon": "more_horiz"
+        },
+        {
+            "url": "javascript:void(0)",
             "name": "Τιμολόγια",
             "i18n": "Τιμολόγια",
             "class": "collapsible-header waves-effect waves-cyan",
@@ -99,36 +155,6 @@
                     "slug": "add-retail-receipt"
                 }
             ]
-        },
-        {
-            "url": "javascript:void(0)",
-            "name": "Υπενθυμίσεις",
-            "i18n": "Υπενθυμίσεις",
-            "class": "collapsible-header waves-effect waves-cyan",
-            "slug": "tasks",
-            "icon": "playlist_add_check",
-            "submenu": [
-                {
-                    "url": "/tasks",
-                    "name": "Λίστα Υπενθυμίσεων",
-                    "i18n": "Λίστα Υπενθυμίσεων",
-                    "slug": "tasks"
-                },
-                {
-                    "url": "/store-task",
-                    "name": "Νέα Υπεθύμιση",
-                    "i18n": "Νέα Υπεθύμιση",
-                    "slug": "store-task"
-                }
-            ]
-        },
-        {
-            "url": "/application-settings",
-            "name": "Ρυθμίσεις",
-            "i18n": "Ρυθμίσεις",
-            "class": "collapsible-header waves-effect waves-cyan",
-            "slug": "settings",
-            "icon": "settings"
         }
     ]
 }

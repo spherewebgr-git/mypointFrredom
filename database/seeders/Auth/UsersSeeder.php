@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Σπύρος Καραγιαννης',
+                'name' => 'Sphere Web Solutions',
                 'hashID' =>  Str::substr(Str::slug(Hash::make('info@sphereweb.gr'.'123Sph!@#')), 0, 32),
                 'email' => 'info@sphereweb.gr',
                 'password' => bcrypt('123Sph!@#'),
@@ -30,7 +30,7 @@ class UsersSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Αλέξανδρος Κασσελούρης',
+                'name' => 'Λογιστής',
                 'hashID' =>  Str::substr(Str::slug(Hash::make('alkasselouris@yahoo.gr'.'123Alk!@#')), 0, 32),
                 'email' => 'alkasselouris@yahoo.gr',
                 'password' => bcrypt('123Alk!@#'),

@@ -15,6 +15,17 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 0;
 }
 
+.btn.shepherd-button {
+    line-height: 1em;
+    color: #ffffff!important;
+}
+
+.content-overlay.active {
+    visibility: visible;
+    z-index: 9999;
+    background: rgba(0,0,0, 0.45);
+}
+
 table {
     &.dataTable {
         & tbody {
@@ -57,6 +68,26 @@ table {
         font-size: 13px;
         position: relative;
         top: -10px;
+    }
+}
+
+.ajax-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(221, 221, 221, 0.32);
+    opacity: 0;
+    transition: opacity 0.25s linear;
+    &.active {
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.25s linear;
     }
 }
 
@@ -136,3 +167,137 @@ aside {
         }
     }
 }
+.card.color-info {
+    position: fixed;
+    width: 84%;
+    padding: 5px 10px;
+    z-index: 999;
+    margin-top: 0;
+    & ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+        margin: 5px 0;
+        & li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            & .color {
+                width: 15px;
+                height: 15px;
+                border: thin solid;
+            }
+        }
+    }
+}
+
+table {
+    & tr.marked td {
+        background: #e4ffe4;
+    }
+    & tr.crosschecked td, & tr.efka td {
+        background: #fff3d0;
+    }
+    & tr.noMark td {
+        background: #fad5eb!important;
+    }
+    & tr {
+        & td {
+            &.class-status {
+                position: relative;
+                & .open-statuses {
+                    cursor: pointer;
+                    &:hover {
+                        & + .outcome-classifications-status-list {
+                            opacity: 1;
+                            z-index: 99;
+                            transition: opacity 0.25s linear;
+                        }
+                    }
+                }
+
+                & .outcome-classifications-status-list {
+                    position: absolute;
+                    opacity: 0;
+                    z-index: -10;
+                    transition: opacity 0.25s linear;
+                    background-color: #fff;
+                    top: 7px;
+                    right: 77px;
+                    width: 200px;
+                    box-shadow: 6px 4px 12px -2px #8d8d8d;
+                    text-align: left;
+                    padding: 0 12px;
+                    & ul {
+                        margin: 15px 0;
+                        & li {
+                            margin: 5px 0;
+                            background: #f7f7f7;
+                            padding: 4px 3px;
+                            & i {
+                                font-size: 21px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+:root {
+    counter-reset: line;
+}
+#classifications {
+    & h4.card-title {
+        margin-bottom: 40px;
+    }
+    & .invoice-item-repeater {
+        & .classification-item {
+            padding: 20px 0 0 20px;
+            &:nth-child(odd) {
+                background-color: #fff;
+            }
+            &:nth-child(even) {
+                background-color: #f3f3f3;
+            }
+            & h6  {
+
+            }
+        }
+    }
+}
+.classifications-calculations-card {
+    & h5.card-title {
+        margin-bottom: 20px!important;
+    }
+    & .classifications-calculations {
+        & .class-calculator {
+            &.total {
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            &--title {
+
+            }
+            &--metric {
+
+            }
+
+        }
+        &-balance {
+            color: #520000;
+            margin-top: 20px;
+            border-top: thin solid black;
+            padding-top: 9px;
+            & .class-calculator {
+                &.valid {
+                    color: green;
+                }
+                &.invalid {
+                    color: red;
+                }
+            }
+        }
+    }
+}
+

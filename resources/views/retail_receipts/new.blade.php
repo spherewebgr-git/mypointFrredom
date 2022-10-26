@@ -24,11 +24,17 @@
                             </div>
                             <!-- header section -->
                             <div class="row mb-3">
+                                <h6>Απόδειξη Λιανικής Πώλησης </h6>
                                 <div class="col xl6 m12 display-flex align-items-center">
-                                    <h6 class="invoice-number mr-4 mb-5 col-8">Απόδειξη Λιανικής Πώλησης - Σειρά: L #</h6>
-                                    <input type="hidden" name="seira" value="L">
+                                    <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
+                                    <select name="seira" id="seira">
+                                        @foreach($seires as $seira)
+                                            <option value="{{$seira->letter}}" @if(isset($retail->seira) && $retail->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
+                                        @endforeach
+                                    </select>
+                                    <h6 class="invoice-number mr-4 mb-5 col-8"> Αριθμός #</h6>
                                     <div class="al-number col-4">
-                                        <input type="text" name="retailID" placeholder="0001" @if(isset($last)) value="{{str_pad($last+1, 4, '0', STR_PAD_LEFT)}}" @elseif(isset($retail->retailID)) value="{{str_pad($retail->retailID, 4, '0', STR_PAD_LEFT)}}" @endif>
+                                        <input type="text" name="retailID" id="retailID" @if(isset($last)) value="{{$last+1}}" @elseif(isset($retail->retailID)) value="{{$retail->retailID}}" @endif>
                                     </div>
                                 </div>
                                 <div class="col xl6 m12">
@@ -46,12 +52,26 @@
                             <div class="row mb-3">
                                 <div class="col l12 s12">
                                     <h6>Πλροφορίες Έκδοσης</h6>
-                                    <div class="col s12 m12  input-field">
-                                        <div class="col s12 m4">
+                                    <div class="col s12 m6  input-field">
+                                        <div class="col s12 m12">
                                             <label class="m-0" for="description">Γενική περιγραφή (προαιρετική)</label>
                                         </div>
                                         <div class="col m12 s12 input-field">
                                             <textarea name="mainDescription" id="description" class="materialize-textarea">@if(isset($retail->description)) {{$retail->description}} @endif</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6  input-field">
+                                        <div class="col s12 m4">
+                                            <label class="m-0" for="paymentMethod">Τρόπος Πληρωμής</label>
+                                        </div>
+                                        <div class="col m12 s12 input-field">
+                                            <select name="paymentMethod" id="paymentMethod">
+                                                <option value="1" @if(isset($retail->payment_method) && $retail->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
+                                                <option value="2" @if(isset($retail->payment_method) && $retail->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
+                                                <option value="3" @if(!isset($retail->payment_method) || $retail->payment_method == 3) selected @endif>Μετρητά</option>
+                                                <option value="4" @if(isset($retail->payment_method) && $retail->payment_method == 4) selected @endif>Επιταγή</option>
+                                                <option value="5" @if(isset($retail->payment_method) && $retail->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +111,7 @@
                             <div class="invoice-action-btn">
                                 @if(isset($retail) && !isset($retail->mark))
 
-                                        <a href="{{route('retail-receipts.mydata', $retail->retailID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                        <a href="{{route('retail-receipts.mydata', $retail->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                             <i class="material-icons mr-4">backup</i>
                                             <span>Αποστολή στο myData</span>
                                         </a>
@@ -121,8 +141,51 @@
                 </div>
             </form>
         </div>
+        <div class="ajax-preloader">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
 @section('page-script')
-    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
+{{--    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>--}}
+    <script>
+        $r = jQuery.noConflict();
+        $r(document).ready(function() {
+            $r('select#seira').on('change', function () {
+                $r('.ajax-preloader').addClass('active');
+
+                let retailLetter = $r('select#seira option:selected').text();
+
+                let pageToken = $r('meta[name="csrf-token"]').attr('content');
+
+                $r.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': pageToken
+                    }
+                });
+
+                $r.ajax({
+                    url: "{{ url('/last-retail-ajax') }}",
+                    method: 'post',
+                    data: {
+                        seira: retailLetter
+                    },
+                    success: function (result) {
+                        $r('.ajax-preloader').removeClass('active');
+                        $r('input#retailID').val(result);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

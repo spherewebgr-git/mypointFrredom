@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Seires;
 use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SettingsController extends Controller
 {
     public function index()
     {
+        $seires = [];
+
         $settings = Settings::all()[0];
         $admin = User::all()[0];
+        $allSeires = Seires::all();
+        foreach($allSeires as $seira) {
+            $seires[$seira->type][] = ['letter' => $seira->letter, 'id' => $seira->id];
+        }
+        //dd($seires);
 
-        return view('settings.index', ['settings' => $settings, 'admin' => $admin]);
+        return view('settings.index', ['settings' => $settings, 'admin' => $admin, 'seires' => $seires]);
     }
 
     public function update(Request $request, $form) {
@@ -67,6 +76,11 @@ class SettingsController extends Controller
             $settings->update([
                 'aade_user_id' => $request->aade_user_id,
                 'ocp_apim_subscription_key' => $request->ocp_apim_subscription_key
+            ]);
+        } elseif($form == 'seires') {
+            DB::table('seires')->insert([
+                'letter' => $request->seira,
+                'type' => $request->seiraType
             ]);
         }
 

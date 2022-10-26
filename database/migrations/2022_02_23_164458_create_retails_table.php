@@ -18,10 +18,12 @@ class CreateRetailsTable extends Migration
             $table->string('hashID')->unique();
             $table->unsignedBigInteger('retailID')->unique();
             $table->date('date');
-            $table->string('seira')->nullable()->default('L');
+            $table->string('seira')->nullable()->default('ΑΝΕΥ');
             $table->float('price');
+            $table->unsignedBigInteger('payment_method')->nullable()->default(3);
             $table->float('vat');
-            $table->string('service');
+            $table->string('service')->nullable();
+            $table->string('description')->nullable();
             $table->string('mark')->nullable();
             $table->softDeletes();
             $table->timestamps();

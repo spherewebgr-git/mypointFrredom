@@ -43,13 +43,12 @@
                                 <span>ΠΑΡΑΣΤΑΤΙΚΑ</span>
                             </a>
                         </li>
-
-{{--                        <li class="tab">--}}
-{{--                            <a href="#notifications">--}}
-{{--                                <i class="material-icons">notifications_none</i>--}}
-{{--                                <span> Notifications</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                        <li class="tab">
+                            <a href="#seires">
+                                <i class="material-icons">lock_open</i>
+                                <span>ΣΕΙΡΕΣ ΠΑΡΑΣΤΑΤΙΚΩΝ</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -60,10 +59,12 @@
                         <form action="{{route('settings.update', ['form' => 'general'])}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="display-flex">
+                                @if($settings->logo)
                                 <div class="media">
                                     <img src="{{url('images/system/'.$settings->logo)}}" class="border-radius-4" alt="profile image"
                                          height="64" width="64">
                                 </div>
+                                @endif
                                 <div class="media-body">
                                     <div class="general-action-btn">
                                         <div class="file-field input-field s12">
@@ -165,38 +166,6 @@
 
                     </div>
                 </div>
-{{--                <div id="change-password">--}}
-{{--                    <div class="card-panel">--}}
-{{--                        <form class="paaswordvalidate">--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col s12">--}}
-{{--                                    <div class="input-field">--}}
-{{--                                        <input id="oldpswd" name="oldpswd" type="password" data-error=".errorTxt4">--}}
-{{--                                        <label for="oldpswd">Προηγούμενος Κωδικός</label>--}}
-{{--                                        <small class="errorTxt4"></small>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col s12">--}}
-{{--                                    <div class="input-field">--}}
-{{--                                        <input id="newpswd" name="newpswd" type="password" data-error=".errorTxt5">--}}
-{{--                                        <label for="newpswd">Νέος Κωδικός</label>--}}
-{{--                                        <small class="errorTxt5"></small>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col s12">--}}
-{{--                                    <div class="input-field">--}}
-{{--                                        <input id="repswd" type="password" name="repswd" data-error=".errorTxt6">--}}
-{{--                                        <label for="repswd">Επαναπληκτρολογήστε το νέο κωδικό</label>--}}
-{{--                                        <small class="errorTxt6"></small>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col s12 display-flex justify-content-end form-action">--}}
-{{--                                    <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αλλαγή Κωδικού</button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
                 <div id="info">
                     <div class="card-panel">
                         <form action="{{route('settings.update', ['form' => 'info'])}}" class="infovalidate" method="post">
@@ -259,6 +228,7 @@
                                             <option value="Ν.ΙΩΝΙΑΣ" @if($settings->doy == 'Ν.ΙΩΝΙΑΣ') selected @endif>ΔΟΥ Ν.ΙΩΝΙΑΣ</option>
                                             <option value="Ν.ΣΜΥΡΝΗΣ" @if($settings->doy == 'Ν.ΣΜΥΡΝΗΣ') selected @endif>ΔΟΥ Ν.ΣΜΥΡΝΗΣ</option>
                                             <option value="Ν.ΗΡΑΚΛΕΙΟΥ" @if($settings->doy == 'Ν.ΗΡΑΚΛΕΙΟΥ') selected @endif>ΔΟΥ Ν.ΗΡΑΚΛΕΙΟΥ</option>
+                                            <option value="ΝΙΚΑΙΑΣ" @if($settings->doy == 'ΝΙΚΑΙΑΣ') selected @endif>ΔΟΥ ΝΙΚΑΙΑΣ</option>
                                             <option value="ΠΑΛ. ΦΑΛΗΡΟΥ" @if($settings->doy == 'ΠΑΛ. ΦΑΛΗΡΟΥ') selected @endif>ΔΟΥ ΠΑΛ. ΦΑΛΗΡΟΥ</option>
                                             <option value="Α ΠΕΡΙΣΤΕΡΙΟΥ" @if($settings->doy == 'Α ΠΕΡΙΣΤΕΡΙΟΥ') selected @endif>ΔΟΥ Α' ΠΕΡΙΣΤΕΡΙΟΥ</option>
                                             <option value="Β ΠΕΡΙΣΤΕΡΙΟΥ" @if($settings->doy == 'Β ΠΕΡΙΣΤΕΡΙΟΥ') selected @endif>ΔΟΥ Β' ΠΕΡΙΣΤΕΡΙΟΥ</option>
@@ -277,83 +247,19 @@
                         </form>
                     </div>
                 </div>
-{{--                <div id="notifications">--}}
-{{--                    <div class="card-panel">--}}
-{{--                        <div class="row">--}}
-{{--                            <h6 class="col s12 mb-2">Activity</h6>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" checked id="accountSwitch1">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">Email me when someone comments on my article</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" checked id="accountSwitch2">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">--}}
-{{--                  Email me when someone answers on my form</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" id="accountSwitch3">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">--}}
-{{--                  Email me hen someone follows me</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <h6 class="col s12 mb-2 mt-2">Application</h6>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" checked id="accountSwitch4">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">News and announcements</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" id="accountSwitch5">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">Weekly product updates</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col s12 mb-1">--}}
-{{--                                <div class="switch">--}}
-{{--                                    <label>--}}
-{{--                                        <input type="checkbox" class="custom-control-input" checked id="accountSwitch6">--}}
-{{--                                        <span class="lever"></span>--}}
-{{--                                    </label>--}}
-{{--                                    <span class="switch-label w-100">Weekly blog digest</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col s12 display-flex justify-content-end form-action mt-2">--}}
-{{--                                <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση Αλλαγών</button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+
                 <div id="invoices">
                     <div class="card-panel">
                         <div class="row">
                             <form action="{{route('settings.update', ['form' => 'invoices'])}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="display-flex">
+                                    @if($settings->invoice_logo)
                                     <div class="media">
                                         <img src="{{url('images/system/'.$settings->invoice_logo)}}" class="border-radius-4" alt="profile image"
                                              height="80" width="236">
                                     </div>
+                                    @endif
                                     <div class="media-body">
                                         <div class="general-action-btn">
                                             <div class="file-field input-field s12">
@@ -372,10 +278,12 @@
                                 </div>
                                 <div class="divider"></div>
                                 <div class="display-flex">
+                                    @if($settings->signature)
                                     <div class="media">
                                         <img src="{{url('images/system/'.$settings->signature)}}" class="border-radius-4" alt="signature image"
                                              height="207" width="361">
                                     </div>
+                                    @endif
                                     <div class="media-body">
                                         <div class="general-action-btn">
                                             <div class="file-field input-field s12">
@@ -393,13 +301,80 @@
                                     </div>
                                 </div>
                                 <div class="divider"></div>
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Ρυθμίσεις τιμολογίου</h4>
+                                <div class="divider"></div>
+                                <div class="col s12 input-field">
+                                    <div class="switch">
+                                        <label>Εμφάνιαη διεύθυνσης e-mail στα παρααστατικά
+                                            <input type="checkbox">
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col s12 input-field">
+                                    <div class="switch">
+                                        <label>Εμφάνιση λογοτύπου στα παρααστατικά
+                                            <input type="checkbox">
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="seires">
+                    <div class="card-panel">
+
+                        <div class="row">
+                            <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές Παραστατικών</h4>
+                            <div class="divider"></div>
+                            <div class="col s12 m6">
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές Τιμολογίων Παροχής</h4>
+                                <ul class="collection">
+                                    @foreach($seires['invoices'] as $invoiceType)
+                                        <li class="collection-item">{{$invoiceType['letter']}}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                            <div class="col s12 m6">
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές Αποδείξεων Λιανικής</h4>
+                                <ul class="collection">
+                                    @foreach($seires['retails'] as $retailType)
+                                        <li class="collection-item">{{$retailType['letter']}}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                            <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px; display: inline-block">Προσθήκη νέας σειράς</h4>
+                            <div class="divider mb-2"></div>
+                            <form action="{{route('settings.update', ['form' => 'seires'])}}" class="infovalidate" method="post">
+                                @csrf
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <select name="seiraType" id="seiraType">
+                                            <option value="invoices">Τιμολόγια Παροχής Υπηρεσιών</option>
+                                            <option value="retails">Αποδείξεις Λιανικής</option>
+                                        </select>
+                                        <label for="seiraType">Είδος Παραστατικού</label>
+                                    </div>
+                                </div>
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <input type="text" name="seira" id="seira">
+                                        <label for="seira">Νέα Σειρά Παραστατικού</label>
+                                    </div>
+                                </div>
                                 <div class="col s12 display-flex justify-content-end form-action mt-2">
                                     <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση Αλλαγών</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -415,6 +390,7 @@
            $m('#openMydataInfo').on('click', function(){
               $m('.mydata-howto').removeClass('hide');
            });
+
         });
     </script>
 @endsection

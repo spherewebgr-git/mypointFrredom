@@ -16,13 +16,15 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('hashID')->unique();
-            $table->unsignedBigInteger('invoiceID')->unique();
+            $table->string('seira')->default('ΑΝΕΥ');
+            $table->unsignedBigInteger('invoiceID');
             $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->date('date');
             $table->boolean('paid');
+            $table->unsignedBigInteger('payment_method')->nullable()->default(5);
             $table->string('mark')->unique()->nullable();
             $table->string('file_invoice')->nullable();
+            $table->integer('has_parakratisi');
             $table->softDeletes();
             $table->timestamps();
         });

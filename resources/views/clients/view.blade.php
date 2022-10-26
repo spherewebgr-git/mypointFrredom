@@ -155,7 +155,7 @@
                                                 <tr role="row" class="odd">
                                                     <td class=" control" tabindex="0" style="display: none;"></td>
                                                     <td class="sorting_1 center-align">
-                                                        m{{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}
+                                                        @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
                                                     </td>
                                                     <td class="center-align">
                                                         <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
@@ -198,7 +198,7 @@
                                                                     <i class="material-icons">cloud_download</i>
                                                                 </a>
                                                             @else
-                                                                <a href="{{route('invoice.view', ['invoiceID' => $invoice->invoiceID])}}"
+                                                                <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}"
                                                                    class="invoice-action-view mr-4">
                                                                     <i class="material-icons">remove_red_eye</i>
                                                                 </a>
@@ -240,7 +240,7 @@
                                             @foreach($services as $service)
                                                 <tr>
                                                     <td>
-                                                        m{{str_pad($service->invoice_number, 4, '0', STR_PAD_LEFT)}}</td>
+                                                        {{str_pad($service->invoice_number, 4, '0', STR_PAD_LEFT)}}</td>
                                                     <td>{{$service->quantity}}</td>
                                                     <td>{{$service->description}}</td>
                                                     <td>&euro; {{number_format($service->price, '2', ',', '.')}}</td>

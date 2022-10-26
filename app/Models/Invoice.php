@@ -12,12 +12,12 @@ class Invoice extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'invoiceID', 'client_id', 'date', 'paid', 'mark', 'file_invoice'
+        'invoiceID', 'seira', 'client_id', 'date', 'paid', 'has_parakratisi',  'payment_method', 'mark', 'file_invoice'
     ];
 
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 
     public function services()

@@ -197,7 +197,7 @@
         }
 
     </style>
-    <title>Τιμολόγιο - m{{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}</title>
+    <title>Τιμολόγιο - {{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}</title>
 </head>
 <body>
 <div class="timologioContent row">
@@ -220,8 +220,7 @@
                     </div>
                 </td>
                 <td>
-                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | ΣΕΙΡΑ <span><strong
-                                class="invoice-color">M</strong></span> | Αρ. Τιμολογίου <span>
+                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | Αρ. Τιμολογίου <span>
                                             <strong class="invoice-color">{{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}</strong></span>
                     </p>
                 </td>
@@ -242,9 +241,9 @@
         <hr class="main-color">
         <div class="paratiriseis">
             <span class="invoice-color">Παρατηρήσεις:</span><br>
-            @if(getFinalPrices($invoice->invoiceID) >= 300)
+            @if(getFinalPrices($invoice->hashID) >= 300)
                 <div id="parakratisi">ΕΓΙΝΕ ΠΑΡΑΚΡΑΤΗΣΗ ΦΟΡΟΥ 20% ΙΣΗ ΜΕ
-                    € {{(20 / 100) * getFinalPrices($invoice->invoiceID)}} (ΕΥΡΩ)
+                    € {{(20 / 100) * getFinalPrices($invoice->hashID)}} (ΕΥΡΩ)
                 </div>
             @endif
         </div>
@@ -273,23 +272,23 @@
                 <tr class="right-align">
                     <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                     <td colspan="2" class="sinoloAxion" data-saprice="">
-                        € {{number_format(getFinalPrices($invoice->invoiceID), 2, ',', '.')}}</td>
+                        € {{number_format(getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
                     <td colspan="2" class="sinoloFpa">
-                        € {{number_format((24 / 100) * getFinalPrices($invoice->invoiceID), 2, ',', '.')}}</td>
+                        € {{number_format((24 / 100) * getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                     <td colspan="2" class="sinoloGeniko">
-                        € {{number_format(getFinalPrices($invoice->invoiceID) + ((24 / 100) * getFinalPrices($invoice->invoiceID)), 2, ',', '.')}}</td>
+                        € {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
-                    <td colspan="2" class="pliroteoPoso">€ @if(getFinalPrices($invoice->invoiceID) > 300)
-                            {{number_format(getFinalPrices($invoice->invoiceID) - ((20 / 100) * getFinalPrices($invoice->invoiceID)) + ((24 / 100) * getFinalPrices($invoice->invoiceID)), 2, ',', '.')}} @else
-                            {{number_format(getFinalPrices($invoice->invoiceID) + ((24 / 100) * getFinalPrices($invoice->invoiceID)), 2, ',', '.')}}
+                    <td colspan="2" class="pliroteoPoso">€ @if(getFinalPrices($invoice->hashID) > 300)
+                            {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
+                            {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}
                         @endif</td>
                 </tr>
                 </tbody>
