@@ -41,9 +41,9 @@ class InvoicesController extends Controller
         $to = $toDate->format('Y-m-d');
 
         $finalIncome = [];
-        $invoices = Invoice::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortBy('invoiceID');
+        $invoices = Invoice::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortByDesc('date');
         foreach($invoices as $invoice) {
-            $finalIncome[] = getFinalPrices($invoice->invoiceID);
+            $finalIncome[] = getFinalPrices($invoice->hashID);
         }
         $final = array_sum($finalIncome);
         return view('invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
@@ -90,12 +90,12 @@ class InvoicesController extends Controller
 
     public function new()
     {
-        $invoice = Invoice::query()->where('seira', '=', 'ANEY')->latest()->get();
+        $invoice = Invoice::query()->where('seira', '=', 'ΑΝΕΥ')->latest()->first();
         //dd($invoice);
         $clients = Client::all()->sortBy('company');
         $seires = Seires::query()->where('type', '=', 'invoices')->get();
         if($invoice) {
-            $lastInvoice = $invoice[0]->invoiceID;
+            $lastInvoice = $invoice->invoiceID;
         } else {
             $lastInvoice = '';
         }
@@ -151,6 +151,7 @@ class InvoicesController extends Controller
                 DB::table('services')->insert(
                     array(
                         'invoice_number' => $request->invoiceID,
+                        'client_id' => $request->client,
                         'price' => $serv['price'],
                         'quantity' => $serv['quantity'],
                         'description' => $serv['description']

@@ -148,7 +148,7 @@
                                     </label>
                                 </td>
                                 <td class="sorting_1 center-align">
-                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}
+                                    @if($invoice->seira != 'ΑΝΕΥ') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
                                 </td>
                                 <td class="bold">
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>

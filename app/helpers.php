@@ -59,8 +59,7 @@ if(!function_exists('getFinalPrices'))
     {
         $invoice = Invoice::query()->where('hashID', '=', $invoiceID)->first();
         $total = [];
-        $services = Services::query()->where('invoice_number', '=', $invoice->invoiceID)->get();
-        //dd($services);
+        $services = $invoice->services()->get();
         foreach ($services as $service)
         {
             $total[] = $service->price * $service->quantity;
@@ -609,7 +608,7 @@ if(!function_exists('myDataSendExpensesClassification')) {
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
 
-        $sendBody = '<ExpensesClassificationsDoc xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xmlns:inv="http://www.aade.gr/myDATA/invoice/v1.0" xmlns="https://www.aade.gr/myDATA/expensesClassificaton/v1.0">'.PHP_EOL;
+        $sendBody = '<ExpensesClassificationsDoc xmlns="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.aade.gr/myDATA/expensesClassificaton/v1.0">'.PHP_EOL;
 	    $sendBody .= '<expensesInvoiceClassification>'.PHP_EOL;
         $sendBody .= '<invoiceMark>'.$outcome->minMark.'</invoiceMark>'.PHP_EOL;
 
@@ -617,17 +616,17 @@ if(!function_exists('myDataSendExpensesClassification')) {
             $sendBody .= '<invoicesExpensesClassificationDetails>'.PHP_EOL;
             $sendBody .= '<lineNumber>'.$counter.'</lineNumber>'.PHP_EOL;
             $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>'.PHP_EOL;
-            $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>'.PHP_EOL;
-            $sendBody .= '<ecls:amount>'.$classification->price.'</ecls:amount>'.PHP_EOL;
+            $sendBody .= '<classificationType>'.$classification->classification_type.'</classificationType>'.PHP_EOL;
+            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
+            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
             $sendBody .= '<id>1</id>'.PHP_EOL;
             $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
-//            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-//            $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>'.PHP_EOL;
-//            $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>'.PHP_EOL;
-//            $sendBody .= '<ecls:amount>'.$classification->price.'</ecls:amount>'.PHP_EOL;
-//            $sendBody .= '<id>2</id>'.PHP_EOL;
-//            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
+            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
+            $sendBody .= '<classificationType>VAT_361</classificationType>'.PHP_EOL;
+            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
+            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
+            $sendBody .= '<id>2</id>'.PHP_EOL;
+            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
             $sendBody .= '</invoicesExpensesClassificationDetails>'.PHP_EOL;
             $counter ++;
         }

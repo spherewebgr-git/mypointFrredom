@@ -71,6 +71,27 @@ table {
     }
 }
 
+.taxheaven-calendar {
+    &--inner {
+        max-height: 400px;
+        overflow: auto;
+    }
+    &-item {
+        display: flex;
+        margin-bottom: 30px;
+        & .date {
+            text-align: center;
+            font-size: 17px;
+            color: #ababab;
+        }
+        & .year {
+            text-align: center;
+            font-size: 18px;
+            color: #90a8ff;
+        }
+    }
+}
+
 .ajax-preloader {
     position: fixed;
     top: 0;
