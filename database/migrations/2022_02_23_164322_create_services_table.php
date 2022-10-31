@@ -15,7 +15,7 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_number')->nullable();
+            $table->text('invoice_number')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();
             $table->bigInteger('price');
             $table->integer('quantity');

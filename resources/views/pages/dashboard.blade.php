@@ -29,7 +29,8 @@
             <div class="row">
 
                 @include('pages.parts.card-weather')
-                @include('pages.parts.card-company')
+{{--                @include('pages.parts.card-company')--}}
+                @include('pages.parts.card-rss')
             </div>
         </div>
         <!--card widgets end-->

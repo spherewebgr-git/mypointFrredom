@@ -22,7 +22,7 @@ class Invoice extends Model
 
     public function services()
     {
-        return $this->hasMany(Services::class, 'invoice_number', 'invoiceID');
+        return $this->hasMany(Services::class, 'invoice_number', 'hashID');
     }
 
     function getFilePath() {

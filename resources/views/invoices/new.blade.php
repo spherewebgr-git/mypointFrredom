@@ -102,7 +102,7 @@
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
                                 <div data-repeater-list="services">
-                                    @if(isset($invoice->services))
+                                    @if(count($invoice->services) > 0)
                                         @foreach($invoice->services as $service)
                                             <div class="mb-2 count-repeater" data-repeater-item="">
                                                 <!-- invoice Titles -->

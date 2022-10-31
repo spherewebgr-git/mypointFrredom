@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Carbon\Carbon;
+use SimpleXMLElement;
 
 class PageController extends Controller
 {
@@ -21,9 +22,12 @@ class PageController extends Controller
         $todayTime = $date->isoFormat('LLL');
         $unpaid = Invoice::query()->where('paid', '=', 0)->get();
 
+        $rssLink = file_get_contents('https://www.taxheaven.gr/bibliothiki/soft/xml/soft_dat.xml');
+        $feed = new SimpleXMLElement($rssLink);
+//dd($feed->channel);
         $pageConfigs = ['pageHeader' => true];
 
-        return view('pages.dashboard', ['pageConfigs' => $pageConfigs, 'today' => $today, 'todayTime' => $todayTime, 'unpaid' => $unpaid]);
+        return view('pages.dashboard', ['pageConfigs' => $pageConfigs, 'today' => $today, 'todayTime' => $todayTime, 'unpaid' => $unpaid, 'feed' => $feed]);
     }
 
     public function collapsePage()

@@ -8,7 +8,7 @@
                 </h5>
             </div>
             <i class="material-icons red accent-2 circle">healing</i>
-            <h6 class="collection-header m-0">Ανεξόλητες Οφειλές</h6>
+            <h6 class="collection-header m-0">Ανεξόφλητες Οφειλές</h6>
             <p>Τιμολόγια που δεν έχουν ακόμα εξοφληθεί</p>
         </li>
         @foreach($unpaid as $un)
@@ -16,7 +16,7 @@
             <div class="row display-flex align-items-center">
                 <div class="col s2 center"><strong>&euro; {{getFinalPrices($un->hashID)}}</strong></div>
                 <div class="col s7">
-                    <p class="collections-title"><strong>Νο # {{$un->invoiceID}}</strong> <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($un->date))->format('d/m/Y')}}</small></p>
+                    <p class="collections-title"><strong>Α.Π. @if($un->seira != 'ANEY') {{$un->seira}} @endif {{$un->invoiceID}}</strong> <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($un->date))->format('d/m/Y')}}</small></p>
                     <p class="collections-content">{{$un->client->company}}</p>
                 </div>
                 <div class="col s3" style="text-align: right">

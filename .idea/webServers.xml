@@ -23,6 +23,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="7d406f41-a864-430c-89b4-8d0436ae0737" name="TRIA SPORT" url="http://ftp.mypointapp.gr">
+        <fileTransfer host="ftp.mypointapp.gr" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
