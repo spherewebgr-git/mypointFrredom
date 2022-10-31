@@ -1,7 +1,6 @@
 <div class="col s12 m6">
     <div class="card">
         <div class="card-content taxheaven-calendar">
-
             <h5 class="card-title mb-3">Φορολογικές Υποχρεώσεις - {{\Carbon\Carbon::now()->locale('el_GR')->timezone('Europe/Athens')->getTranslatedMonthName('M')}} {{date('Y')}}</h5>
 
             <div class="taxheaven-calendar--inner">
