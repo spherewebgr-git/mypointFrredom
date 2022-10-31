@@ -92,8 +92,8 @@
         },
         {
             "url": "javascript:void(0)",
-            "name": "Τιμολόγια",
-            "i18n": "Τιμολόγια",
+            "name": "Τιμολόγια Παροχής",
+            "i18n": "Τιμολόγια Παροχής",
             "class": "collapsible-header waves-effect waves-cyan",
             "slug": "invoices",
             "icon": "toc",
@@ -106,6 +106,28 @@
                 },
                 {
                     "url": "/create-invoice",
+                    "name": "Νέο Τιμολόγιο",
+                    "i18n": "Νέο Τιμολόγιο",
+                    "slug": "add-invoice"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
+            "name": "Τιμολόγια Πώλησης",
+            "i18n": "Τιμολόγια Πώλησης",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "sale-invoices",
+            "icon": "local_grocery_store",
+            "submenu": [
+                {
+                    "url": "/sale-invoices",
+                    "name": "Λίστα Τιμολογίων",
+                    "i18n": "Λίστα Τιμολογίων",
+                    "slug": "invoices"
+                },
+                {
+                    "url": "/create-sale-invoice",
                     "name": "Νέο Τιμολόγιο",
                     "i18n": "Νέο Τιμολόγιο",
                     "slug": "add-invoice"
