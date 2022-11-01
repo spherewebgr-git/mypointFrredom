@@ -22,6 +22,11 @@ class Client extends Model
         return $this->hasMany(Services::class);
     }
 
+    public function saleInvoices()
+    {
+        return $this->hasMany(SaleInvoices::class);
+    }
+
 //    public function client()
 //    {
 //        return $this->hasOne(Client::class, 'id', 'client_id');

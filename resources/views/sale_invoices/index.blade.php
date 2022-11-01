@@ -150,20 +150,20 @@
                                     @if($invoice->seira != 'ΑΝΕΥ') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
                                 </td>
                                 <td class="bold">
-                                    <a href="{{route('client.view', $invoice->goods->hashID)}}">{{$invoice->client->company}}</a>
+                                    <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
                                 </td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format(getFinalPrices($invoice->hashID), '2', ',', '.')}}</td>
+                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
 
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format((24 / 100) * getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
 
-                                    &euro; {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), '2', ',', '.')}}
+                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + ((24 / 100) * getSaleInvoicePrices($invoice->hashID)), '2', ',', '.')}}
 
                                 </td>
                                 <td class="center-align print-hide">
@@ -204,10 +204,9 @@
                             <td></td>
                             <td colspan="3" class="right-align">Σύνολα:</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
-                            <td class="center-align parakratisi-synolo tooltipped" data-position="top" data-tooltip="Σύνολο Παρακράτησης Φόρου"></td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format(((24 / 100) * $finals),  2, ',', '.')}}</td>
-
-                            <td colspan="3" class="tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
+                            <td colspan="1" class="center-align tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
+                            <td colspan="3"></td>
                         </tr>
                         </tbody>
                     </table>

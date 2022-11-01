@@ -10,7 +10,7 @@ class Goods extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sale_invoice_id', 'price', 'quantity', 'description'
+        'sale_invoice_id', 'client_id', 'price', 'quantity', 'description'
     ];
 
     public function saleInvoice()

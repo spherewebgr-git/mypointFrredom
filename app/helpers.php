@@ -6,6 +6,7 @@ use App\Models\Outcomes;
 use App\Models\Provider;
 use App\Models\RetailClassification;
 use App\Models\Retails;
+use App\Models\SaleInvoices;
 use App\Models\Services;
 use App\Models\Settings;
 use App\Models\Tasks;
@@ -52,12 +53,12 @@ if(!function_exists('clientsNames'))
 if(!function_exists('getFinalPrices'))
 {
     /**
-     * @param $invoiceID
+     * @param $invoiceHashID
      * @return mixed
      */
-    function getFinalPrices( $invoiceID )
+    function getFinalPrices( $invoiceHashID )
     {
-        $invoice = Invoice::query()->where('hashID', '=', $invoiceID)->first();
+        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
         $total = [];
         $services = $invoice->services()->get();
         foreach ($services as $service)
@@ -69,6 +70,29 @@ if(!function_exists('getFinalPrices'))
         return $invoicePrice;
     }
 }
+
+if(!function_exists('getSaleInvoicePrices'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getSaleInvoicePrices( $invoiceHashID )
+    {
+        $invoice = SaleInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $services = $invoice->goods()->get();
+        foreach ($services as $service)
+        {
+            $total[] = $service->price * $service->quantity;
+        }
+        $invoicePrice = collect($total)->sum();
+
+        return $invoicePrice;
+    }
+}
+
+
 
 if(!function_exists('getIncomes'))
 {
@@ -756,5 +780,13 @@ if(!function_exists('getOutcomeStatuses')) {
 
 
         return $statuses;
+    }
+}
+
+if(!function_exists('getSaleInvoiceHash')) {
+    function getSaleInvoiceHash($seira, $saleInvoiceID) {
+        $invoiceHash = SaleInvoices::query()->where('seira', '=', $seira)->where('sale_invoiceID', $saleInvoiceID)->first()->hashID;
+
+        return $invoiceHash;
     }
 }

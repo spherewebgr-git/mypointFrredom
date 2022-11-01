@@ -18,6 +18,7 @@ class CreateSaleInvoicesTable extends Migration
             $table->string('hashID')->unique();
             $table->string('seira')->default('ΑΝΕΥ');
             $table->unsignedBigInteger('sale_invoiceID');
+            $table->unsignedBigInteger('client_id');
             $table->date('date');
             $table->boolean('paid');
             $table->unsignedBigInteger('payment_method')->nullable()->default(5);

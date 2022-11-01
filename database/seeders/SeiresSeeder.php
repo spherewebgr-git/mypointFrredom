@@ -25,6 +25,10 @@ class SeiresSeeder extends Seeder
                 'letter' => 'ANEY',
                 'type' => 'retails'
             ],
+            [
+                'letter' => 'ANEY',
+                'type' => 'sale_invoices'
+            ],
         ];
         Seires::insert($seires);
     }

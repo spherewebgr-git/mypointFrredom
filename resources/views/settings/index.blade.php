@@ -339,7 +339,6 @@
                                         <li class="collection-item">{{$invoiceType['letter']}}</li>
                                     @endforeach
                                 </ul>
-
                             </div>
                             <div class="col s12 m6">
                                 <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές Αποδείξεων Λιανικής</h4>
@@ -348,8 +347,16 @@
                                         <li class="collection-item">{{$retailType['letter']}}</li>
                                     @endforeach
                                 </ul>
-
                             </div>
+                            <div class="col s12 m6">
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές Τιμολογίων Πώλησης</h4>
+                                <ul class="collection">
+                                    @foreach($seires['sale_invoices'] as $invoiceType)
+                                        <li class="collection-item">{{$invoiceType['letter']}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
                             <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px; display: inline-block">Προσθήκη νέας σειράς</h4>
                             <div class="divider mb-2"></div>
                             <form action="{{route('settings.update', ['form' => 'seires'])}}" class="infovalidate" method="post">
@@ -358,6 +365,7 @@
                                     <div class="input-field">
                                         <select name="seiraType" id="seiraType">
                                             <option value="invoices">Τιμολόγια Παροχής Υπηρεσιών</option>
+                                            <option value="sale_invoices">Τιμολόγια Πώλησης</option>
                                             <option value="retails">Αποδείξεις Λιανικής</option>
                                         </select>
                                         <label for="seiraType">Είδος Παραστατικού</label>

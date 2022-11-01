@@ -16,6 +16,7 @@ class CreateGoodsTable extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
             $table->text('sale_invoice_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->bigInteger('price');
             $table->integer('quantity');
             $table->text('description');
