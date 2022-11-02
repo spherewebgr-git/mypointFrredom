@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\SaleInvoices;
 use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,12 +23,16 @@ class ClientsController extends Controller
     }
 
     public function view($hashID) {
+
         $client = Client::query()->where('hashID', '=', $hashID)->first();
         $invoices = Invoice::query()->where('client_id', '=', $client->id)->get()->sortByDesc('date')->take(10);
         $services = Services::query()->where('client_id', '=', $client->id)->where('invoice_number', '!=', '')->get()->sortByDesc('date');
         $servicesNew = Services::query()->where('client_id', '=', $client->id)->where('invoice_number', '=', NULL)->get();
+        $saleInvoices = SaleInvoices::query()->where('client_id', '=', $client->id)->get()->sortByDesc('date');
 
-        return view('clients.view', ['client' => $client, 'invoices' => $invoices, 'services' => $services, 'servicesNew' => $servicesNew]);
+
+
+        return view('clients.view', ['client' => $client, 'invoices' => $invoices, 'sale_invoices' => $saleInvoices, 'services' => $services, 'servicesNew' => $servicesNew]);
     }
 
     public function new()

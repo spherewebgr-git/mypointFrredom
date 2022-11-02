@@ -125,7 +125,7 @@
                                     <span></span>
                                 </label></th>
                             <th class="center-align">
-                                <span>Τ.Π.Υ.</span>
+                                <span>Τ.Π.</span>
                             </th>
                             <th>Πελάτης</th>
                             <th class="center-align">Ημ/νία Έκδοσης</th>
@@ -147,7 +147,7 @@
                                     </label>
                                 </td>
                                 <td class="sorting_1 center-align">
-                                    @if($invoice->seira != 'ΑΝΕΥ') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
+                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
                                 </td>
                                 <td class="bold">
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
@@ -188,7 +188,7 @@
                                             <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
-                                            <a href="{{route('invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
+                                            <a href="{{route('sale_invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a href="{{route('invoice.delete', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">

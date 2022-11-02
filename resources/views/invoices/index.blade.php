@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Λίστα Τιμολογίων')
+@section('title','Λίστα Τιμολογίων Παροχής Υπηρεσιών')
 
 @section('header-left')
     <a href="#" class="btn waves-effect waves-light invoices-myData border-round z-depth-4 hide" style="margin-left: 270px;line-height: 2.4rem;">
@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Λίστα Τιμολογίων</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Λίστα Τιμολογίων Παροχής Υπηρεσιών</span></h5>
                 </div>
                 <div class="invoice-head--right row col s12 m6 display-flex justify-content-end align-items-center">
                     <div class="invoice-create-btn col">
@@ -148,7 +148,7 @@
                                     </label>
                                 </td>
                                 <td class="sorting_1 center-align">
-                                    @if($invoice->seira != 'ΑΝΕΥ') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
+                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
                                 </td>
                                 <td class="bold">
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>

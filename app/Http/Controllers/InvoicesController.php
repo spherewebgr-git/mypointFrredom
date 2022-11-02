@@ -90,7 +90,7 @@ class InvoicesController extends Controller
 
     public function new()
     {
-        $invoice = Invoice::query()->where('seira', '=', 'ΑΝΕΥ')->latest()->first();
+        $invoice = Invoice::query()->where('seira', '=', 'ANEY')->latest()->first();
         //dd($invoice);
         $clients = Client::all()->sortBy('company');
         $seires = Seires::query()->where('type', '=', 'invoices')->get();
@@ -140,7 +140,7 @@ class InvoicesController extends Controller
                 'payment_method' => $request->paymentMethod
             )
         );
-
+//dd($services);
         foreach($services as $serv) {
             if(array_key_exists('id', $serv)) {
                 $service = Services::query()->where('id', '=', $serv['id'])->first();
@@ -150,7 +150,7 @@ class InvoicesController extends Controller
             } else {
                 DB::table('services')->insert(
                     array(
-                        'invoice_number' => $request->invoiceID,
+                        'invoice_number' => getInvoiceHash($request->seira, $request->invoiceID),
                         'client_id' => $request->client,
                         'price' => $serv['price'],
                         'quantity' => $serv['quantity'],
@@ -246,7 +246,7 @@ class InvoicesController extends Controller
         }
 
         if(isset($request->sendInvoice)) {
-            myDataSendInvoices($invoice->invoiceID);
+            myDataSendInvoices('invoice', $invoice->hashID);
 
         }
 
@@ -269,7 +269,7 @@ class InvoicesController extends Controller
         $theInvoice = Invoice::query()->where('invoiceID', '=', $invoice)->first();
         //dd($theInvoice);
 
-        $an = myDataSendInvoices($invoice);
+        $an = myDataSendInvoices('invoice', $invoice);
         $aadeResponse = array();
         $xml = simplexml_load_string($an);
         foreach($xml->response as $aade) {

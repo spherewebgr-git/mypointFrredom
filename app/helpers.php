@@ -61,12 +61,12 @@ if(!function_exists('getFinalPrices'))
         $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
         $total = [];
         $services = $invoice->services()->get();
+
         foreach ($services as $service)
         {
             $total[] = $service->price * $service->quantity;
         }
         $invoicePrice = collect($total)->sum();
-
         return $invoicePrice;
     }
 }
@@ -91,8 +91,6 @@ if(!function_exists('getSaleInvoicePrices'))
         return $invoicePrice;
     }
 }
-
-
 
 if(!function_exists('getIncomes'))
 {
@@ -357,10 +355,22 @@ if(!function_exists('getTTasks')) {
 }
 
 if(!function_exists('myDataSendInvoices')) {
-    function myDataSendInvoices($invoice)
+    function myDataSendInvoices($type, $invoice)
     {
         $settings = Settings::all()->first();
-        $invoice = Invoice::query()->where('invoiceID', '=', $invoice)->first();
+        if($type == 'invoice') {
+            $invoice = Invoice::query()->where('hashID', '=', $invoice)->first();
+            $total = getFinalPrices($invoice->hashID); // Total price without VAT
+            $invoiceType = '2.1';
+            $classificationType = 'E3_561_001';
+            $classificationCat = 'category1_3';
+        } elseif($type == 'sale_invoice') {
+            $invoice = SaleInvoices::query()->where('hashID', '=', $invoice)->first();
+            $total = getSaleInvoicePrices($invoice->hashID); // Total price without VAT
+            $invoiceType = '1.1';
+            $classificationType = 'E3_561_001';
+            $classificationCat = 'category1_1';
+        }
         //dump($invoice);
         $services = $invoice->services()->get();
 //dd($invoice->client->vat);
@@ -378,7 +388,7 @@ if(!function_exists('myDataSendInvoices')) {
         );
 
         $idFormatted = $invoice->invoiceID;
-        $total = getFinalPrices($invoice->hashID); // Total price without VAT
+
         $tax = (24 / 100) * $total; // FPA
         if($total > 300) {
             $withheld = (20 / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
@@ -411,10 +421,10 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody .= '</address>'.PHP_EOL;
         $sendBody .= '</counterpart>'.PHP_EOL;
         $sendBody .= '<invoiceHeader>'.PHP_EOL;
-        $sendBody .= '<series>ΑΝΕΥ</series>'.PHP_EOL;
+        $sendBody .= '<series>'.$invoice->seira.'</series>'.PHP_EOL;
         $sendBody .= '<aa>'.$idFormatted.'</aa>'.PHP_EOL;
         $sendBody .= '<issueDate>'.$invoice->date.'</issueDate>'.PHP_EOL;
-        $sendBody .= '<invoiceType>2.1</invoiceType>'.PHP_EOL;
+        $sendBody .= '<invoiceType>'.$invoiceType.'</invoiceType>'.PHP_EOL;
         $sendBody .= '<currency>EUR</currency>'.PHP_EOL;
         $sendBody .= '</invoiceHeader>'.PHP_EOL;
         $sendBody .= '<paymentMethods>'.PHP_EOL;
@@ -432,8 +442,8 @@ if(!function_exists('myDataSendInvoices')) {
             $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
             $sendBody .= '<vatAmount>' . number_format(((24/100) * ($service->price * $service->quantity)), 2, '.', '') . '</vatAmount>' . PHP_EOL;
             $sendBody .= '<incomeClassification>' . PHP_EOL;
-            $sendBody .= '<icls:classificationType>E3_561_001</icls:classificationType>' . PHP_EOL;
-            $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>' . PHP_EOL;
+            $sendBody .= '<icls:classificationType>'.$classificationType.'</icls:classificationType>' . PHP_EOL;
+            $sendBody .= '<icls:classificationCategory>'.$classificationCat.'</icls:classificationCategory>' . PHP_EOL;
             $sendBody .= '<icls:amount>' . number_format(($service->price * $service->quantity), 2, '.', '') . '</icls:amount>' . PHP_EOL;
             $sendBody .= '</incomeClassification>' . PHP_EOL;
             $sendBody .= '</invoiceDetails>' . PHP_EOL;
@@ -786,6 +796,14 @@ if(!function_exists('getOutcomeStatuses')) {
 if(!function_exists('getSaleInvoiceHash')) {
     function getSaleInvoiceHash($seira, $saleInvoiceID) {
         $invoiceHash = SaleInvoices::query()->where('seira', '=', $seira)->where('sale_invoiceID', $saleInvoiceID)->first()->hashID;
+
+        return $invoiceHash;
+    }
+}
+
+if(!function_exists('getInvoiceHash')) {
+    function getInvoiceHash($seira, $saleInvoiceID) {
+        $invoiceHash = Invoice::query()->where('seira', '=', $seira)->where('invoiceID', $saleInvoiceID)->first()->hashID;
 
         return $invoiceHash;
     }

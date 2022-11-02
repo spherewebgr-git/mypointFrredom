@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class SaleInvoicesController extends Controller
@@ -31,7 +32,7 @@ class SaleInvoicesController extends Controller
 
     public function new()
     {
-        $invoice = SaleInvoices::query()->where('seira', '=', 'ΑΝΕΥ')->latest()->first();
+        $invoice = SaleInvoices::query()->where('seira', '=', 'ANEY')->latest()->first();
         //dd($invoice);
         $seires = Seires::query()->where('type', '=', 'sale_invoices')->get();
         $clients = Client::all()->sortBy('company');
@@ -66,7 +67,8 @@ class SaleInvoicesController extends Controller
                 'client_id' => $request->client,
                 'date' => $date,
                 'paid' => $paid,
-                'payment_method' => $request->paymentMethod
+                'payment_method' => $request->paymentMethod,
+                'created_at' => date('Y-m-d')
             )
         );
 
@@ -83,7 +85,8 @@ class SaleInvoicesController extends Controller
                         'client_id' => $request->client,
                         'price' => $serv['price'],
                         'quantity' => $serv['quantity'],
-                        'description' => $serv['description']
+                        'description' => $serv['description'],
+                        'created_at' => date('Y-m-d')
                     )
                 );
             }
@@ -116,5 +119,58 @@ class SaleInvoicesController extends Controller
         } else {
             return redirect()->route('sale_invoice.list')->with('notify', 'Τιμολόγιο Πώλησης Καταχωρήθηκε!');
         }
+    }
+
+    public function edit($hashID) {
+        $invoice = SaleInvoices::query()->where('hashID', '=', $hashID)->first();
+        $clients = Client::all()->sortBy('company');
+        $seires = Seires::query()->where('type', '=', 'invoices')->get();
+
+
+        return view('sale_invoices.new', ['last' => '', 'clients' => $clients, 'invoice' => $invoice, 'seires' => $seires]);
+    }
+
+    public function update(Request $request, SaleInvoices $invoice) {
+        //dd($request);
+        $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
+        $date = $requestDate->format('Y-m-d');
+        $services = $request->services;
+
+        if(isset($request->paid)) { $paid = 1; } else { $paid = 0; }
+        $invoice->update([
+            'date' => $date,
+            'client_id' => $request->client,
+            'paid' => $paid,
+            'payment_method' => $request->paymentMethod,
+            'updated_at' => date('Y-m-d')
+        ]);
+
+        foreach($services as $service) {
+            if(isset($service['id'])) {
+
+                DB::table('goods')->where('id', $service['id'])->update([
+                    'price' => $service['price'],
+                    'quantity' => $service['quantity'],
+                    'description' => $service['description'],
+                    'updated_at' => date('Y-m-d')
+                ]);
+            } else {
+                DB::table('goods')->insert(
+                    [
+                        'sale_invoice_id' => $invoice->hashID,
+                        'client_id' => $invoice->client->id,
+                        'price' => $service['price'],
+                        'quantity' => $service['quantity'],
+                        'description' => $service['description'],
+                        'created_at' => date('Y-m-d')
+                    ]
+                );
+            }
+        }
+
+        Session::flash('notify', 'Το τιμολόγιο ενημερώθηκε με επιτυχία');
+
+        return Redirect::to('sale-invoices');
+
     }
 }

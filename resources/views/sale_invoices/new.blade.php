@@ -2,8 +2,11 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Νέο Τιμολόγιο Πώλησης')
-
+@if(isset($invoice->sale_invoiceID))
+    @section('title','Επεξεργασία Τιμολογίου Πώλησης')
+@else
+    @section('title','Νέο Τιμολόγιο Πώλησης')
+@endif
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
@@ -37,7 +40,7 @@
                                     <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.# </h6>
                                     <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
                                            @if(isset($invoice))
-                                           value="{{old('invoiceID', $invoice->sale_invoiceID)}}"
+                                           value="{{old('sale_invoiceID', $invoice->sale_invoiceID)}}"
                                            disabled @elseif($last != '') value="{{$last + 1}}" @endif>
                                 </div>
                                 <div class="col xl8 m12">

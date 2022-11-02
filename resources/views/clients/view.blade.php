@@ -136,8 +136,9 @@
                                             <tr role="row">
                                                 <th class="control sorting_disabled" rowspan="1" colspan="1"
                                                     style="width: 19.8906px; display: none;" aria-label=""></th>
+                                                <th class="center-align">Είδος</th>
                                                 <th>
-                                                    <span>Τ.Π.Υ.</span>
+                                                    <span>Αριθμός</span>
                                                 </th>
                                                 <th class="center-align">Ημ/νία Έκδοσης</th>
                                                 <th class="center-align" style="width: 85px!important;">Τιμή</th>
@@ -152,7 +153,8 @@
                                             </thead>
                                             <tbody>
                                             @foreach($invoices as $invoice)
-                                                <tr role="row" class="odd">
+                                                <tr role="row" class="odd" data-date="{{$invoice->date}}">
+                                                    <td class="center-align" title="Τιμολόγιο Παροχής Υπηρεσιών"><small>Τ.Π.Υ</small></td>
                                                     <td class=" control" tabindex="0" style="display: none;"></td>
                                                     <td class="sorting_1 center-align">
                                                         @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
@@ -179,6 +181,69 @@
                                                         @else
                                                         &euro; {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)), '2', ',', '.')}}
                                                         @endif
+                                                    </td>
+                                                    <td class="center-align print-hide">
+                                                        @if($invoice->paid == 1)
+                                                            <span
+                                                                class="chip lighten-5 green green-text">ΠΛΗΡΩΜΕΝΟ</span>
+                                                        @elseif($invoice->paid == 0)
+                                                            <span class="chip lighten-5 red red-text">ΑΠΛΗΡΩΤΟ</span>
+                                                        @else
+                                                            <span
+                                                                class="chip lighten-5 orange orange-text">Προκαταβολή</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="center-align print-hide">
+                                                        <div class="invoice-action">
+                                                            @if($invoice->mark)
+                                                                <a href="#" class="invoice-action-view mr-4">
+                                                                    <i class="material-icons">cloud_download</i>
+                                                                </a>
+                                                            @else
+                                                                <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}"
+                                                                   class="invoice-action-view mr-4">
+                                                                    <i class="material-icons">remove_red_eye</i>
+                                                                </a>
+                                                                <a href="{{route('invoice.edit', ['invoice' => $invoice])}}"
+                                                                   class="invoice-action-edit">
+                                                                    <i class="material-icons">edit</i>
+                                                                </a>
+                                                                <a href="{{route('invoice.delete', ['invoice' => $invoice->hashID])}}"
+                                                                   class="invoice-action-edit">
+                                                                    <i class="material-icons">delete</i>
+                                                                </a>
+                                                            @endif
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            @foreach($sale_invoices as $invoice)
+                                                <tr role="row" class="odd" data-date="{{$invoice->date}}">
+                                                    <td class="center-align" title="Τιμολόγιο Πώλησης"><small>Τ.Π</small></td>
+                                                    <td class=" control" tabindex="0" style="display: none;"></td>
+                                                    <td class="sorting_1 center-align">
+                                                        @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
+                                                    </td>
+                                                    <td class="center-align">
+                                                        <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
+                                                    </td>
+                                                    <td class="center-align">
+                                                        &euro; {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
+                                                    <td class="center-align count-parakratisi"
+                                                        @if(getSaleInvoicePrices($invoice->hashID) > 300) data-price="{{(20 / 100) * getSaleInvoicePrices($invoice->hashID)}}" @endif>
+                                                        @if(getSaleInvoicePrices($invoice->hashID) <= 300)
+                                                            <span class="bullet blue"></span>
+                                                            @else
+                                                            &euro; {{number_format((20 / 100) * getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
+                                                        @endif
+                                                    </td>
+                                                    <td class="center-align print-hide">
+                                                        &euro; {{number_format((24 / 100) * getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
+                                                    </td>
+                                                    <td class="center-align">
+                                                        {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
                                                     </td>
                                                     <td class="center-align print-hide">
                                                         @if($invoice->paid == 1)

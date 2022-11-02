@@ -2,7 +2,11 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Νέο Τιμολόγιο')
+@if(isset($invoice->invoiceID))
+    @section('title','Επεξεργασία Τιμολογίου')
+@else
+    @section('title','Νέο Τιμολόγιο')
+@endif
 
 {{-- page styles --}}
 @section('page-style')
@@ -102,7 +106,7 @@
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
                                 <div data-repeater-list="services">
-                                    @if(count($invoice->services) > 0)
+                                    @if(isset($invoice) && count($invoice->services) > 0)
                                         @foreach($invoice->services as $service)
                                             <div class="mb-2 count-repeater" data-repeater-item="">
                                                 <!-- invoice Titles -->
@@ -244,6 +248,14 @@
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
                             <div class="invoice-action-btn">
+                                @if(!isset($invoice->mark))
+                                    <div class="invoice-action-btn">
+                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                            <i class="material-icons mr-4">backup</i>
+                                            <span>Αποστολή στο myData</span>
+                                        </a>
+                                    </div>
+                                @endif
                                 @if(isset($invoice->invoiceID))
                                     <input type="submit" value="Ενημέρωση Τιμολογίου" style="color: #fff;width: 100%;"
                                            class="btn display-flex align-items-center justify-content-center">
@@ -284,18 +296,6 @@
                                 </label>
                             </div>
                         </div>
-
-                        @if(!isset($invoice->mark))
-                        <div class="display-flex justify-content-between pb-2">
-                            <span>Αποστολή στο myData</span>
-                            <div class="switch">
-                                <label>
-                                    <input type="checkbox" name="sendInvoice">
-                                    <span class="lever"></span>
-                                </label>
-                            </div>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </form>
