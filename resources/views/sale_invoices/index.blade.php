@@ -178,14 +178,14 @@
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($invoice->mark)
-                                            <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('sale_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else
-                                            <a href="{{route('invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('sale_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('sale_invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">

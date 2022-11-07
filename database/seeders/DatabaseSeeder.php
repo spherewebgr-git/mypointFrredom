@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 
+use App\Models\SaleInvoices;
 use Database\Seeders\Auth\UsersSeeder;
 
 use Illuminate\Database\Seeder;
@@ -20,7 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(SettingsSeeder::class);
         $this->call(SeiresSeeder::class);
-//        $this->call(InvoiceSeeder::class);
+        $this->call(ClientsSeeder::class);
+        $this->call(SaleInvoicesSeeder::class);
 //        $this->call(ServicesSeeder::class);
 //        $this->call(OutcomesSeeder::class);
 //        $this->call(ReceiptsSeeder::class);

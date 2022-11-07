@@ -11,7 +11,7 @@ Route::name('sale_invoice.')->prefix('/')->group(function () {
     Route::get('/create-sale-invoice', [SaleInvoicesController::class, 'new'])->name('create');
     Route::post('/store-sale-invoice', [SaleInvoicesController::class, 'store'])->name('store');
     Route::post('/update-sale-invoice/{invoice:hashID}', [SaleInvoicesController::class, 'update'])->name('update');
-//    Route::get('/view-invoice/{invoice:hashID}', [SaleInvoicesController::class, 'view'])->name('view');
+    Route::get('/view-sale-invoice/{invoice:hashID}', [SaleInvoicesController::class, 'view'])->name('view');
 //    Route::get('/save-invoice/{invoiceID}', [SaleInvoicesController::class, 'save'])->name('save');
     Route::get('/edit-sale_invoice/{invoice}', [SaleInvoicesController::class, 'edit'])->name('edit');
 //    Route::get('/delete-invoice/{invoice::hashID}', [SaleInvoicesController::class, 'delete'])->name('delete');

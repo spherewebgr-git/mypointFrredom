@@ -220,8 +220,7 @@
                     </div>
                 </td>
                 <td>
-                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | Αρ. Τιμολογίου <span>
-                                            <strong class="invoice-color">{{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}</strong></span>
+                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->invoiceID}}</strong></span>
                     </p>
                 </td>
             </tr>

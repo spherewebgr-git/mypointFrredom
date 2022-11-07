@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "seira": "ANEY",
+        "sale_invoiceID": 478,
+        "client_id": 24,
+        "date": "2021-11-18",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 2419,
+        "vat": "580.56",
+        "final": "2999.56"
+    },
+    {
+        "id": 2,
+        "seira": "ANEY",
+        "sale_invoiceID": 481,
+        "client_id": 29,
+        "date": "2021-12-10",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 1200,
+        "vat": 288,
+        "final": 1488
+    },
+    {
+        "id": 3,
+        "seira": "ANEY",
+        "sale_invoiceID": 483,
+        "client_id": 30,
+        "date": "2021-12-10",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 1880,
+        "vat": "451.2",
+        "final": "2331.20"
+    },
+    {
+        "id": 4,
+        "seira": "ANEY",
+        "sale_invoiceID": 484,
+        "client_id": 31,
+        "date": "2021-12-10",
+        "paid": 1,
+        "payment_method": 5,
+        "price": "794.40",
+        "vat": "190.65",
+        "final": "985.05"
+    },
+    {
+        "id": 5,
+        "seira": "ANEY",
+        "sale_invoiceID": 485,
+        "client_id": 3,
+        "date": "2021-12-10",
+        "paid": 1,
+        "payment_method": 5,
+        "price": "3016.60",
+        "vat": "723.98",
+        "final": "3740.58"
+    },
+    {
+        "id": 6,
+        "seira": "ANEY",
+        "sale_invoiceID": 486,
+        "client_id": 4,
+        "date": "2021-12-12",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 2416,
+        "vat": "579.84",
+        "final": "2995.84"
+    },
+    {
+        "id": 7,
+        "seira": "ANEY",
+        "sale_invoiceID": 487,
+        "client_id": 42,
+        "date": "2022-05-17",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 3950,
+        "vat": 948,
+        "final": 4898
+    },
+    {
+        "id": 8,
+        "seira": "ANEY",
+        "sale_invoiceID": 489,
+        "client_id": 31,
+        "date": "2022-07-07",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 1000,
+        "vat": 240,
+        "final": 1240
+    },
+    {
+        "id": 9,
+        "seira": "ANEY",
+        "sale_invoiceID": 490,
+        "client_id": 3,
+        "date": "2022-07-11",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 1996,
+        "vat": "479.04",
+        "final": "2475.04"
+    },
+    {
+        "id": 10,
+        "seira": "ANEY",
+        "sale_invoiceID": 491,
+        "client_id": 4,
+        "date": "2022-07-14",
+        "paid": 1,
+        "payment_method": 5,
+        "price": 2994,
+        "vat": "718.56",
+        "final": "3712.56"
+    }
+]

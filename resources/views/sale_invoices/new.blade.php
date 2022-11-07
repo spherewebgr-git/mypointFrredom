@@ -241,6 +241,16 @@
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
+                            @if(!isset($invoice->mark) && isset(settings()->aade_user_id) && isset(settings()->ocp_apim_subscription_key))
+                                <div class="invoice-action-btn">
+                                    <div class="invoice-action-btn">
+                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                            <i class="material-icons mr-4">backup</i>
+                                            <span>Αποστολή στο myData</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="invoice-action-btn">
                                 @if(isset($invoice->sale_invoiceID))
                                     <input type="submit" value="Ενημέρωση Τιμολογίου" style="color: #fff;width: 100%;"
@@ -272,18 +282,6 @@
                                 </label>
                             </div>
                         </div>
-
-                        @if(!isset($invoice->mark))
-                            <div class="display-flex justify-content-between pb-2">
-                                <span>Αποστολή στο myData</span>
-                                <div class="switch">
-                                    <label>
-                                        <input type="checkbox" name="sendInvoice">
-                                        <span class="lever"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </form>

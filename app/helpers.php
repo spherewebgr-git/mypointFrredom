@@ -59,9 +59,10 @@ if(!function_exists('getFinalPrices'))
     function getFinalPrices( $invoiceHashID )
     {
         $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+
         $total = [];
         $services = $invoice->services()->get();
-
+        //dd($services);
         foreach ($services as $service)
         {
             $total[] = $service->price * $service->quantity;

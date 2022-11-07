@@ -70,7 +70,7 @@ class InvoicesController extends Controller
                 break;
         }
 
-        return view('invoices.view', ['invoice' => $invoice, 'payment' => '']);
+        return view('invoices.view', ['invoice' => $invoice, 'payment' => $payment]);
     }
 
     public function save($hashID)
@@ -90,7 +90,8 @@ class InvoicesController extends Controller
 
     public function new()
     {
-        $invoice = Invoice::query()->where('seira', '=', 'ANEY')->latest()->first();
+        $invoice = Invoice::query()->where('seira', '=', 'ANEY')->orWhere('seira', '=', 'ΑΝΕΥ')->latest('invoiceID')->first();
+
         //dd($invoice);
         $clients = Client::all()->sortBy('company');
         $seires = Seires::query()->where('type', '=', 'invoices')->get();

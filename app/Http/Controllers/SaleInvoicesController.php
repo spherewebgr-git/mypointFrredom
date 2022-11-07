@@ -47,7 +47,7 @@ class SaleInvoicesController extends Controller
 
     public function store(Request $request)
     {
-//dd($request);
+        //dd($request);
         $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
         if(!$requestDate) {
             $requestDate = DateTime::createFromFormat('Y-m-d', $request->date);
@@ -172,5 +172,28 @@ class SaleInvoicesController extends Controller
 
         return Redirect::to('sale-invoices');
 
+    }
+
+    public function view( SaleInvoices $invoice) {
+        //dd($invoice);
+        switch ($invoice->payment_method) {
+            case 1:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
+                break;
+            case 2:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΞΩΤΕΡΙΚΟΥ';
+                break;
+            case 3:
+                $payment = 'ΜΕΤΡΗΤΑ';
+                break;
+            case 4:
+                $payment = 'ΕΠΙΤΑΓΗ';
+                break;
+            case 5:
+                $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
+                break;
+        }
+
+        return view('sale_invoices.view', ['invoice' => $invoice, 'payment' => $payment]);
     }
 }

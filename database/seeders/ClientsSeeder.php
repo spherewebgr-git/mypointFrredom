@@ -23,7 +23,6 @@ class ClientsSeeder extends Seeder
         $data = json_decode($jsonfile, true);
         foreach ($data as $obj) {
             Client::create([
-                'id' => $obj['id'],
                 'hashID' =>  Str::substr(Str::slug(Hash::make($obj['company'].$obj['vat'])), 0, 32),
                 'name' => $obj['name'],
                 'company' => $obj['company'],
@@ -32,11 +31,13 @@ class ClientsSeeder extends Seeder
                 'mobile'  => $obj['mobile'],
                 'phone'  => $obj['phone'],
                 'address'  => $obj['address'],
+                'number'  => $obj['number'],
                 'city'  => $obj['city'],
+                'postal_code'  => $obj['postal_code'],
                 'vat'  => $obj['vat'],
                 'doy'  => $obj['doy'],
-                'mail_account'  => $obj['mail_account'],
-                'phone_account'  => $obj['phone_account'],
+                'mail_account'  =>'',
+                'phone_account'  => '',
             ]);
         }
     }
