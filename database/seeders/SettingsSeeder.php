@@ -14,20 +14,18 @@ class SettingsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('settings')->insert([
-            'title' => 'ΔΙΑΚΡΙΤΙΚΟΣ ΤΙΤΛΟΣ',
-            'company' => 'ΕΠΩΝΥΜΙΑ ΕΠΙΧΕΙΡΗΣΗΣ',
-            'business' => '',
-            'email' => '',
-            'address' => '',
-            'mobile' => '',
-            'phone' => '',
-            'vat' => '',
-            'doy' => '',
-            'logo' => '',
-            'invoice_logo' => '',
-            'signature' => '',
-            'mail_account' => '',
-        ]);
+        $settings= [
+            [
+                'type' => 'title',
+                'value' =>  'ΔΙΑΚΡΙΤΙΚΟΣ ΤΙΤΛΟΣ',
+            ],
+            [
+                'type' => 'company',
+                'value' =>  'ΕΠΩΝΥΜΙΑ ΕΠΙΧΕΙΡΗΣΗΣ',
+            ]
+        ];
+        DB::table('settings')->insert($settings);
+
+
     }
 }

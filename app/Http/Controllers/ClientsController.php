@@ -30,8 +30,6 @@ class ClientsController extends Controller
         $servicesNew = Services::query()->where('client_id', '=', $client->id)->where('invoice_number', '=', NULL)->get();
         $saleInvoices = SaleInvoices::query()->where('client_id', '=', $client->id)->get()->sortByDesc('date');
 
-
-
         return view('clients.view', ['client' => $client, 'invoices' => $invoices, 'sale_invoices' => $saleInvoices, 'services' => $services, 'servicesNew' => $servicesNew]);
     }
 
