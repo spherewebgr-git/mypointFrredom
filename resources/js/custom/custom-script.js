@@ -40,5 +40,7 @@ $c(document).ready(function(){
             $p(this).text(_responce);
         });
     }
+    $c('.sidenav li.status-off').remove();
+
 
 });

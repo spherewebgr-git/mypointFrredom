@@ -23,7 +23,11 @@ if(!function_exists('settings'))
 {
     function settings()
     {
-        $settings = Settings::all()->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
 
         return $settings;
     }

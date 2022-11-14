@@ -6,24 +6,34 @@
 html {
     font-family: 'Manrope', sans-serif !important;
 }
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Manrope', sans-serif !important;
     font-weight: 200;
 }
+
 // sidebar brand logo
-.brand-sidebar span.logo-text{
-  padding-left: 0;
+.brand-sidebar span.logo-text {
+    padding-left: 0;
 }
 
 .btn.shepherd-button {
     line-height: 1em;
-    color: #ffffff!important;
+    color: #ffffff !important;
 }
 
 .content-overlay.active {
     visibility: visible;
     z-index: 9999;
-    background: rgba(0,0,0, 0.45);
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.sidenav {
+    & li {
+        &.status-off {
+            display: none;
+        }
+    }
 }
 
 table {
@@ -34,12 +44,15 @@ table {
                     color: $white;
                     font-weight: bold;
                 }
+
                 &.disabled {
                     background-color: #d1d1d1;
+
                     & td {
                         color: #939393;
                     }
                 }
+
                 & td {
                     &.bold {
                         font-weight: 600;
@@ -62,6 +75,7 @@ table {
         top: -35px;
         font-size: 13px;
     }
+
     & .priority-info {
         display: flex;
         justify-content: space-between;
@@ -76,14 +90,17 @@ table {
         max-height: 400px;
         overflow: auto;
     }
+
     &-item {
         display: flex;
         margin-bottom: 30px;
+
         & .date {
             text-align: center;
             font-size: 17px;
             color: #ababab;
         }
+
         & .year {
             text-align: center;
             font-size: 18px;
@@ -105,6 +122,7 @@ table {
     background: rgba(221, 221, 221, 0.32);
     opacity: 0;
     transition: opacity 0.25s linear;
+
     &.active {
         z-index: 9999;
         opacity: 1;
@@ -115,6 +133,7 @@ table {
 .addToInvoice {
     opacity: 0;
     transition: opacity 0.25s linear;
+
     &.active {
         opacity: 1;
         transition: opacity 0.25s linear;
@@ -125,9 +144,10 @@ table {
     width: 100%;
     overflow: auto;
 }
+
 .client-tabs {
     margin-top: 45px;
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .invoice-head {
@@ -136,6 +156,7 @@ table {
             width: 100%;
         }
     }
+
     &--right {
         @media (max-width: 1600px) {
             width: 100%;
@@ -150,17 +171,20 @@ table {
     & li {
         padding: 5px 20px;
         cursor: auto;
+
         & .black-text {
             font-size: 13px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
+
         & h6 {
             margin: 12px 0 0 0;
             font-weight: 500;
             font-size: 15px;
         }
+
         & time {
             font-size: 12px;
             margin-left: 33px;
@@ -174,35 +198,39 @@ table {
     color: #ffffff;
 }
 
-
 aside {
     &.nav-collapsed {
         img {
             &.hide-on-med-and-down {
                 display: none;
             }
+
             &.hide-on-med-and-up {
-                display: block!important;
+                display: block !important;
                 margin: 0 auto;
             }
         }
     }
 }
+
 .card.color-info {
     position: fixed;
     width: 84%;
     padding: 5px 10px;
     z-index: 999;
     margin-top: 0;
+
     & ul {
         list-style: none;
         display: flex;
         justify-content: space-around;
         margin: 5px 0;
+
         & li {
             display: flex;
             align-items: center;
             gap: 8px;
+
             & .color {
                 width: 15px;
                 height: 15px;
@@ -216,18 +244,23 @@ table {
     & tr.marked td {
         background: #e4ffe4;
     }
+
     & tr.crosschecked td, & tr.efka td {
         background: #fff3d0;
     }
+
     & tr.noMark td {
-        background: #fad5eb!important;
+        background: #fad5eb !important;
     }
+
     & tr {
         & td {
             &.class-status {
                 position: relative;
+
                 & .open-statuses {
                     cursor: pointer;
+
                     &:hover {
                         & + .outcome-classifications-status-list {
                             opacity: 1;
@@ -249,12 +282,15 @@ table {
                     box-shadow: 6px 4px 12px -2px #8d8d8d;
                     text-align: left;
                     padding: 0 12px;
+
                     & ul {
                         margin: 15px 0;
+
                         & li {
                             margin: 5px 0;
                             background: #f7f7f7;
                             padding: 4px 3px;
+
                             & i {
                                 font-size: 21px;
                             }
@@ -265,55 +301,68 @@ table {
         }
     }
 }
+
 :root {
     counter-reset: line;
 }
+
 #classifications {
     & h4.card-title {
         margin-bottom: 40px;
     }
+
     & .invoice-item-repeater {
         & .classification-item {
             padding: 20px 0 0 20px;
+
             &:nth-child(odd) {
                 background-color: #fff;
             }
+
             &:nth-child(even) {
                 background-color: #f3f3f3;
             }
-            & h6  {
+
+            & h6 {
 
             }
         }
     }
 }
+
 .classifications-calculations-card {
     & h5.card-title {
-        margin-bottom: 20px!important;
+        margin-bottom: 20px !important;
     }
+
     & .classifications-calculations {
         & .class-calculator {
             &.total {
                 font-weight: bold;
                 margin-bottom: 15px;
             }
+
             &--title {
 
             }
+
             &--metric {
 
             }
 
         }
+
         &-balance {
             color: #520000;
             margin-top: 20px;
             border-top: thin solid black;
             padding-top: 9px;
+
             & .class-calculator {
                 &.valid {
                     color: green;
                 }
+
                 &.invalid {
                     color: red;
                 }

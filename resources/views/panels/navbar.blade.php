@@ -27,14 +27,14 @@
               </a>
           </li>
         <li>
-          <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" title="{{settings()->company. ' - ' . settings()->title}}"
+          <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" title="{{settings()['company']. ' - ' . settings()['title']}}"
             data-target="profile-dropdown">
-              @if(settings()->logo)
+              @if(settings()['logo'])
                 <span class="avatar-status avatar-online">
-                  <img src="{{asset('images/system/'.settings()->logo)}}" alt="{{settings()->company}} Logo"><i></i>
+                  <img src="{{asset('images/system/'.settings()['logo'])}}" alt="{{settings()['company']}} Logo"><i></i>
                 </span>
                   @else
-                  <span id="avatar-name">{{settings()->company}}</span>
+                  <span id="avatar-name">{{settings()['company']}}</span>
               @endif
           </a>
         </li>

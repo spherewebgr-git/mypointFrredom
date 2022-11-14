@@ -27,11 +27,6 @@
                                     Πελάτη:</h5>
                                 <p class="m-0 font-weight-500 mt-6 hide-on-med-and-down text-ellipsis"
                                    title="{{$client->company}}">{{$client->company}}</p>
-                                <span class="social-icons hide-on-med-and-down"><i class="fab fa-behance"></i> <i
-                                        class="fab fa-dribbble ml-5"></i>
-                                    <i class="fab fa-facebook-f ml-5"></i>
-                                    <i class="fab fa-instagram ml-5"></i>
-                                </span>
                             </div>
                             <div class="col s12 m12 l8 client-tabs">
                                 <ul class="tabs">
@@ -73,6 +68,7 @@
                                                             <p class="m-0">{{$client->work_title}}</p>
                                                         </div>
                                                     </div>
+                                                    @if($client->address)
                                                     <div class="col s12 address mt-4 p-0">
                                                         <div class="col s2 m2 l1 tooltipped" data-position="top"
                                                              data-tooltip="Διεύθυνση"><i class="material-icons">
@@ -81,6 +77,8 @@
                                                             <p class="m-0">{{$client->address.' '.$client->number}}, {{chunk_split($client->postal_code, 3, ' ')}}, {{$client->city}}</p>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @if($client->vat)
                                                     <div class="col s12 vat mt-4 m6 p-0">
                                                         <div class="col s2 m2 l2 tooltipped" data-position="top"
                                                              data-tooltip="Α.Φ.Μ."><i class="material-icons"> flip </i>
@@ -89,6 +87,8 @@
                                                             <p class="m-0">{{$client->vat}}</p>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @if($client->doy)
                                                     <div class="col s12 doy mt-4 m6 p-0">
                                                         <div class="col s2 m2 l2 tooltipped" data-position="top"
                                                              data-tooltip="Δ.Ο.Υ."><i class="material-icons">
@@ -97,6 +97,8 @@
                                                             <p class="m-0">{{$client->doy}}</p>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @if($client->email)
                                                     <div class="col s12 email mt-4 p-0">
                                                         <div class="col s2 m2 l1 tooltipped" data-position="top"
                                                              data-tooltip="E-mail"><i class="material-icons"> mail </i>
@@ -105,6 +107,8 @@
                                                             <p class="m-0">{{$client->email}}</p>
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @if($client->phone)
                                                     <div class="col s12 phone mt-4 p-0">
                                                         <div class="col s2 m2 l1 tooltipped" data-position="top"
                                                              data-tooltip="Τηλέφωνο"><i class="material-icons">
@@ -113,6 +117,7 @@
                                                             <p class="m-0">{{$client->phone}}</p>
                                                         </div>
                                                     </div>
+                                                    @endif
                                                     <!-- Business Info -->
                                                     <a href="{{route('client.edit', ['vat' => $client->vat])}}"
                                                        class="waves-effect waves-light btn mb-1 mr-1 mt-4">

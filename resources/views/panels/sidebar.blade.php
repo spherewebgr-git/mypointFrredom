@@ -36,6 +36,7 @@
   <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out"
     data-menu="menu-navigation" data-collapsible="menu-accordion">
     {{-- Foreach menu item starts --}}
+
     @if(!empty($menuData[0]) && isset($menuData[0]))
       @foreach ($menuData[0]->menu as $menu)
         @if(isset($menu->navheader))
@@ -51,7 +52,8 @@
           $custom_classes = $menu->class;
           }
         @endphp
-        <li class="bold {{(request()->is($menu->url.'*')) ? 'active' : '' }}">
+
+        <li class="bold @if(isset(settings()[$menu->slug]) && settings()[$menu->slug] == 'off') status-off @endif {{(request()->is($menu->url.'*')) ? 'active' : '' }}" data-slug="{{$menu->slug}}">
           <a class="{{$custom_classes}} {{ (request()->is($menu->url.'*')) ? 'active '.$configData['activeMenuColor'] : ''}}"
             @if(!empty($configData['activeMenuColor'])) {{'style=background:none;box-shadow:none;'}} @endif
             href="@if(($menu->url)==='javascript:void(0)'){{$menu->url}} @else{{url($menu->url)}} @endif"
@@ -66,6 +68,8 @@
             @include('panels.submenu', ['menu' => $menu->submenu])
           @endif
         </li>
+
+
         @endif
       @endforeach
     @endif

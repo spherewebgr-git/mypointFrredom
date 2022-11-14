@@ -117,7 +117,7 @@
             "name": "Τιμολόγια Πώλησης",
             "i18n": "Τιμολόγια Πώλησης",
             "class": "collapsible-header waves-effect waves-cyan",
-            "slug": "sale-invoices",
+            "slug": "sale_invoices",
             "icon": "local_grocery_store",
             "submenu": [
                 {
@@ -161,7 +161,7 @@
             "name": "Αποδείξεις Λιανικής",
             "i18n": "Αποδείξεις Λιανικής",
             "class": "collapsible-header waves-effect waves-cyan",
-            "slug": "retail-receipts",
+            "slug": "retails",
             "icon": "receipt",
             "submenu": [
                 {
