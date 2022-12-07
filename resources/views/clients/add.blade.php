@@ -72,7 +72,9 @@
                             <label for="city" class="">Πόλη *</label>
                         </div>
                         <div class="input-field col s6 m2">
-                            <i class="material-icons prefix">location_searching</i>
+                            <i class="material-icons prefix">location_searching
+
+                            </i>
                             <input id="postal_code" type="text" name="postal_code" @if(isset($edra->postal_code))  value="{{old('postal_code', $edra->postal_code)}}" @endif required>
                             <label for="postal_code" class="">Τ.Κ. *</label>
                         </div>
