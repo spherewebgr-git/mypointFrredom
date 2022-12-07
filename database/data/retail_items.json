@@ -1,0 +1,14 @@
+[
+    {
+        "retailHash": "2y10yng8utst02o1fpku887o4kx2l5iq",
+        "payment_method": 3,
+        "price": 300,
+        "vat_id": 1
+    },
+    {
+        "retailHash": "2y10yng8utst02o1fpku887o4kx2l5iq",
+        "payment_method": 3,
+        "price": 300,
+        "vat_id": 1
+    }
+]

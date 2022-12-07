@@ -24,87 +24,235 @@
                             </div>
                             <!-- header section -->
                             <div class="row mb-3">
-                                <h6>Απόδειξη Λιανικής Πώλησης </h6>
-                                <div class="col xl6 m12 display-flex align-items-center">
+                                <div class="col xl4 m12 display-flex align-items-center">
                                     <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
                                     <select name="seira" id="seira">
                                         @foreach($seires as $seira)
-                                            <option value="{{$seira->letter}}" @if(isset($retail->seira) && $retail->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
+                                            <option value="{{$seira->letter}}"
+                                                    @if(isset($retail->seira) && $retail->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
                                     </select>
-                                    <h6 class="invoice-number mr-4 mb-5 col-8"> Αριθμός #</h6>
-                                    <div class="al-number col-4">
-                                        <input type="text" name="retailID" id="retailID" @if(isset($last)) value="{{$last+1}}" @elseif(isset($retail->retailID)) value="{{$retail->retailID}}" @endif>
-                                    </div>
+                                    <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.Υ# </h6>
+                                    <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
+                                           @if(isset($retail))
+                                               value="{{old('retailID', $retail->retailID)}}"
+                                           disabled @elseif(isset($last) && $last != '') value="{{$last + 1}}" @endif>
                                 </div>
-                                <div class="col xl6 m12">
+                                <div class="col xl8 m12">
                                     <div class="invoice-date-picker display-flex align-items-center">
                                         <div class="display-flex align-items-center">
                                             <small>Ημ/νία Έκδοσης: </small>
                                             <div class="display-flex ml-4">
                                                 <input type="text" class="datepicker mb-1" name="date"
-                                                       placeholder="Επιλέξτε Ημ/νία" value="@if(isset($retail->date)) {{\Carbon\Carbon::createFromTimestamp(strtotime($retail->date))->format('d/m/Y')}} @else {{date('d/m/Y')}} @endif" />
+                                                       placeholder="Επιλέξτε Ημ/νία"
+                                                       @if(isset($retail->date))
+                                                           value="{{\Carbon\Carbon::parse($retail->date)->format('d/m/Y')}}"
+                                                       @else
+                                                           value="{{date('d/m/Y')}}
+                                                       @endif"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col l12 s12">
-                                    <h6>Πλροφορίες Έκδοσης</h6>
-                                    <div class="col s12 m6  input-field">
-                                        <div class="col s12 m12">
-                                            <label class="m-0" for="description">Γενική περιγραφή (προαιρετική)</label>
-                                        </div>
-                                        <div class="col m12 s12 input-field">
-                                            <textarea name="mainDescription" id="description" class="materialize-textarea">@if(isset($retail->description)) {{$retail->description}} @endif</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col s12 m6  input-field">
-                                        <div class="col s12 m4">
-                                            <label class="m-0" for="paymentMethod">Τρόπος Πληρωμής</label>
-                                        </div>
-                                        <div class="col m12 s12 input-field">
-                                            <select name="paymentMethod" id="paymentMethod">
-                                                <option value="1" @if(isset($retail->payment_method) && $retail->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
-                                                <option value="2" @if(isset($retail->payment_method) && $retail->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
-                                                <option value="3" @if(!isset($retail->payment_method) || $retail->payment_method == 3) selected @endif>Μετρητά</option>
-                                                <option value="4" @if(isset($retail->payment_method) && $retail->payment_method == 4) selected @endif>Επιταγή</option>
-                                                <option value="5" @if(isset($retail->payment_method) && $retail->payment_method == 5) selected @endif>Επί Πιστώσει</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                            <!-- product details table-->
                             <div class="invoice-product-details mb-3">
-                                <!-- invoice Titles -->
-                                <div class="row mb-1">
-                                    <div class="col s12 m10">
-                                        <h6 class="m-0">Περιγραφή Παρεχόμενης Υπηρεσίας</h6>
-                                    </div>
-                                    <div class="col m2 hide-on-med-and-down">
-                                        <h6 style="margin-left: -40px">Τιμή</h6>
-                                    </div>
+                                <div data-repeater-list="services">
+                                    @if(isset($retail) && count($retail->items) > 0)
+                                        @foreach($retail->items as $service)
+                                            <div class="mb-2 count-repeater" data-repeater-item="">
+                                                <!-- invoice Titles -->
+                                                <div class="row mb-1">
+                                                    <div class="col s12 m5">
+                                                        <h6 class="m-0">Προϊόν/Υπηρεσία</h6>
+                                                    </div>
+                                                    <div class="col s12 m2">
+                                                        <h6 class="m-0">Συντελεστής ΦΠΑ</h6>
+                                                    </div>
+                                                    <div class="col s12 m3">
+                                                        <h6 class="m-0">Τρόπος Πληρωμής</h6>
+                                                    </div>
+                                                    <div class="col s12 m1">
+                                                        <h6 style="margin-left: -40px">Τιμή</h6>
+                                                    </div>
+                                                    <div class="col s12 m1">
+                                                        <h6 style="margin-left: -40px">ΦΠΑ</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="invoice-item display-flex">
+                                                    <div class="invoice-item-filed row pt-1" style="width: 100%">
+                                                        <div class="col m5 s12 input-field">
+                                                            <input type="text" value="{{$service->product_service}}" name="product_service"
+                                                                   class="product-field">
+                                                        </div>
+                                                        <div class="col m2 s12 input-field">
+                                                            <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
+                                                                <option value="1" @if($service->vat_id == 1) selected @endif>24%</option>
+                                                                <option value="4" @if($service->vat_id == 4) selected @endif>17%</option>
+                                                                <option value="2" @if($service->vat_id == 2) selected @endif>13%</option>
+                                                                <option value="5" @if($service->vat_id == 5) selected @endif>9%</option>
+                                                                <option value="3" @if($service->vat_id == 3) selected @endif>6%</option>
+                                                                <option value="6" @if($service->vat_id == 6) selected @endif>4%</option>
+                                                                <option value="7" @if($service->vat_id == 7) selected @endif>0%</option>
+                                                                <option value="8" @if($service->vat_id == 8) selected @endif>Μισθοδοσία, Αποσβέσεις κλπ.</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col m3 s12 input-field">
+                                                            <select name="payment_method" id="payment_method" class="invoice-item-select browser-default">
+                                                                <option value="1" @if($service->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
+                                                                <option value="2" @if($service->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
+                                                                <option value="3" @if($service->payment_method == 3) selected @endif>Μετρητά</option>
+                                                                <option value="4" @if($service->payment_method == 4) selected @endif>Επιταγή</option>
+                                                                <option value="5" @if($service->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                                                <option value="6" @if($service->payment_method == 6) selected @endif>Web Banking</option>
+                                                                <option value="7" @if($service->payment_method == 7) selected @endif>POS / e-POS</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="text" value="{{$service->price}}" name="price" placeholder="0.00"
+                                                                   class="price-field">
+                                                        </div>
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="text" value="{{$service->vat}}" name="vat" placeholder="0.00"
+                                                                   class="vat-field">
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="invoice-icon display-flex flex-column justify-content-between">
+                                                  <span data-repeater-delete="" class="delete-row-btn">
+                                                    <i class="material-icons">clear</i>
+                                                  </span>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="item" value="{{$service->id}}">
+                                            </div>
+
+                                        @endforeach
+                                    @else
+                                        <div class="mb-2 count-repeater" data-repeater-item="">
+                                            <!-- invoice Titles -->
+                                            <div class="row mb-1">
+                                                <div class="col s12 m5">
+                                                    <h6 class="m-0">Προϊόν/Υπηρεσία</h6>
+                                                </div>
+                                                <div class="col s12 m2">
+                                                    <h6 class="m-0">Συντελεστής ΦΠΑ</h6>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <h6 class="m-0">Τρόπος Πληρωμής</h6>
+                                                </div>
+                                                <div class="col s12 m1">
+                                                    <h6 style="margin-left: -40px">Τιμή</h6>
+                                                </div>
+                                                <div class="col s12 m1">
+                                                    <h6 style="margin-left: -40px">ΦΠΑ</h6>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-item display-flex">
+                                                <div class="invoice-item-filed row pt-1" style="width: 100%">
+                                                    <div class="col m5 s12 input-field">
+                                                        <input type="text" value="ΕΜΠΟΡΕΥΜΑΤΑ" name="product_service"
+                                                               class="product-field">
+                                                    </div>
+                                                    <div class="col m2 s12 input-field">
+                                                        <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
+                                                            <option value="1">24%</option>
+                                                            <option value="4">17%</option>
+                                                            <option value="2">13%</option>
+                                                            <option value="5">9%</option>
+                                                            <option value="3">6%</option>
+                                                            <option value="6">4%</option>
+                                                            <option value="7">0%</option>
+                                                            <option value="8">Μισθοδοσία, Αποσβέσεις κλπ.</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col m3 s12 input-field">
+                                                        <select name="payment_method" id="payment_method" class="invoice-item-select browser-default">
+                                                            <option value="1">Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
+                                                            <option value="2">Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
+                                                            <option value="3" selected>Μετρητά</option>
+                                                            <option value="4">Επιταγή</option>
+                                                            <option value="5">Επί Πιστώσει</option>
+                                                            <option value="6">Web Banking</option>
+                                                            <option value="7">POS / e-POS</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col m1 s12 input-field">
+                                                        <input type="text" value="" name="price" placeholder="0.00"
+                                                               class="price-field">
+                                                    </div>
+                                                    <div class="col m1 s12 input-field">
+                                                        <input type="text" value="" name="vat" placeholder="0.00"
+                                                               class="vat-field">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="invoice-icon display-flex flex-column justify-content-between">
+                                                  <span data-repeater-delete="" class="delete-row-btn">
+                                                    <i class="material-icons">clear</i>
+                                                  </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
 
                                 </div>
-                                <div class="invoice-item display-flex">
-                                    <div class="invoice-item-filed row pt-1" style="width: 100%">
-                                        <div class="col m10 s12 input-field">
-                                            <textarea class="materialize-textarea"
-                                                      name="description" placeholder="Περιγραφή Παρεχόμενης Υπηρεσίας">@if(isset($retail->service)) {{$retail->service}} @endif</textarea>
-                                        </div>
+                                <div class="input-field">
+                                    <button class="btn invoice-repeat-btn" data-repeater-create="" type="button">
+                                        <i class="material-icons left">add</i>
+                                        <span>Προσθήκη Υπηρεσίας</span>
+                                    </button>
+                                </div>
 
-                                        <div class="col m2 s12 input-field">
-                                            <input type="text" placeholder="Τελικό Ποσό" name="price"
-                                                   class="price-field" value="@if(isset($retail->price)) {{$retail->price}} @endif">
-                                        </div>
+                            </div>
+                            <!-- invoice subtotal -->
+                            <div class="invoice-subtotal">
+                                <div class="row">
+                                    <div class="col m5 s12">
+
                                     </div>
-
+                                    <div class="col xl4 m7 s12 offset-xl3">
+                                        <ul>
+                                            <li class="display-flex justify-content-between">
+                                                <span class="invoice-subtotal-title">Υποσύνολο</span>
+                                                <h6 class="invoice-subtotal-value">&euro; <span
+                                                        id="subtotal">00.00</span></h6>
+                                            </li>
+                                            <li class="display-flex justify-content-between">
+                                                <span class="invoice-subtotal-title">Φ.Π.Α. (24%)</span>
+                                                <h6 class="invoice-subtotal-value">&euro; <span id="fpa">00.00</span>
+                                                </h6>
+                                            </li>
+                                            <li>
+                                                <div class="divider mt-2 mb-2"></div>
+                                            </li>
+                                            <li class="display-flex justify-content-between">
+                                                <span class="invoice-subtotal-title">Συνολικό Ποσό</span>
+                                                <h6 class="invoice-subtotal-value">&euro; <span
+                                                        id="finalPrice">00.00</span></h6>
+                                            </li>
+                                            <li class="display-flex justify-content-between" id="parakratisiTotal">
+                                                <span class="invoice-subtotal-title">Παρακράτηση</span>
+                                                <h6 class="invoice-subtotal-value">&euro; <span
+                                                        id="parakratisi">00.00</span></h6>
+                                            </li>
+                                            <li class="display-flex justify-content-between">
+                                                <span class="invoice-subtotal-title">Πληρωτέο</span>
+                                                <h6 class="invoice-subtotal-value" style="font-weight: bold">&euro;
+                                                    <span id="toPay">00.00</span></h6>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Sidebar -->
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
@@ -156,8 +304,14 @@
         </div>
     </section>
 @endsection
+
+@section('vendor-script')
+    <script src="{{asset('vendors/form_repeater/jquery.repeater.min.js')}}"></script>
+@endsection
+
+
 @section('page-script')
-{{--    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>--}}
+    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
     <script>
         $r = jQuery.noConflict();
         $r(document).ready(function() {
@@ -187,5 +341,32 @@
                 });
             });
         });
+
+        $r('input[type="submit"]').on('click', function () {
+            $r('.progress').show();
+        })
+        $r.fn.countPrices = function () {
+            let finalPrice = 0;
+            $r('.count-repeater').each(function () {
+                //let quantity = $r(this).find('.quantity-field').val();
+                let price = parseInt($r(this).find('.price-field').val());
+                if($r(this).find('.vat-field').val() === '') {
+                    $r(this).find('.vat-field').val(parseFloat((24/100) * price).toFixed(2));
+                }
+                finalPrice += price;
+            });
+
+            $r('#subtotal').text(parseFloat(finalPrice).toFixed(2));
+            $r('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
+            $r('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+            $r('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+            $r('#parakratisiTotal').hide();
+        }
+
+
+        $r(document).on('mouseout', '.count-repeater', function () {
+            $r(this).countPrices();
+        });
+
     </script>
 @endsection

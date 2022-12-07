@@ -40,7 +40,7 @@
                 </div>
                 <div class="invoice-head--right row col s12 m6 l8 display-flex justify-content-end align-items-center">
                     <div class="invoice-create-btn col ml-18">
-                        <a href="{{route('outcome.getExpenses')}}"
+                        <a href="{{route('outcome.getDocs')}}"
                            class="btn waves-effect waves-light invoice-create border-round z-depth-4" title="Ενημέρωση Εξόδων προς Χαρακτηρισμό από το myData">
                             <i class="material-icons">rotate_right</i>
                             <span class="hide-on-small-only">Ενημέρωση Εξόδων</span>

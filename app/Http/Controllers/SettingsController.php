@@ -17,6 +17,9 @@ class SettingsController extends Controller
         $allSettings = Settings::all();
         $admin = User::all()[0];
         $allSeires = Seires::all();
+        $addresses = Settings::query()->where('type', 'LIKE', '%'.'address'.'%')->get();
+        //dd($addresses);
+
         foreach($allSeires as $seira) {
             $seires[$seira->type][] = ['letter' => $seira->letter, 'id' => $seira->id];
         }
@@ -24,22 +27,50 @@ class SettingsController extends Controller
             $settings[$set->type] = $set->value;
         }
 
-        return view('settings.index', ['settings' => $settings, 'admin' => $admin, 'seires' => $seires]);
+        return view('settings.index', ['settings' => $settings, 'admin' => $admin, 'seires' => $seires, 'addresses' => $addresses]);
     }
 
     public function update(Request $request, $form) {
-        //dd($request);
+//        dd($request);
         //$settings = Settings::all()[0];
         $admin = User::all()->first();
         $requests = $request->all();
+        //dd($requests);
+        if($form == 'addresses') {
+            //dd($requests);
+            if($request['addresses']) {
+                foreach ($requests['addresses'] as $item) {
+                    if($item['address'] != null) {
+                        DB::table('settings')->insert([
+                            'type' => 'address_'.$item['address_type'],
+                            'value' => $item['address'],
+                            'created_at' => date('Y-m-d H:i:s')
+                        ]);
+                    }
+                }
+            }
+            //dd($requests);
+            foreach($requests as $key => $item){
+                $setting = Settings::query()->where('type', '=', $key)->first();
+                if($setting) {
+                    //dd($key);
+                    $setting->update([
+                        'value' => $item,
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }
 
+            return redirect()->back();
+        }
         if($form != 'seires') {
             foreach ($requests as $key => $item) {
                 if($key != '_token' && $key != 'file' && $item != null) {
                     $setting = Settings::query()->where('type', '=', $key)->first();
                     if($setting) {
                         $setting->update([
-                            'value' => $item
+                            'value' => $item,
+                            'updated_at' => date('Y-m-d H:i:s')
                         ]);
                     } else {
                         DB::table('settings')->insert([

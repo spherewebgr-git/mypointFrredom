@@ -68,15 +68,17 @@
                                                             <p class="m-0">{{$client->work_title}}</p>
                                                         </div>
                                                     </div>
-                                                    @if($client->address)
-                                                    <div class="col s12 address mt-4 p-0">
-                                                        <div class="col s2 m2 l1 tooltipped" data-position="top"
-                                                             data-tooltip="Διεύθυνση"><i class="material-icons">
-                                                                markunread_mailbox </i></div>
-                                                        <div class="col s10 m10 l11">
-                                                            <p class="m-0">{{$client->address.' '.$client->number}}, {{chunk_split($client->postal_code, 3, ' ')}}, {{$client->city}}</p>
+                                                    @if($client->addresses)
+                                                        @foreach($client->addresses as $address)
+                                                        <div class="col s12 address mt-4 p-0">
+                                                            <div class="col s2 m2 l1 tooltipped" data-position="top"
+                                                                 data-tooltip="{{$address->address_name}}"><i class="material-icons">
+                                                                    @if($address->address_type == 0) markunread_mailbox @else business @endif</i></div>
+                                                            <div class="col s10 m10 l11">
+                                                                <p class="m-0">{{$address->address.' '.$address->number}}, {{chunk_split($address->postal_code, 3, ' ')}}, {{$address->city}}</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        @endforeach
                                                     @endif
                                                     @if($client->vat)
                                                     <div class="col s12 vat mt-4 m6 p-0">

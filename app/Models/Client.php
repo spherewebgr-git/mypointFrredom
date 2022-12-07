@@ -27,10 +27,10 @@ class Client extends Model
         return $this->hasMany(SaleInvoices::class);
     }
 
-//    public function client()
-//    {
-//        return $this->hasOne(Client::class, 'id', 'client_id');
-//    }
+    public function addresses()
+    {
+        return $this->hasMany(ClientAddresses::class,  'client_hash', 'hashID');
+    }
 
     public static function getFilePath() {
         return str_replace(['/', '\\'],DIRECTORY_SEPARATOR, storage_path('app/public/files/clients/logos').DIRECTORY_SEPARATOR);

@@ -10,11 +10,16 @@ class Goods extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sale_invoice_id', 'client_id', 'price', 'quantity', 'description'
+        'product_number', 'product_name', 'product_vat_id', 'price', 'quantity', 'product_description'
     ];
 
     public function saleInvoice()
     {
         return $this->belongsTo(SaleInvoices::class, 'sale_invoiceID');
+    }
+
+    public function deliveryInvoices()
+    {
+        return $this->belongsToMany(DeliveryInvoices::class);
     }
 }

@@ -25,6 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->string('mark')->unique()->nullable();
             $table->string('file_invoice')->nullable();
             $table->integer('has_parakratisi');
+            $table->integer('parakratisi_id')->default(3);
             $table->softDeletes();
             $table->timestamps();
         });

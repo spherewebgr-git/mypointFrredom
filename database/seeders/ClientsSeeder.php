@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
+use App\Models\ClientAddresses;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -22,22 +23,28 @@ class ClientsSeeder extends Seeder
         $jsonfile = File::get("database/data/clients.json");
         $data = json_decode($jsonfile, true);
         foreach ($data as $obj) {
+            $hash = Str::substr(Str::slug(Hash::make($obj['company'].$obj['vat'])), 0, 32);
             Client::create([
-                'hashID' =>  Str::substr(Str::slug(Hash::make($obj['company'].$obj['vat'])), 0, 32),
+                'hashID' =>  $hash,
                 'name' => $obj['name'],
                 'company' => $obj['company'],
                 'work_title'  => $obj['work_title'],
                 'email'  => $obj['email'],
                 'mobile'  => $obj['mobile'],
                 'phone'  => $obj['phone'],
-                'address'  => $obj['address'],
-                'number'  => $obj['number'],
-                'city'  => $obj['city'],
-                'postal_code'  => $obj['postal_code'],
                 'vat'  => $obj['vat'],
                 'doy'  => $obj['doy'],
                 'mail_account'  =>'',
                 'phone_account'  => '',
+            ]);
+            ClientAddresses::create([
+                'client_hash' => $hash,
+                'address_type' => 0,
+                'address_name' => 'Έδρα',
+                'address' => $obj['address'],
+                'number' => $obj['number'],
+                'city' => $obj['city'],
+                'postal_code' => $obj['postal_code']
             ]);
         }
     }

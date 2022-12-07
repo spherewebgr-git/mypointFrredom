@@ -21,8 +21,8 @@ $configData = Helper::applClasses();
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>@yield('title') | MyPoint Application</title>
-  <link rel="apple-touch-icon" href="../../images/favicon/apple-touch-icon-152x152.png">
-  <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="{{asset('images/logo/favicon.png')}}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/favicon.png')}}">
 
   {{-- Include core + vendor Styles --}}
   @include('panels.styles')

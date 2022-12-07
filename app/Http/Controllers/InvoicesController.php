@@ -138,6 +138,7 @@ class InvoicesController extends Controller
                 'paid' => $paid,
                 'seira' => $request->seira,
                 'has_parakratisi' => $parakratisi,
+                'parakratisi_id' => $request->parakratisi_id,
                 'payment_method' => $request->paymentMethod
             )
         );
@@ -220,6 +221,7 @@ class InvoicesController extends Controller
             'client_id' => $request->client,
             'paid' => $paid,
             'has_parakratisi' => $parakratisi,
+            'parakratisi_id' => $request->parakratisi_id,
             'payment_method' => $request->paymentMethod
         ]);
         foreach($services as $service) {

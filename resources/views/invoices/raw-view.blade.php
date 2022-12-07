@@ -197,7 +197,7 @@
         }
 
     </style>
-    <title>Τιμολόγιο - {{str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT)}}</title>
+    <title>Τιμολόγιο Παροχής Υπηρεσιών - @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}</title>
 </head>
 <body>
 <div class="timologioContent row">
@@ -205,13 +205,14 @@
         <table class="invoiceform">
             <tbody>
             <tr class="no-border">
-                <td><img src="{{url('images/system/'.settings()->invoice_logo)}}"
-                         alt="{{settings()->title}} logo"></td>
+                <td>
+                    @if(isset(settings()['invoice_logo'])) <img src="{{url('images/system/'.settings()['invoice_logo'])}}"
+                         alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
                 <td class="tim-info">
-                    <h4 style="color: #C62828">{{settings()->title}}</h4>
-                    <h5>{{settings()->company}}</h5>
-                    <p>{{settings()->business}}<br>{{settings()->address}}<br>Α.Φ.Μ.: {{settings()->vat}} -
-                        ΔΟΥ: {{settings()->doy}}</p></td>
+                    <h4 style="color: #C62828">{{settings()['title'] ?? 'not set'}}</h4>
+                    <h5>{{settings()['company'] ?? 'not set'}}</h5>
+                    <p>{{settings()['business'] ?? 'not set'}}<br>{{settings()['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{settings()['vat'] ?? 'not set'}} -
+                        ΔΟΥ: {{settings()['doy'] ?? 'not set'}}</p></td>
             </tr>
             <tr class="no-border">
                 <td>
@@ -238,14 +239,14 @@
             <br>
         </div>
         <hr class="main-color">
-        <div class="paratiriseis">
-            <span class="invoice-color">Παρατηρήσεις:</span><br>
-            @if(getFinalPrices($invoice->hashID) >= 300)
+        @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
+            <div class="paratiriseis">
+                <span class="invoice-color">Σημειώσεις:</span><br>
                 <div id="parakratisi">ΕΓΙΝΕ ΠΑΡΑΚΡΑΤΗΣΗ ΦΟΡΟΥ 20% ΙΣΗ ΜΕ
                     € {{(20 / 100) * getFinalPrices($invoice->hashID)}} (ΕΥΡΩ)
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
         <div class="timTable small-12 columns">
             <table>
                 <tbody>
@@ -285,32 +286,35 @@
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
-                    <td colspan="2" class="pliroteoPoso">€ @if(getFinalPrices($invoice->hashID) > 300)
-                            {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
-                            {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}
-                        @endif</td>
+                    <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
+                                {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
+                                {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}
+                            @endif</strong></td>
                 </tr>
                 </tbody>
             </table>
             <div class="small-12 columns">
                 <div class="signature left">
                     <span class="invoice-color">Για τον εκδότη</span>
-                    <img src="{{url('images/system/'.settings()->signature)}}" alt="signature">
+                    @if(isset(settings()['signature']))
+                    <img src="{{url('images/system/'.settings()['signature'])}}" alt="signature"> @endif
                 </div>
                 <div class="clear"></div>
                 <table class="invoiceform footer">
                     <tbody>
                     <tr>
-                        @if(settings()->phone)
-                            <td><span class="invoice-color">Τηλ:</span> {{settings()->phone}}</td>
+                        @if(isset(settings()['phone']))
+                            <td><span class="invoice-color">Τηλ:</span> {{settings()['phone']}}</td>
                         @endif
-                        <td><span class="invoice-color">Email:</span> {{settings()->email}}</td>
+                        @if(isset(settings()['email']))
+                        <td><span class="invoice-color">Email:</span> {{settings()['email']}}</td> @endif
                         <td><span class="invoice-color">Χρήση:</span>ΠΕΛΑΤΗΣ</td>
                     </tr>
                     <tr>
-                        <td><span class="invoice-color">Κιν:</span> {{settings()->mobile}}</td>
-                        <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>
-                        <td><span class="invoice-color">Πληρωμή:</span> ΜΕ ΠΙΣΤΩΣΗ</td>
+                        @if(isset(settings()['mobile']))
+                        <td><span class="invoice-color">Κιν:</span> {{settings()['mobile']}}</td> @endif
+{{--                        <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}
+                        <td><span class="invoice-color">Πληρωμή:</span> {{$payment}}</td>
                     </tr>
                     </tbody>
                 </table>

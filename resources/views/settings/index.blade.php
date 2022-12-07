@@ -32,6 +32,12 @@
                             </a>
                         </li>
                         <li class="tab">
+                            <a href="#addresses">
+                                <i class="material-icons">business</i>
+                                <span> ΔΙΕΥΘΥΝΣΕΙΣ </span>
+                            </a>
+                        </li>
+                        <li class="tab">
                             <a href="#mydata">
                                 <i class="material-icons">link</i>
                                 <span> ΣΥΝΔΕΣΗ myData </span>
@@ -197,12 +203,6 @@
                                         <label for="business">Επάγγελμα</label>
                                     </div>
                                 </div>
-                                <div class="col s12">
-                                    <div class="input-field">
-                                        <input id="address" name="address" type="text" @if(isset($settings['address'])) value="{{$settings['address']}}" @endif>
-                                        <label for="address">Διεύθυνση Έδρας (Όδος Αριθμός, ΤΚ, Περιοχή, Πόλη)</label>
-                                    </div>
-                                </div>
                                 <div class="col s6">
                                     <div class="input-field">
                                         <input id="vat" name="vat" type="text" @if(isset($settings['vat']))  value="{{$settings['vat']}}" @endif>
@@ -254,6 +254,86 @@
 
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                <div id="addresses">
+                    <div class="card-panel">
+                        <div class="row">
+                            <form action="{{route('settings.update', ['form' => 'addresses'])}}" method="post" enctype="multipart/form-data" class="form invoice-item-repeater">
+                            @csrf
+                                @foreach($addresses as $address)
+
+                                    <div>
+                                        <div class="addresses-item position-relative">
+                                            <div class="col s3">
+                                                <div class="input-field">
+                                                    <select name="{{$address['type']}}" class="invoice-item-select browser-default">
+                                                        <option value="0_edra" @if($address['type'] == 'address_0_edra') selected @endif>Έδρα</option>
+                                                        <option value="1_ypokatastima" @if($address['type'] == 'address_1_ypokatastima') selected @endif>Υποκατάστημα 1</option>
+                                                        <option value="2_ypokatastima" @if($address['type'] == 'address_2_ypokatastima') selected @endif>Υποκατάστημα 2</option>
+                                                        <option value="3_ypokatastima" @if($address['type'] == 'address_3_ypokatastima') selected @endif>Υποκατάστημα 3</option>
+                                                        <option value="4_ypokatastima" @if($address['type'] == 'address_4_ypokatastima') selected @endif>Υποκατάστημα 4</option>
+                                                        <option value="5_ypokatastima" @if($address['type'] == 'address_5_ypokatastima') selected @endif>Υποκατάστημα 5</option>
+                                                        <option value="1_apothiki" @if($address['type'] == 'address_1_apothiki') selected @endif>Αποθήκη 1</option>
+                                                        <option value="2_apothiki" @if($address['type'] == 'address_2_apothiki') selected @endif>Αποθήκη 2</option>
+                                                        <option value="3_apothiki" @if($address['type'] == 'address_3_apothiki') selected @endif>Αποθήκη 3</option>
+                                                        <option value="4_apothiki" @if($address['type'] == 'address_4_apothiki') selected @endif>Αποθήκη 4</option>
+                                                        <option value="5_apothiki" @if($address['type'] == 'address_5_apothiki') selected @endif>Αποθήκη 5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col s9">
+                                                <div class="input-field">
+                                                    <input id="address" name="{{$address['type']}}" type="text" @if(isset($address->value)) value="{{old('file', $address->value)}}" @endif>
+                                                    <label for="{{$address['type']}}">Διεύθυνση (Οδός Αριθμός, ΤΚ, Περιοχή, Πόλη)</label>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Προσθήκη Νέων Διευθύνσεων</h4>
+                                <div  data-repeater-list="addresses">
+                                    <div class="addresses-item position-relative" data-repeater-item="">
+                                        <div class="col s3">
+                                            <div class="input-field">
+                                                <select name="address_type" class="invoice-item-select browser-default">
+                                                    <option value="0_edra">Έδρα</option>
+                                                    <option value="1_ypokatastima">Υποκατάστημα 1</option>
+                                                    <option value="2_ypokatastima">Υποκατάστημα 2</option>
+                                                    <option value="3_ypokatastima">Υποκατάστημα 3</option>
+                                                    <option value="4_ypokatastima">Υποκατάστημα 4</option>
+                                                    <option value="5_ypokatastima">Υποκατάστημα 5</option>
+                                                    <option value="1_apothiki">Αποθήκη 1</option>
+                                                    <option value="2_apothiki">Αποθήκη 2</option>
+                                                    <option value="3_apothiki">Αποθήκη 3</option>
+                                                    <option value="4_apothiki">Αποθήκη 4</option>
+                                                    <option value="5_apothiki">Αποθήκη 5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col s9">
+                                            <div class="input-field">
+                                                <input id="address" name="address" type="text" @if(isset($settings['address'])) value="{{$settings['address']}}" @endif>
+                                                <label for="address">Διεύθυνση (Οδός Αριθμός, ΤΚ, Περιοχή, Πόλη)</label>
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+                                <div class="input-field">
+                                    <button class="btn invoice-repeat-btn" data-repeater-create="" type="button">
+                                        <i class="material-icons left">add</i>
+                                        <span>Προσθήκη Γραμμής</span>
+                                    </button>
+                                </div>
+                                <div class="col s12 display-flex justify-content-end form-action">
+                                    <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση Αλλαγών</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -380,6 +460,16 @@
                                 </ul>
                             </div>
                             @endif
+                            @if(isset($settings['delivery_invoices']) && $settings['delivery_invoices'] == 'on')
+                                <div class="col s12 m6">
+                                    <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Σειρές ΤΔΑ</h4>
+                                    <ul class="collection">
+                                        @foreach($seires['delivery_invoices'] as $deliveryType)
+                                            <li class="collection-item">{{$deliveryType['letter']}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="clearfix"></div>
                             <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px; display: inline-block">Προσθήκη νέας σειράς</h4>
                             <div class="divider mb-2"></div>
@@ -391,6 +481,7 @@
                                             <option value="invoices">Τιμολόγια Παροχής Υπηρεσιών</option>
                                             <option value="sale_invoices">Τιμολόγια Πώλησης</option>
                                             <option value="delivery_notes">Δελτία Αποστολής</option>
+                                            <option value="delivery_invoices">Τιμολόγια - Δελτία Αποστολής</option>
                                             <option value="retails">Αποδείξεις Λιανικής</option>
                                         </select>
                                         <label for="seiraType">Είδος Παραστατικού</label>
@@ -444,6 +535,14 @@
                                 </div>
                                 <div class="col s12 m6 input-field">
                                     <div class="switch">
+                                        <label for="delivery_invoices">ΤΙΜΟΛΟΓΙΑ - ΔΕΛΤΙΑ ΑΠΟΣΤΟΛΗΣ
+                                            <input type="checkbox" id="delivery_invoices" name="delivery_invoices" @if(isset($settings['delivery_invoices']) && $settings['delivery_invoices'] == 'on') checked @endif>
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col s12 m6 input-field">
+                                    <div class="switch">
                                         <label for="retails">ΑΠΟΔΕΙΞΕΙΣ ΛΙΑΝΙΚΗΣ
                                             <input type="checkbox" id="retails" name="retails" @if(isset($settings['retails']) && $settings['retails'] == 'on') checked @endif>
                                             <span class="lever"></span>
@@ -461,10 +560,12 @@
         </div>
     </section>
 @endsection
+
 @section('page-script')
     <script src="{{asset('js/scripts/select2.full.min.js')}}"></script>
     <script src="{{asset('vendors/jquery-validation/jquery.validate.min.js')}}"></script>
-    <script src="{{asset('js/scripts/page-account-settings.js')}}"></script>
+    <script src="{{asset('vendors/form_repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
     <script>
         $m = jQuery.noConflict();
         $m(document).ready(function(){

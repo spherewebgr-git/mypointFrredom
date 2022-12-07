@@ -85,10 +85,10 @@ return array (
     'normal' => $fontDir . '/roboto_bold_normal_56975121137e691c24810ce1de76784d',
   ),
   'robotoregular' => array(
-    'normal' => $fontDir . '/robotoregular_normal_a845a8af74f2c490acf05580ee6ee617',
+    'normal' => $fontDir . '/robotoregular_normal_f25a5168e949969a2bf559732b5d5083',
   ),
   'robotobold' => array(
-    'normal' => $fontDir . '/robotobold_normal_045bff3c4593b258961a7518d560c4c0',
+    'normal' => $fontDir . '/robotobold_normal_426a2f142d28e96e9a1f2bc63b3e3212',
   ),
 );
 }; ?>

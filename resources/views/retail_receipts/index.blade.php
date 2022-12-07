@@ -98,8 +98,9 @@
                         <tbody>
                         @foreach($retails as $retail)
                             <tr role="row" class="odd">
+{{--@dump(getRetailPrices($retail))--}}
                                 <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif{{$retail->retailID}}</a></td>
+                                <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif - {{$retail->retailID}}</a></td>
                                 <td>{{$retail->service}}</td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->date))->format('d/m/Y')}}</small>
@@ -108,13 +109,14 @@
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->created_at))->format('H:i')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format($retail->price - $retail->vat, '2', ',', '.')}}</td>
+                                    &euro; {{number_format(getRetailPrices($retail)['price'], '2', ',', '.')}}
+                               </td>
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format($retail->vat, '2', ',', '.')}}
+                                    &euro; {{number_format(getRetailPrices($retail)['vat'], '2', ',', '.')}}
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format($retail->price, '2', ',', '.')}}</td>
-
+                                    &euro; {{number_format(getRetailPrices($retail)['full'], '2', ',', '.')}}
+                                </td>
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($retail->mark)
@@ -150,9 +152,9 @@
                         <tr class="finals gradient-45deg-blue-grey-blue-grey">
                             <td></td>
                             <td colspan="3" class="right-align">Σύνολα:</td>
-                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals - $vats, '2', ',', '.')}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, 2, ',', '.')}}</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format($vats,  2, ',', '.')}}</td>
-                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format($finals,  2, ',', '.')}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format($finals + $vats,  2, ',', '.')}}</td>
                             <td></td>
                         </tr>
                         </tbody>

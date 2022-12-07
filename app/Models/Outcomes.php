@@ -12,7 +12,7 @@ class Outcomes extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'outcome_number', 'shop', 'date', 'price', 'vat', 'file', 'status', 'invType', 'minMark', 'maxMark'
+        'seira', 'outcome_number', 'shop', 'date', 'price', 'vat', 'file', 'status', 'invType', 'mark'
     ];
 
     public function classifications()

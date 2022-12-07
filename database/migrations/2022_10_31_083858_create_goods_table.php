@@ -15,12 +15,12 @@ class CreateGoodsTable extends Migration
     {
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
-            $table->text('sale_invoice_id')->nullable();
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->string('product_number')->unique();
+            $table->text('product_name');
+            $table->text('product_description')->nullable();
             $table->bigInteger('price');
-            $table->integer('quantity');
-            $table->text('description');
-            $table->timestamps();
+            $table->integer('product_vat_id')->default(1);
+            $table->integer('quantity')->default(0);
         });
     }
 

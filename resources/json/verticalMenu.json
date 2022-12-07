@@ -136,6 +136,28 @@
         },
         {
             "url": "javascript:void(0)",
+            "name": "ΤΔΑ",
+            "i18n": "ΤΔΑ",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "delivery_invoices",
+            "icon": "local_grocery_store",
+            "submenu": [
+                {
+                    "url": "/delivery-invoices",
+                    "name": "Λίστα ΤΔΑ",
+                    "i18n": "Λίστα ΤΔΑ",
+                    "slug": "delivery-invoices"
+                },
+                {
+                    "url": "/create-delivery-invoice",
+                    "name": "Νέο ΤΔΑ",
+                    "i18n": "Νέο ΤΔΑ",
+                    "slug": "add-delivery-invoice"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
             "name": "Παραστατικά Εξόδων",
             "i18n": "Παραστατικά Εξόδων",
             "class": "collapsible-header waves-effect waves-cyan",

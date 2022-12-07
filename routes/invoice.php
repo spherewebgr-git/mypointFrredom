@@ -18,4 +18,5 @@ Route::name('invoice.')->prefix('/')->group(function () {
     Route::get('/myData-invoice/{invoice:hashID}', [InvoicesController::class, 'sendInvoice'])->name('mydata');
     Route::post('/myData-invoices-multiple', [InvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');
     Route::post('/last-invoice-ajax', [InvoicesController::class, 'lastInvoiceAjax'])->name('last-retail');
+    Route::get('/update-status/{invoice:hashID}', [UpdateInvoiceController::class, 'updateStatus'])->name('update-status');
 });

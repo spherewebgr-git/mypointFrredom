@@ -35,15 +35,15 @@
             <table class="invoiceform">
                 <tbody>
                 <tr class="no-border">
-                    @if(settings()->invoice_logo)
-                        <td><img src="{{url('images/system/'.settings()->invoice_logo)}}"
-                                 alt="{{settings()->title}} logo"></td>
+                    @if(isset(settings()['invoice_logo']))
+                        <td><img src="{{url('images/system/'.settings()['invoice_logo'])}}"
+                                 alt="{{settings()['title']}} logo"></td>
                     @endif
                     <td class="tim-info left" style="text-align: left">
-                        <h4 class="invoice-color">{{settings()->title}}</h4>
-                        <h5 class="invoice-color">{{settings()->company}}</h5>
-                        <p>{{settings()->business}}<br>{{settings()->address}}<br>Α.Φ.Μ.: {{settings()->vat}} -
-                            ΔΟΥ: {{settings()->doy}}</p></td>
+                        <h4 class="invoice-color">{{settings()['title']}}</h4>
+                        <h5 class="invoice-color">{{settings()['company']}}</h5>
+                        <p>{{settings()['business']}}<br>{{settings()['address']}}<br>Α.Φ.Μ.: {{settings()['vat']}} -
+                            ΔΟΥ: {{settings()['doy'] ?? 'not exist'}}</p></td>
                 </tr>
                 <tr class="no-border">
                     <td>
@@ -115,7 +115,7 @@
                     </tbody>
                 </table>
                 <div class="small-12 columns">
-                    @if(settings()->signature)
+                    @if(isset(settings()->signature))
                         <div class="signature left">
                             <span class="invoice-color">Για τον εκδότη</span>
                             <img src="{{url('images/system/'.settings()->signature)}}" alt="signature">
@@ -128,14 +128,14 @@
                     <table class="invoiceform footer">
                         <tbody>
                         <tr>
-                            <td> @if(settings()->phone) <span class="invoice-color">Τηλ:</span> {{settings()->phone}} @endif </td>
-                            <td> @if(settings()->email) <span class="invoice-color">Email:</span> {{settings()->email}} @endif </td>
+                            <td> @if(isset(settings()['phone'])) <span class="invoice-color">Τηλ:</span> {{settings()['phone']}} @endif </td>
+                            <td> @if(isset(settings()['email'])) <span class="invoice-color">Email:</span> {{settings()['email']}} @endif </td>
                             <td><span class="invoice-color">Χρήση: </span>ΠΕΛΑΤΗΣ</td>
                         </tr>
                         <tr>
                             {{--                            <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}<td></td>
                             <td><span class="invoice-color">Πληρωμή:</span> {{$payment}}</td>
-                            <td> @if(settings()->mobile) <span class="invoice-color">Κιν:</span> {{settings()->mobile}} @endif </td>
+                            <td> @if(isset(settings()['mobile'])) <span class="invoice-color">Κιν:</span> {{settings()['mobile']}} @endif </td>
                         </tr>
                         </tbody>
                     </table>
@@ -165,20 +165,20 @@
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <a href="{{route('sale_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">backup</i>
                                 <span>Αποστολή στο myData</span>
                             </a>
                         </div>
                     @endif
                     <div class="invoice-action-btn">
-                        <a href="{{route('invoice.save', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                        <a href="{{route('sale_invoice.save', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Δημιουργία PDF & Λήψη</span>
                         </a>
                     </div>
                     <div class="invoice-action-btn">
-                        <a href="{{route('invoice.download', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                        <a href="{{route('sale_invoice.download', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Λήψη PDF</span>
                         </a>

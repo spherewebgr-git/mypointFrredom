@@ -1,10 +1,12 @@
 <?php
 
 use App\Models\Client;
+use App\Models\DeliveryInvoices;
 use App\Models\Invoice;
 use App\Models\Outcomes;
 use App\Models\Provider;
 use App\Models\RetailClassification;
+use App\Models\RetailReceiptsItems;
 use App\Models\Retails;
 use App\Models\SaleInvoices;
 use App\Models\Services;
@@ -94,6 +96,80 @@ if(!function_exists('getSaleInvoicePrices'))
         $invoicePrice = collect($total)->sum();
 
         return $invoicePrice;
+    }
+}
+
+if(!function_exists('getDeliveryInvoicePrices'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getDeliveryInvoicePrices( $invoiceHashID )
+    {
+        $invoice = DeliveryInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $services = $invoice->goods()->get();
+        foreach ($services as $service)
+        {
+            $total[] = $service->price * $service->quantity;
+        }
+        $invoicePrice = collect($total)->sum();
+
+        return $invoicePrice;
+    }
+}
+
+
+
+if(!function_exists('getRetailPrices'))
+{
+    /**
+     * Returns the full prise of a single retail receipt
+     * @param $retail
+     * @return array
+     */
+    function getRetailPrices(Retails  $retail)
+    {
+        $netValue = [];
+        $vats = [];
+        $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
+        foreach($items as $item) {
+            $netValue[] = $item->price;
+            $vats[] = $item->vat;
+        }
+
+        $retailPrice = array_sum($netValue);
+        $retailVats = array_sum($vats);
+
+        $rPrices = [
+            'price' => $retailPrice,
+            'vat' => $retailVats,
+            'full' => $retailPrice + $retailVats
+        ];
+
+        return $rPrices;
+    }
+}
+
+if(!function_exists('getRetailServices'))
+{
+    /**
+     * Returns the full prise of a single retail receipt
+     * @param $retail
+     * @return string
+     */
+    function getRetailServices(Retails  $retail)
+    {
+        $prices = [];
+        $methodsPrices = json_decode($retail->method_price, true);
+        foreach($methodsPrices as $methodPrice) {
+            $prices[] = $methodPrice['price'];
+        }
+
+        $retailPrice = array_sum($prices);
+
+        return $retailPrice;
     }
 }
 
@@ -311,7 +387,24 @@ if(!function_exists('createInvoiceFile'))
         $invoice = Invoice::query()->where('hashID', $invoiceHash)->first();
         $year = date('Y', strtotime($invoice->date));
         $month = date('m', strtotime($invoice->date));
-        $pdf = PDF::loadView('invoices.raw-view', ['invoice' => $invoice], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
+        switch ($invoice->payment_method) {
+            case 1:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
+                break;
+            case 2:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΞΩΤΕΡΙΚΟΥ';
+                break;
+            case 3:
+                $payment = 'ΜΕΤΡΗΤΑ';
+                break;
+            case 4:
+                $payment = 'ΕΠΙΤΑΓΗ';
+                break;
+            case 5:
+                $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
+                break;
+        }
+        $pdf = PDF::loadView('invoices.raw-view', ['invoice' => $invoice, 'payment' => $payment], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
         $pdf->setPaper('A4', 'portrait');
         Storage::put('public/pdf/'.$year.'/'.$month.'/invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf', $pdf->output());
 
@@ -359,6 +452,28 @@ if(!function_exists('getTTasks')) {
     }
 }
 
+if(!function_exists('getParakratisiValue')) {
+    /**
+     * Returns the withHeld Value by Parakratisi id
+     * @param $id
+     * @return integer
+     */
+    function getParakratisiValue($id) {
+        switch ($id) {
+            case 1:
+            case 10:
+            case 12:
+                return 15;
+            case 2:
+            case 3:
+                return 20;
+            case 4:
+                return 3;
+        }
+        return 0;
+    }
+}
+
 if(!function_exists('myDataSendInvoices')) {
     function myDataSendInvoices($type, $invoice)
     {
@@ -376,6 +491,7 @@ if(!function_exists('myDataSendInvoices')) {
             $classificationType = 'E3_561_001';
             $classificationCat = 'category1_1';
         }
+        $parakratisi = getParakratisiValue($invoice->parakratisi_id);
         //dump($invoice);
         $services = $invoice->services()->get();
 //dd($invoice->client->vat);
@@ -396,7 +512,7 @@ if(!function_exists('myDataSendInvoices')) {
 
         $tax = (24 / 100) * $total; // FPA
         if($total > 300) {
-            $withheld = (20 / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
+            $withheld = ($parakratisi / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
             $grossValue = ($total - $withheld) + $tax; // Μικτό Ποσό - Πληρωτέο (Συνολικό - 20% + ΦΠΑ)
         } else {
             $grossValue = $total + $tax;
@@ -457,7 +573,7 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody .= '<taxesTotals>'.PHP_EOL;
         $sendBody .= '<taxes>'.PHP_EOL;
         $sendBody .= '<taxType>1</taxType>'.PHP_EOL;
-        $sendBody .= '<taxCategory>2</taxCategory>'.PHP_EOL;
+        $sendBody .= '<taxCategory>'.$invoice->parakratisi_id.'</taxCategory>'.PHP_EOL;
         $sendBody .= '<underlyingValue>'.number_format($withheld, 2, '.', ',').'</underlyingValue>'.PHP_EOL;
         $sendBody .= '<taxAmount>'.number_format($withheld, 2, '.', ',').'</taxAmount>'.PHP_EOL;
         $sendBody .= '</taxes>'.PHP_EOL;
@@ -506,6 +622,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
     function myDataSendRetailReceipt($retailHashID) {
         $settings = Settings::all()->first();
         $retail = Retails::query()->where('hashID', '=', $retailHashID)->first();
+
         //dd($retail);
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
 

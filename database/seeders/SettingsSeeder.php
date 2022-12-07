@@ -17,12 +17,61 @@ class SettingsSeeder extends Seeder
         $settings= [
             [
                 'type' => 'title',
-                'value' =>  'ΔΙΑΚΡΙΤΙΚΟΣ ΤΙΤΛΟΣ',
+                'value' =>  'TRE SPORT',
             ],
             [
                 'type' => 'company',
-                'value' =>  'ΕΠΩΝΥΜΙΑ ΕΠΙΧΕΙΡΗΣΗΣ',
+                'value' =>  'ΤΡΙΑ ΣΠΟΡ - ΑΘΛΗΤΙΚΑ ΕΙΔΗ Ε.Π.Ε.',
+            ],
+            [
+                'type' => 'business',
+                'value' =>  'ΑΘΛΗΤΙΚΑ ΕΙΔΗ',
+            ],
+            [
+                'type' => 'address',
+                'value' =>  'ΣΑΡΚΟΥΔΙΝΟΥ 67, 11744, ΑΘΗΝΑ',
+            ],
+            [
+                'type' => 'phone',
+                'value' =>  '210-9020120',
+            ],
+            [
+                'type' => 'vat',
+                'value' =>  '099455517',
+            ],
+            [
+                'type' => 'doy',
+                'value' =>  'ΙΖ ΑΘΗΝΩΝ',
+            ],
+            [
+                'type' => 'aade_user_id',
+                'value' =>  'triasporepe',
+            ],
+            [
+                'type' => 'ocp_apim_subscription_key',
+                'value' =>  '7b10c5fb49b6442a931d3322b354246c',
+            ],
+            [
+                'type' => 'retails',
+                'value' =>  'on',
+            ],
+            [
+                'type' => 'delivery_invoices',
+                'value' =>  'on',
+            ],
+            [
+                'type' => 'invoices',
+                'value' =>  'off',
+            ],
+            [
+                'type' => 'delivery_notes',
+                'value' =>  'on',
+            ],
+            [
+                'type' => 'sale_invoices',
+                'value' =>  'on',
             ]
+
         ];
         DB::table('settings')->insert($settings);
 

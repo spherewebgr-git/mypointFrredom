@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RetailReceiptsItems;
 use App\Models\Retails;
 use App\Models\Seires;
 use App\Models\Settings;
@@ -21,7 +22,7 @@ class RetailReceiptsController extends Controller
         //$retail_receipts = Retails::all()->sortByDesc('date');
         $retail_receipts = Retails::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('date');
         foreach($retail_receipts as $retail) {
-            $finalRetails[] = $retail->price;
+            //$finalRetails[] = getRetailPrices($retail);
             $finalVat[] = $retail->vat;
         }
         $final = array_sum($finalRetails);
@@ -43,8 +44,11 @@ class RetailReceiptsController extends Controller
 
         $retail_receipts = Retails::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortBy('date');
         foreach($retail_receipts as $retail) {
-            $finalRetails[] = $retail->price;
-            $finalVat[] = $retail->vat;
+            $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
+            foreach($items as $item) {
+                $finalRetails[] = $item->price;
+                $finalVat[] = $item->vat;
+            }
         }
         $final = array_sum($finalRetails);
         $vats = array_sum($finalVat);
@@ -79,7 +83,7 @@ class RetailReceiptsController extends Controller
         DB::table('retails')->insert(
             array(
                 'retailID' => $request->retailID,
-                'hashID' => Str::substr(Str::slug(Hash::make( $date.$request->retailID)), 0, 32),
+                'hashID' => Str::substr(Str::slug(Hash::make( $request->seira.$request->retailID)), 0, 32),
                 'seira' => $request->seira,
                 'date' => $date,
                 'price' => $request->price,
@@ -108,6 +112,9 @@ class RetailReceiptsController extends Controller
     }
 
     public function update(Request $request, $retail) {
+
+        $items = $request->services;
+        //dd($request);
         $retailReceipt = Retails::query()->where('hashID', '=', $retail)->first();
 
         $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
@@ -117,20 +124,38 @@ class RetailReceiptsController extends Controller
 
         $date = $requestDate->format('Y-m-d');
 
-        $vat = $request->price - ($request->price / 1.24);
-
         $retailReceipt->update([
             'retailID' => $retailReceipt->retailID,
             'hashID' => $retail,
             'seira' => $request->seira,
             'date' => $date,
-            'price' => $request->price,
-            'payment_method' => $request->paymentMethod,
-            'vat' => $vat,
-            'service' => $request->description,
-            'description' => $request->mainDescription,
+
             'updated_at' => Carbon::now()
         ]);
+//dd($items);
+        foreach($items as $item) {
+            if(isset($item['item'])) {
+                $itemRow = RetailReceiptsItems::query()->where('id', '=', $item['item'])->first();
+                $itemRow->update([
+                    'payment_method' => $item['payment_method'],
+                    'product_service' => $item['product_service'],
+                    'vat_id' => $item['vat_id'],
+                    'price' => $item['price'],
+                    'vat' => $item['vat']
+                ]);
+            } else {
+                DB::table('retail_receipts_items')->insert([
+                    'retailHash' => $retail,
+                    'payment_method' => $item['payment_method'],
+                    'product_service' => $item['product_service'],
+                    'vat_id' => $item['vat_id'],
+                    'price' => $item['price'],
+                    'vat' => $item['vat'],
+                    'created_at' => date('Y-m-d')
+                ]);
+            }
+
+        }
 
         return redirect('/retail-receipts');
     }

@@ -12,4 +12,14 @@ class Retails extends Model
     protected $fillable = [
         'hashID', 'retailID', 'date', 'seira', 'price', 'payment_method', 'vat', 'service', 'description', 'mark'
     ];
+
+    protected $payment_method = [
+        'method' => 'price'
+    ];
+    public function items()
+    {
+        return $this->hasMany(RetailReceiptsItems::class, 'retailHash', 'hashID');
+    }
+
 }
+

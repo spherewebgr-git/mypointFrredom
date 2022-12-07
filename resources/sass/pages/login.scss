@@ -5,6 +5,13 @@
 
 @import 'variables.scss';
 
+body {
+    background-image: url(/images/login-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
 .login-bg{
 	background-image: url("../../images/gallery/flat-bg.jpg");
 	background-repeat: no-repeat;

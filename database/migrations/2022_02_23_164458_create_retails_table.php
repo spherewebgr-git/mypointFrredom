@@ -16,14 +16,10 @@ class CreateRetailsTable extends Migration
         Schema::create('retails', function (Blueprint $table) {
             $table->id();
             $table->string('hashID')->unique();
+            $table->string('seira')->default('ΑΝΕΥ');
             $table->unsignedBigInteger('retailID')->unique();
             $table->date('date');
-            $table->string('seira')->nullable()->default('ΑΝΕΥ');
-            $table->float('price');
-            $table->unsignedBigInteger('payment_method')->nullable()->default(3);
-            $table->float('vat');
-            $table->string('service')->nullable();
-            $table->string('description')->nullable();
+            $table->float('sum_price')->nullable();
             $table->string('mark')->nullable();
             $table->softDeletes();
             $table->timestamps();

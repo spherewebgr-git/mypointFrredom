@@ -22,7 +22,7 @@
             <form class="form invoice-item-repeater"
                   @if(isset($invoice->invoiceID)) action="{{route('invoice.update', ['invoice' => $invoice->hashID])}}"
                   @else action="{{route('invoice.store')}}" @endif method="post">
-                    @csrf
+                @csrf
                 <div class="col xl9 m8 s12">
                     <div class="card">
                         <div class="card-content px-36">
@@ -35,13 +35,14 @@
                                     <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
                                     <select name="seira" id="seira">
                                         @foreach($seires as $seira)
-                                        <option value="{{$seira->letter}}" @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
+                                            <option value="{{$seira->letter}}"
+                                                    @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
                                     </select>
                                     <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.Υ# </h6>
                                     <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
                                            @if(isset($invoice))
-                                           value="{{old('invoiceID', $invoice->invoiceID)}}"
+                                               value="{{old('invoiceID', $invoice->invoiceID)}}"
                                            disabled @elseif($last != '') value="{{$last + 1}}" @endif>
                                 </div>
                                 <div class="col xl8 m12">
@@ -52,10 +53,10 @@
                                                 <input type="text" class="datepicker mb-1" name="date"
                                                        placeholder="Επιλέξτε Ημ/νία"
                                                        @if(isset($invoice->date))
-                                                       value="{{\Carbon\Carbon::parse($invoice->date)->format('d/m/Y')}}"
+                                                           value="{{\Carbon\Carbon::parse($invoice->date)->format('d/m/Y')}}"
                                                        @else
-                                                       value="{{date('d/m/Y')}}
-                                                       @endif" />
+                                                           value="{{date('d/m/Y')}}
+                                                       @endif"/>
                                             </div>
                                         </div>
                                     </div>
@@ -75,8 +76,8 @@
                                             @foreach($clients as $client)
                                                 @if($client->disabled != 1)
                                                     <option @if(isset($invoice))
-                                                            @if($invoice->client_id == $client->id)
-                                                            selected
+                                                                @if($invoice->client_id == $client->id)
+                                                                    selected
                                                             @endif
                                                             @endif value="{{$client->id}}">{{$client->company}}
                                                     </option>
@@ -93,11 +94,26 @@
                                             <label class="m-0" for="paymentMethod">Επιλέξτε τρόπο πληρωμής</label>
                                         </div>
                                         <select name="paymentMethod" id="paymentMethod">
-                                            <option value="1" @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
-                                            <option value="2" @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
-                                            <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
-                                            <option value="4" @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>Επιταγή</option>
-                                            <option value="5" @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                            <option value="1"
+                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>
+                                                Επαγ. Λογαριασμός Πληρωμών Ημεδαπής
+                                            </option>
+                                            <option value="2"
+                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>
+                                                Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής
+                                            </option>
+                                            <option value="3"
+                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>
+                                                Μετρητά
+                                            </option>
+                                            <option value="4"
+                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>
+                                                Επιταγή
+                                            </option>
+                                            <option value="5"
+                                                    @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>
+                                                Επί Πιστώσει
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -249,7 +265,8 @@
                             @if(!isset($invoice->mark) && isset(settings()->aade_user_id) && isset(settings()->ocp_apim_subscription_key) && isset($invoice))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
-                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}"
+                                           class="btn-block btn btn-light-indigo waves-effect waves-light">
                                             <i class="material-icons mr-4">backup</i>
                                             <span>Αποστολή στο myData</span>
                                         </a>
@@ -288,14 +305,22 @@
                             </div>
                         </div>
                         <div class="display-flex justify-content-between pb-2">
-                            <span title="Εφαρμογή παρακράτησης φόρου (στα 300 &euro; και άνω)">Εφαρμογή παρακράτησης</span>
+                            <span
+                                title="Εφαρμογή παρακράτησης φόρου (στα 300 &euro; και άνω)">Εφαρμογή παρακράτησης</span>
                             <div class="switch">
                                 <label>
                                     <input type="checkbox" name="hasParakratisi" id="hasParakratisi"
-                                            checked>
+                                           checked>
                                     <span class="lever"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="input-field col s12 parakratisi_id">
+                            <select name="parakratisi_id" id="parakratisi_id">
+                                <option value="3" data-value="20" @if(isset($invoice->parakratisi_id) && $invoice->parakratisi_id == 3) selected @endif>Αμοιβές Συμβουλών Διοίκησης - 20%</option>
+                                <option value="4" data-value="3" @if(isset($invoice->parakratisi_id) && $invoice->parakratisi_id == 4) selected @endif>Τεχνικά Έργα - 3%</option>
+                            </select>
+                            <label for="parakratisi_id">Είδος Παρακράτησης</label>
                         </div>
                     </div>
                 </div>
@@ -306,9 +331,11 @@
                 <div class="spinner-layer spinner-blue-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
-                    </div><div class="gap-patch">
+                    </div>
+                    <div class="gap-patch">
                         <div class="circle"></div>
-                    </div><div class="circle-clipper right">
+                    </div>
+                    <div class="circle-clipper right">
                         <div class="circle"></div>
                     </div>
                 </div>
@@ -335,6 +362,14 @@
                 timeout: 10000
             });
             @endif
+            $m('.parakratisi_id').show();
+            $m('input#hasParakratisi').on('change', function(){
+                if($m('input#hasParakratisi').is(':checked')) {
+                    $m('.parakratisi_id').show();
+                } else {
+                    $m('.parakratisi_id').hide();
+                }
+            });
 
             $m('select#seira').on('change', function () {
                 $m('.ajax-preloader').addClass('active');
@@ -369,6 +404,7 @@
         })
         $m.fn.countPrices = function () {
             let finalPrice = 0;
+            let parakratisi = $m('#parakratisi_id option:selected').data('value');
             $m('.count-repeater').each(function () {
                 let quantity = $m(this).find('.quantity-field').val();
                 let price = $m(this).find('.price-field').val();
@@ -378,20 +414,24 @@
             $m('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
             $m('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
             if (finalPrice > 300 && $m('input#hasParakratisi').is(':checked')) {
-                $m('#parakratisi').text(parseFloat((20 / 100) * finalPrice).toFixed(2));
-                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice - (20 / 100) * finalPrice).toFixed(2));
+                $m('#parakratisi').text(parseFloat((parakratisi / 100) * finalPrice).toFixed(2));
+                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice - (parakratisi / 100) * finalPrice).toFixed(2));
                 $m('#parakratisiTotal').show();
+                $m('.parakratisi_id').show();
             } else {
                 $m('#parakratisi').text(parseFloat(0).toFixed(2));
                 $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
                 $m('#parakratisiTotal').hide();
+                $m('.parakratisi_id').hide();
             }
         }
 
         $m(document).on('mouseout', '.count-repeater', function () {
             $m(this).countPrices();
         });
-
+        $m(document).on('change', '#parakratisi_id', function () {
+            $m(this).countPrices();
+        });
 
     </script>
 
@@ -401,7 +441,7 @@
     {{--    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>--}}
     <script>
         $r = jQuery.noConflict();
-        $r(document).ready(function() {
+        $r(document).ready(function () {
 
         });
     </script>

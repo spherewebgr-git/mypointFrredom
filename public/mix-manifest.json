@@ -83,6 +83,7 @@
     "/js/scripts/ui-alerts.js": "/js/scripts/ui-alerts.js",
     "/js/custom/custom-script.js": "/js/custom/custom-script.js",
     "/js/custom/custom-script.min.js": "/js/custom/custom-script.min.js",
+    "/images/login-bg.jpg": "/images/login-bg.jpg",
     "/vendors/bootstrap.min.css": "/vendors/bootstrap.min.css",
     "/vendors/imagesloaded.pkgd.min.js": "/vendors/imagesloaded.pkgd.min.js",
     "/vendors/jquery-sortable.js": "/vendors/jquery-sortable.js",

@@ -135,19 +135,19 @@
 "doy": "ΦΑΕ ΑΘΗΝΩΝ"
 },
 {
-"id": "10,LIFE TRAVEL AND CONGRESS MΟΝ. Ι.Κ.Ε.",
+"id": 10,
 "name": "LIFE TRAVEL AND CONGRESS MΟΝ. Ι.Κ.Ε.",
 "company": "ΓΡΑΦΕΙΟ ΤΟΥΡΙΣΜΟΥ",
 "work_title": "",
 "email": "",
 "mobile": "-",
-"phone": "ΓΡΗΓΟΡΙΟΥ ΠΑΛΑΜΑ",
-"address": 1,
-"number": 54622,
-"postal_code": "ΘΕΣΣΑΛΟΝΙΚΗ",
-"city": 800456794,
-"vat": "Δ' ΘΕΣΣΑΛΟΝΙΚΗΣ",
-"doy": ""
+"phone": "-",
+"address": "ΓΡΗΓΟΡΙΟΥ ΠΑΛΑΜΑ",
+"number": 1,
+"postal_code": 54622,
+"city": "ΘΕΣΣΑΛΟΝΙΚΗ",
+"vat": 800456794,
+"doy": "Δ' ΘΕΣΣΑΛΟΝΙΚΗΣ"
 },
 {
 "id": 11,

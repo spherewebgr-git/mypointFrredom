@@ -9,8 +9,10 @@ Route::name('client.')->prefix('/')->group(function () {
     Route::get('/view-client/{hashID}', [ClientsController::class, 'view'])->name('view');
     Route::get('/add-client', [ClientsController::class, 'new'])->name('add');
     Route::post('/store-client', [ClientsController::class, 'store'])->name('store');
+    Route::post('/check-afm', [ClientsController::class, 'vatCheck'])->name('vatCheck');
     Route::get('/edit-client/{vat}', [ClientsController::class, 'edit'])->name('edit');
     Route::post('/update-client/{client}', [ClientsController::class, 'update'])->name('update');
     Route::get('/delete-client/{hashID}', [ClientsController::class, 'softDelete'])->name('delete');
     Route::get('/enable-client/{vat}', [ClientsController::class, 'enable'])->name('enable');
+    Route::post('/delete-address-ajax', [ClientsController::class, 'deleteAddress'])->name('delete-address');
 });
