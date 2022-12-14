@@ -35,8 +35,7 @@
                                     <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
                                     <select name="seira" id="seira">
                                         @foreach($seires as $seira)
-                                            <option value="{{$seira->letter}}"
-                                                    @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
+                                            <option value="{{$seira->letter}}" @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
                                     </select>
                                     <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.Υ# </h6>
@@ -56,7 +55,7 @@
                                                            value="{{\Carbon\Carbon::parse($invoice->date)->format('d/m/Y')}}"
                                                        @else
                                                            value="{{date('d/m/Y')}}
-                                                       @endif"/>
+                                                       @endif "/>
                                             </div>
                                         </div>
                                     </div>
@@ -95,23 +94,23 @@
                                         </div>
                                         <select name="paymentMethod" id="paymentMethod">
                                             <option value="1"
-                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>
+                                                    @if(isset($invoice) && $invoice->payment_method == 1) selected @endif>
                                                 Επαγ. Λογαριασμός Πληρωμών Ημεδαπής
                                             </option>
                                             <option value="2"
-                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>
+                                                    @if(isset($invoice) && $invoice->payment_method == 2) selected @endif>
                                                 Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής
                                             </option>
                                             <option value="3"
-                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>
+                                                    @if(isset($invoice) && $invoice->payment_method == 3) selected @endif>
                                                 Μετρητά
                                             </option>
                                             <option value="4"
-                                                    @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>
+                                                    @if(isset($invoice) && $invoice->payment_method == 4) selected @endif>
                                                 Επιταγή
                                             </option>
                                             <option value="5"
-                                                    @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>
+                                                    @if(!isset($invoice) || $invoice->payment_method == 5) selected @endif>
                                                 Επί Πιστώσει
                                             </option>
                                         </select>

@@ -18,9 +18,17 @@ class CreateGoodsTable extends Migration
             $table->string('product_number')->unique();
             $table->text('product_name');
             $table->text('product_description')->nullable();
-            $table->bigInteger('price');
+            $table->text('barcode')->nullable();
+            $table->text('product_image')->nullable();
+            $table->float('price');
+            $table->float('vat_price')->nullable();
+            $table->float('discount_price')->nullable();
+            $table->text('product_category')->nullable();
             $table->integer('product_vat_id')->default(1);
-            $table->integer('quantity')->default(0);
+            $table->integer('product_type')->default(1);
+            $table->integer('mm_type')->default(101);
+            $table->boolean('active')->default(true);
+            $table->timestamps();
         });
     }
 

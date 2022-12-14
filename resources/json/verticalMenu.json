@@ -36,6 +36,28 @@
         },
         {
             "url": "javascript:void(0)",
+            "name": "Προϊόντα",
+            "i18n": "Προϊόντα",
+            "class": "collapsible-header waves-effect waves-cyan",
+            "slug": "products",
+            "icon": "local_grocery_store",
+            "submenu": [
+                {
+                    "url": "/products",
+                    "name": "Λίστα Προϊόντων",
+                    "i18n": "Λίστα Προϊόντων",
+                    "slug": "products"
+                },
+                {
+                    "url": "/add-product",
+                    "name": "Προσθήκη Προϊόντος",
+                    "i18n": "Προσθήκη Προϊόντος",
+                    "slug": "add-product"
+                }
+            ]
+        },
+        {
+            "url": "javascript:void(0)",
             "name": "Προμηθευτές",
             "i18n": "Προμηθευτές",
             "class": "collapsible-header waves-effect waves-cyan",

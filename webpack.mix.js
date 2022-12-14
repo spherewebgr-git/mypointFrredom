@@ -77,6 +77,8 @@ mix.js('resources/js/materialize.js', 'public/js')
 
 mix.copy('resources/js/vendors.min.js', 'public/js/vendors.min.js')
     .copy('resources/js/scripts/sheperd.min.js', 'public/js/sheperd.min.js')
+    .copy('resources/js/dropify.min.js', 'public/js/dropify.min.js')
+    .copy('resources/css/dropify.min.css', 'public/css/dropify.min.css')
     .copy('resources/css/sheperd-theme.min.css', 'public/css/sheperd-theme.min.css');
 
 mix.then(() => {

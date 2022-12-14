@@ -10,7 +10,20 @@ class Goods extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_number', 'product_name', 'product_vat_id', 'price', 'quantity', 'product_description'
+        'product_number',
+        'product_name',
+        'product_description',
+        'barcode',
+        'product_image',
+        'product_type',
+        'mm_type',
+        'product_vat_id',
+        'product_category',
+        'price',
+        'vat_price',
+        'wholesale_price',
+        'discount_price'
+
     ];
 
     public function saleInvoice()
@@ -21,5 +34,10 @@ class Goods extends Model
     public function deliveryInvoices()
     {
         return $this->belongsToMany(DeliveryInvoices::class);
+    }
+
+    public function storage()
+    {
+        return $this->hasOne(GoodsStorage::class, 'product_id');
     }
 }

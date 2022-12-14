@@ -254,6 +254,11 @@ table {
     }
 
     & tr {
+        &.active {
+            & td:first-child {
+                border-left: 4px solid #60d360;
+            }
+        }
         & td {
             &.class-status {
                 position: relative;

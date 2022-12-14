@@ -15,7 +15,7 @@
 @section('content')
     <section class="tabs-vertical mt-1 section">
         <div class="row">
-            <div class="col l4 s12">
+            <div class="col l3 s12">
                 <!-- tabs  -->
                 <div class="card-panel">
                     <ul class="tabs">
@@ -61,10 +61,16 @@
                                 <span>ΣΕΙΡΕΣ ΠΑΡΑΣΤΑΤΙΚΩΝ</span>
                             </a>
                         </li>
+                        <li class="tab">
+                            <a href="#products">
+                                <i class="material-icons">local_grocery_store</i>
+                                <span>ΡΥΘΜΙΣΕΙΣ ΠΡΟΪΟΝΤΩΝ</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="col l8 s12">
+            <div class="col l9 s12">
                 <!-- tabs content -->
                 <div id="general">
                     <div class="card-panel">
@@ -556,6 +562,33 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="products">
+                    <div class="card-panel">
+                        <div class="row">
+                            <form action="{{route('settings.update', ['form' => 'products'])}}" method="post">
+                                @csrf
+                                <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Γενικές Ρυθμίσεις</h4>
+                                <div class="divider"></div>
+                                <div class="col s12 m6 input-field">
+                                    <div class="switch">
+                                        <label for="show_products">Εμφάνιση - Χρήση Αποθήκης Προϊόντων
+                                            <input type="checkbox" id="show_products" name="products" @if(isset($settings['products']) && $settings['products'] == 'on') checked @endif>
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="product-settings row col s12">
+                                    test
+                                </div>
+                                <div class="col s12 display-flex justify-content-end form-action mt-2">
+                                    <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση Αλλαγών</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -571,6 +604,15 @@
         $m(document).ready(function(){
            $m('#openMydataInfo').on('click', function(){
               $m('.mydata-howto').removeClass('hide');
+           });
+           $m('#show_products').on('change', function(){
+               if($m(this).is(':checked')) {
+                   //$m('.product-settings').removeClass('hide');
+                   $m('.product-settings').slideDown();
+               } else {
+                   //$m('.product-settings').addClass('hide');
+                   $m('.product-settings').slideUp();
+               }
            });
            $m('input[type="checkbox"]').on('click', function(){
                let dataName = $m(this).attr('name');

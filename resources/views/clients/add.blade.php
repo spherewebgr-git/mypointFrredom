@@ -126,7 +126,7 @@
                                     <div data-address-id="{{$add->id}}">
                                         <div class="mb-1 count-repeater col sm12 width-100">
                                             <div class="input-field col s6 m2">
-                                                <i class="material-icons prefix">buisness</i>
+                                                <i class="material-icons prefix">business</i>
                                                 <input type="hidden" name="address_id" value="{{$add->id}}">
                                                 <select type="text" name="address_type" required class="invoice-item-select browser-default" style="padding-left: 40px;">
                                                     <option value="Υποκατάστημα" @if($add->address_name = 'Υποκατάστημα') selected @endif>Υποκατάστημα</option>

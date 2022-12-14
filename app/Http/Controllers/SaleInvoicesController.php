@@ -22,9 +22,12 @@ class SaleInvoicesController extends Controller
         $finalIncome = [];
         $saleInvoices = SaleInvoices::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('sale_invoiceID');
 
-        foreach($saleInvoices as $invoice) {
-            $finalIncome[] = getSaleInvoicePrices($invoice->hashID);
+        if(count($saleInvoices) > 0) {
+            foreach($saleInvoices as $invoice) {
+                $finalIncome[] = getSaleInvoicePrices($invoice->hashID);
+            }
         }
+
         $final = array_sum($finalIncome);
 
         return view('sale_invoices.index', ['invoices' => $saleInvoices, 'finals' => $final]);
