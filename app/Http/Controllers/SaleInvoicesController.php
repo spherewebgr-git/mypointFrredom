@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\DeliveredGoods;
 use App\Models\Goods;
 use App\Models\SaleInvoices;
 use App\Models\Seires;
@@ -20,7 +21,7 @@ class SaleInvoicesController extends Controller
     public function index()
     {
         $finalIncome = [];
-        $saleInvoices = SaleInvoices::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('sale_invoiceID');
+        $saleInvoices = SaleInvoices::all()->sortBy('sale_invoiceID');
 
         if(count($saleInvoices) > 0) {
             foreach($saleInvoices as $invoice) {
@@ -149,26 +150,33 @@ class SaleInvoicesController extends Controller
         ]);
 
         foreach($services as $service) {
-            if(isset($service['id'])) {
+            if(isset($request->products)) {
+                foreach ($request->products as $prod) {
 
-                DB::table('goods')->where('id', $service['id'])->update([
-                    'price' => $service['price'],
-                    'quantity' => $service['quantity'],
-                    'description' => $service['description'],
-                    'updated_at' => date('Y-m-d')
-                ]);
-            } else {
-                DB::table('goods')->insert(
-                    [
-                        'sale_invoice_id' => $invoice->hashID,
-                        'client_id' => $invoice->client->id,
-                        'price' => $service['price'],
-                        'quantity' => $service['quantity'],
-                        'description' => $service['description'],
-                        'created_at' => date('Y-m-d')
-                    ]
-                );
+                    $theProduct = DeliveredGoods::query()->where('delivered_good_id', '=', $prod['id'])->first();
+                    $vat = getProductVat($prod['product']);
+                    $theProduct->update([
+                        'delivered_good_id' => $prod['product'],
+                        'quantity' => $prod['quantity'],
+                        'product_price' => $prod['price'],
+                        'line_vat' => $vat,
+                        'line_final_price' => $prod['quantity'] * $prod['price'],
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
             }
+//            else {
+//                DB::table('goods')->insert(
+//                    [
+//                        'sale_invoice_id' => $invoice->hashID,
+//                        'client_id' => $invoice->client->id,
+//                        'price' => $service['price'],
+//                        'quantity' => $service['quantity'],
+//                        'description' => $service['description'],
+//                        'created_at' => date('Y-m-d')
+//                    ]
+//                );
+//            }
         }
 
         Session::flash('notify', 'Το τιμολόγιο ενημερώθηκε με επιτυχία');
@@ -198,5 +206,33 @@ class SaleInvoicesController extends Controller
         }
 
         return view('sale_invoices.view', ['invoice' => $invoice, 'payment' => $payment]);
+    }
+
+    public function sendInvoice($invoice)
+    {
+        // $invoices = $request->invoices;
+        $theInvoice = SaleInvoices::query()->where('sale_invoiceID', '=', $invoice)->first();
+        //dd($theInvoice);
+
+        $an = myDataSendInvoices('sale_invoice', $invoice);
+        $aadeResponse = array();
+        $xml = simplexml_load_string($an);
+        foreach($xml->response as $aade) {
+            $aadeObject = array(
+                "index" => $aade->firstname,
+                "invoiceUid" => $aade->invoiceUid,
+                "invoiceMark" => $aade->invoiceMark,
+                "statusCode" => $aade->statusCode,
+            );
+            array_push($aadeResponse, $aadeObject);
+        }
+        if($aadeResponse[0]['statusCode'] == 'Success') {
+            $theInvoice->mark = $aadeResponse[0]['invoiceMark'];
+            $theInvoice->save();
+        } else {
+            dd($aadeResponse[0]['statusCode']);
+        }
+
+        return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη!');
     }
 }

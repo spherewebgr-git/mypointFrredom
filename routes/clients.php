@@ -15,4 +15,6 @@ Route::name('client.')->prefix('/')->group(function () {
     Route::get('/delete-client/{hashID}', [ClientsController::class, 'softDelete'])->name('delete');
     Route::get('/enable-client/{vat}', [ClientsController::class, 'enable'])->name('enable');
     Route::post('/delete-address-ajax', [ClientsController::class, 'deleteAddress'])->name('delete-address');
+    Route::post('/client-address-ajax', [ClientsController::class, 'getAddress'])->name('get-addresses');
+    Route::post('/client-search-ajax', [ClientsController::class, 'search'])->name('search');
 });

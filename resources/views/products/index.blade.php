@@ -44,7 +44,7 @@
     </div>
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
         <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
-               id="DataTables_Table_0" role="grid">
+               id="DataTables_Table_0" role="grid" style="border-spacing: 0 5px;">
             <thead>
             <tr role="row">
                 <th class="control sorting_disabled" rowspan="1" colspan="1"
@@ -63,7 +63,7 @@
                 @if(isset($products))
                 @foreach($products as $product)
                     <tr class="{{$product->active ? 'active' : 'inactive'}}">
-                        <td class="center-align">@if(isset($product->product_image))<img src="{{url('images/products/'.$product->product_image)}}" alt="" height="80" />@endif</td>
+                        <td class="center-align">@if(isset($product->product_image))<img src="{{url('images/products/'.$product->product_image)}}" alt=""  style="max-height: 80px;max-width: 200px;" />@endif</td>
                         <td class="center-align">{{$product->product_number}}</td>
                         <td>{{$product->product_name}}</td>
                         <td class="center-align">&euro; {{number_format($product->price, '2', ',', '.')}}</td>

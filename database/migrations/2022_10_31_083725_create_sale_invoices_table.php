@@ -21,9 +21,6 @@ class CreateSaleInvoicesTable extends Migration
             $table->unsignedBigInteger('client_id');
             $table->date('date');
             $table->boolean('paid');
-            $table->float('price');
-            $table->float('vat');
-            $table->float('final');
             $table->unsignedBigInteger('payment_method')->nullable()->default(5);
             $table->string('mark')->unique()->nullable();
             $table->timestamps();

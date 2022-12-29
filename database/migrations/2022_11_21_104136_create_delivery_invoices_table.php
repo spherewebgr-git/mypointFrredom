@@ -14,17 +14,16 @@ class CreateDeliveryInvoicesTable extends Migration
     public function up()
     {
         Schema::create('delivery_invoices', function (Blueprint $table) {
-            $table->id();
+            $table->id()->unique()->autoIncrement();
             $table->string('hashID')->unique();
             $table->string('seira')->default('ΑΝΕΥ');
             $table->unsignedBigInteger('delivery_invoice_id');
             $table->unsignedBigInteger('client_id');
+            $table->string('sendFrom');
+            $table->unsignedBigInteger('sendTo');
             $table->date('date');
             $table->time('time');
-            $table->boolean('paid');
-            $table->float('price');
-            $table->float('vat');
-            $table->float('final');
+            $table->boolean('paid')->default(0);
             $table->unsignedBigInteger('payment_method')->nullable()->default(5);
             $table->string('mark')->unique()->nullable();
             $table->string('file_invoice')->nullable();

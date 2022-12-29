@@ -48,7 +48,7 @@
             <div class="card print-hide">
                 <div class="card-content container">
                     <h4 class="card-title">Αναζήτηση Βάσει Ημερομηνίας</h4>
-                    <form action="{{route('invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
+                    <form action="{{route('delivery_invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
                         @csrf
                         <div class="invoice-head--left row display-flex col align-items-center">
                             <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
@@ -132,41 +132,42 @@
                             <th class="center-align">Ημ/νία Έκδοσης</th>
                             <th class="center-align" style="width: 85px!important;">Τιμή</th>
                             <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
-                            <th class="center-align print-hide hide-on-med-and-down" style="width: 85px!important;">Σύνολο</th>
+                            <th class="center-align" style="width: 85px!important;">Σύνολο</th>
                             <th class="center-align print-hide">Κατάσταση</th>
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
                         </thead>
                         <tbody>
+                        @if(isset($invoices))
                         @foreach($invoices as $invoice)
                             <tr role="row" class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
                                 <td class="select-square center">
-                                    <label for="send-{{$invoice->sale_invoiceID}}">
-                                        <input type="checkbox" data-invoice="{{$invoice->sale_invoiceID}}"  name="send-{{$invoice->sale_invoiceID}}" id="send-{{$invoice->sale_invoiceID}}" @if(isset($invoice->mark) && $invoice->mark != null) class="hasmark" checked disabled @else class="myDataSelect" @endif>
+                                    <label for="send-{{$invoice->delivery_invoice_id}}">
+                                        <input type="checkbox" data-invoice="{{$invoice->delivery_invoice_id}}"  name="send-{{$invoice->delivery_invoice_id}}" id="send-{{$invoice->delivery_invoice_id}}" @if(isset($invoice->mark) && $invoice->mark != null) class="hasmark" checked disabled @else class="myDataSelect" @endif>
                                         <span></span>
                                     </label>
                                 </td>
                                 <td class="sorting_1 center-align">
-                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
+                                    @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->delivery_invoice_id}}
                                 </td>
                                 <td class="bold">
+                                    @if($invoice->client)
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
+                                        @endif
                                 </td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
-
+                                    &euro; {{number_format(getDeliveryInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format((24 / 100) * getDeliveryInvoicePrices($invoice->hashID), '2', ',', '.')}}
                                 </td>
-                                <td class="center-align hide-on-med-and-down">
+                                <td class="center-align">
+                                    &euro; {{number_format(getDeliveryInvoiceFinal($invoice->hashID), '2', ',', '.')}}</td>
 
-                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + ((24 / 100) * getSaleInvoicePrices($invoice->hashID)), '2', ',', '.')}}
 
-                                </td>
                                 <td class="center-align print-hide">
                                     @if($invoice->paid == 1)
                                         <span class="chip lighten-5 green green-text">ΠΛΗΡΩΜΕΝΟ</span>
@@ -179,17 +180,17 @@
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($invoice->mark)
-                                            <a href="{{route('sale_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('delivery_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else
-                                            <a href="{{route('sale_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
-                                                <i class="material-icons">remove_red_eye</i>
-                                            </a>
-                                            <a href="{{route('sale_invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
+{{--                                            <a href="{{route('delivery_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">--}}
+{{--                                                <i class="material-icons">remove_red_eye</i>--}}
+{{--                                            </a>--}}
+                                            <a href="{{route('delivery_invoice.edit', ['invoice' => $invoice])}}" class="invoice-action-edit">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a href="{{route('invoice.delete', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
@@ -206,9 +207,10 @@
                             <td colspan="3" class="right-align">Σύνολα:</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format(((24 / 100) * $finals),  2, ',', '.')}}</td>
-                            <td colspan="1" class="center-align tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
-                            <td colspan="3"></td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Γενικό Σύνολο">&euro; {{number_format( (((24 / 100) * $finals) + $finals),  2, ',', '.' )}}</td>
+                            <td colspan="4"></td>
                         </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

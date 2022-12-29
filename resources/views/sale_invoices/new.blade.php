@@ -105,8 +105,8 @@
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
                                 <div data-repeater-list="services">
-                                    @if(isset($invoice->sale_invoiceID) && count($invoice->goods) > 0)
-                                        @foreach($invoice->goods as $service)
+                                    @if(isset($invoice->sale_invoiceID) && count($invoice->deliveredGoods) > 0)
+                                        @foreach($invoice->deliveredGoods as $good)
                                             <div class="mb-2 count-repeater" data-repeater-item="">
                                                 <!-- invoice Titles -->
                                                 <div class="row mb-1">
@@ -124,19 +124,19 @@
                                                 <div class="invoice-item display-flex">
                                                     <div class="invoice-item-filed row pt-1" style="width: 100%">
                                                         <div class="col m2 s12 input-field">
-                                                            <input type="hidden" name="id" value="{{$service->id}}">
-                                                            <input type="text" value="{{$service->quantity}}"
+                                                            <input type="hidden" name="id" value="{{$good->id}}">
+                                                            <input type="text" value="{{$good->quantity}}"
                                                                    name="quantity"
                                                                    class="quantity-field">
                                                         </div>
                                                         <div class="col m8 s12 input-field">
                                                         <textarea class="materialize-textarea"
-                                                                  name="description">{{$service->description}}</textarea>
+                                                                  name="description">{{getProduct($good->delivered_good_id)['product_name']}}</textarea>
                                                         </div>
 
                                                         <div class="col m2 s12 input-field">
                                                             <input type="text" placeholder="000" name="price"
-                                                                   class="price-field" value="{{$service->price}}">
+                                                                   class="price-field" value="{{$good->product_price}}">
                                                         </div>
                                                     </div>
                                                     <div
@@ -241,10 +241,10 @@
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
-                            @if(!isset($invoice->mark) && isset(settings()->aade_user_id) && isset(settings()->ocp_apim_subscription_key))
+                            @if(!isset($invoice->mark))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
-                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                        <a href="{{route('sale_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                             <i class="material-icons mr-4">backup</i>
                                             <span>Αποστολή στο myData</span>
                                         </a>

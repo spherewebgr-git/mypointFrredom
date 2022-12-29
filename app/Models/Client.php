@@ -14,7 +14,7 @@ class Client extends Model
     protected $table = 'clients';
 
     protected $fillable = [
-        'name', 'company', 'work_title', 'email', 'mobile', 'phone', 'address', 'number', 'postal_code', 'city', 'vat', 'doy', 'mail_account', 'phone_account', 'company_logo', 'disabled'
+        'code_number', 'name', 'company', 'work_title', 'email', 'mobile', 'phone', 'address', 'number', 'postal_code', 'city', 'vat', 'doy', 'mail_account', 'phone_account', 'company_logo', 'disabled'
     ];
 
     public function invoices()

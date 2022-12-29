@@ -16,6 +16,7 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('hashID')->unique();
+            $table->unsignedBigInteger('code_number')->unique();
             $table->string('name');
             $table->string('company');
             $table->string('work_title');

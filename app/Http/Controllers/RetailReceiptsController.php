@@ -22,8 +22,11 @@ class RetailReceiptsController extends Controller
         //$retail_receipts = Retails::all()->sortByDesc('date');
         $retail_receipts = Retails::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('date');
         foreach($retail_receipts as $retail) {
-            //$finalRetails[] = getRetailPrices($retail);
-            $finalVat[] = $retail->vat;
+            $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
+            foreach($items as $item) {
+                $finalRetails[] = $item->price;
+                $finalVat[] = $item->vat;
+            }
         }
         $final = array_sum($finalRetails);
         $vats = array_sum($finalVat);

@@ -110,4 +110,9 @@ class SettingsController extends Controller
 
         return redirect()->back();
     }
+
+    public function updatePermissions(Request $request)
+    {
+        dd($request);
+    }
 }

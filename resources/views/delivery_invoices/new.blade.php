@@ -41,9 +41,19 @@
                                     <input type="text" name="delivery_invoice_id" placeholder="000" id="delivery_invoice_id"
                                            @if(isset($invoice))
                                            value="{{old('delivery_invoice_id', $invoice->delivery_invoice_id)}}"
-                                           disabled @elseif($last != '') value="{{$last + 1}}" @endif>
+                                           @elseif(isset($last) && $last != '') value="{{$last + 1}}" @endif>
                                 </div>
-                                <div class="col xl8 m12">
+                                <div class="col xl4 m6 display-flex align-items-center" style="gap: 10px">
+                                    <small>Τρόπος Πληρωμής: </small>
+                                    <select name="paymentMethod" id="paymentMethod">
+                                        <option value="1" @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
+                                        <option value="2" @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
+                                        <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
+                                        <option value="4" @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>Επιταγή</option>
+                                        <option value="5" @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                    </select>
+                                </div>
+                                <div class="col xl4 m12">
                                     <div class="invoice-date-picker display-flex align-items-center">
                                         <div class="display-flex align-items-center">
                                             <small>Ημ/νία Έκδοσης: </small>
@@ -63,10 +73,32 @@
 
                             <!-- invoice address and contact -->
                             <div class="row mb-3">
-                                <div class="col l6 s12">
-                                    <h6>Χρέωση σε</h6>
+                                <div class="col l4 s12">
+                                    <h6>Αποστολή από:</h6>
+                                    <div class="divider"></div>
                                     <div class="col s12  input-field">
-                                        <div class="col s3 m4">
+                                        <div class="col s12">
+                                            <label class="m-0" for="client">Διεύθυνση Επιχείρησης</label>
+                                        </div>
+                                        @if(count($addresses) > 1)
+                                            <select class="invoice-item-select browser-default" id="sendFrom" name="sendFrom">
+                                                <option value="" selected disabled>Επιλέξτε Διεύθυνση</option>
+                                                @foreach($addresses as $address)
+                                                    <option @if($address->type == 'address_0_edra') selected @endif value="{{$address->type}}">{{$address->value}}</option>
+                                                @endforeach
+                                            </select>
+                                        @elseif(count($addresses) == 1)
+                                            <p>{{$addresses[0]->value}}</p>
+                                            <input type="hidden" name="sendFrom" value="address_0_edra" />
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="col l8 s12">
+                                    <h6>Αποστολή προς:</h6>
+                                    <div class="divider"></div>
+                                    <div class="col s12 m6  input-field">
+                                        <div class="col s12">
                                             <label class="m-0" for="client">Πελάτης</label>
                                         </div>
                                         <select class="invoice-item-select browser-default" id="client" name="client">
@@ -74,29 +106,26 @@
                                             @foreach($clients as $client)
                                                 @if($client->disabled != 1)
                                                     <option @if(isset($invoice))
-                                                            @if($invoice->client_id == $client->id)
-                                                            selected
+                                                                @if($invoice->client_id == $client->id)
+                                                                    selected
                                                             @endif
-                                                            @endif value="{{$client->id}}">{{$client->company}}
+                                                            @endif data-client-hash="{{$client->hashID}}" value="{{$client->id}}">{{$client->company}}
                                                     </option>
                                                 @endif
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-
-                                <div class="col l6 s12">
-                                    <h6>Τρόπος πληρωμής</h6>
-                                    <div class="col s12  input-field">
-                                        <div class="col s12 m12">
-                                            <label class="m-0" for="paymentMethod">Επιλέξτε τρόπο πληρωμής</label>
+                                    <div class="col s12 m6  input-field">
+                                        <div class="col s12">
+                                            <label class="m-0" for="clientAddress">Διεύθυνση Πελάτη</label>
                                         </div>
-                                        <select name="paymentMethod" id="paymentMethod">
-                                            <option value="1" @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
-                                            <option value="2" @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
-                                            <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
-                                            <option value="4" @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>Επιταγή</option>
-                                            <option value="5" @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                        <select class="invoice-item-select browser-default" id="clientAddress" name="clientAddress">
+                                            <option value="" selected disabled>Επιλέξτε Διεύθυνση</option>
+                                            @if(isset($clientAddresses))
+                                                @foreach($clientAddresses as $caddress)
+                                                <option value="{{$caddress->id}}" @if($caddress->id == $selectedAddress->id) selected @endif>{{$caddress->address.' '.$caddress->number.' - '.$caddress->city}}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
@@ -104,10 +133,11 @@
                             </div>
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
-                                <div data-repeater-list="services">
-                                    @if(isset($invoice->sale_invoiceID) && count($invoice->goods) > 0)
-                                        @foreach($invoice->goods as $service)
+                                <div data-repeater-list="products">
+                                    @if(isset($invoice->hashID) && count($invoice->deliveredGoods) > 0)
+                                        @foreach($invoice->deliveredGoods as $good)
                                             <div class="mb-2 count-repeater" data-repeater-item="">
+                                                <input type="hidden" name="id" value="{{$good->id}}">
                                                 <!-- invoice Titles -->
                                                 <div class="row mb-1">
                                                     <div class="col s2 m1">
@@ -126,20 +156,26 @@
                                                 </div>
                                                 <div class="invoice-item display-flex">
                                                     <div class="invoice-item-filed row pt-1" style="width: 100%">
-                                                        <div class="col m2 s12 input-field">
-                                                            <input type="hidden" name="id" value="{{$service->id}}">
-                                                            <input type="text" value="{{$service->quantity}}"
-                                                                   name="quantity"
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="text" value="{{$good->quantity}}" name="quantity"
                                                                    class="quantity-field">
                                                         </div>
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="text" value="{{ getMmType($good->delivered_good_id) }}"
+                                                                   class="mm-field" disabled>
+                                                        </div>
                                                         <div class="col m8 s12 input-field">
-                                                        <textarea class="materialize-textarea"
-                                                                  name="description">{{$service->description}}</textarea>
+                                                            <select name="product" id="product" class="product-selection browser-default">
+                                                                <option selected disabled>Επιλέξτε Προϊόν</option>
+                                                                @foreach($products as $product)
+                                                                    <option value="{{$product->id}}" data-price="{{$product->price}}" @if($product->id == $good->delivered_good_id) selected @endif>{{$product->product_name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
 
                                                         <div class="col m2 s12 input-field">
                                                             <input type="text" placeholder="000" name="price"
-                                                                   class="price-field" value="{{$service->price}}">
+                                                                   class="price-field" value="{{$good->product_price}}">
                                                         </div>
                                                     </div>
                                                     <div
@@ -156,11 +192,8 @@
                                         <div class="mb-2 count-repeater" data-repeater-item="">
                                             <!-- invoice Titles -->
                                             <div class="row mb-1">
-                                                <div class="col s2 m1">
+                                                <div class="col s2 m2">
                                                     <h6 class="m-0">Ποσότητα</h6>
-                                                </div>
-                                                <div class="col s1 m1">
-                                                    <h6 class="m-0">Μ.Μ.</h6>
                                                 </div>
                                                 <div class="col s3 m8">
                                                     <h6 class="m-0">Προϊόν</h6>
@@ -177,8 +210,12 @@
                                                                class="quantity-field">
                                                     </div>
                                                     <div class="col m8 s12 input-field">
-                                                        <textarea class="materialize-textarea"
-                                                                  name="description"></textarea>
+                                                        <select name="product" id="product" class="product-selection browser-default">
+                                                            <option selected disabled>Επιλέξτε Προϊόν</option>
+                                                            @foreach($products as $product)
+                                                                <option value="{{$product->id}}" data-price="{{$product->price}}">{{$product->product_name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
 
                                                     <div class="col m2 s12 input-field">
@@ -247,10 +284,11 @@
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
-                            @if(!isset($invoice->mark) && isset(settings()->aade_user_id) && isset(settings()->ocp_apim_subscription_key))
+
+                            @if(!isset($invoice->mark))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
-                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                        <a href="{{route('delivery_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                             <i class="material-icons mr-4">backup</i>
                                             <span>Αποστολή στο myData</span>
                                         </a>
@@ -258,7 +296,7 @@
                                 </div>
                             @endif
                             <div class="invoice-action-btn">
-                                @if(isset($invoice->sale_invoiceID))
+                                @if(isset($invoice->delivery_invoice_id))
                                     <input type="submit" value="Ενημέρωση Τιμολογίου" style="color: #fff;width: 100%;"
                                            class="btn display-flex align-items-center justify-content-center">
                                 @else
@@ -324,6 +362,42 @@
             });
             @endif
 
+            $m('select#client').on('change', function () {
+                $m('.ajax-preloader').addClass('active');
+                let pageToken = $m('meta[name="csrf-token"]').attr('content');
+                let clientHash = $m('select#client option:selected').data('client-hash');
+
+                $m.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': pageToken
+                    }
+                });
+
+                $m.ajax({
+                    url: "{{ url('/client-address-ajax') }}",
+                    method: 'post',
+                    data: {
+                        client: clientHash
+                    },
+                    success: function (result) {
+                        //console.log(result);
+                        $m('.ajax-preloader').removeClass('active');
+                        $m('select#clientAddress option').remove();
+                        //console.log(result);
+                        $m.each(result, function(k, v){
+                            let number = '';
+                            if(v.number > 0) {
+                               number = v.number;
+                            }
+                            let fullAddress = v.address + ' ' + number + ' - ' + v.city;
+                            $m('select#clientAddress').append('<option value="'+v.id+'">'+fullAddress+'</option>');
+                            console.log(v.id)
+                        });
+                    }
+                });
+
+            });
+
             $m('select#seira').on('change', function () {
                 $m('.ajax-preloader').addClass('active');
 
@@ -379,7 +453,13 @@
         $m(document).on('mouseout', '.count-repeater', function () {
             $m(this).countPrices();
         });
+        $m(document).on('change', 'select.product-selection', function(){
+            let productId = $m(this).attr('name').replace(/[^0-9]/g,'');
+            let productPrice = $m(this).find('option:selected').data('price');
 
+            $m('input[name="products['+productId+'][price]"]').val(productPrice);
+            //console.log(productId);
+        });
 
     </script>
 

@@ -24,7 +24,7 @@
                             <div class="col s12 m12 l4 sidebar-title">
                                 <h5 class="m-0"><i
                                         class="material-icons contact-icon vertical-text-top">mail_outline</i> Καρτέλα
-                                    Πελάτη:</h5>
+                                    Πελάτη ( #{{$client->code_number}} ):</h5>
                                 <p class="m-0 font-weight-500 mt-6 hide-on-med-and-down text-ellipsis"
                                    title="{{$client->company}}">{{$client->company}}</p>
                             </div>

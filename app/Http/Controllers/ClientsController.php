@@ -21,7 +21,7 @@ class ClientsController extends Controller
 {
     public function index()
     {
-        $clients = Client::all()->sortBy('company');
+        $clients = Client::all()->sortBy('code_number');
 
         return view('clients.index', ['clients' => $clients]);
     }
@@ -52,6 +52,7 @@ class ClientsController extends Controller
             array(
                 'name' => $request->name,
                 'hashID' => $hash,
+                'code_number' => $request->code_number,
                 'company' => $request->company,
                 'work_title' => $request->work_title,
                 'email' => $request->email,
@@ -179,6 +180,13 @@ class ClientsController extends Controller
         return redirect('clients');
     }
 
+    public function getAddress(Request $request) {
+
+        $adds = getClientAddresses($request->client);
+
+            return $adds;
+    }
+
     public function vatCheck(Request $request)
     {
         $xmlBodyContent = '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope"
@@ -211,6 +219,17 @@ class ClientsController extends Controller
             ->withHeaders([
                 'Content-Type' => 'text/xml'
             ]);
+    }
+
+    public function search(Request $request)
+    {
+        $clients = Client::query()
+        ->where('company', 'LIKE', '%'.$request->ask.'%')
+        ->orWhere('vat', 'LIKE', '%'.$request->ask.'%')
+        ->orWhere('code_number', '=', $request->ask)
+            ->get();
+
+        return $clients;
     }
 
 }

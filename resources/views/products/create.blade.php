@@ -38,10 +38,12 @@
     <section class="invoice-edit-wrapper section">
         <div class="row">
             <!-- product add/edit page -->
-            <form class="form" @if(isset($product)) action="/" @else action="{{route('products.store')}}" @endif method="post" enctype="multipart/form-data">
+            <form class="form" @if(isset($product)) action="{{route('products.update')}}" @else action="{{route('products.store')}}" @endif method="post" enctype="multipart/form-data">
                 @csrf
-                @dump($product)
                 <div class="col xl9 m8 s12">
+                    @if(isset($product))
+                        <input type="hidden" name="product_id" value="{{$product['id']}}" />
+                    @endif
                     <div class="card">
                         <div class="card-content px-36">
                             <div class="progress" style="display: none">
@@ -63,10 +65,17 @@
                                     </div>
                                 </div>
                                 <div class="col s6 m2">
-                                    <div class="input-field">
-                                        <input type="number" id="quantity" name="quantity" @if(isset($product)) value="{{$product->storage->quantity}}" @endif required>
-                                        <label for="quantity">Ποσότητα *</label>
-                                    </div>
+                                    @if(isset($product))
+                                        <div class="product-storage">
+                                            <div class="product-storage--label">Απόθεμα</div>
+                                            <div class="product-storage--quantity">{{$product->storage->quantity}}</div>
+                                        </div>
+                                    @else
+                                        <div class="input-field">
+                                            <input type="number" id="quantity" name="quantity"  required>
+                                            <label for="quantity">Ποσότητα *</label>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -83,9 +92,9 @@
                                         <select name="product_category" id="product_category">
                                             <option value="" disabled>Επιλέξτε Κατηγορία</option>
                                             <option value="Κατηγορία 1" @if(isset($product) && $product->product_category == 'Κατηγορία 1') value="{{$product['product_number']}}" @endif >Κατηγορία 1</option>
-                                            <option value="Κατηγορία 2">Κατηγορία 2</option>
-                                            <option value="Κατηγορία 3">Κατηγορία 3</option>
-                                            <option value="Κατηγορία 4">Κατηγορία 4</option>
+                                            <option value="Κατηγορία 2" @if(isset($product) && $product->product_category == 'Κατηγορία 2') value="{{$product['product_number']}}" @endif >Κατηγορία 2</option>
+                                            <option value="Κατηγορία 3" @if(isset($product) && $product->product_category == 'Κατηγορία 3') value="{{$product['product_number']}}" @endif >Κατηγορία 3</option>
+                                            <option value="Κατηγορία 4" @if(isset($product) && $product->product_category == 'Κατηγορία 4') value="{{$product['product_number']}}" @endif >Κατηγορία 4</option>
                                         </select>
                                         <label for="product_category">Κατηγορία</label>
                                     </div>
@@ -95,11 +104,11 @@
                                         <i class="material-icons prefix">local_grocery_store</i>
                                         <select name="mm_type" id="mm_type">
                                             <option value="" disabled>Επιλέξτε Μονάδα Μέτρησης</option>
-                                            <option value="101">Τεμάχιο</option>
-                                            <option value="107">Κιβώτιο</option>
-                                            <option value="120">Μέτρο</option>
-                                            <option value="141">Λίτρο</option>
-                                            <option value="150">Κιλό</option>
+                                            <option value="101" @if(isset($product) && $product->mm_type == 101) selected @endif >Τεμάχιο</option>
+                                            <option value="107" @if(isset($product) && $product->mm_type == 107) selected @endif >Κιβώτιο</option>
+                                            <option value="120" @if(isset($product) && $product->mm_type == 120) selected @endif >Μέτρο</option>
+                                            <option value="141" @if(isset($product) && $product->mm_type == 141) selected @endif >Λίτρο</option>
+                                            <option value="150" @if(isset($product) && $product->mm_type == 150) selected @endif >Κιλό</option>
                                         </select>
                                         <label for="mm_type">Μονάδα Μέτρησης (ανά / )</label>
                                     </div>
@@ -110,13 +119,13 @@
                                         <select name="product_vat_id" id="product_vat_id">
                                             <option value="" disabled>Επιλέξτε ΦΠΑ</option>
                                             <option value="1" data-val="24" selected>24%</option>
-                                            <option value="2" data-val="13">13%</option>
-                                            <option value="3" data-val="6">6%</option>
-                                            <option value="4" data-val="17">17%</option>
-                                            <option value="5" data-val="9">9%</option>
-                                            <option value="5" data-val="4">4%</option>
-                                            <option value="7" data-val="0">0%</option>
-                                            <option value="8" data-val="0">-</option>
+                                            <option value="2" data-val="13" @if(isset($product) && $product->product_vat_id == 2) selected @endif >13%</option>
+                                            <option value="3" data-val="6" @if(isset($product) && $product->product_vat_id == 3) selected @endif >6%</option>
+                                            <option value="4" data-val="17" @if(isset($product) && $product->product_vat_id == 4) selected @endif >17%</option>
+                                            <option value="5" data-val="9" @if(isset($product) && $product->product_vat_id == 5) selected @endif >9%</option>
+                                            <option value="5" data-val="4" @if(isset($product) && $product->product_vat_id == 6) selected @endif >4%</option>
+                                            <option value="7" data-val="0" @if(isset($product) && $product->product_vat_id == 7) selected @endif >0%</option>
+                                            <option value="8" data-val="0" @if(isset($product) && $product->product_vat_id == 8) selected @endif >-</option>
                                         </select>
                                         <label for="product_vat_id">Κατηγορία ΦΠΑ</label>
                                     </div>
@@ -126,21 +135,21 @@
                                 <div class="col s12 m4">
                                     <div class="input-field">
                                         <i class="material-icons prefix">euro_symbol</i>
-                                        <input type="text" id="price" name="price" required>
+                                        <input type="text" id="price" name="price" @if(isset($product)) value="{{$product->price}}" @endif required>
                                         <label for="price">Τιμή Λιανικής *</label>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="input-field">
                                         <i class="material-icons prefix">loupe</i>
-                                        <input type="text" id="vat_price" name="vat_price" required>
+                                        <input type="text" id="vat_price" name="vat_price" @if(isset($product)) value="{{$product->vat_price}}" @endif required>
                                         <label for="vat_price">Φ.Π.Α. *</label>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="input-field">
                                         <i class="material-icons prefix">card_giftcard</i>
-                                        <input type="text" id="discount_price" name="discount_price">
+                                        <input type="text" id="discount_price" name="discount_price" @if(isset($product)) value="{{$product->discount_price}}" @endif>
                                         <label for="discount_price">Ποσοστό Έκπτωσης</label>
                                     </div>
                                 </div>
@@ -149,7 +158,7 @@
                                 <div class="col s12 m10">
                                     <div class="input-field">
                                         <i class="material-icons prefix">description</i>
-                                        <textarea id="product_description" name="product_description" class="materialize-textarea"></textarea>
+                                        <textarea id="product_description" name="product_description" class="materialize-textarea"> @if(isset($product)) {{$product->product_description}} @endif </textarea>
                                         <label for="product_description">Περιγραφή Προϊόντος</label>
                                     </div>
                                 </div>
@@ -158,7 +167,7 @@
                                         <div class="switch">
                                             <label>
                                                 Ανενεργό
-                                                <input type="checkbox" name="active">
+                                                <input type="checkbox" name="active" @if(isset($product) && $product->active == 1) checked @endif>
                                                 <span class="lever"></span>
                                                 Ενεργό
                                             </label>
@@ -185,7 +194,8 @@
                     <h6 style="color: #fff;margin-top: -20px">Εικόνα Προϊόντος</h6>
                     <div class="input-field product-image">
                         <input type="file" name="image" data-max-file-size="3M" data-show-errors="true" data-allowed-file-extensions="png jpg JPG JPEG"
-                               class="img-field dropify" value="">
+                               class="img-field dropify" @if( isset($product) && $product->product_image != NULL )  data-default-file="{{url('images/products/'.$product->product_image)}}" @endif
+                               value="" />
                     </div>
                 </div>
             </form>
@@ -205,7 +215,7 @@
               let vat = $p('select#product_vat_id option:selected').data('val');
               if(price > 0) {
                   //console.log(price, vat);
-                  let vatValue = (price / (vat /100)) * price;
+                  let vatValue = price * (vat / 100);
                   $p('label[for="vat_price"]').addClass('active');
                   $p('input#vat_price').val(custom_number_format(vatValue, 2, '.'));
                   console.log(vatValue)

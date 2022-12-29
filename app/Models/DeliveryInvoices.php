@@ -10,12 +10,12 @@ class DeliveryInvoices extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hashID', 'delivery_invoice_id', 'client_id', 'seira', 'date', 'paid', 'price', 'vat', 'final', 'payment_method', 'mark', 'file_invoice'
+        'hashID', 'delivery_invoice_id', 'client_id', 'seira', 'sendFrom', 'sendTo', 'date', 'paid', 'payment_method', 'mark', 'file_invoice'
     ];
 
-    public function goods()
+    public function deliveredGoods()
     {
-        return $this->belongsToMany(Goods::class, 'delivered_goods', 'delivery_invoice_id', 'delivered_good_id', 'id');
+        return $this->hasMany(DeliveredGoods::class, 'invoice_hash', 'hashID');
     }
 
     public function client()

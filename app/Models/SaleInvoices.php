@@ -13,9 +13,9 @@ class SaleInvoices extends Model
         'hashID', 'sale_invoiceID', 'client_id', 'seira', 'date', 'paid', 'payment_method', 'mark'
     ];
 
-    public function goods()
+    public function deliveredGoods()
     {
-        return $this->hasMany(Goods::class, 'sale_invoice_id', 'hashID');
+        return $this->hasMany(DeliveredGoods::class, 'invoice_hash', 'hashID');
     }
 
     public function client()

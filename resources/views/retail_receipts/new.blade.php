@@ -32,7 +32,7 @@
                                                     @if(isset($retail->seira) && $retail->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
                                     </select>
-                                    <h6 class="invoice-number mr-4 mb-5 ml-4">Τ.Π.Υ# </h6>
+                                    <h6 class="invoice-number mr-4 mb-5 ml-4">ΦΤΜ Ζ # </h6>
                                     <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
                                            @if(isset($retail))
                                                value="{{old('retailID', $retail->retailID)}}"
@@ -346,23 +346,22 @@
             $r('.progress').show();
         })
         $r.fn.countPrices = function () {
-            let finalPrice = 0;
+            let finalPrice = 0.00;
             $r('.count-repeater').each(function () {
-                //let quantity = $r(this).find('.quantity-field').val();
-                let price = parseInt($r(this).find('.price-field').val());
-                if($r(this).find('.vat-field').val() === '') {
-                    $r(this).find('.vat-field').val(parseFloat((24/100) * price).toFixed(2));
+                let price = parseFloat($r(this).find('.price-field').val());
+                if(price) {
+                    if($r(this).find('.vat-field').val() === '') {
+                        $r(this).find('.vat-field').val(parseFloat((24/100) * price).toFixed(2));
+                    }
+                    finalPrice += price;
                 }
-                finalPrice += price;
             });
-
             $r('#subtotal').text(parseFloat(finalPrice).toFixed(2));
             $r('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
             $r('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
             $r('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
             $r('#parakratisiTotal').hide();
         }
-
 
         $r(document).on('mouseout', '.count-repeater', function () {
             $r(this).countPrices();

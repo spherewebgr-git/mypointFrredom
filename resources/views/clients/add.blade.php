@@ -38,7 +38,12 @@
                 <form @if(isset($client)) action="{{route('client.update', ['client' => $client])}}" @else action="{{route('client.store')}}" @endif method="post" class="addresses-item-repeater">
                     @csrf
                     <div class="row">
-                        <div class="input-field col s12 m4">
+                        <div class="input-field col s12 m2">
+                            <i class="material-icons prefix">settings_ethernet</i>
+                            <input id="code_number" type="text" name="code_number" @if(isset($client->code_number)) value="{{old('code_number', $client->code_number)}}" @endif required>
+                            <label for="code_number" class="">Κωδικός *</label>
+                        </div>
+                        <div class="input-field col s12 m3">
                             <i class="material-icons prefix">business_center</i>
                             <input id="company" type="text" name="company" @if(isset($client->company)) value="{{old('company', $client->company)}}" @endif required>
                             <label for="company" class="">Επωνυμία Εταιρείας *</label>
@@ -48,7 +53,7 @@
                             <input id="work_title" type="text" name="work_title" @if(isset($client->work_title)) value="{{old('work_title', $client->work_title)}}" @endif required>
                             <label for="work_title" class="">Επάγγελμα *</label>
                         </div>
-                        <div class="input-field col s12 m4">
+                        <div class="input-field col s12 m3">
                             <i class="material-icons prefix">account_circle</i>
                             <input id="name" type="text" name="name" @if(isset($client->name))value="{{old('name', $client->name)}}" @endif required>
                             <label for="name" class="">Ονοματεπώνυμο Υπευθύνου *</label>
@@ -120,7 +125,7 @@
                     </div>
                     <div class="row adresses-repeater">
                         <h4 class="card-title">Υποκαταστήματα - Αποθήκες</h4>
-                        @if($client->addresses)
+                        @if(isset($client) && $client->addresses)
                             @foreach($client->addresses as $add)
                                 @if($add->address_type !== 0)
                                     <div data-address-id="{{$add->id}}">
@@ -159,7 +164,7 @@
                                 @endif
                             @endforeach
                         @endif
-                        @if(count($client->addresses) == 1)
+                        @if(isset($client) && count($client->addresses) == 1)
                             <p class="mb-3">Δεν υπάρχουν αποθηκευμένα υποκαταστήματα ή αποθήκες για τον πελάτη <strong>{{$client->company}}</strong></p>
                         @endif
                         <h4 class="card-title">Προσθήκη Νέας Διεύθυνσης</h4>
@@ -174,19 +179,19 @@
                                 </div>
                                 <div class="input-field col s6 m3">
                                     <i class="material-icons prefix">markunread_mailbox</i>
-                                    <input type="text" name="address" placeholder="Διεύθυνση *" required>
+                                    <input type="text" name="address" placeholder="Διεύθυνση *">
                                 </div>
                                 <div class="input-field col s6 m1">
                                     <i class="material-icons prefix">looks_one</i>
-                                    <input type="text" name="number" placeholder="Αριθμός *" required>
+                                    <input type="text" name="number" placeholder="Αριθμός *">
                                 </div>
                                 <div class="input-field col s6 m3">
                                     <i class="material-icons prefix">map</i>
-                                    <input type="text" name="city" placeholder="Πόλη *" required>
+                                    <input type="text" name="city" placeholder="Πόλη *">
                                 </div>
                                 <div class="input-field col s6 m2">
                                     <i class="material-icons prefix">location_searching</i>
-                                    <input id="postal_code" type="text" name="postal_code" placeholder="Τ.Κ. *" required>
+                                    <input id="postal_code" type="text" name="postal_code" placeholder="Τ.Κ. *">
                                 </div>
                                 <div class="invoice-icon display-flex flex-column justify-content-between" style="margin-top: 22px;">
                                   <span data-repeater-delete="" class="delete-row-btn cursor-pointer">

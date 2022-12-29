@@ -15,8 +15,13 @@ class CreateDeliveredGoodsTable extends Migration
     {
         Schema::create('delivered_goods', function (Blueprint $table) {
             $table->id();
-            $table->integer('delivery_invoice_id');
+            $table->string('invoice_hash');
+            $table->string('delivery_type');
             $table->integer('delivered_good_id');
+            $table->float('product_price');
+            $table->integer('quantity');
+            $table->float('line_vat');
+            $table->float('line_final_price');
             $table->timestamps();
         });
     }

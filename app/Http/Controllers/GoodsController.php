@@ -59,6 +59,28 @@ class GoodsController extends Controller
             ]);
         }
 
-        return view('products.index');
+        return redirect('/products');
+    }
+
+    public function update(Request $request)
+    {
+        $product = Goods::query()->where('id', '=', $request->product_id)->first();
+        //dd($request);
+
+        $product->update([
+            'product_name' => $request->product_name,
+            'product_description' => $request->product_description,
+            'barcode' => $request->barcode,
+            'product_category' => $request->product_category,
+            'mm_type' => $request->mm_type,
+            'product_vat_id' => $request->product_vat_id,
+            'price' => $request->price,
+            'vat_price' => $request->vat_price,
+            'discount_price' => $request->discount_price,
+            'active' => $request->active,
+            'updated_at'  => date('Y-m-d H:i:s')
+        ]);
+
+        return back();
     }
 }

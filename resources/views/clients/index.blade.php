@@ -52,21 +52,26 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
+                <table class="table clients-table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
                        id="DataTables_Table_0" role="grid">
                     <thead>
                     <tr role="row">
                         <th class="control sorting_disabled" rowspan="1" colspan="1"
                             style="width: 19.8906px; display: none;" aria-label=""></th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">
+                            <span>Κωδικός Πελάτη</span>
+                        </th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">
+                            <span>Α.Φ.Μ. Πελάτη</span>
+                        </th>
                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-sort="ascending" aria-label=" Invoice#: activate to sort column descending">
                             <span>Επωνυμία Εταιρείας</span>
                         </th>
-                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-sort="ascending" aria-label=" Invoice#: activate to sort column descending">
-                            <span>Διεύθυνση E-mail</span>
+                        <th class="sorting_asc center-align" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-sort="ascending" aria-label="Υπόλοιπο Καρτέλας">Υπόλοιπο Καρτέλας
                         </th>
-                        <th class="sorting_disabled print-hide" rowspan="1" colspan="1"
+                        <th class="sorting_asc print-hide right-align" rowspan="1" colspan="1"
                             aria-label="Action">Ενέργειες
                         </th>
                     </tr>
@@ -75,13 +80,21 @@
                     <tbody>
                     @foreach($clients as $client)
                         @if($client->disabled == 0)
-                        <tr role="row" class="odd">
+                        <tr role="row" class="odd client-row" data-number="{{$client->code_number}}">
                             <td class=" control" tabindex="0" style="display: none;"></td>
+                            <td class="sorting">
+                                {{$client->code_number}}
+                            </td>
+                            <td class="sorting">
+                                {{str_pad($client->vat, 9, '0', STR_PAD_LEFT)}}
+                            </td>
                             <td class="sorting_1">
                                 {{$client->company}}
                             </td>
-                            <td><span class="invoice-amount">{{$client->email}}</span></td>
-                            <td class="print-hide">
+                            <td class="sorting_1 center-align">
+                                0
+                            </td>
+                            <td class="print-hide right-align">
                                 <div class="invoice-action">
                                     <a href="{{route('client.view', ['hashID' => $client->hashID])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας πελάτη">                                    <i class="material-icons">remove_red_eye</i>
                                     </a>
@@ -98,12 +111,20 @@
                     @endforeach
                     @foreach($clients as $client)
                         @if($client->disabled == 1)
-                        <tr role="row" class="odd disabled">
+                        <tr role="row" class="odd disabled" data-number="{{$client->code_number}}">
                             <td class=" control" tabindex="0" style="display: none;"></td>
+                            <td class="sorting">
+                                {{$client->code_number}}
+                            </td>
+                            <td class="sorting">
+                                {{str_pad($client->vat, 9, '0', STR_PAD_LEFT)}}
+                            </td>
                             <td class="sorting_1">
                                 {{$client->company}}
                             </td>
-                            <td><span class="invoice-amount">{{$client->email}}</span></td>
+                            <td class="sorting_1 center-align">
+                                0
+                            </td>
                             <td class="print-hide">
                                 <div class="invoice-action">
                                     <a href="{{route('client.view', ['hashID' => $client->hashID])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας πελάτη">                                    <i class="material-icons">remove_red_eye</i>
@@ -137,6 +158,21 @@
             <a href="#" class="modal-action modal-close waves-effect waves-light green btn delete-action">Διαγραφή</a>
         </div>
     </div>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 {{-- scripts --}}
@@ -163,7 +199,43 @@
             });
             @endif
 
+            $m('.dataTables_filter input').on('keyup', function(){
+               if($m(this).val().length > 2) {
+                   $m('.client-row').hide();
+                   $m('tr.nothing').remove();
+                   let pageToken = $m('meta[name="csrf-token"]').attr('content');
+                   $m.ajaxSetup({
+                       headers: {
+                           'X-CSRF-TOKEN': pageToken
+                       }
+                   });
 
+
+                   let query = $m(this).val();
+                   $m.ajax({
+                       url: "{{ url('/client-search-ajax') }}",
+                       method: 'post',
+                       data: {
+                           ask: query
+                       },
+                       success: function (result) {
+                           console.log(result);
+                           $m('.ajax-preloader').removeClass('active');
+                           if(result.length > 0) {
+                               $m.each(result, function(k,v) {
+                                   console.log(v.code_number);
+                                   $m('.client-row[data-number="'+v.code_number+'"]').show();
+                               });
+                           } else {
+                               $m('.clients-table tbody').append('<tr class="nothing"><td colspan="6" class="center-align red-text">Δεν βρέθηκαν πελάτες με τα κριτήρια αναζήτησης που δόθηκαν</td></tr>');
+                           }
+
+                       }
+                   });
+               } else {
+                   $m('.client-row').show();
+               }
+            });
         });
     </script>
 @endsection

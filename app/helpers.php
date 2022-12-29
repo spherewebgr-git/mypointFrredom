@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Client;
+use App\Models\DeliveredGoods;
 use App\Models\DeliveryInvoices;
 use App\Models\Invoice;
 use App\Models\Outcomes;
@@ -9,16 +10,12 @@ use App\Models\RetailClassification;
 use App\Models\RetailReceiptsItems;
 use App\Models\Retails;
 use App\Models\SaleInvoices;
-use App\Models\Services;
 use App\Models\Settings;
 use App\Models\Tasks;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use HTTP_Request2 as Hrequest;
+
 
 
 if(!function_exists('settings'))
@@ -86,13 +83,13 @@ if(!function_exists('getSaleInvoicePrices'))
      */
     function getSaleInvoicePrices( $invoiceHashID )
     {
-        $invoice = SaleInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $deliveredGoods = DeliveredGoods::query()->where('invoice_hash', '=', $invoiceHashID)->get();
         $total = [];
-        $services = $invoice->goods()->get();
-        foreach ($services as $service)
+        foreach ($deliveredGoods as $product)
         {
-            $total[] = $service->price * $service->quantity;
+            $total[] = $product->product_price * $product->quantity;
         }
+
         $invoicePrice = collect($total)->sum();
 
         return $invoicePrice;
@@ -109,10 +106,11 @@ if(!function_exists('getDeliveryInvoicePrices'))
     {
         $invoice = DeliveryInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
         $total = [];
-        $services = $invoice->goods()->get();
-        foreach ($services as $service)
+        $products = $invoice->deliveredGoods()->get();
+       // dd($products);
+        foreach ($products as $product)
         {
-            $total[] = $service->price * $service->quantity;
+            $total[] = $product->product_price * $product->quantity;
         }
         $invoicePrice = collect($total)->sum();
 
@@ -120,7 +118,93 @@ if(!function_exists('getDeliveryInvoicePrices'))
     }
 }
 
+if(!function_exists('getDeliveryInvoiceVat'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getDeliveryInvoiceVat( $invoiceHashID )
+    {
+        $invoice = DeliveryInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $products = $invoice->deliveredGoods()->get();
+//         dd($products);
+        foreach ($products as $product)
+        {
+            $total[] = $product->line_vat;
+        }
+        $invoiceVat = collect($total)->sum();
 
+        return $invoiceVat;
+    }
+}
+
+if(!function_exists('getDeliveryInvoiceFinal'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getDeliveryInvoiceFinal($invoiceHashID )
+    {
+        $invoice = DeliveryInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $products = $invoice->deliveredGoods()->get();
+        // dd($products);
+        foreach ($products as $product)
+        {
+            $total[] = $product->line_final_price;
+        }
+        $invoiceFinal = collect($total)->sum();
+
+        return $invoiceFinal;
+    }
+}
+
+if(!function_exists('getSaleInvoiceVat'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getSaleInvoiceVat( $invoiceHashID )
+    {
+        $invoice = SaleInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $products = $invoice->deliveredGoods()->get();
+//         dd($products);
+        foreach ($products as $product)
+        {
+            $total[] = $product->line_vat;
+        }
+        $invoiceVat = collect($total)->sum();
+
+        return $invoiceVat;
+    }
+}
+
+if(!function_exists('getSaleInvoiceFinal'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getSaleInvoiceFinal($invoiceHashID )
+    {
+        $invoice = SaleInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $products = $invoice->deliveredGoods()->get();
+        // dd($products);
+        foreach ($products as $product)
+        {
+            $total[] = $product->line_final_price;
+        }
+        $invoiceFinal = collect($total)->sum();
+
+        return $invoiceFinal;
+    }
+}
 
 if(!function_exists('getRetailPrices'))
 {
@@ -145,7 +229,7 @@ if(!function_exists('getRetailPrices'))
         $rPrices = [
             'price' => $retailPrice,
             'vat' => $retailVats,
-            'full' => $retailPrice + $retailVats
+            'full' => number_format((float)($retailPrice + $retailVats), 2)
         ];
 
         return $rPrices;
@@ -474,335 +558,9 @@ if(!function_exists('getParakratisiValue')) {
     }
 }
 
-if(!function_exists('myDataSendInvoices')) {
-    function myDataSendInvoices($type, $invoice)
-    {
-        $settings = Settings::all()->first();
-        if($type == 'invoice') {
-            $invoice = Invoice::query()->where('hashID', '=', $invoice)->first();
-            $total = getFinalPrices($invoice->hashID); // Total price without VAT
-            $invoiceType = '2.1';
-            $classificationType = 'E3_561_001';
-            $classificationCat = 'category1_3';
-        } elseif($type == 'sale_invoice') {
-            $invoice = SaleInvoices::query()->where('hashID', '=', $invoice)->first();
-            $total = getSaleInvoicePrices($invoice->hashID); // Total price without VAT
-            $invoiceType = '1.1';
-            $classificationType = 'E3_561_001';
-            $classificationCat = 'category1_1';
-        }
-        $parakratisi = getParakratisiValue($invoice->parakratisi_id);
-        //dump($invoice);
-        $services = $invoice->services()->get();
-//dd($invoice->client->vat);
-        //$request = new  Hrequest('https://mydata-dev.azure-api.net/SendInvoices');
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
-        // Test
-        //        $headers = array(
-        //            'aade-user-id' => 'sphereweb',
-        //            'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
-        //        );
-        // Official
-        $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
-        );
-
-        $idFormatted = $invoice->invoiceID;
-
-        $tax = (24 / 100) * $total; // FPA
-        if($total > 300) {
-            $withheld = ($parakratisi / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
-            $grossValue = ($total - $withheld) + $tax; // Μικτό Ποσό - Πληρωτέο (Συνολικό - 20% + ΦΠΑ)
-        } else {
-            $grossValue = $total + $tax;
-            $withheld = 0.00;
-        }
-        $request->setHeader($headers);
-
-        $request->setMethod(HTTP_Request2::METHOD_POST);
-
-        // Request body
-        $sendBody = '<InvoicesDoc xmlns="http://www.aade.gr/myDATA/invoice/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icls="https://www.aade.gr/myDATA/incomeClassificaton/v1.0" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xsi:schemaLocation="http://www.aade.gr/myDATA/invoice/v1.0/InvoicesDoc-v0.6.xsd">'.PHP_EOL;
-        $sendBody .= '<invoice>'.PHP_EOL;
-        $sendBody .= '<issuer>'.PHP_EOL;
-        $sendBody .= '<vatNumber>'.settings()->vat.'</vatNumber>'.PHP_EOL;
-        $sendBody .= '<country>GR</country>'.PHP_EOL;
-        $sendBody .= '<branch>0</branch>'.PHP_EOL;
-        $sendBody .= '</issuer>'.PHP_EOL;
-        $sendBody .= '<counterpart>'.PHP_EOL;
-        $sendBody .= '<vatNumber>'.$invoice->client->vat.'</vatNumber>'.PHP_EOL;
-        $sendBody .= '<country>GR</country>'.PHP_EOL;
-        $sendBody .= '<branch>0</branch>'.PHP_EOL;
-        $sendBody .= '<address>'.PHP_EOL;
-        $sendBody .= '<street>'.$invoice->client->address.'</street>'.PHP_EOL;
-        $sendBody .= '<number>'.$invoice->client->number.'</number>'.PHP_EOL;
-        $sendBody .= '<postalCode>'.$invoice->client->postal_code.'</postalCode>'.PHP_EOL;
-        $sendBody .= '<city>'.$invoice->client->city.'</city>'.PHP_EOL;
-        $sendBody .= '</address>'.PHP_EOL;
-        $sendBody .= '</counterpart>'.PHP_EOL;
-        $sendBody .= '<invoiceHeader>'.PHP_EOL;
-        $sendBody .= '<series>'.$invoice->seira.'</series>'.PHP_EOL;
-        $sendBody .= '<aa>'.$idFormatted.'</aa>'.PHP_EOL;
-        $sendBody .= '<issueDate>'.$invoice->date.'</issueDate>'.PHP_EOL;
-        $sendBody .= '<invoiceType>'.$invoiceType.'</invoiceType>'.PHP_EOL;
-        $sendBody .= '<currency>EUR</currency>'.PHP_EOL;
-        $sendBody .= '</invoiceHeader>'.PHP_EOL;
-        $sendBody .= '<paymentMethods>'.PHP_EOL;
-        $sendBody .= '<paymentMethodDetails>'.PHP_EOL;
-        $sendBody .= '<type>'.$invoice->payment_method.'</type>'.PHP_EOL;
-        $sendBody .= '<amount>'.number_format($total, 2, '.', '' ).'</amount>'.PHP_EOL;
-        $sendBody .= '<paymentMethodInfo></paymentMethodInfo>'.PHP_EOL;
-        $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
-        $sendBody .= '</paymentMethods>'.PHP_EOL;
-        $counter = 1;
-        foreach ($services as $service) {
-            $sendBody .= '<invoiceDetails>' . PHP_EOL;
-            $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
-            $sendBody .= '<netValue>' . number_format(($service->price * $service->quantity), 2, '.', '') . '</netValue>' . PHP_EOL;
-            $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
-            $sendBody .= '<vatAmount>' . number_format(((24/100) * ($service->price * $service->quantity)), 2, '.', '') . '</vatAmount>' . PHP_EOL;
-            $sendBody .= '<incomeClassification>' . PHP_EOL;
-            $sendBody .= '<icls:classificationType>'.$classificationType.'</icls:classificationType>' . PHP_EOL;
-            $sendBody .= '<icls:classificationCategory>'.$classificationCat.'</icls:classificationCategory>' . PHP_EOL;
-            $sendBody .= '<icls:amount>' . number_format(($service->price * $service->quantity), 2, '.', '') . '</icls:amount>' . PHP_EOL;
-            $sendBody .= '</incomeClassification>' . PHP_EOL;
-            $sendBody .= '</invoiceDetails>' . PHP_EOL;
-        $counter++;
-        }
-        $sendBody .= '<taxesTotals>'.PHP_EOL;
-        $sendBody .= '<taxes>'.PHP_EOL;
-        $sendBody .= '<taxType>1</taxType>'.PHP_EOL;
-        $sendBody .= '<taxCategory>'.$invoice->parakratisi_id.'</taxCategory>'.PHP_EOL;
-        $sendBody .= '<underlyingValue>'.number_format($withheld, 2, '.', ',').'</underlyingValue>'.PHP_EOL;
-        $sendBody .= '<taxAmount>'.number_format($withheld, 2, '.', ',').'</taxAmount>'.PHP_EOL;
-        $sendBody .= '</taxes>'.PHP_EOL;
-        $sendBody .= '</taxesTotals>'.PHP_EOL;
-        $sendBody .= '<invoiceSummary>'.PHP_EOL;
-        $sendBody .= '<totalNetValue>'.number_format($total, 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
-        $sendBody .= '<totalVatAmount>'.number_format($tax , 2, '.', ',').'</totalVatAmount>'.PHP_EOL;
-        $sendBody .= '<totalWithheldAmount>'.number_format( $withheld, 2, '.', '').'</totalWithheldAmount>'.PHP_EOL;
-        $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
-        $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
-        $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
-        $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
-        $sendBody .= '<totalGrossValue>'.number_format( $grossValue , 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
-        $sendBody .= '<incomeClassification>'.PHP_EOL;
-        $sendBody .= '<icls:classificationType>E3_561_001</icls:classificationType>'.PHP_EOL;
-        $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>'.PHP_EOL;
-        $sendBody .= '<icls:amount>'.number_format($total, 2, '.', '' ).'</icls:amount>'.PHP_EOL;
-        $sendBody .= '</incomeClassification>'.PHP_EOL;
-        $sendBody .= '</invoiceSummary>'.PHP_EOL;
-        $sendBody .= '</invoice>'.PHP_EOL;
-        $sendBody .= '</InvoicesDoc>'.PHP_EOL;
-        //dd($sendBody);
-        $request->setBody($sendBody);
-        try
-        {
-            $response = $request->send();
-            $body = $response->getBody();
-        }
-        catch (HttpException $ex)
-        {
-            return $ex;
-
-        }
-        //dd($body);
-        return $body;
-    }
-}
-
 if(!function_exists('checkVat')) {
     function checkVat($vat) {
 
-    }
-}
-
-if(!function_exists('myDataSendRetailReceipt')) {
-    function myDataSendRetailReceipt($retailHashID) {
-        $settings = Settings::all()->first();
-        $retail = Retails::query()->where('hashID', '=', $retailHashID)->first();
-
-        //dd($retail);
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
-
-        // Official
-        $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
-        );
-
-        $request->setHeader($headers);
-
-        $request->setMethod(HTTP_Request2::METHOD_POST);
-
-        // Request body
-        $sendBody = '<InvoicesDoc xmlns="http://www.aade.gr/myDATA/invoice/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icls="https://www.aade.gr/myDATA/incomeClassificaton/v1.0" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xsi:schemaLocation="http://www.aade.gr/myDATA/invoice/v1.0/InvoicesDoc-v0.6.xsd">'.PHP_EOL;
-        $sendBody .= '<invoice>'.PHP_EOL;
-        $sendBody .= '<issuer>'.PHP_EOL;
-        $sendBody .= '<vatNumber>'.settings()->vat.'</vatNumber>'.PHP_EOL;
-        $sendBody .= '<country>GR</country>'.PHP_EOL;
-        $sendBody .= '<branch>0</branch>'.PHP_EOL;
-        $sendBody .= '</issuer>'.PHP_EOL;
-        $sendBody .= '<invoiceHeader>'.PHP_EOL;
-        $sendBody .= '<series>'.$retail->seira.'</series>'.PHP_EOL;
-        $sendBody .= '<aa>'.$retail->retailID.'</aa>'.PHP_EOL;
-        $sendBody .= '<issueDate>'.$retail->date.'</issueDate>'.PHP_EOL;
-        $sendBody .= '<invoiceType>11.2</invoiceType>'.PHP_EOL;
-        $sendBody .= '<currency>EUR</currency>'.PHP_EOL;
-        $sendBody .= '</invoiceHeader>'.PHP_EOL;
-        $sendBody .= '<paymentMethods>'.PHP_EOL;
-        $sendBody .= '<paymentMethodDetails>'.PHP_EOL;
-        $sendBody .= '<type>'.$retail->payment_method.'</type>'.PHP_EOL;
-        $sendBody .= '<amount>'.number_format($retail->price, 2, '.', '' ).'</amount>'.PHP_EOL;
-        $sendBody .= '<paymentMethodInfo></paymentMethodInfo>'.PHP_EOL;
-        $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
-        $sendBody .= '</paymentMethods>'.PHP_EOL;
-            $sendBody .= '<invoiceDetails>' . PHP_EOL;
-            $sendBody .= '<lineNumber>1</lineNumber>' . PHP_EOL;
-            $sendBody .= '<netValue>' . number_format($retail->price - $retail->vat, 2, '.', '') . '</netValue>' . PHP_EOL;
-            $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
-            $sendBody .= '<vatAmount>' . number_format($retail->vat, 2, '.', '') . '</vatAmount>' . PHP_EOL;
-            $sendBody .= '<incomeClassification>' . PHP_EOL;
-                $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>' . PHP_EOL;
-                $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>' . PHP_EOL;
-                $sendBody .= '<icls:amount>' . number_format($retail->price - $retail->vat, 2, '.', '') . '</icls:amount>' . PHP_EOL;
-            $sendBody .= '</incomeClassification>' . PHP_EOL;
-            $sendBody .= '</invoiceDetails>' . PHP_EOL;
-        $sendBody .= '<taxesTotals>'.PHP_EOL;
-        $sendBody .= '<taxes>'.PHP_EOL;
-        $sendBody .= '<taxType>1</taxType>'.PHP_EOL;
-        $sendBody .= '<taxCategory>2</taxCategory>'.PHP_EOL;
-        $sendBody .= '<underlyingValue>0</underlyingValue>'.PHP_EOL;
-        $sendBody .= '<taxAmount>0</taxAmount>'.PHP_EOL;
-        $sendBody .= '</taxes>'.PHP_EOL;
-        $sendBody .= '</taxesTotals>'.PHP_EOL;
-        $sendBody .= '<invoiceSummary>'.PHP_EOL;
-        $sendBody .= '<totalNetValue>'.number_format(($retail->price  - $retail->vat) , 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
-        $sendBody .= '<totalVatAmount>'.number_format($retail->vat , '2', '.', ',').'</totalVatAmount>'.PHP_EOL;
-        $sendBody .= '<totalWithheldAmount>0.00</totalWithheldAmount>'.PHP_EOL;
-        $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
-        $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
-        $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
-        $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
-        $sendBody .= '<totalGrossValue>'.number_format( $retail->price, 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
-        $sendBody .= '<incomeClassification>'.PHP_EOL;
-        $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>'.PHP_EOL;
-        $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>'.PHP_EOL;
-        $sendBody .= '<icls:amount>'.number_format(($retail->price - $retail->vat), 2, '.', '' ).'</icls:amount>'.PHP_EOL;
-        $sendBody .= '</incomeClassification>'.PHP_EOL;
-        $sendBody .= '</invoiceSummary>'.PHP_EOL;
-        $sendBody .= '</invoice>'.PHP_EOL;
-        $sendBody .= '</InvoicesDoc>'.PHP_EOL;
-        //dd($sendBody);
-        $request->setBody($sendBody);
-        try
-        {
-            $response = $request->send();
-            $body = $response->getBody();
-        }
-        catch (HttpException $ex)
-        {
-            return $ex;
-
-        }
-        //dd($body);
-        return $body;
-    }
-}
-
-if(!function_exists('myDataRequestMyExpenses')) {
-    function myDataRequestMyExpenses()
-    {
-        $settings = Settings::all()->first();
-
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/RequestMyExpenses?dateFrom=01/01/2021&dateTo=14/10/2022');
-        $url = $request->getUrl();
-
-        // Official
-        $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
-        );
-
-        $request->setHeader($headers);
-
-        $request->setMethod(HTTP_Request2::METHOD_GET);
-
-        try
-        {
-            $response = $request->send();
-            if($response->getBody()) {
-                $xml = simplexml_load_string($response->getBody());
-            }
-
-            return $xml;
-        }
-        catch (HttpException $ex)
-        {
-             //dd($ex);
-        }
-    }
-}
-
-if(!function_exists('myDataSendExpensesClassification')) {
-    function myDataSendExpensesClassification($outcomeHash) {
-        $settings = Settings::all()->first();
-        $classifications = RetailClassification::query()->where('outcome_hash', '=', $outcomeHash)->get();
-        $outcome = Outcomes::query()->where('hashID', '=', $outcomeHash)->first();
-
-        $counter = 1;
-
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendExpensesClassification');
-
-        $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
-        );
-
-        $request->setHeader($headers);
-
-        $request->setMethod(HTTP_Request2::METHOD_POST);
-
-        $sendBody = '<ExpensesClassificationsDoc xmlns="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.aade.gr/myDATA/expensesClassificaton/v1.0">'.PHP_EOL;
-	    $sendBody .= '<expensesInvoiceClassification>'.PHP_EOL;
-        $sendBody .= '<invoiceMark>'.$outcome->minMark.'</invoiceMark>'.PHP_EOL;
-
-        foreach($classifications as $classification) {
-            $sendBody .= '<invoicesExpensesClassificationDetails>'.PHP_EOL;
-            $sendBody .= '<lineNumber>'.$counter.'</lineNumber>'.PHP_EOL;
-            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<classificationType>'.$classification->classification_type.'</classificationType>'.PHP_EOL;
-            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
-            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-            $sendBody .= '<id>1</id>'.PHP_EOL;
-            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<classificationType>VAT_361</classificationType>'.PHP_EOL;
-            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
-            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-            $sendBody .= '<id>2</id>'.PHP_EOL;
-            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '</invoicesExpensesClassificationDetails>'.PHP_EOL;
-            $counter ++;
-        }
-        $sendBody .= '</expensesInvoiceClassification>'.PHP_EOL;
-        $sendBody .= '</ExpensesClassificationsDoc>'.PHP_EOL;
-
-        $request->setBody($sendBody);
-        //dd($sendBody);
-        try
-        {
-            $response = $request->send();
-            $body = $response->getBody();
-        }
-        catch (HttpException $ex)
-        {
-            return $ex;
-
-        }
-        dd($body);
-        return $body;
     }
 }
 
@@ -930,3 +688,19 @@ if(!function_exists('getInvoiceHash')) {
         return $invoiceHash;
     }
 }
+
+if(!function_exists('getClientAddresses')) {
+    function getClientAddresses($clientHash) {
+        $client = Client::query()->where('hashID', '=', $clientHash)->first();
+
+        $clientAddresses = $client->addresses;
+
+        return $clientAddresses;
+    }
+}
+
+
+include_once 'Helpers/productsHelper.php';
+include_once 'Helpers/myDataHelper.php';
+
+
