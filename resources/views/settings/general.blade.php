@@ -30,14 +30,14 @@
                 <div class="col s12">
                     <div class="input-field">
                         <label for="name">Ονοματεπώνυμο Ιδιοκτήτη</label>
-                        <input id="name" name="name" type="text" value="{{$admin->name}}" data-error=".errorTxt2">
+                        <input id="name" name="name" type="text" value="{{$users[0]->name}}" data-error=".errorTxt2">
                         <small class="errorTxt2"></small>
                     </div>
                 </div>
                 <div class="col s12">
                     <div class="input-field">
                         <label for="email">E-mail</label>
-                        <input id="email" type="email" name="email" value="{{$admin->email}}" data-error=".errorTxt3" disabled>
+                        <input id="email" type="email" name="email" value="{{$users[0]->email}}" data-error=".errorTxt3" disabled>
                         <small class="errorTxt3"></small>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ class SettingsController extends Controller
         $seires = [];
         $settings = [];
         $allSettings = Settings::all();
-        $admin = User::all()[0];
+        $users = User::all();
         $allSeires = Seires::all();
         $addresses = Settings::query()->where('type', 'LIKE', '%'.'address'.'%')->get();
         //dd($addresses);
@@ -27,7 +27,7 @@ class SettingsController extends Controller
             $settings[$set->type] = $set->value;
         }
 
-        return view('settings.index', ['settings' => $settings, 'admin' => $admin, 'seires' => $seires, 'addresses' => $addresses]);
+        return view('settings.index', ['settings' => $settings, 'users' => $users, 'seires' => $seires, 'addresses' => $addresses]);
     }
 
     public function update(Request $request, $form) {

@@ -115,7 +115,8 @@
                                     &euro; {{number_format(getRetailPrices($retail)['vat'], '2', ',', '.')}}
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format(getRetailPrices($retail)['full'], '2', ',', '.')}}
+
+                                    &euro; {{number_format((getRetailPrices($retail)['price'] + getRetailPrices($retail)['vat']), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
@@ -127,7 +128,7 @@
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else
-                                            <a href="#" class="invoice-action-mydata mr-4 default" data-retail="{{$retail->hashID}}" title="Αποστολή στο MyData" data-hash="{{$retail->hashID}}">
+                                            <a href="{{route('retail-receipts.mydata', $retail->hashID)}}" class="invoice-action-mydata mr-4 default" data-retail="{{$retail->hashID}}" title="Αποστολή στο MyData" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">cloud_upload</i>
                                             </a>
                                             <a href="{{route('retail-receipts.edit', $retail->hashID)}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">

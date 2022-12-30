@@ -27,6 +27,11 @@ class Client extends Model
         return $this->hasMany(SaleInvoices::class);
     }
 
+    public function deliveryInvoices()
+    {
+        return $this->hasMany(DeliveryInvoices::class);
+    }
+
     public function addresses()
     {
         return $this->hasMany(ClientAddresses::class,  'client_hash', 'hashID');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientAddresses;
+use App\Models\DeliveryInvoices;
 use App\Models\Invoice;
 use App\Models\SaleInvoices;
 use App\Models\Services;
@@ -34,10 +35,11 @@ class ClientsController extends Controller
         $services = Services::query()->where('client_id', '=', $client->id)->where('invoice_number', '!=', '')->get()->sortByDesc('date');
         $servicesNew = Services::query()->where('client_id', '=', $client->id)->where('invoice_number', '=', NULL)->get();
         $saleInvoices = SaleInvoices::query()->where('client_id', '=', $client->id)->get()->sortByDesc('date');
+        $deliveryInvoices = DeliveryInvoices::query()->where('client_id', '=', $client->id)->get()->sortByDesc('date');
         $edra = ClientAddresses::query()->where('client_hash', '=', $hashID)->where('address_type', '=', 0)->first();
-        //dd($edra);
+        //dd($deliveryInvoices);
 
-        return view('clients.view', ['client' => $client, 'invoices' => $invoices, 'sale_invoices' => $saleInvoices, 'services' => $services, 'servicesNew' => $servicesNew, 'edra' => $edra]);
+        return view('clients.view', ['client' => $client, 'invoices' => $invoices, 'sale_invoices' => $saleInvoices, 'delievry_invoices' => $deliveryInvoices, 'services' => $services, 'servicesNew' => $servicesNew, 'edra' => $edra]);
     }
 
     public function new()

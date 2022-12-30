@@ -28,12 +28,12 @@
                                 <p class="m-0 font-weight-500 mt-6 hide-on-med-and-down text-ellipsis"
                                    title="{{$client->company}}">{{$client->company}}</p>
                             </div>
-                            <div class="col s12 m12 l8 client-tabs">
+                            <div class="col s12 m12 l9 client-tabs">
                                 <ul class="tabs">
-                                    <li class="tab col m4"><a class="active" href="#prosfataTimologia">ΠΡΟΣΦΑΤΑ
-                                            ΤΙΜΟΛΟΓΙΑ</a></li>
-                                    <li class="tab col m4"><a href="#ipiresies">ΥΠΗΡΕΣΙΕΣ</a></li>
-                                    <li class="tab col sm m4"><a href="#protimologia">ΥΠΗΡΕΣΙΕΣ ΠΡΟΣ ΤΙΜΟΛΟΓΗΣΗ</a></li>
+                                    <li class="tab col m3"><a class="active" href="#prosfataTimologia">ΤΙΜΟΛΟΓΙΑ ΠΩΛΗΣΗΣ</a></li>
+                                    <li class="tab col m3"><a href="#deltiaApostolis">ΤΙΜΟΛΟΓΙΑ / ΔΕΛΤΙΑ ΑΠΟΣΤΟΛΗΣ</a></li>
+                                    <li class="tab col m3"><a href="#ipiresies">ΥΠΗΡΕΣΙΕΣ</a></li>
+                                    <li class="tab col sm m3"><a href="#protimologia">ΥΠΗΡΕΣΙΕΣ ΠΡΟΣ ΤΙΜΟΛΟΓΗΣΗ</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
 
                     <!-- Contact Sidenav -->
                     <div id="sidebar-list" class="row contact-sidenav ml-0 mr-0">
-                        <div class="col s12 m12 l4">
+                        <div class="col s12 m12 l3">
                             <!-- Sidebar Area Starts -->
                             <div class="sidebar-left sidebar-fixed" style="position: relative">
                                 <div class="sidebar">
@@ -132,7 +132,7 @@
                             </div>
                             <!-- Sidebar Area Ends -->
                         </div>
-                        <div class="col s12 m12 l8 contact-form margin-top-contact">
+                        <div class="col s12 m12 l9 contact-form margin-top-contact">
                             <div class="row">
                                 <div id="prosfataTimologia" class="col s12">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -143,7 +143,7 @@
                                             <tr role="row">
                                                 <th class="control sorting_disabled" rowspan="1" colspan="1"
                                                     style="width: 19.8906px; display: none;" aria-label=""></th>
-                                                <th class="center-align">Είδος</th>
+                                                <th class="center-align">Σειρά</th>
                                                 <th>
                                                     <span>Αριθμός</span>
                                                 </th>
@@ -161,11 +161,9 @@
                                             <tbody>
                                             @foreach($invoices as $invoice)
                                                 <tr role="row" class="odd" data-date="{{$invoice->date}}">
-                                                    <td class="center-align" title="Τιμολόγιο Παροχής Υπηρεσιών"><small>Τ.Π.Υ</small></td>
+                                                    <td class="center-align" title="Τιμολόγιο Παροχής Υπηρεσιών"><small>{{$invoice->seira == 'ANEY' ? '' : $invoice->seira}}</small></td>
                                                     <td class=" control" tabindex="0" style="display: none;"></td>
-                                                    <td class="sorting_1 center-align">
-                                                        @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
-                                                    </td>
+                                                    <td class="sorting_1 center-align">{{$invoice->invoiceID}}</td>
                                                     <td class="center-align">
                                                         <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
                                                     </td>
@@ -288,6 +286,34 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="deltiaApostolis" class="col-12">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                        <table
+                                            class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
+                                            id="DataTables_Table_0" role="grid">
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="control sorting_disabled" rowspan="1" colspan="1"
+                                                    style="width: 19.8906px; display: none;" aria-label=""></th>
+                                                <th class="center-align">Σειρά</th>
+                                                <th><span>Αριθμός</span></th>
+                                                <th class="center-align" style="width: 85px!important;">Πελάτης</th>
+                                                <th class="center-align">Ημ/νία Έκδοσης</th>
+                                                <th class="center-align" style="width: 85px!important;">Τιμή</th>
+                                                <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
+                                                <th class="center-align print-hide" style="width: 85px!important;">Σύνολο</th>
+                                                <th class="center-align print-hide">Κατάσταση</th>
+                                                <th class="center-align print-hide">Ενέργειες</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($sale_invoices as $saleInvoice)
+
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

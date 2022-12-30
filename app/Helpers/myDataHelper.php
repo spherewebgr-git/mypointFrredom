@@ -193,14 +193,13 @@ if(!function_exists('myDataSendRetailReceipt')) {
             $settings[$set->type] = $set->value;
         }
         //dd($settings);
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
+        $request = new Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
 
         // Official
         $headers = array(
             'aade-user-id' => $settings['aade_user_id'],
             'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
-
         $request->setHeader($headers);
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
@@ -229,11 +228,12 @@ if(!function_exists('myDataSendRetailReceipt')) {
             $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
         }
         $sendBody .= '</paymentMethods>'.PHP_EOL;
+        $counter = 1;
         foreach($retail->items as $item) {
             $sendBody .= '<invoiceDetails>' . PHP_EOL;
-            $sendBody .= '<lineNumber>1</lineNumber>' . PHP_EOL;
+            $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
             $sendBody .= '<netValue>' . number_format($item->price, 2, '.', '') . '</netValue>' . PHP_EOL;
-            $sendBody .= '<vatCategory>' . $retail->vat_id . '</vatCategory>' . PHP_EOL;
+            $sendBody .= '<vatCategory>' . $item->vat_id . '</vatCategory>' . PHP_EOL;
             $sendBody .= '<vatAmount>' . number_format($item->vat, 2, '.', '') . '</vatAmount>' . PHP_EOL;
             $sendBody .= '<incomeClassification>' . PHP_EOL;
             $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>' . PHP_EOL;
@@ -241,15 +241,9 @@ if(!function_exists('myDataSendRetailReceipt')) {
             $sendBody .= '<icls:amount>' . number_format($item->price, 2, '.', '') . '</icls:amount>' . PHP_EOL;
             $sendBody .= '</incomeClassification>' . PHP_EOL;
             $sendBody .= '</invoiceDetails>' . PHP_EOL;
+            $counter++;
         }
-        $sendBody .= '<taxesTotals>'.PHP_EOL;
-        $sendBody .= '<taxes>'.PHP_EOL;
-        $sendBody .= '<taxType>1</taxType>'.PHP_EOL;
-        $sendBody .= '<taxCategory>2</taxCategory>'.PHP_EOL;
-        $sendBody .= '<underlyingValue>0</underlyingValue>'.PHP_EOL;
-        $sendBody .= '<taxAmount>0</taxAmount>'.PHP_EOL;
-        $sendBody .= '</taxes>'.PHP_EOL;
-        $sendBody .= '</taxesTotals>'.PHP_EOL;
+
         $sendBody .= '<invoiceSummary>'.PHP_EOL;
         $sendBody .= '<totalNetValue>'.number_format(getRetailPrices($retail)['price'] , 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
         $sendBody .= '<totalVatAmount>'.number_format(getRetailPrices($retail)['vat'], '2', '.', ',').'</totalVatAmount>'.PHP_EOL;
@@ -258,16 +252,16 @@ if(!function_exists('myDataSendRetailReceipt')) {
         $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
         $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
         $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
-        $sendBody .= '<totalGrossValue>'.number_format( $retail->price, 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
+        $sendBody .= '<totalGrossValue>'.number_format( getRetailPrices($retail)['full'], 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
         $sendBody .= '<incomeClassification>'.PHP_EOL;
         $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>'.PHP_EOL;
-        $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>'.PHP_EOL;
-        $sendBody .= '<icls:amount>'.number_format(getRetailPrices($retail)['full'], 2, '.', '' ).'</icls:amount>'.PHP_EOL;
+        $sendBody .= '<icls:classificationCategory>category1_1</icls:classificationCategory>'.PHP_EOL;
+        $sendBody .= '<icls:amount>'.number_format(getRetailPrices($retail)['price'], 2, '.', '' ).'</icls:amount>'.PHP_EOL;
         $sendBody .= '</incomeClassification>'.PHP_EOL;
         $sendBody .= '</invoiceSummary>'.PHP_EOL;
         $sendBody .= '</invoice>'.PHP_EOL;
         $sendBody .= '</InvoicesDoc>'.PHP_EOL;
-        dd($sendBody);
+        //dd($sendBody);
         $request->setBody($sendBody);
         try
         {
@@ -279,7 +273,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
             return $ex;
 
         }
-        //dd($body);
+       //dd($body);
         return $body;
     }
 }
