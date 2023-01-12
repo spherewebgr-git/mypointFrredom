@@ -10,11 +10,16 @@ use App\Models\SaleInvoices;
 use App\Models\Settings;
 use HTTP_Request2 as Hrequest;
 
+
+
 if(!function_exists('myDataSendInvoices')) {
     function myDataSendInvoices($type, $invoice)
     {
-        $settings = Settings::all()->first();
-        $myVat = Settings::query()->where('type', '=', 'vat')->first()['value'];
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
         if($type == 'invoice') {
             $invoice = Invoice::query()->where('hashID', '=', $invoice)->first();
             $total = getFinalPrices($invoice->hashID); // Total price without VAT
@@ -60,16 +65,16 @@ if(!function_exists('myDataSendInvoices')) {
         //$request = new  Hrequest('https://mydata-dev.azure-api.net/SendInvoices');
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
         // Test
-        //        $headers = array(
-        //            'aade-user-id' => 'sphereweb',
-        //            'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
-        //        );
+//                $headers = array(
+//                    'aade-user-id' => 'sphereweb',
+//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
+//                );
         // Official
-        $headers = array(
-            'aade-user-id' => 'triasporepe',
-            'Ocp-Apim-Subscription-Key' => '7b10c5fb49b6442a931d3322b354246c',
-        );
 
+        $headers = array(
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
+        );
         $request->setHeader($headers);
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
@@ -78,7 +83,7 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody = '<InvoicesDoc xmlns="http://www.aade.gr/myDATA/invoice/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icls="https://www.aade.gr/myDATA/incomeClassificaton/v1.0" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xsi:schemaLocation="http://www.aade.gr/myDATA/invoice/v1.0/InvoicesDoc-v0.6.xsd">'.PHP_EOL;
         $sendBody .= '<invoice>'.PHP_EOL;
         $sendBody .= '<issuer>'.PHP_EOL;
-        $sendBody .= '<vatNumber>'.$myVat.'</vatNumber>'.PHP_EOL;
+        $sendBody .= '<vatNumber>'.$settings['vat'].'</vatNumber>'.PHP_EOL;
         $sendBody .= '<country>GR</country>'.PHP_EOL;
         $sendBody .= '<branch>0</branch>'.PHP_EOL;
         $sendBody .= '</issuer>'.PHP_EOL;
@@ -151,7 +156,7 @@ if(!function_exists('myDataSendInvoices')) {
         }
         $sendBody .= '<invoiceSummary>'.PHP_EOL;
         $sendBody .= '<totalNetValue>'.number_format($total, 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
-        $sendBody .= '<totalVatAmount>'.number_format($tax , 2, '.', ',').'</totalVatAmount>'.PHP_EOL;
+        $sendBody .= '<totalVatAmount>'.number_format($tax , 2, '.', '').'</totalVatAmount>'.PHP_EOL;
         $sendBody .= '<totalWithheldAmount>'.number_format( $withheld, 2, '.', '').'</totalWithheldAmount>'.PHP_EOL;
         $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
         $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
@@ -175,10 +180,11 @@ if(!function_exists('myDataSendInvoices')) {
         }
         catch (HttpException $ex)
         {
+
             return $ex;
 
         }
-        //dd($body);
+       // dd($body);
         return $body;
     }
 }
@@ -252,7 +258,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
         $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
         $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
         $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
-        $sendBody .= '<totalGrossValue>'.number_format( getRetailPrices($retail)['full'], 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
+        $sendBody .= '<totalGrossValue>'.number_format( (getRetailPrices($retail)['price'] + getRetailPrices($retail)['vat']), 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
         $sendBody .= '<incomeClassification>'.PHP_EOL;
         $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>'.PHP_EOL;
         $sendBody .= '<icls:classificationCategory>category1_1</icls:classificationCategory>'.PHP_EOL;
@@ -307,7 +313,7 @@ if(!function_exists('myDataRequestMyExpenses')) {
         }
         catch (HttpException $ex)
         {
-            //dd($ex);
+            dd($ex);
         }
     }
 }
@@ -315,15 +321,19 @@ if(!function_exists('myDataRequestMyExpenses')) {
 if(!function_exists('myDataRequestDocs')) {
     function myDataRequestDocs($last)
     {
-        $settings = Settings::all()->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
 
-        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/RequestDocs?mark=0');
+        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/RequestDocs?mark='.$last);
         $url = $request->getUrl();
 
         // Official
         $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
 
         $request->setHeader($headers);
@@ -341,14 +351,18 @@ if(!function_exists('myDataRequestDocs')) {
         }
         catch (HttpException $ex)
         {
-            //dd($ex);
+            dd($ex);
         }
     }
 }
 
 if(!function_exists('myDataSendExpensesClassification')) {
     function myDataSendExpensesClassification($outcomeHash) {
-        $settings = Settings::all()->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
         $classifications = RetailClassification::query()->where('outcome_hash', '=', $outcomeHash)->get();
         $outcome = Outcomes::query()->where('hashID', '=', $outcomeHash)->first();
 
@@ -357,8 +371,8 @@ if(!function_exists('myDataSendExpensesClassification')) {
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendExpensesClassification');
 
         $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
 
         $request->setHeader($headers);
@@ -367,23 +381,22 @@ if(!function_exists('myDataSendExpensesClassification')) {
 
         $sendBody = '<ExpensesClassificationsDoc xmlns="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.aade.gr/myDATA/expensesClassificaton/v1.0">'.PHP_EOL;
         $sendBody .= '<expensesInvoiceClassification>'.PHP_EOL;
-        $sendBody .= '<invoiceMark>'.$outcome->minMark.'</invoiceMark>'.PHP_EOL;
-
+        $sendBody .= '<invoiceMark>'.$outcome->mark.'</invoiceMark>'.PHP_EOL;
         foreach($classifications as $classification) {
             $sendBody .= '<invoicesExpensesClassificationDetails>'.PHP_EOL;
-            $sendBody .= '<lineNumber>'.$counter.'</lineNumber>'.PHP_EOL;
-            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<classificationType>'.$classification->classification_type.'</classificationType>'.PHP_EOL;
-            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
-            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-            $sendBody .= '<id>1</id>'.PHP_EOL;
-            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
-            $sendBody .= '<classificationType>VAT_361</classificationType>'.PHP_EOL;
-            $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
-            $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-            $sendBody .= '<id>2</id>'.PHP_EOL;
-            $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
+                $sendBody .= '<lineNumber>'.$counter.'</lineNumber>'.PHP_EOL;
+                $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
+                    $sendBody .= '<classificationType>'.$classification->classification_type.'</classificationType>'.PHP_EOL;
+                    $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
+                    $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
+                    $sendBody .= '<id>1</id>'.PHP_EOL;
+                $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
+                $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
+                    $sendBody .= '<classificationType>'.$classification->vat.'</classificationType>'.PHP_EOL;
+//                    $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
+                    $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
+                    $sendBody .= '<id>2</id>'.PHP_EOL;
+                $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
             $sendBody .= '</invoicesExpensesClassificationDetails>'.PHP_EOL;
             $counter ++;
         }
@@ -399,10 +412,56 @@ if(!function_exists('myDataSendExpensesClassification')) {
         }
         catch (HttpException $ex)
         {
+           dd($ex);
             return $ex;
 
         }
-        dd($body);
+        //dd($body);
         return $body;
     }
 }
+
+if(!function_exists('myDataCancelInvoice')) {
+    function myDataCancelInvoice($mark)
+    {
+        //dd('test');
+        $settings = Settings::all()->first();
+
+        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/CancelInvoice?mark='.$mark);
+        $url = $request->getUrl();
+
+        // Official
+        $headers = array(
+            'aade-user-id' => $settings->aade_user_id,
+            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
+        );
+
+
+
+//        $parameters = array(
+//            'mark' => $mark
+//        );
+//        $url->setQueryVariables($parameters);
+//
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+
+        $request->setHeader($headers);
+        try
+        {
+            $response = $request->send();
+            dd($response);
+            if($response->getBody()) {
+                $xml = simplexml_load_string($response->getBody());
+            }
+
+            dd($xml);
+            return $xml;
+
+        }
+        catch (HttpException $ex)
+        {
+            dd($ex);
+        }
+    }
+}
+

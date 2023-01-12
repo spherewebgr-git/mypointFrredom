@@ -129,6 +129,8 @@ class DeliveryInvoicesController extends Controller
 
     public function update(Request $request, DeliveryInvoices $invoice)
     {
+
+        //dd($request);
         $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
         if(!$requestDate) {
             $requestDate = DateTime::createFromFormat('Y-m-d', $request->date);
@@ -141,28 +143,28 @@ class DeliveryInvoicesController extends Controller
             'client_id' => $request->client,
             'date' => $date,
             'time' => date('H:i'),
-            'paid' => 1,
+            'paid' => ($request->paid == 'on') ? 1 : 0,
             'sendFrom' => $request->sendFrom,
             'sendTo' => $request->clientAddress,
             'payment_method' => $request->paymentMethod,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
 
-        if(isset($request->products)) {
-            foreach ($request->products as $prod) {
-
-                $theProduct = DeliveredGoods::query()->where('delivered_good_id', '=', $prod['id'])->first();
-                $vat = getProductVat($prod['product']);
-                $theProduct->update([
-                    'delivered_good_id' => $prod['product'],
-                    'quantity' => $prod['quantity'],
-                    'product_price' => $prod['price'],
-                    'line_vat' => $vat,
-                    'line_final_price' => $prod['quantity'] * $prod['price'],
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-            }
-        }
+//        if(isset($request->products) && $request->products > 0) {
+//            foreach ($request->products as $prod) {
+//                $theProduct = DeliveredGoods::query()->where('id', '=', $prod['id'])->first();
+//                //dd($theProduct);
+//                $vat = getProductVat($prod['product']);
+//                $theProduct->update([
+//                    'delivered_good_id' => $prod['product'],
+//                    'quantity' => $prod['quantity'],
+//                    'product_price' => $prod['price'],
+//                    'line_vat' => $vat,
+//                    'line_final_price' => $prod['quantity'] * $prod['price'],
+//                    'updated_at' => date('Y-m-d H:i:s')
+//                ]);
+//            }
+//        }
 
         return redirect('/delivery-invoices');
     }
@@ -211,5 +213,9 @@ class DeliveryInvoicesController extends Controller
         }
 
         return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη!');
+    }
+
+    public function cancelInvoice($mark) {
+        myDataCancelInvoice($mark);
     }
 }

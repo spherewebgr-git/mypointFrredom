@@ -91,17 +91,16 @@
                             <th class="center-align" style="width: 85px!important;">Καθαρό</th>
                             <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
                             <th class="center-align" style="width: 85px!important;">Σύνολο</th>
-
+                            <th class="center-align">Τρόποι Πληρωμής</th>
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($retails as $retail)
                             <tr role="row" class="odd">
-{{--@dump(getRetailPrices($retail))--}}
                                 <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif - {{$retail->retailID}}</a></td>
-                                <td>{{$retail->service}}</td>
+                                <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif - {{$retail->retailID}}</a></td>
+                                <td>{{$retail->items[0]->product_service}}</td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->date))->format('d/m/Y')}}</small>
                                 </td>
@@ -115,13 +114,13 @@
                                     &euro; {{number_format(getRetailPrices($retail)['vat'], '2', ',', '.')}}
                                 </td>
                                 <td class="center-align">
-
                                     &euro; {{number_format((getRetailPrices($retail)['price'] + getRetailPrices($retail)['vat']), '2', ',', '.')}}
                                 </td>
+                                <td class="center-align"> @foreach(getRetailPaymentMethods($retail->hashID) as $method) <small>{{$method}}</small><br /> @endforeach </td>
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
                                         @if($retail->mark)
-                                            <a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="invoice-action-view mr-4 ">
@@ -138,7 +137,7 @@
                                                 <i class="material-icons">delete</i>
                                             </a>
 
-                                            <a href="{{route('retail-receipts.view', ['retailID' => $retail->retailID])}}" class="hasMark invoice-action-view mr-4 hide">
+                                            <a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}" class="hasMark invoice-action-view mr-4 hide">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="hasMark invoice-action-view mr-4 hide">
@@ -156,6 +155,7 @@
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, 2, ',', '.')}}</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format($vats,  2, ',', '.')}}</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format($finals + $vats,  2, ',', '.')}}</td>
+                            <td></td>
                             <td></td>
                         </tr>
                         </tbody>

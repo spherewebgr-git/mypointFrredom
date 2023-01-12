@@ -139,6 +139,7 @@
                         </thead>
                         <tbody>
                         @foreach($invoices as $invoice)
+
                             <tr role="row" class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
                                 <td class="select-square center">
@@ -151,7 +152,9 @@
                                     @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}
                                 </td>
                                 <td class="bold">
+                                    @if($invoice->client)
                                     <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
+                                        @endif
                                 </td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>

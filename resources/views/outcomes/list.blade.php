@@ -40,7 +40,7 @@
                 </div>
                 <div class="invoice-head--right row col s12 m6 l8 display-flex justify-content-end align-items-center">
                     <div class="invoice-create-btn col ml-18">
-                        <a href="{{route('outcome.getDocs')}}"
+                        <a href="{{route('outcome.getExpenses')}}"
                            class="btn waves-effect waves-light invoice-create border-round z-depth-4" title="Ενημέρωση Εξόδων προς Χαρακτηρισμό από το myData">
                             <i class="material-icons">rotate_right</i>
                             <span class="hide-on-small-only">Ενημέρωση Εξόδων</span>
@@ -111,20 +111,20 @@
                         <th style="width: 130px!important;">
                             <span>Αρ. Παραστατικού</span>
                         </th>
-                        <th style="width: 35%!important;">Επωνυμία Προμηθευτή</th>
+                        <th style="width: 25%!important;">Επωνυμία Προμηθευτή</th>
                         <th class="center-align">Τύπος Παραστατικού</th>
                         <th class="center-align" style="width: 110px!important;">Ημ/νία Έκδοσης</th>
                         <th class="center-align" style="width: 85px!important;">Τιμή</th>
                         <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
                         <th class="center-align print-hide" style="width: 85px!important;">Σύνολο</th>
                         <th class="center-align print-hide" style="width: 85px!important;">Κατάσταση</th>
-                        <th class="center-align print-hide">Ενέργειες</th>
+                        <th class="center-align print-hide" style="width: 75px!important;">Ενέργειες</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($outcomes as $outcome)
 
-                        <tr role="row" class="{{$outcome->status}} @if(!isset($outcome->minMark)) noMark @endif">
+                        <tr role="row" class="{{$outcome->status}}">
                             <td class=" control" tabindex="0" style="display: none;"></td>
                             <td>@if($outcome->outcome_number) {{$outcome->outcome_number}} @else - @endif</td>
                             <td>@if($outcome->status == 'efka') ΕΦΚΑ @else {{getProviderName($outcome->shop)}} @endif</td>
@@ -150,7 +150,15 @@
                             </td>
                             <td class="center-align print-hide">
                                 <div class="invoice-action">
-
+                                    @if(isset($outcome->file) && $outcome->file != '')
+                                    <a href="{{route('outcome.download', ['outcome' => $outcome->hashID])}}" class="invoice-action-edit">
+                                        <i class="material-icons">cloud_download</i>
+                                    </a>
+                                    @else
+                                        <a href="#" class="invoice-action-edit">
+                                            <i class="material-icons">cloud_off</i>
+                                        </a>
+                                    @endif
                                         <a href="{{route('outcome.edit', ['outcome' => $outcome->hashID])}}" class="invoice-action-edit">
                                             <i class="material-icons">edit</i>
                                         </a>

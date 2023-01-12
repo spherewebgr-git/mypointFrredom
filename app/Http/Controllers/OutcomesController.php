@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ForeignProviders;
 use App\Models\Outcomes;
 use App\Models\Provider;
 use App\Models\RetailClassification;
@@ -41,8 +42,9 @@ class OutcomesController extends Controller
     public function new()
     {
         $providers = Provider::all();
+        $foreign = ForeignProviders::all();
 
-        return view('outcomes.new', ['providers' => $providers]);
+        return view('outcomes.new', ['providers' => $providers, 'foreign' => $foreign]);
     }
 
     public function store(Request $request)
@@ -68,6 +70,7 @@ class OutcomesController extends Controller
         DB::table('outcomes')->insert(
             array(
                 'hashID' => Str::substr(Str::slug(Hash::make($request->shop . $request->outcome_number)), 0, 32),
+                'seira' => $request->seira,
                 'outcome_number' => $request->outcome_number,
                 'shop' => $request->shop,
                 'date' => $date,
@@ -139,6 +142,7 @@ class OutcomesController extends Controller
     public function edit(Outcomes $outcome)
     {
         $providers = Provider::all();
+        $foreign = ForeignProviders::all();
         $classPrices = [];
         $classifications = DB::table('retail_classifications')->where('outcome_hash','=', $outcome->hashID)->get();
 
@@ -149,7 +153,7 @@ class OutcomesController extends Controller
         $currentPrice = array_sum($classPrices);
 
         //dd($classifications);
-        return view('outcomes.new', ['outcome' => $outcome, 'providers' => $providers, 'classifications' => $classifications, 'classifiedPrice' => $currentPrice]);
+        return view('outcomes.new', ['outcome' => $outcome, 'providers' => $providers, 'classifications' => $classifications, 'classifiedPrice' => $currentPrice, 'foreign' => $foreign]);
     }
 
     public function update(Request $request, Outcomes $outcome)
@@ -181,6 +185,5 @@ class OutcomesController extends Controller
 
         return back();
     }
-
 
 }

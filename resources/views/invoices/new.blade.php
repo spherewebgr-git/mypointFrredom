@@ -261,7 +261,7 @@
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
-                            @if(!isset($invoice->mark) && isset(settings()->aade_user_id) && isset(settings()->ocp_apim_subscription_key) && isset($invoice))
+                            @if(!isset($invoice->mark) && isset($invoice))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
                                         <a href="{{route('invoice.mydata', $invoice->hashID)}}"

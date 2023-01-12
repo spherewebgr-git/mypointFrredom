@@ -92,6 +92,7 @@ class ClientsController extends Controller
         //dd($request);
         $client->update([
             "name" => $request->name,
+            "code_number" => $request->code_number,
             "company" => $request->company,
             "work_title" => $request->work_title,
             "email" => $request->email,
@@ -105,31 +106,34 @@ class ClientsController extends Controller
         $lastAddress = ClientAddresses::query()->where('client_hash', '=', $client->hashID)->latest('address_type')->first();
         //dd($lastAddress->address_type);
         if ($request->addresses) {
+            //dd($request->addresses);
             foreach ($request->addresses as $address) {
-                //dd($address);
-                if (isset($address->address_id)) {
-                    $oldAddress = ClientAddresses::query()->where('id', '=', $address->address_id)->first();
-                    $oldAddress->update([
-                        "address_name" => $address['type'],
-                        "address" => $address['address'],
-                        "number" => $address['number'],
-                        "city" => $address['city'],
-                        "postal_code" => $address['postal_code'],
-                        "updated_at" => date('Y-m-d H:i:s')
-                    ]);
-                } else {
-                    //dd($address['address']);
-                    ClientAddresses::create([
-                        "client_hash" => $client->hashID,
-                        "address_type" => $lastAddress->address_type + 1,
-                        "address_name" => $address['address_type'],
-                        "address" => $address['address'],
-                        "number" => $address['number'],
-                        "city" => $address['city'],
-                        "postal_code" => $address['postal_code'],
-                        "created_at" => date('Y-m-d H:i:s')
-                    ]);
+                if($address['address']) {
+                    if (isset($address->address_id)) {
+                        $oldAddress = ClientAddresses::query()->where('id', '=', $address->address_id)->first();
+                        $oldAddress->update([
+                            "address_name" => $address['type'],
+                            "address" => $address['address'],
+                            "number" => $address['number'],
+                            "city" => $address['city'],
+                            "postal_code" => $address['postal_code'],
+                            "updated_at" => date('Y-m-d H:i:s')
+                        ]);
+                    } else {
+                        //dd($address['address']);
+                        ClientAddresses::create([
+                            "client_hash" => $client->hashID,
+                            "address_type" => $lastAddress->address_type + 1,
+                            "address_name" => $address['address_type'],
+                            "address" => $address['address'],
+                            "number" => $address['number'],
+                            "city" => $address['city'],
+                            "postal_code" => $address['postal_code'],
+                            "created_at" => date('Y-m-d H:i:s')
+                        ]);
+                    }
                 }
+
             }
         }
 

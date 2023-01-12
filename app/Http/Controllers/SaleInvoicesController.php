@@ -211,7 +211,7 @@ class SaleInvoicesController extends Controller
     public function sendInvoice($invoice)
     {
         // $invoices = $request->invoices;
-        $theInvoice = SaleInvoices::query()->where('sale_invoiceID', '=', $invoice)->first();
+        $theInvoice = SaleInvoices::query()->where('hashID', '=', $invoice)->first();
         //dd($theInvoice);
 
         $an = myDataSendInvoices('sale_invoice', $invoice);

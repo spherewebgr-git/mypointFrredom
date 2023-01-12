@@ -57,6 +57,7 @@ class RetailReceiptsController extends Controller
         $final = array_sum($finalRetails);
         $vats = array_sum($finalVat);
 
+
         return view('retail_receipts.index', ['retails' => $retail_receipts, 'finals' => $final, 'vats' => $vats]);
     }
 
@@ -75,29 +76,39 @@ class RetailReceiptsController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
+        $items = $request->services;
         $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
         if(!$requestDate) {
             $requestDate = DateTime::createFromFormat('Y-m-d', $request->date);
         }
 
         $date = $requestDate->format('Y-m-d');
-
-        $vat = $request->price - ($request->price / 1.24);
+        $hash = Str::substr(Str::slug(Hash::make( $request->seira.$request->retailID)), 0, 32);
 
         DB::table('retails')->insert(
             array(
                 'retailID' => $request->retailID,
-                'hashID' => Str::substr(Str::slug(Hash::make( $request->seira.$request->retailID)), 0, 32),
+                'hashID' => $hash,
                 'seira' => $request->seira,
+                'client_description' => $request->client_description,
                 'date' => $date,
-                'price' => $request->price,
-                'payment_method' => $request->paymentMethod,
-                'vat' => $vat,
-                'service' => $request->description,
-                'description' => $request->mainDescription,
                 'created_at' => Carbon::now()
             )
         );
+
+        foreach($items as $item) {
+            DB::table('retail_receipts_items')->insert([
+                'retailHash' => $hash,
+                'payment_method' => $item['payment_method'],
+                'product_service' => $item['product_service'],
+                'vat_id' => $item['vat_id'],
+                'price' => $item['price'],
+                'vat' => $item['vat'],
+                'created_at' => date('Y-m-d')
+            ]);
+        }
+
         if(isset($request->printNow) && $request->printNow == 'on') {
             $retail_receipt = Retails::query()->where('retailID', '=' , $request->retailID )->first();
             $settings = Settings::all()->first();
@@ -132,8 +143,8 @@ class RetailReceiptsController extends Controller
             'retailID' => $retailReceipt->retailID,
             'hashID' => $retail,
             'seira' => $request->seira,
+            'client_description' => $request->client_description,
             'date' => $date,
-
             'updated_at' => Carbon::now()
         ]);
 //dd($items);
@@ -222,5 +233,16 @@ class RetailReceiptsController extends Controller
             return '00';
         }
         return $last->retailID + 1;
+    }
+
+    public function view($retailHash) {
+        $retail = Retails::query()->where('hashID', '=', $retailHash)->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+
+        return view('retail_receipts.view', ['retail' => $retail, 'settings' => $settings]);
     }
 }

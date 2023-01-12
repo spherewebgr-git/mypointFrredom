@@ -288,9 +288,18 @@
                             @if(!isset($invoice->mark))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
-                                        <a href="{{route('delivery_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                        <a href="{{route('delivery_invoice.mydata', $invoice->hashID)}}" class="btn btn-light-indigo waves-effect waves-light display-flex justify-content-center">
                                             <i class="material-icons mr-4">backup</i>
                                             <span>Αποστολή στο myData</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="invoice-action-btn">
+                                    <div class="invoice-action-btn">
+                                        <a href="{{route('delivery_invoice.cancelMydata', $invoice->mark)}}" class="btn btn-light-red waves-effect waves-light display-flex justify-content-center">
+                                            <i class="material-icons mr-4">cloud_off</i>
+                                            <span>Ακύρωση απο myData</span>
                                         </a>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
                 <div class="display-flex">
                     @if(isset($settings['invoice_logo']) && $settings['invoice_logo'] != NULL)
                         <div class="media">
-                            <img src="{{url('images/system/'.$settings->invoice_logo)}}" class="border-radius-4" alt="profile image"
+                            <img src="{{url('images/system/'.$settings['invoice_logo'])}}" class="border-radius-4" alt="profile image"
                                  height="80" width="236">
                         </div>
                     @endif

@@ -32,8 +32,8 @@
                                                     @if(isset($retail->seira) && $retail->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
                                     </select>
-                                    <h6 class="invoice-number mr-4 mb-5 ml-4">ΦΤΜ Ζ # </h6>
-                                    <input type="text" name="invoiceID" placeholder="000" id="invoiceID"
+                                    <h6 class="invoice-number mr-4 mb-5 ml-4"> # </h6>
+                                    <input type="text" name="retailID" placeholder="000" id="retailID"
                                            @if(isset($retail))
                                                value="{{old('retailID', $retail->retailID)}}"
                                            disabled @elseif(isset($last) && $last != '') value="{{$last + 1}}" @endif>
@@ -56,7 +56,14 @@
                                 </div>
                             </div>
 
-
+                            <div class="row mb-3">
+                                <div class="col s12">
+                                    <h6 class="invoice-number mr-4 mb-2">Στοιχεία Πελάτη: </h6>
+                                    <div class="input-field">
+                                        <textarea name="client_description" id="client_description" class="materialize-textarea">{{$retail->client_description}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
                                 <div data-repeater-list="services">

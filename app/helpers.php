@@ -3,6 +3,7 @@
 use App\Models\Client;
 use App\Models\DeliveredGoods;
 use App\Models\DeliveryInvoices;
+use App\Models\ForeignProviders;
 use App\Models\Invoice;
 use App\Models\Outcomes;
 use App\Models\Provider;
@@ -229,7 +230,7 @@ if(!function_exists('getRetailPrices'))
         $rPrices = [
             'price' => $retailPrice,
             'vat' => $retailVats,
-            'full' => number_format((float)($retailPrice + $retailVats), 2)
+            'full' => number_format(($retailPrice + $retailVats), 2)
         ];
 
         return $rPrices;
@@ -370,10 +371,13 @@ if(!function_exists('getProviderName'))
      */
     function getProviderName($vat)
     {
-        $provider = Provider::all()->where('provider_vat', '=', $vat)->first();
+        $provider = Provider::query()->where('provider_vat', '=', $vat)->first();
+        $foreign = ForeignProviders::query()->where('provider_vat', '=', $vat)->first();
 
         if(isset($provider->provider_name)) {
             $name = $provider->provider_name;
+        } elseif(isset($foreign->provider_name)) {
+            $name = $foreign->provider_name;
         } else {
             $name = 'Μη καταχωρημένος προμηθευτής';
         }
@@ -493,6 +497,48 @@ if(!function_exists('createInvoiceFile'))
         Storage::put('public/pdf/'.$year.'/'.$month.'/invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf', $pdf->output());
 
         $invoice->update(['file_invoice' => 'invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf']);
+    }
+}
+
+if(!function_exists('getPaymentMethodName')) {
+    function getPaymentMethodName($paymentID) {
+        switch ($paymentID) {
+            case 1:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
+                break;
+            case 2:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΞΩΤΕΡΙΚΟΥ';
+                break;
+            case 3:
+                $payment = 'ΜΕΤΡΗΤΑ';
+                break;
+            case 4:
+                $payment = 'ΕΠΙΤΑΓΗ';
+                break;
+            case 5:
+                $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
+                break;
+            case 6:
+                $payment = 'Web Banking';
+                break;
+            case 7:
+                $payment = 'POS \ ePOS';
+                break;
+        }
+
+        return $payment;
+    }
+}
+
+if(!function_exists('getRetailPaymentMethods')) {
+    function getRetailPaymentMethods($retailHash) {
+        $retailItems = RetailReceiptsItems::query()->where('retailHash', '=', $retailHash)->get();
+        $payments = [];
+        foreach($retailItems as $retailItem) {
+            $payments[] = getPaymentMethodName($retailItem->payment_method);
+        }
+        //dd($payments);
+        return $payments;
     }
 }
 

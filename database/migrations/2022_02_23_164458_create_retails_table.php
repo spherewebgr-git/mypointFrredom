@@ -19,7 +19,7 @@ class CreateRetailsTable extends Migration
             $table->string('seira')->default('ΑΝΕΥ');
             $table->unsignedBigInteger('retailID')->unique();
             $table->date('date');
-            $table->float('sum_price')->nullable();
+            $table->string('client_description')->nullable();
             $table->string('mark')->nullable();
             $table->softDeletes();
             $table->timestamps();

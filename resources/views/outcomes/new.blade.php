@@ -36,7 +36,7 @@
             <div id="prefixes" class="card card card-default scrollspy">
                 <div class="card-content">
                     <h4 class="card-title">Στοιχεία Παραστατικού</h4>
-                    @if(count($providers) == 0)
+                    @if(count($providers) == 0 && $foreign == 0)
                         <div
                             class="alert-warning red-text display-flex align-items-center center-align flex-wrap mt-2 mb-2 justify-content-center">
                             <strong class="col s12 align-items-center display-flex justify-content-center"><i
@@ -46,7 +46,14 @@
                         </div>@endif
 
                         <div class="row">
-                            <div class="input-field col s12 m4">
+                            <div class="input-field col s12 m1">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="seira" type="text" name="seira"
+                                       @if(isset($outcome->seira))value="{{old('seira', $outcome->seira)}}"
+                                       @endif required>
+                                <label for="seira" class="">Σειρά *</label>
+                            </div>
+                            <div class="input-field col s12 m3">
                                 <i class="material-icons prefix">account_circle</i>
                                 <input id="outcome_number" type="text" name="outcome_number"
                                        @if(isset($outcome->outcome_number))value="{{old('outcome_number', $outcome->outcome_number)}}"
@@ -172,11 +179,17 @@
                             <div class="input-field col s12 m5">
                                 <i class="material-icons prefix">local_grocery_store</i>
                                 <select name="shop" id="shop">
-                                    <option value="" disabled selected>@if(count($providers) > 0)Επιλέξτε Προμηθευτή@elseΔεν
-                                        υπάρχουν διαθέσιμοι προμηθευτές@endif</option>
+                                    <option value="" disabled selected>@if(count($providers) > 0)Προμηθευτές Εσωτερικού@elseΔεν
+                                        υπάρχουν διαθέσιμοι προμηθευτές Εσωτερικού @endif</option>
                                     @foreach($providers as $provider)
                                         <option value="{{old('provider_vat', $provider->provider_vat)}}"
                                                 @if(isset($outcome->shop) && $provider->provider_vat == $outcome->shop) selected @endif>@if($provider->provider_name){{$provider->provider_name}}@endif</option>
+                                    @endforeach
+                                    <option value="" disabled>@if(count($providers) > 0)Προμηθευτές Εξωτερικού@elseΔεν
+                                        υπάρχουν διαθέσιμοι προμηθευτές Εξωτερικού @endif</option>
+                                    @foreach($foreign as $foreigner)
+                                        <option value="{{old('provider_vat', $foreigner->provider_vat)}}"
+                                                @if(isset($outcome->shop) && $foreigner->provider_vat == $outcome->shop) selected @endif>@if($foreigner->provider_name){{$foreigner->provider_name}}@endif</option>
                                     @endforeach
                                 </select>
                                 {{--                            <input id="shop" type="text" name="shop" @if(isset($outcome->shop)) value="{{old('shop', $outcome->shop)}}" @endif required>--}}
@@ -267,94 +280,86 @@
                                                 </select>
                                                 <label for="classification_category">Κατηγορία</label>
                                             </div>
-                                            <div class="col s12 m4 input-field">
+                                            <div class="col s12 m3 input-field">
                                                 <select id="classification_type" name="old[{{$key}}][classification_type]" class="browser-default select-wrapper">
                                                     <option value="" disabled="">Επιλέξτε Είδος</option>
-                                                    <option value="E3_101" @if($classification->classification_type == 'E3_101') selected @endif>Εμπορεύματα έναρξης [Ε3_101]</option>
-                                                    <option value="E3_102_001" @if($classification->classification_type == 'E3_102_001') selected @endif>Αγορές εμπορευμάτων χρήσης (καθ.ποσό) Χονδρικές [Ε3_102_001]</option>
-                                                    <option value="E3_102_002" @if($classification->classification_type == 'E3_102_002') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Λιανικές [Ε3_102_002]</option>
-                                                    <option value="E3_102_003" @if($classification->classification_type == 'E3_102_003') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Αγαθών του άρθρου 39α παρ.5 του Κώδικα Φ.Π.Α. (ν.2859/2000) [Ε3_102_003]</option>
-                                                    <option value="E3_102_004" @if($classification->classification_type == 'E3_102_004') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_102_004]</option>
-                                                    <option value="E3_102_005" @if($classification->classification_type == 'E3_102_005') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_102_005]</option>
-                                                    <option value="E3_102_006" @if($classification->classification_type == 'E3_102_006') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)Λοιπά [Ε3_102_006]</option>
-                                                    <option value="E3_104" @if($classification->classification_type == 'E3_104') selected @endif>Εμπορεύματα λήξης [Ε3_104]</option>
-                                                    <option value="E3_201" @if($classification->classification_type == 'E3_201') selected @endif>Πρώτες ύλες και υλικά έναρξης/Παραγωγή [Ε3_201]</option>
-                                                    <option value="E3_202_001" @if($classification->classification_type == 'E3_202_001') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [Ε3_202_001]</option>
-                                                    <option value="E3_202_002" @if($classification->classification_type == 'E3_202_002') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [Ε3_202_002]</option>
-                                                    <option value="E3_202_003" @if($classification->classification_type == 'E3_202_003') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_202_003]</option>
-                                                    <option value="E3_202_004" @if($classification->classification_type == 'E3_202_004') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_202_004]</option>
-                                                    <option value="E3_202_005" @if($classification->classification_type == 'E3_202_005') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [Ε3_202_005]</option>
+                                                    <option value="E3_101" @if($classification->classification_type == 'E3_101') selected @endif>Εμπορεύματα έναρξης [E3_101]</option>
+                                                    <option value="E3_102_001" @if($classification->classification_type == 'E3_102_001') selected @endif>Αγορές εμπορευμάτων χρήσης (καθ.ποσό) Χονδρικές [E3_102_001]</option>
+                                                    <option value="E3_102_002" @if($classification->classification_type == 'E3_102_002') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Λιανικές [E3_102_002]</option>
+                                                    <option value="E3_102_003" @if($classification->classification_type == 'E3_102_003') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Αγαθών του άρθρου 39α παρ.5 του Κώδικα Φ.Π.Α. (ν.2859/2000) [E3_102_003]</option>
+                                                    <option value="E3_102_004" @if($classification->classification_type == 'E3_102_004') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_102_004]</option>
+                                                    <option value="E3_102_005" @if($classification->classification_type == 'E3_102_005') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_102_005]</option>
+                                                    <option value="E3_102_006" @if($classification->classification_type == 'E3_102_006') selected @endif>Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)Λοιπά [E3_102_006]</option>
+                                                    <option value="E3_104" @if($classification->classification_type == 'E3_104') selected @endif>Εμπορεύματα λήξης [E3_104]</option>
+                                                    <option value="E3_201" @if($classification->classification_type == 'E3_201') selected @endif>Πρώτες ύλες και υλικά έναρξης/Παραγωγή [E3_201]</option>
+                                                    <option value="E3_202_001" @if($classification->classification_type == 'E3_202_001') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [E3_202_001]</option>
+                                                    <option value="E3_202_002" @if($classification->classification_type == 'E3_202_002') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [E3_202_002]</option>
+                                                    <option value="E3_202_003" @if($classification->classification_type == 'E3_202_003') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_202_003]</option>
+                                                    <option value="E3_202_004" @if($classification->classification_type == 'E3_202_004') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_202_004]</option>
+                                                    <option value="E3_202_005" @if($classification->classification_type == 'E3_202_005') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [E3_202_005]</option>
                                                     <option value="E3_204" @if($classification->classification_type == 'E3_204') selected @endif> Αποθέματα λήξης πρώτων υλών και υλικών/Παραγωγή [E3_204]</option>
-                                                    <option value="E3_207" @if($classification->classification_type == 'E3_207') selected @endif> Προϊόντα και παραγωγή σε εξέλιξη έναρξης/Παραγωγή [Ε3_207]</option>
-                                                    <option value="E3_209" @if($classification->classification_type == 'E3_209') selected @endif> Προϊόντα και παραγωγή σε εξέλιξη λήξης/Παραγωγή [Ε3_209]</option>
-                                                    <option value="E3_301" @if($classification->classification_type == 'E3_301') selected @endif> Πρώτες ύλες και υλικά έναρξης/Αγροτική [Ε3_301]</option>
-                                                    <option value="E3_302_001" @if($classification->classification_type == 'E3_302_001') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [Ε3_302_001]</option>
-                                                    <option value="E3_302_002" @if($classification->classification_type == 'E3_302_002') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [Ε3_302_002]</option>
-                                                    <option value="E3_302_003" @if($classification->classification_type == 'E3_302_003') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_302_003]</option>
-                                                    <option value="E3_302_004" @if($classification->classification_type == 'E3_302_004') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_302_004]</option>
-                                                    <option value="E3_302_005" @if($classification->classification_type == 'E3_302_005') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [Ε3_302_005]</option>
-                                                    <option value="E3_581_001" @if($classification->classification_type == 'E3_581_001') selected @endif>Παροχές σε εργαζόμενους/Μικτές αποδοχές [Ε3_581_001]</option>
-                                                    <option value="E3_581_002" @if($classification->classification_type == 'E3_581_002') selected @endif>Παροχές σε εργαζόμενους/Εργοδοτικές εισφορές [Ε3_581_002]</option>
-                                                    <option value="E3_581_003" @if($classification->classification_type == 'E3_581_003') selected @endif>Παροχές σε εργαζόμενους/Λοιπές παροχές [Ε3_581_003]</option>
+                                                    <option value="E3_207" @if($classification->classification_type == 'E3_207') selected @endif> Προϊόντα και παραγωγή σε εξέλιξη έναρξης/Παραγωγή [E3_207]</option>
+                                                    <option value="E3_209" @if($classification->classification_type == 'E3_209') selected @endif> Προϊόντα και παραγωγή σε εξέλιξη λήξης/Παραγωγή [E3_209]</option>
+                                                    <option value="E3_301" @if($classification->classification_type == 'E3_301') selected @endif> Πρώτες ύλες και υλικά έναρξης/Αγροτική [E3_301]</option>
+                                                    <option value="E3_302_001" @if($classification->classification_type == 'E3_302_001') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [E3_302_001]</option>
+                                                    <option value="E3_302_002" @if($classification->classification_type == 'E3_302_002') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [E3_302_002]</option>
+                                                    <option value="E3_302_003" @if($classification->classification_type == 'E3_302_003') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_302_003]</option>
+                                                    <option value="E3_302_004" @if($classification->classification_type == 'E3_302_004') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_302_004]</option>
+                                                    <option value="E3_302_005" @if($classification->classification_type == 'E3_302_005') selected @endif> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [E3_302_005]</option>
+                                                    <option value="E3_581_001" @if($classification->classification_type == 'E3_581_001') selected @endif>Παροχές σε εργαζόμενους/Μικτές αποδοχές [E3_581_001]</option>
+                                                    <option value="E3_581_002" @if($classification->classification_type == 'E3_581_002') selected @endif>Παροχές σε εργαζόμενους/Εργοδοτικές εισφορές [E3_581_002]</option>
+                                                    <option value="E3_581_003" @if($classification->classification_type == 'E3_581_003') selected @endif>Παροχές σε εργαζόμενους/Λοιπές παροχές [E3_581_003]</option>
                                                     <option value="E3_582" @if($classification->classification_type == 'E3_582') selected @endif> Ζημιές επιμέτρησης περιουσιακών στοιχείων [E3_582]</option>
                                                     <option value="E3_583" @if($classification->classification_type == 'E3_583') selected @endif> Χρεωστικές συναλλαγματικές διαφορές [E3_583]</option>
                                                     <option value="E3_584" @if($classification->classification_type == 'E3_584') selected @endif> Ζημιές από διάθεση-απόσυρση μη κυκλοφορούντων περιουσιακών στοιχείων [E3_584]</option>
-                                                    <option value="E3_585_001" @if($classification->classification_type == 'E3_585_001') selected @endif>Προμήθειες διαχείρισης ημεδαπής - αλλοδαπής (management fees) [Ε3_585_001]</option>
-                                                    <option value="E3_585_002" @if($classification->classification_type == 'E3_585_002') selected @endif>Δαπάνες από συνδεδεμένες επιχειρήσεις [Ε3_585_002]</option>
-                                                    <option value="E3_585_003" @if($classification->classification_type == 'E3_585_003') selected @endif>Δαπάνες από μη συνεργαζόμενα κράτη ή από κράτη με προνομιακό φορολογικό καθεστώς [Ε3_585_003]</option>
-                                                    <option value="E3_585_004" @if($classification->classification_type == 'E3_585_004') selected @endif>Δαπάνες για ενημερωτικές ημερίδες [Ε3_585_004]</option>
-                                                    <option value="E3_585_005" @if($classification->classification_type == 'E3_585_005') selected @endif>Έξοδα υποδοχής και φιλοξενίας [Ε3_585_005]</option>
-                                                    <option value="E3_585_006" @if($classification->classification_type == 'E3_585_006') selected @endif>Έξοδα ταξιδιών [Ε3_585_006]</option>
-                                                    <option value="E3_585_007" @if($classification->classification_type == 'E3_585_007') selected @endif>Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [Ε3_585_007]</option>
-                                                    <option value="E3_585_008" @if($classification->classification_type == 'E3_585_008') selected @endif>Έξοδα και προμήθειες παραγγελιοδόχου για λογαριασμό αγροτών [Ε3_585_008]</option>
-                                                    <option value="E3_585_009" @if($classification->classification_type == 'E3_585_009') selected @endif>Λοιπές Αμοιβές για υπηρεσίες ημεδαπής [Ε3_585_009]</option>
-                                                    <option value="E3_585_010" @if($classification->classification_type == 'E3_585_010') selected @endif>Λοιπές Αμοιβές για υπηρεσίες αλλοδαπής [Ε3_585_010]</option>
-                                                    <option value="E3_585_011" @if($classification->classification_type == 'E3_585_011') selected @endif>Ενέργεια [Ε3_585_011]</option>
-                                                    <option value="E3_585_012" @if($classification->classification_type == 'E3_585_012') selected @endif>Ύδρευση [Ε3_585_012]</option>
-                                                    <option value="E3_585_013" @if($classification->classification_type == 'E3_585_013') selected @endif>Τηλεπικοινωνίες [Ε3_585_013]</option>
-                                                    <option value="E3_585_014" @if($classification->classification_type == 'E3_585_014') selected @endif>Ενοίκια [Ε3_585_014]</option>
-                                                    <option value="E3_585_015" @if($classification->classification_type == 'E3_585_015') selected @endif>Διαφήμιση και προβολή [Ε3_585_015]</option>
-                                                    <option value="E3_585_016" @if($classification->classification_type == 'E3_585_016') selected @endif>Λοιπά έξοδα [Ε3_585_016]</option>
-                                                    <option value="E3_586" @if($classification->classification_type == 'E3_586') selected @endif>Χρεωστικοί τόκοι και συναφή έξοδα [Ε3_586]</option>
-                                                    <option value="E3_587" @if($classification->classification_type == 'E3_587') selected @endif>Αποσβέσεις [Ε3_587]</option>
-                                                    <option value="E3_588" @if($classification->classification_type == 'E3_588') selected @endif>Ασυνήθη έξοδα, ζημιές και πρόστιμα [Ε3_588]</option>
-                                                    <option value="E3_589" @if($classification->classification_type == 'E3_589') selected @endif>Προβλέψεις (εκτός από προβλέψεις για το προσωπικό) [Ε3_589]</option>
+                                                    <option value="E3_585_001" @if($classification->classification_type == 'E3_585_001') selected @endif>Προμήθειες διαχείρισης ημεδαπής - αλλοδαπής (management fees) [E3_585_001]</option>
+                                                    <option value="E3_585_002" @if($classification->classification_type == 'E3_585_002') selected @endif>Δαπάνες από συνδεδεμένες επιχειρήσεις [E3_585_002]</option>
+                                                    <option value="E3_585_003" @if($classification->classification_type == 'E3_585_003') selected @endif>Δαπάνες από μη συνεργαζόμενα κράτη ή από κράτη με προνομιακό φορολογικό καθεστώς [E3_585_003]</option>
+                                                    <option value="E3_585_004" @if($classification->classification_type == 'E3_585_004') selected @endif>Δαπάνες για ενημερωτικές ημερίδες [E3_585_004]</option>
+                                                    <option value="E3_585_005" @if($classification->classification_type == 'E3_585_005') selected @endif>Έξοδα υποδοχής και φιλοξενίας [E3_585_005]</option>
+                                                    <option value="E3_585_006" @if($classification->classification_type == 'E3_585_006') selected @endif>Έξοδα ταξιδιών [E3_585_006]</option>
+                                                    <option value="E3_585_007" @if($classification->classification_type == 'E3_585_007') selected @endif>Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [E3_585_007]</option>
+                                                    <option value="E3_585_008" @if($classification->classification_type == 'E3_585_008') selected @endif>Έξοδα και προμήθειες παραγγελιοδόχου για λογαριασμό αγροτών [E3_585_008]</option>
+                                                    <option value="E3_585_009" @if($classification->classification_type == 'E3_585_009') selected @endif>Λοιπές Αμοιβές για υπηρεσίες ημεδαπής [E3_585_009]</option>
+                                                    <option value="E3_585_010" @if($classification->classification_type == 'E3_585_010') selected @endif>Λοιπές Αμοιβές για υπηρεσίες αλλοδαπής [E3_585_010]</option>
+                                                    <option value="E3_585_011" @if($classification->classification_type == 'E3_585_011') selected @endif>Ενέργεια [E3_585_011]</option>
+                                                    <option value="E3_585_012" @if($classification->classification_type == 'E3_585_012') selected @endif>Ύδρευση [E3_585_012]</option>
+                                                    <option value="E3_585_013" @if($classification->classification_type == 'E3_585_013') selected @endif>Τηλεπικοινωνίες [E3_585_013]</option>
+                                                    <option value="E3_585_014" @if($classification->classification_type == 'E3_585_014') selected @endif>Ενοίκια [E3_585_014]</option>
+                                                    <option value="E3_585_015" @if($classification->classification_type == 'E3_585_015') selected @endif>Διαφήμιση και προβολή [E3_585_015]</option>
+                                                    <option value="E3_585_016" @if($classification->classification_type == 'E3_585_016') selected @endif>Λοιπά έξοδα [E3_585_016]</option>
+                                                    <option value="E3_586" @if($classification->classification_type == 'E3_586') selected @endif>Χρεωστικοί τόκοι και συναφή έξοδα [E3_586]</option>
+                                                    <option value="E3_587" @if($classification->classification_type == 'E3_587') selected @endif>Αποσβέσεις [E3_587]</option>
+                                                    <option value="E3_588" @if($classification->classification_type == 'E3_588') selected @endif>Ασυνήθη έξοδα, ζημιές και πρόστιμα [E3_588]</option>
+                                                    <option value="E3_589" @if($classification->classification_type == 'E3_589') selected @endif>Προβλέψεις (εκτός από προβλέψεις για το προσωπικό) [E3_589]</option>
                                                     <option value="E3_881_001" @if($classification->classification_type == 'E3_881_001') selected @endif>Πωλήσεις για λογ/σμο Τρίτων Χονδρικές [E3_881_001]</option>
                                                     <option value="E3_881_002" @if($classification->classification_type == 'E3_881_002') selected @endif>Πωλήσεις για λογ/σμο Τρίτων Λιανικές [E3_881_002]</option>
                                                     <option value="E3_881_003" @if($classification->classification_type == 'E3_881_003') selected @endif>Πωλήσεις για λογ/σμο Τρίτων Εξωτερικού Ενδοκοινοτικές [E3_881_003]</option>
                                                     <option value="E3_881_004" @if($classification->classification_type == 'E3_881_004') selected @endif>Πωλήσεις για λογ/σμο Τρίτων Εξωτερικού Τρίτες Χώρες [E3_881_004]</option>
-                                                    <option value="E3_882_001" @if($classification->classification_type == 'E3_882_001') selected @endif>Αγορές ενσώματων παγίων χρήσης/Χονδρικές [Ε3_882_001]</option>
-                                                    <option value="E3_882_002" @if($classification->classification_type == 'E3_882_002') selected @endif>Αγορές ενσώματων παγίων χρήσης/Λιανικές [Ε3_882_002]</option>
-                                                    <option value="E3_882_003" @if($classification->classification_type == 'E3_882_003') selected @endif>Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [Ε3_882_003]</option>
-                                                    <option value="E3_882_004" @if($classification->classification_type == 'E3_882_004') selected @endif>Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [Ε3_882_004]</option>
-                                                    <option value="E3_883_001" @if($classification->classification_type == 'E3_883_001') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Χονδρικές [Ε3_883_001]</option>
-                                                    <option value="E3_883_002" @if($classification->classification_type == 'E3_883_002') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Λιανικές [Ε3_883_002]</option>
-                                                    <option value="E3_883_003" @if($classification->classification_type == 'E3_883_003') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [Ε3_883_003]</option>
-                                                    <option value="E3_883_004" @if($classification->classification_type == 'E3_883_004') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [Ε3_883_004]</option>
-                                                    <option value="VAT_361" @if($classification->classification_type == 'VAT_361') selected @endif>Αγορές & δαπάνες στο εσωτερικό της χώρας [VAT_361]</option>
-                                                    <option value="VAT_362" @if($classification->classification_type == 'VAT_362') selected @endif>Αγορές & εισαγωγές επενδ. Αγαθών (πάγια) [VAT_362]</option>
-                                                    <option value="VAT_363" @if($classification->classification_type == 'VAT_363') selected @endif>Λοιπές εισαγωγές εκτός επενδ. Αγαθών (πάγια) [VAT_363]</option>
-                                                    <option value="VAT_364" @if($classification->classification_type == 'VAT_364') selected @endif>Ενδοκοινοτικές αποκτήσεις αγαθών [VAT_364]</option>
-                                                    <option value="VAT_365" @if($classification->classification_type == 'VAT_365') selected @endif>Ενδοκοινοτικές λήψεις υπηρεσιών άρθρ. 14.2.α [VAT_365]</option>
-                                                    <option value="VAT_366" @if($classification->classification_type == 'VAT_366') selected @endif>Λοιπές πράξεις λήπτη [VAT_366]</option>
+                                                    <option value="E3_882_001" @if($classification->classification_type == 'E3_882_001') selected @endif>Αγορές ενσώματων παγίων χρήσης/Χονδρικές [E3_882_001]</option>
+                                                    <option value="E3_882_002" @if($classification->classification_type == 'E3_882_002') selected @endif>Αγορές ενσώματων παγίων χρήσης/Λιανικές [E3_882_002]</option>
+                                                    <option value="E3_882_003" @if($classification->classification_type == 'E3_882_003') selected @endif>Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [E3_882_003]</option>
+                                                    <option value="E3_882_004" @if($classification->classification_type == 'E3_882_004') selected @endif>Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [E3_882_004]</option>
+                                                    <option value="E3_883_001" @if($classification->classification_type == 'E3_883_001') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Χονδρικές [E3_883_001]</option>
+                                                    <option value="E3_883_002" @if($classification->classification_type == 'E3_883_002') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Λιανικές [E3_883_002]</option>
+                                                    <option value="E3_883_003" @if($classification->classification_type == 'E3_883_003') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [E3_883_003]</option>
+                                                    <option value="E3_883_004" @if($classification->classification_type == 'E3_883_004') selected @endif>Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [E3_883_004]</option>
                                                 </select>
                                                 <label for="classification_type">Είδος</label>
                                             </div>
-                                            <div class="col s2 input-field c-tax">
+                                            <div class="col s2 m4 input-field c-tax">
                                                 <select id="tax" name="old[{{$key}}][tax]" class="invoice-tax browser-default select-wrapper">
-                                                    <option value="" disabled="">ΦΠΑ</option>
-                                                    <option value="1" @if($classification->vat == '1') selected @endif>24%</option>
-                                                    <option value="4" @if($classification->vat == '4') selected @endif>17%</option>
-                                                    <option value="2" @if($classification->vat == '2') selected @endif>13%</option>
-                                                    <option value="5" @if($classification->vat == '5') selected @endif>9%</option>
-                                                    <option value="3" @if($classification->vat == '3') selected @endif>6%</option>
-                                                    <option value="6" @if($classification->vat == '6') selected @endif>4%</option>
-                                                    <option value="7" @if($classification->vat == '7') selected @endif>0%</option>
-                                                    <option value="8" @if($classification->vat == '8') selected @endif>-</option>
+                                                    <option value="" disabled="">Χαρακτηρισμός ΦΠΑ</option>
+                                                    <option value="VAT_361" @if($classification->vat == 'VAT_361') selected @endif>Αγορές & δαπάνες στο εσωτερικό της χώρας [VAT_361]</option>
+                                                    <option value="VAT_362" @if($classification->vat == 'VAT_362') selected @endif>Αγορές & εισαγωγές επενδ. Αγαθών (πάγια) [VAT_362]</option>
+                                                    <option value="VAT_363" @if($classification->vat == 'VAT_363') selected @endif>Λοιπές εισαγωγές εκτός επενδ. Αγαθών (πάγια) [VAT_363]</option>
+                                                    <option value="VAT_364" @if($classification->vat == 'VAT_364') selected @endif>Ενδοκοινοτικές αποκτήσεις αγαθών [VAT_364]</option>
+                                                    <option value="VAT_365" @if($classification->vat == 'VAT_365') selected @endif>Ενδοκοινοτικές λήψεις υπηρεσιών άρθρ. 14.2.α [VAT_365]</option>
+                                                    <option value="VAT_366" @if($classification->vat == 'VAT_366') selected @endif>Λοιπές πράξεις λήπτη [VAT_366]</option>
                                                 </select>
-                                                <label for="tax">Συντελεστής ΦΠΑ</label>
+                                                <label for="tax">Χαρακτηρισμός ΦΠΑ</label>
                                             </div>
-                                            <div class="col m2 s12 input-field c-price">
+                                            <div class="col m1 s12 input-field c-price">
                                                 <input type="text" class="classification-price"  placeholder="0.00" name="old[{{$key}}][price]" value="{{$classification->price}}">
 {{--                                                <label for="price">Ποσό</label>--}}
                                             </div>
@@ -367,6 +372,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @if($classifiedPrice != $outcome->price)
                             <div class="classification-item mb-2" data-repeater-item="">
                                 <div class="row mb-1">
                                     <div class="col s4"><h6 class="m-0">Γραμμή Χαρακτηρισμού</h6></div>
@@ -397,94 +403,86 @@
                                                 </select>
                                             <label for="classification_category">Κατηγορία</label>
                                         </div>
-                                        <div class="col s12 m4 input-field">
+                                        <div class="col s12 m3 input-field">
                                             <select id="classification_type" name="classification_type" class="invoice-item-select browser-default select-wrapper">
-                                                <option value="" disabled="">Επιλέξτε Είδος</option>
-                                                <option value="Ε3_101">Εμπορεύματα έναρξης [Ε3_101]</option>
-                                                <option value="Ε3_102_001" data-categories="category2_1">Αγορές εμπορευμάτων χρήσης (καθ.ποσό) Χονδρικές [Ε3_102_001]</option>
-                                                <option value="Ε3_102_002">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Λιανικές [Ε3_102_002]</option>
-                                                <option value="Ε3_102_003" data-categories="category2_1">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Αγαθών του άρθρου 39α παρ.5 του Κώδικα Φ.Π.Α. (ν.2859/2000) [Ε3_102_003]</option>
-                                                <option value="Ε3_102_004">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_102_004]</option>
-                                                <option value="Ε3_102_005">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_102_005]</option>
-                                                <option value="Ε3_102_006">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)Λοιπά [Ε3_102_006]</option>
-                                                <option value="Ε3_104">Εμπορεύματα λήξης [Ε3_104]</option>
-                                                <option value="Ε3_201">Πρώτες ύλες και υλικά έναρξης/Παραγωγή [Ε3_201]</option>
-                                                <option value="E3_202_001" data-categories="category2_2"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [Ε3_202_001]</option>
-                                                <option value="E3_202_002"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [Ε3_202_002]</option>
-                                                <option value="E3_202_003"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_202_003]</option>
-                                                <option value="E3_202_004"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_202_004]</option>
-                                                <option value="E3_202_005"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [Ε3_202_005]</option>
+                                                <option value="" disabled="">Επιλέξτε</option>
+                                                <option value="E3_101">Εμπορεύματα έναρξης [E3_101]</option>
+                                                <option value="E3_102_001" data-categories="category2_1">Αγορές εμπορευμάτων χρήσης (καθ.ποσό) Χονδρικές [E3_102_001]</option>
+                                                <option value="E3_102_002">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Λιανικές [E3_102_002]</option>
+                                                <option value="E3_102_003" data-categories="category2_1">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Αγαθών του άρθρου 39α παρ.5 του Κώδικα Φ.Π.Α. (ν.2859/2000) [E3_102_003]</option>
+                                                <option value="E3_102_004">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_102_004]</option>
+                                                <option value="E3_102_005">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_102_005]</option>
+                                                <option value="E3_102_006">Αγορές εμπορευμάτων χρήσης (καθαρό ποσό)Λοιπά [E3_102_006]</option>
+                                                <option value="E3_104">Εμπορεύματα λήξης [E3_104]</option>
+                                                <option value="E3_201">Πρώτες ύλες και υλικά έναρξης/Παραγωγή [E3_201]</option>
+                                                <option value="E3_202_001" data-categories="category2_2"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [E3_202_001]</option>
+                                                <option value="E3_202_002"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [E3_202_002]</option>
+                                                <option value="E3_202_003"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_202_003]</option>
+                                                <option value="E3_202_004"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_202_004]</option>
+                                                <option value="E3_202_005"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [E3_202_005]</option>
                                                 <option value="E3_204"> Αποθέματα λήξης πρώτων υλών και υλικών/Παραγωγή [E3_204]</option>
-                                                <option value="E3_207"> Προϊόντα και παραγωγή σε εξέλιξη έναρξης/Παραγωγή [Ε3_207]</option>
-                                                <option value="E3_209"> Προϊόντα και παραγωγή σε εξέλιξη λήξης/Παραγωγή [Ε3_209]</option>
-                                                <option value="E3_301"> Πρώτες ύλες και υλικά έναρξης/Αγροτική [Ε3_301]</option>
-                                                <option value="E3_302_001" data-categories="category2_2"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [Ε3_302_001]</option>
-                                                <option value="E3_302_002"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [Ε3_302_002]</option>
-                                                <option value="E3_302_003"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [Ε3_302_003]</option>
-                                                <option value="E3_302_004"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [Ε3_302_004]</option>
-                                                <option value="E3_302_005"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [Ε3_302_005]</option>
-                                                <option value="Ε3_581_001">Παροχές σε εργαζόμενους/Μικτές αποδοχές [Ε3_581_001]</option>
-                                                <option value="Ε3_581_002">Παροχές σε εργαζόμενους/Εργοδοτικές εισφορές [Ε3_581_002]</option>
-                                                <option value="Ε3_581_003">Παροχές σε εργαζόμενους/Λοιπές παροχές [Ε3_581_003]</option>
+                                                <option value="E3_207"> Προϊόντα και παραγωγή σε εξέλιξη έναρξης/Παραγωγή [E3_207]</option>
+                                                <option value="E3_209"> Προϊόντα και παραγωγή σε εξέλιξη λήξης/Παραγωγή [E3_209]</option>
+                                                <option value="E3_301"> Πρώτες ύλες και υλικά έναρξης/Αγροτική [E3_301]</option>
+                                                <option value="E3_302_001" data-categories="category2_2"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Χονδρικές [E3_302_001]</option>
+                                                <option value="E3_302_002"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λιανικές [E3_302_002]</option>
+                                                <option value="E3_302_003"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Ενδοκοινοτικές [E3_302_003]</option>
+                                                <option value="E3_302_004"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Εξωτερικού Τρίτες Χώρες [E3_302_004]</option>
+                                                <option value="E3_302_005"> Αγορές πρώτων υλών και υλικών χρήσης (καθαρό ποσό)/Λοιπά [E3_302_005]</option>
+                                                <option value="E3_581_001">Παροχές σε εργαζόμενους/Μικτές αποδοχές [E3_581_001]</option>
+                                                <option value="E3_581_002">Παροχές σε εργαζόμενους/Εργοδοτικές εισφορές [E3_581_002]</option>
+                                                <option value="E3_581_003">Παροχές σε εργαζόμενους/Λοιπές παροχές [E3_581_003]</option>
                                                 <option value="E3_582"> Ζημιές επιμέτρησης περιουσιακών στοιχείων [E3_582]</option>
                                                 <option value="E3_583"> Χρεωστικές συναλλαγματικές διαφορές [E3_583]</option>
                                                 <option value="E3_584"> Ζημιές από διάθεση-απόσυρση μη κυκλοφορούντων περιουσιακών στοιχείων [E3_584]</option>
-                                                <option value="Ε3_585_001" data-categories="category2_3,category2_4,category2_5">Προμήθειες διαχείρισης ημεδαπής - αλλοδαπής (management fees) [Ε3_585_001]</option>
-                                                <option value="Ε3_585_002" data-categories="category2_4,category2_5">Δαπάνες από συνδεδεμένες επιχειρήσεις [Ε3_585_002]</option>
-                                                <option value="Ε3_585_003">Δαπάνες από μη συνεργαζόμενα κράτη ή από κράτη με προνομιακό φορολογικό καθεστώς [Ε3_585_003]</option>
-                                                <option value="Ε3_585_004" data-categories="category2_3,category2_4,category2_5">Δαπάνες για ενημερωτικές ημερίδες [Ε3_585_004]</option>
-                                                <option value="Ε3_585_005" data-categories="category2_4,category2_5">Έξοδα υποδοχής και φιλοξενίας [Ε3_585_005]</option>
-                                                <option value="Ε3_585_006" data-categories="category2_4,category2_5">Έξοδα ταξιδιών [Ε3_585_006]</option>
-                                                <option value="Ε3_585_007">Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [Ε3_585_007]</option>
-                                                <option value="Ε3_585_008" data-categories="category2_4,category2_5">Έξοδα και προμήθειες παραγγελιοδόχου για λογαριασμό αγροτών [Ε3_585_008]</option>
-                                                <option value="Ε3_585_009" data-categories="category2_3,category2_4,category2_5">Λοιπές Αμοιβές για υπηρεσίες ημεδαπής [Ε3_585_009]</option>
-                                                <option value="Ε3_585_010" data-categories="category2_3">Λοιπές Αμοιβές για υπηρεσίες αλλοδαπής [Ε3_585_010]</option>
-                                                <option value="Ε3_585_011" data-categories="category2_4,category2_5">Ενέργεια [Ε3_585_011]</option>
-                                                <option value="Ε3_585_012" data-categories="category2_4,category2_5">Ύδρευση [Ε3_585_012]</option>
-                                                <option value="Ε3_585_013" data-categories="category2_4,category2_5">Τηλεπικοινωνίες [Ε3_585_013]</option>
-                                                <option value="Ε3_585_014">Ενοίκια [Ε3_585_014]</option>
-                                                <option value="Ε3_585_015" data-categories="category2_4,category2_5">Διαφήμιση και προβολή [Ε3_585_015]</option>
-                                                <option value="Ε3_585_016" data-categories="category2_3,category2_4,category2_5" selected>Λοιπά έξοδα [Ε3_585_016]</option>
-                                                <option value="Ε3_586" data-categories="category2_4,category2_5">Χρεωστικοί τόκοι και συναφή έξοδα [Ε3_586]</option>
-                                                <option value="Ε3_587">Αποσβέσεις [Ε3_587]</option>
-                                                <option value="Ε3_588">Ασυνήθη έξοδα, ζημιές και πρόστιμα [Ε3_588]</option>
-                                                <option value="Ε3_589">Προβλέψεις (εκτός από προβλέψεις για το προσωπικό) [Ε3_589]</option>
+                                                <option value="E3_585_001" data-categories="category2_3,category2_4,category2_5">Προμήθειες διαχείρισης ημεδαπής - αλλοδαπής (management fees) [E3_585_001]</option>
+                                                <option value="E3_585_002" data-categories="category2_4,category2_5">Δαπάνες από συνδεδεμένες επιχειρήσεις [E3_585_002]</option>
+                                                <option value="E3_585_003">Δαπάνες από μη συνεργαζόμενα κράτη ή από κράτη με προνομιακό φορολογικό καθεστώς [E3_585_003]</option>
+                                                <option value="E3_585_004" data-categories="category2_3,category2_4,category2_5">Δαπάνες για ενημερωτικές ημερίδες [E3_585_004]</option>
+                                                <option value="E3_585_005" data-categories="category2_4,category2_5">Έξοδα υποδοχής και φιλοξενίας [E3_585_005]</option>
+                                                <option value="E3_585_006" data-categories="category2_4,category2_5">Έξοδα ταξιδιών [E3_585_006]</option>
+                                                <option value="E3_585_007">Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [E3_585_007]</option>
+                                                <option value="E3_585_008" data-categories="category2_4,category2_5">Έξοδα και προμήθειες παραγγελιοδόχου για λογαριασμό αγροτών [E3_585_008]</option>
+                                                <option value="E3_585_009" data-categories="category2_3,category2_4,category2_5">Λοιπές Αμοιβές για υπηρεσίες ημεδαπής [E3_585_009]</option>
+                                                <option value="E3_585_010" data-categories="category2_3">Λοιπές Αμοιβές για υπηρεσίες αλλοδαπής [E3_585_010]</option>
+                                                <option value="E3_585_011" data-categories="category2_4,category2_5">Ενέργεια [E3_585_011]</option>
+                                                <option value="E3_585_012" data-categories="category2_4,category2_5">Ύδρευση [E3_585_012]</option>
+                                                <option value="E3_585_013" data-categories="category2_4,category2_5">Τηλεπικοινωνίες [E3_585_013]</option>
+                                                <option value="E3_585_014">Ενοίκια [E3_585_014]</option>
+                                                <option value="E3_585_015" data-categories="category2_4,category2_5">Διαφήμιση και προβολή [E3_585_015]</option>
+                                                <option value="E3_585_016" data-categories="category2_3,category2_4,category2_5" selected>Λοιπά έξοδα [E3_585_016]</option>
+                                                <option value="E3_586" data-categories="category2_4,category2_5">Χρεωστικοί τόκοι και συναφή έξοδα [E3_586]</option>
+                                                <option value="E3_587">Αποσβέσεις [E3_587]</option>
+                                                <option value="E3_588">Ασυνήθη έξοδα, ζημιές και πρόστιμα [E3_588]</option>
+                                                <option value="E3_589">Προβλέψεις (εκτός από προβλέψεις για το προσωπικό) [E3_589]</option>
                                                 <option value="E3_881_001">Πωλήσεις για λογ/σμο Τρίτων Χονδρικές [E3_881_001]</option>
                                                 <option value="E3_881_002">Πωλήσεις για λογ/σμο Τρίτων Λιανικές [E3_881_002]</option>
                                                 <option value="E3_881_003">Πωλήσεις για λογ/σμο Τρίτων Εξωτερικού Ενδοκοινοτικές [E3_881_003]</option>
                                                 <option value="E3_881_004">Πωλήσεις για λογ/σμο Τρίτων Εξωτερικού Τρίτες Χώρες [E3_881_004]</option>
-                                                <option value="Ε3_882_001" data-categories="category2_7">Αγορές ενσώματων παγίων χρήσης/Χονδρικές [Ε3_882_001]</option>
-                                                <option value="Ε3_882_002">Αγορές ενσώματων παγίων χρήσης/Λιανικές [Ε3_882_002]</option>
-                                                <option value="Ε3_882_003">Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [Ε3_882_003]</option>
-                                                <option value="Ε3_882_004">Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [Ε3_882_004]</option>
-                                                <option value="Ε3_883_001" data-categories="category2_7">Αγορές μη ενσώματων παγίων χρήσης/Χονδρικές [Ε3_883_001]</option>
-                                                <option value="Ε3_883_002">Αγορές μη ενσώματων παγίων χρήσης/Λιανικές [Ε3_883_002]</option>
-                                                <option value="Ε3_883_003">Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [Ε3_883_003]</option>
-                                                <option value="Ε3_883_004">Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [Ε3_883_004]</option>
-                                                <option value="VAT_361">Αγορές & δαπάνες στο εσωτερικό της χώρας [VAT_361]</option>
+                                                <option value="E3_882_001" data-categories="category2_7">Αγορές ενσώματων παγίων χρήσης/Χονδρικές [E3_882_001]</option>
+                                                <option value="E3_882_002">Αγορές ενσώματων παγίων χρήσης/Λιανικές [E3_882_002]</option>
+                                                <option value="E3_882_003">Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [E3_882_003]</option>
+                                                <option value="E3_882_004">Αγορές ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [E3_882_004]</option>
+                                                <option value="E3_883_001" data-categories="category2_7">Αγορές μη ενσώματων παγίων χρήσης/Χονδρικές [E3_883_001]</option>
+                                                <option value="E3_883_002">Αγορές μη ενσώματων παγίων χρήσης/Λιανικές [E3_883_002]</option>
+                                                <option value="E3_883_003">Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Ενδοκοινοτικές [E3_883_003]</option>
+                                                <option value="E3_883_004">Αγορές μη ενσώματων παγίων χρήσης/Εξωτερικού Τρίτες Χώρες [E3_883_004]</option>
+                                            </select>
+                                            <label for="classification_type">Χαρακτηρισμός Ε3</label>
+                                        </div>
+                                        <div class="col s2 m4 input-field c-tax">
+                                            <select id="tax" name="tax" class="invoice-tax browser-default select-wrapper">
+                                                <option value="" disabled="">Χαρακτηρισμός ΦΠΑ</option>
+                                                <option value="VAT_361" selected>Αγορές & δαπάνες στο εσωτερικό της χώρας [VAT_361]</option>
                                                 <option value="VAT_362">Αγορές & εισαγωγές επενδ. Αγαθών (πάγια) [VAT_362]</option>
                                                 <option value="VAT_363">Λοιπές εισαγωγές εκτός επενδ. Αγαθών (πάγια) [VAT_363]</option>
                                                 <option value="VAT_364">Ενδοκοινοτικές αποκτήσεις αγαθών [VAT_364]</option>
                                                 <option value="VAT_365">Ενδοκοινοτικές λήψεις υπηρεσιών άρθρ. 14.2.α [VAT_365]</option>
                                                 <option value="VAT_366">Λοιπές πράξεις λήπτη [VAT_366]</option>
                                             </select>
-                                            <label for="classification_type">Είδος</label>
+                                            <label for="tax">Χαρακτηρισμός ΦΠΑ</label>
                                         </div>
-                                        <div class="col s2 input-field c-tax">
-                                            <select id="tax" name="tax" class="invoice-tax browser-default select-wrapper">
-                                                <option value="" disabled="">ΦΠΑ</option>
-                                                <option value="1" selected>24%</option>
-                                                <option value="4">17%</option>
-                                                <option value="2">13%</option>
-                                                <option value="5">9%</option>
-                                                <option value="3">6%</option>
-                                                <option value="6">4%</option>
-                                                <option value="7">0%</option>
-                                                <option value="8">-</option>
-                                            </select>
-                                            <label for="tax">Συντελεστής ΦΠΑ</label>
-                                        </div>
-                                        <div class="col m2 s12 input-field c-price">
+                                        <div class="col m1 s12 input-field c-price">
                                             <input type="text" class="classification-price" id="price" placeholder="0.00" name="price" pattern="^\d{0,8}(\.\d{1,4})?$">
                                             <label for="price">Ποσό</label>
                                         </div>
@@ -496,13 +494,16 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
+                        @if($classifiedPrice != $outcome->price)
                         <div class="input-field">
                             <button class="btn invoice-repeat-btn waves-effect waves-light" data-repeater-create="" type="button">
                                 <i class="material-icons left">add</i>
                                 <span>Προσθήκη Γραμμής</span>
                             </button>
                         </div>
+                        @endif
                         <div class="input-field mt-5 display-flex justify-content-center">
                             <button type="submit" id="classificationsSend" class="btn waves-effect waves-light">
                                 <i class="material-icons left">save</i>

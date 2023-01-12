@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Outcomes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Outcomes;
+use App\Models\Provider;
+use App\Models\RetailClassification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +17,7 @@ class MyDataController extends Controller
 {
     public function requestDocs() {
         $expenses = myDataRequestMyExpenses();
-        dd($expenses);
+        //dd($expenses);
         foreach ($expenses as $expense) {
             //dd(DB::table('outcomes')->where('shop', '=', $expense->counterVatNumber)->where('date', '=', $expense->issueDate)->where('price', '=', $expense->netValue)->get());
 
@@ -50,27 +52,43 @@ class MyDataController extends Controller
     public function sendClassifications(Request $request, $hashID) {
 
         $outcome = Outcomes::query()->where('hashID', '=', $hashID)->first();
+        $hash = Str::substr(Str::slug(Hash::make($outcome->shop . Carbon::now())), 0, 32);
 
         $classifications = $request['group-a'];
 
         $classificationsPrice = [];
-
-        foreach($classifications as $classification) {
-            if(isset($classification['price'])) {
-                $classificationsPrice[] = $classification['price'];
-                DB::table('retail_classifications')->insert(
-                    array(
-                        'hashID' => Str::substr(Str::slug(Hash::make($outcome->shop . Carbon::now())), 0, 32),
-                        'outcome_hash' => $hashID,
-                        'classification_category' => $classification['classification_category'],
-                        'classification_type' => $classification['classification_type'],
-                        'date' => date('Y-m-d'),
-                        'price' => $classification['price'],
-                        'vat' => $classification['tax'],
-                    )
-                );
+        if(isset($classifications)) {
+            foreach($classifications as $classification) {
+                if(isset($classification['price'])) {
+                    $classificationsPrice[] = $classification['price'];
+                    DB::table('retail_classifications')->insert(
+                        array(
+                            'hashID' => $hash,
+                            'outcome_hash' => $hashID,
+                            'classification_category' => $classification['classification_category'],
+                            'classification_type' => $classification['classification_type'],
+                            'date' => date('Y-m-d'),
+                            'price' => $classification['price'],
+                            'vat' => $classification['tax'],
+                        )
+                    );
+                }
             }
+        } elseif(isset($request->price)){
+            $classificationsPrice[] = $request->price;
+            DB::table('retail_classifications')->insert(
+                array(
+                    'hashID' => $hash,
+                    'outcome_hash' => $hashID,
+                    'classification_category' => $request->classification_category,
+                    'classification_type' => $request->classification_type,
+                    'date' => date('Y-m-d'),
+                    'price' => $request->price,
+                    'vat' => $request->tax,
+                )
+            );
         }
+
         $sumClass = array_sum($classificationsPrice);
 
         if($outcome->price = $sumClass) {
@@ -90,23 +108,24 @@ class MyDataController extends Controller
         $an = myDataSendExpensesClassification($request->outcome_hash);
         //dd($an);
         $theOutcome = Outcomes::query()->where('hashID', '=', $request->outcome_hash)->first();
+        $theClassification = RetailClassification::query()->where('outcome_hash', '=', $request->outcome_hash)->first();
         $aadeResponse = array();
         $xml = simplexml_load_string($an);
         foreach($xml->response as $aade) {
             $aadeObject = array(
-//                "index" => $aade->firstname,
-//                "invoiceUid" => $aade->invoiceUid,
-//                "invoiceMark" => $aade->invoiceMark,
                 "statusCode" => $aade->statusCode,
             );
             array_push($aadeResponse, $aadeObject);
         }
-        dd($xml->response);
+        //dd($xml->response);
         if($aadeResponse[0]['statusCode'] == 'Success') {
             $theOutcome->classified = 1;
+            $theOutcome->status = 'classified';
             $theOutcome->save();
+            $theClassification->mark = $xml->response->classificationMark;
+            $theClassification->save();
         } else {
-            dd($aadeResponse[0]['statusCode']);
+            dd($xml->response);
         }
 
         return redirect('/outcomes');
@@ -176,5 +195,48 @@ class MyDataController extends Controller
     public function deleteClassification(Request $request) {
         DB::table('retail_classifications')->where('hashID', $request->classification)->delete();
         return 'success';
+    }
+
+    public function requestExpenses() {
+
+        $getLast = Outcomes::all()->sortBy('mark')->last();
+        $last = $getLast ? $getLast->mark : 0;
+        $lastID = $getLast->id;
+        $expenses = myDataRequestDocs($last);
+
+        foreach ($expenses as $expense) {
+            //dd(DB::table('outcomes')->where('shop', '=', $expense->counterVatNumber)->where('date', '=', $expense->issueDate)->where('price', '=', $expense->netValue)->get());
+            $counter = 1000;
+            foreach ($expense as $ex) {
+                //dd($ex);
+                DB::table('outcomes')->insert(
+                    array(
+                        'hashID' => Str::substr(Str::slug(Hash::make($ex->counterVatNumber . $ex->mark)), 0, 32),
+                        'seira' => $ex->invoiceHeader->series,
+                        'outcome_number' => $ex->invoiceHeader->aa,
+                        'shop' => $ex->issuer->vatNumber,
+                        'date' => $ex->invoiceHeader->issueDate,
+                        'price' => $ex->invoiceDetails->netValue,
+                        'vat' => $ex->invoiceDetails->vatAmount,
+                        'invType' => $ex->invoiceHeader->invoiceType,
+                        'mark' => $ex->mark,
+                        'file' => ''
+                    )
+                );
+                $issuer = Provider::query()->where('provider_vat', '=', $ex->issuer->vatNumber)->first();
+                if(!$issuer) {
+                    DB::table('providers')->insert([
+                        'provider_vat' => $ex->issuer->vatNumber,
+                        'provider_name' => 'Εισάγετε Στοιχεία Προμηθευτή',
+                        'provider_id' => $counter
+                    ]);
+                }
+                $counter++;
+            }
+
+
+        }
+
+        return redirect('/outcomes');
     }
 }

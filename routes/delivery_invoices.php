@@ -16,6 +16,7 @@ Route::name('delivery_invoice.')->prefix('/')->group(function () {
 //    Route::get('/delete-invoice/{invoice::hashID}', [DeliveryInvoicesController::class, 'delete'])->name('delete');
     Route::get('/download-delivery_invoice/{invoice:hashID}', [DeliveryInvoicesController::class, 'download'])->name('download');
     Route::get('/myData-delivery_invoice/{invoice:hashID}', [DeliveryInvoicesController::class, 'sendInvoice'])->name('mydata');
+    Route::get('/myData-delivery_invoice-cancel/{invoice:mark}', [DeliveryInvoicesController::class, 'cancelInvoice'])->name('cancelMydata');
 //    Route::post('/myData-invoices-multiple', [DeliveryInvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');
 //    Route::post('/last-invoice-ajax', [DeliveryInvoicesController::class, 'lastInvoiceAjax'])->name('last-retail');
 });

@@ -133,6 +133,7 @@
                             <th class="center-align" style="width: 85px!important;">Τιμή</th>
                             <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
                             <th class="center-align" style="width: 85px!important;">Σύνολο</th>
+                            <th class="center-align">Τρόπος Πληρωμής</th>
                             <th class="center-align print-hide">Κατάσταση</th>
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
@@ -167,7 +168,7 @@
                                 <td class="center-align">
                                     &euro; {{number_format(getDeliveryInvoiceFinal($invoice->hashID), '2', ',', '.')}}</td>
 
-
+                                <td class="center-align">{{getPaymentMethodName($invoice->payment_method)}}</td>
                                 <td class="center-align print-hide">
                                     @if($invoice->paid == 1)
                                         <span class="chip lighten-5 green green-text">ΠΛΗΡΩΜΕΝΟ</span>
@@ -186,10 +187,13 @@
                                             <a href="{{route('invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
+                                            <a href="{{route('delivery_invoice.edit', ['invoice' => $invoice])}}" class="invoice-action-edit">
+                                                <i class="material-icons">edit</i>
+                                            </a>
                                         @else
-{{--                                            <a href="{{route('delivery_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">--}}
-{{--                                                <i class="material-icons">remove_red_eye</i>--}}
-{{--                                            </a>--}}
+                                            <a href="{{route('delivery_invoice.mydata', $invoice->hashID)}}" class="invoice-action-edit">
+                                                <i class="material-icons mr-4">backup</i>
+                                            </a>
                                             <a href="{{route('delivery_invoice.edit', ['invoice' => $invoice])}}" class="invoice-action-edit">
                                                 <i class="material-icons">edit</i>
                                             </a>

@@ -66,15 +66,27 @@
             "submenu": [
                 {
                     "url": "/providers",
-                    "name": "Λίστα Προμηθευττών",
-                    "i18n": "Λίστα Προμηθευττών",
+                    "name": "Προμηθευτές Εσωτερικού",
+                    "i18n": "Προμηθευτές Εσωτερικού",
                     "slug": "providers"
                 },
                 {
                     "url": "/add-provider",
-                    "name": "Προσθήκη Προμηθευτή",
-                    "i18n": "Προσθήκη Προμηθευτή",
-                    "slug": "add-client"
+                    "name": "Νέος Προμηθευτής",
+                    "i18n": "Νέος Προμηθευτής",
+                    "slug": "add-provider"
+                },
+                {
+                    "url": "/foreign-providers",
+                    "name": "Προμηθευτές Εξωτερικού",
+                    "i18n": "Προμηθευτές Εξωτερικού",
+                    "slug": "foreign-providers"
+                },
+                {
+                    "url": "/add-foreign-provider",
+                    "name": "Νέος Προμηθευτής (Εξ)",
+                    "i18n": "Νέος Προμηθευτής (Εξ)",
+                    "slug": "add-foreign-provider"
                 }
             ]
         },
