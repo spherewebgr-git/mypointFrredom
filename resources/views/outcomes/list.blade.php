@@ -12,24 +12,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="card color-info">
-        <div class="card-container">
-            <ul>
-                <li>
-                    <div class="color" style="background-color: #fff;"></div> <span>Εισαγωγή από MyDATA</span>
-                </li>
-                <li>
-                    <div class="color" style="background-color: #fff3d0;"></div> <span>Αντιστοιχισμένα</span>
-                </li>
-                <li>
-                    <div class="color" style="background-color: #fad5eb;"></div> <span>Αναντιστοίχιστα</span>
-                </li>
-                <li>
-                    <div class="color" style="background-color: #e4ffe4;"></div> <span>Μαρκαρισμένα</span>
-                </li>
-            </ul>
-        </div>
-    </div>
+
     <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
 
         <!-- Search for small screen-->
@@ -65,39 +48,73 @@
     </div>
 
     <section class="invoice-list-wrapper section">
+
         <div class="responsive-table">
             <div class="card print-hide">
                 <div class="card-content container">
                     <h4 class="card-title">Αναζήτηση Βάσει Ημερομηνίας</h4>
-                    <form action="{{route('outcome.filter')}}" method="post" class="row display-flex align-items-center justify-content-start">
+                    <form action="{{route('outcome.filter')}}" method="post" class="row display-flex align-items-center justify-content-between">
                         @csrf
-                        <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
-                        <div class="col">
-                            <input type="text" id="datepickerStart" name="date-start" class="datepicker"
-                                   value="@isset($dateStart){{date('d/m/Y', strtotime($dateStart))}}@else 01/01/{{date('Y')}} @endif"
-                                   title="Φίλτρο από:">
+                        <div class="col display-flex align-items-center">
+                            <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
+                            <div class="col">
+                                <input type="text" id="datepickerStart" name="date-start" class="datepicker"
+                                       value="@isset($dateStart){{date('d/m/Y', strtotime($dateStart))}}@else 01/01/{{date('Y')}} @endif"
+                                       title="Φίλτρο από:">
+                            </div>
                         </div>
-                        <label for="end" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Έως: </label>
-                        <div class="col">
-                            <input type="text" id="datepickerEnd" name="date-end" class="datepicker"
-                                   value="@isset($dateEnd){{date('d/m/Y', strtotime($dateEnd))}}@else{{date('d/m/Y')}}@endif"
-                                   title="Φίλτρο εως:">
+                        <div class="col display-flex align-items-center">
+                            <label for="end" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Έως: </label>
+                            <div class="col">
+                                <input type="text" id="datepickerEnd" name="date-end" class="datepicker"
+                                       value="@isset($dateEnd){{date('d/m/Y', strtotime($dateEnd))}}@else{{date('d/m/Y')}}@endif"
+                                       title="Φίλτρο εως:">
+                            </div>
+                        </div>
+                        <div class="col display-flex align-items-center">
+                            <div class="col select-wrapper">
+                                <select name="status" id="status" class="browser-default select-wrapper">
+                                    <option value="" selected disabled>Επιλέξτε Κατάσταση</option>
+                                    <option value="crosschecked">Αντιστοιχισμένα</option>
+                                    <option value="uncrosschecked">Αναντιστοίχιστα</option>
+                                    <option value="classified">Χαρακτηρισμένα</option>
+                                </select>
+                                <label for="status" class="active">Κατάσταση</label>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-xs btn-info filter-btn display-flex align-items-center"><i class="material-icons" style="margin-right: 5px;">compare_arrows</i> Προσαρμογή Φίλτρου</button>
+                            </div>
                         </div>
                         <div class="col select-wrapper">
-                            <select name="status" id="status" class="browser-default select-wrapper">
-                                <option value="" selected disabled>Επιλέξτε Κατάσταση</option>
-                                <option value="crosschecked">Αντιστοιχισμένα</option>
-                                <option value="uncrosschecked">Αναντιστοίχιστα</option>
-                                <option value="marked">Μαρκαρισμένα</option>
+                            <select name="year" id="year" class="browser-default select-wrapper">
+                                <option value="2023" @if(!isset($year)) selected @endif>2023</option>
+                                <option value="2022" @if(isset($year) && $year == 2022) selected @endif>2022</option>
+                                <option value="2021" @if(isset($year) && $year == 2021) selected @endif>2021</option>
+                                <option value="2020" @if(isset($year) && $year == 2020) selected @endif>2020</option>
                             </select>
-                            <label for="status" class="active">Κατάσταση</label>
-                        </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-xs btn-info filter-btn display-flex align-items-center"><i class="material-icons" style="margin-right: 5px;">compare_arrows</i> Προσαρμογή Φίλτρου</button>
+                            <label for="year" class="active">Επιλέξτε Έτος</label>
                         </div>
 
                     </form>
 
+                </div>
+            </div>
+            <div class="card color-info">
+                <div class="card-container">
+                    <ul>
+                        <li>
+                            <div class="color" style="background-color: #fff;"></div> <span>Εισαγωγή από MyDATA</span>
+                        </li>
+                        <li>
+                            <div class="color" style="background-color: #fff3d0;"></div> <span>Αντιστοιχισμένα</span>
+                        </li>
+                        <li>
+                            <div class="color" style="background-color: #fad5eb;"></div> <span>Αναντιστοίχιστα</span>
+                        </li>
+                        <li>
+                            <div class="color" style="background-color: #e4ffe4;"></div> <span>Χαρακτηρισμένα</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -182,16 +199,25 @@
                 </table>
             </div>
         </div>
+
     </section>
 @endsection
 
 {{-- scripts --}}
 @section('page-script')
     <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
+    <script src="{{asset('vendors/data-tables/js/jquery.dataTables.js')}}"></script>
 
     <script>
         $m = jQuery.noConflict();
         $m(document).ready(function () {
+
+            $m('#year').on('change', function(){
+                let url = window.location.href;
+                let year = $m(this).val();
+                window.location.href = '/filter-outcomes/year/'+year;
+            });
+
             @if(Session::has('notify'))
             M.toast({
                 html: '{{Session::get("notify") }}',
@@ -199,5 +225,7 @@
                 timeout: 10000
             });
             @endif
+
         });
+    </script>
 @endsection

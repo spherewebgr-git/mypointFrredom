@@ -76,6 +76,29 @@ if(!function_exists('getFinalPrices'))
     }
 }
 
+if(!function_exists('getClassificationsFinalPrice'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getClassificationsFinalPrice($model, $invoiceHashID )
+    {
+        // TODO
+//        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+//
+//        $total = [];
+//        $services = $invoice->services()->get();
+//        //dd($services);
+//        foreach ($services as $service)
+//        {
+//            $total[] = $service->price * $service->quantity;
+//        }
+//        $invoicePrice = collect($total)->sum();
+//        return $invoicePrice;
+    }
+}
+
 if(!function_exists('getSaleInvoicePrices'))
 {
     /**

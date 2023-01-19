@@ -69,7 +69,7 @@
                         @if($provider->disabled == 0)
                         <tr role="row" class="odd">
                             <td class="center-align">{{$provider->provider_id}}</td>
-                            <td class="center-align">{{$provider->provider_vat}}</td>
+                            <td class="center-align">{{str_pad($provider->provider_vat, 9, '0', STR_PAD_LEFT)}}</td>
                             <td>{{$provider->provider_name}}</td>
                             <td class="center-align">0</td>
                             <td class="print-hide">
@@ -91,12 +91,13 @@
                         @if($provider->disabled == 1)
                             <tr role="row" class="odd disabled">
                                 <td class="center-align">{{$provider->provider_id}}</td>
-                                <td class="center-align">{{$provider->provider_vat}}</td>
+                                <td class="center-align">{{str_pad($provider->provider_vat, 9, '0', STR_PAD_LEFT)}}</td>
                                 <td>{{$provider->provider_name}}</td>
                                 <td class="center-align">0</td>
                                 <td class="print-hide">
                                     <div class="invoice-action">
-                                        <a href="{{route('provider.view', ['vat' => $provider->provider_vat])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας προμηθευτή">                                    <i class="material-icons">remove_red_eye</i>
+                                        <a href="{{route('provider.view', ['vat' => $provider->provider_vat])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας προμηθευτή">
+                                            <i class="material-icons">remove_red_eye</i>
                                         </a>
                                         <a href="{{route('provider.edit', ['vat' => $provider->provider_vat])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επεξεργασία στοιχείων προμηθευτή">
                                             <i class="material-icons">edit</i>

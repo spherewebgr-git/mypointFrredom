@@ -37,15 +37,15 @@
             <table class="invoiceform">
                 <tbody>
                 <tr class="no-border">
-                    @if(isset(settings()['invoice_logo']))
-                    <td><img src="{{url('images/system/'.settings()['invoice_logo'])}}"
-                             alt="{{settings()['title'] ?? 'company'}} logo"></td>
+                    @if(isset($settings['invoice_logo']))
+                    <td><img src="{{url('images/system/'.$settings['invoice_logo'])}}"
+                             alt="{{$settings['title'] ?? 'company'}} logo"></td>
                     @endif
-                    <td class="tim-info @if(isset(settings()['invoice_logo'])) right @else left @endif" style="text-align: left">
-                        <h4 class="invoice-color">{{settings()['title'] ?? 'not set'}}</h4>
-                        <h5 class="invoice-color">{{settings()['company'] ?? 'not set'}}</h5>
-                        <p>{{settings()['business'] ?? 'not set'}}<br>{{settings()['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{settings()['vat'] ?? 'not set'}} -
-                            ΔΟΥ: {{settings()['doy'] ?? 'not set'}}</p></td>
+                    <td class="tim-info @if(isset($settings['invoice_logo'])) right @else left @endif" style="text-align: left">
+                        <h4 class="invoice-color">{{$settings['title'] ?? 'not set'}}</h4>
+                        <h5 class="invoice-color">{{$settings['company'] ?? 'not set'}}</h5>
+                        <p>{{$settings['business'] ?? 'not set'}}<br>{{$settings['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{$settings['vat'] ?? 'not set'}} -
+                            ΔΟΥ: {{$settings['doy'] ?? 'not set'}}</p></td>
                 </tr>
                 <tr class="no-border">
                     <td>
@@ -127,10 +127,10 @@
                     </tbody>
                 </table>
                 <div class="small-12 columns">
-                    @if(isset(settings()['signature']))
+                    @if(isset($settings['signature']))
                     <div class="signature left">
                         <span class="invoice-color">Για τον εκδότη</span>
-                        <img src="{{url('images/system/'.settings()->signature)}}" alt="signature">
+                        <img src="{{url('images/system/'.$settings['signature'])}}" alt="signature">
                     </div>
                     @endif
                     @if(isset($invoice->mark))
@@ -140,16 +140,16 @@
                     <table class="invoiceform footer">
                         <tbody>
                         <tr>
-                            @if(isset(settings()['phone']))
-                                <td><span class="invoice-color">Τηλ:</span> {{settings()['phone']}}</td>
+                            @if(isset($settings['phone']))
+                                <td><span class="invoice-color">Τηλ:</span> {{$settings['phone']}}</td>
                             @endif
-                            @if(isset(settings()['email']))
-                            <td><span class="invoice-color">Email:</span> {{settings()['email']}}</td>
+                            @if(isset($settings['email']))
+                            <td><span class="invoice-color">Email:</span> {{$settings['email']}}</td>
                                 @endif
                             <td><span class="invoice-color">Χρήση:</span>ΠΕΛΑΤΗΣ</td>
                         </tr>
                         <tr>
-                            <td><span class="invoice-color">Κιν:</span> {{settings()['mobile']  ?? 'not set'}}</td>
+                            <td><span class="invoice-color">Κιν:</span> {{$settings['mobile']  ?? 'not set'}}</td>
 {{--                            <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}
                             <td><span class="invoice-color">Πληρωμή:</span> {{$payment}}</td>
                         </tr>

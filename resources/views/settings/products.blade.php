@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="product-settings row col s12">
-                    test
+                    <input type="text" name="table">
                 </div>
                 <div class="col s12 display-flex justify-content-end form-action mt-2">
                     <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση Αλλαγών</button>

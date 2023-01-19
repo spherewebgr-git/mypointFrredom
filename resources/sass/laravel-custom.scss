@@ -213,9 +213,19 @@ aside {
     }
 }
 
+.sidenav-main {
+    @media (max-width: 1600px) {
+        width: 64px;
+    }
+}
+.nav-collapsed .sidenav .user-options, .nav-collapsed .sidenav .menu-title, .nav-collapsed .sidenav .collapsible-body span, .nav-collapsed .sidenav .collapsible-header:after {
+    @media (max-width: 1600px) {
+       display: block!important;
+    }
+}
+
 .card.color-info {
-    position: fixed;
-    width: 84%;
+
     padding: 5px 10px;
     z-index: 999;
     margin-top: 0;

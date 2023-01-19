@@ -12,6 +12,7 @@ Route::name('outcome.')->prefix('/')->group(function () {
     Route::get('/download-outcome/{outcome:hashID}', [OutcomesController::class, 'download'])->name('download');
     Route::get('/delete-outcome/{outcome:hashID}', [OutcomesController::class, 'destroy'])->name('delete');
     Route::get('/edit-outcome/{outcome:hashID}', [OutcomesController::class, 'edit'])->name('edit');
+    Route::get('/filter-outcomes/year/{year}', [OutcomesController::class, 'selectYear'])->name('year');
     Route::post('/update-outcome/{outcome:hashID}', [OutcomesController::class, 'update'])->name('update');
     Route::post('/filter-outcomes', [OutcomesController::class, 'filter'])->name('filter');
     Route::post('/outcome-send-classifications/{outcome:hashID}', [MyDataController::class, 'sendClassifications'])->name('classifications');

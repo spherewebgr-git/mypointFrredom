@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Seires;
 use App\Models\Services;
+use App\Models\Settings;
 use DateTime;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -51,6 +52,11 @@ class InvoicesController extends Controller
 
     public function view($invoiceID) {
         $invoice = Invoice::query()->where('hashID', $invoiceID)->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
 
         switch ($invoice->payment_method) {
             case 1:
@@ -70,7 +76,7 @@ class InvoicesController extends Controller
                 break;
         }
 
-        return view('invoices.view', ['invoice' => $invoice, 'payment' => $payment]);
+        return view('invoices.view', ['invoice' => $invoice, 'payment' => $payment, 'settings' => $settings]);
     }
 
     public function save($hashID)

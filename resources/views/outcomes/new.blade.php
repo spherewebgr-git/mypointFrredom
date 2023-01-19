@@ -50,116 +50,52 @@
                                 <i class="material-icons prefix">account_circle</i>
                                 <input id="seira" type="text" name="seira"
                                        @if(isset($outcome->seira))value="{{old('seira', $outcome->seira)}}"
-                                       @endif required>
+                                       @endif required @if(isset($outcome) && $outcome->mark) disabled @endif>
                                 <label for="seira" class="">Σειρά *</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input id="outcome_number" type="text" name="outcome_number"
+                                <input id="outcome_number" type="text" name="outcome_number" @if(isset($outcome) && $outcome->mark) disabled @endif
                                        @if(isset($outcome->outcome_number))value="{{old('outcome_number', $outcome->outcome_number)}}"
                                        @endif required>
                                 <label for="outcome_number" class="">Αριθμός Παραστατικού *</label>
                             </div>
                             <div class="input-field col s12 m4">
                                 <i class="material-icons prefix">local_grocery_store</i>
-                                <select name="invType" id="invType">
+                                <select name="invType" id="invType" @if(isset($outcome) && $outcome->mark) disabled @endif>
                                     <option value="" disabled selected>Επιλέξτε Τύπο Παραστατικού</option>
                                     <option value="1" disabled>Τιμολόγια Πώλησης</option>
-                                    <option value="1.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '1.1') selected @endif>
-                                        Τιμολόγιο Πώλησης
-                                    </option>
-                                    <option value="1.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '1.2') selected @endif>
-                                        Τιμολόγιο Πώλησης / Ενδοκοινοτικές Παραδόσεις
-                                    </option>
-                                    <option value="1.3"
-                                            @if(isset($outcome->invType) && $outcome->invType == '1.3') selected @endif>
-                                        Τιμολόγιο Πώλησης / Παραδόσεις Τρίτων Χωρών
-                                    </option>
-                                    <option value="1.4"
-                                            @if(isset($outcome->invType) && $outcome->invType == '1.4') selected @endif>
-                                        Τιμολόγιο Πώλησης / Για Λογαριασμό Τρίτων
-                                    </option>
+                                    <option value="1.1" @if(isset($outcome->invType) && $outcome->invType == '1.1') selected @endif>Τιμολόγιο Πώλησης</option>
+                                    <option value="1.2" @if(isset($outcome->invType) && $outcome->invType == '1.2') selected @endif>Τιμολόγιο Πώλησης / Ενδοκοινοτικές Παραδόσεις</option>
+                                    <option value="1.3" @if(isset($outcome->invType) && $outcome->invType == '1.3') selected @endif>Τιμολόγιο Πώλησης / Παραδόσεις Τρίτων Χωρών</option>
+                                    <option value="1.4" @if(isset($outcome->invType) && $outcome->invType == '1.4') selected @endif>Τιμολόγιο Πώλησης / Για Λογαριασμό Τρίτων</option>
                                     <option value="2" disabled>Τιμολόγια Παροχής Υπηρεσιών</option>
-                                    <option value="2.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '2.1') selected @endif>
-                                        Τιμολόγια Παροχής
-                                    </option>
-                                    <option value="2.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '2.2') selected @endif>
-                                        Τιμολόγιο Παροχής / Ενδοκοινοτική Παροχή Υπηρεσιών
-                                    </option>
-                                    <option value="2.3"
-                                            @if(isset($outcome->invType) && $outcome->invType == '2.3') selected @endif>
-                                        Τιμολόγιο Παροχής / Παροχή Υπηρεσιών Τρίτων Χωρών
-                                    </option>
-                                    <option value="2.4"
-                                            @if(isset($outcome->invType) && $outcome->invType == '2.4') selected @endif>
-                                        Τιμολόγιο Παροχής / Συμπληρωματικό Παραστατικό
-                                    </option>
+                                    <option value="2.1" @if(isset($outcome->invType) && $outcome->invType == '2.1') selected @endif>Τιμολόγια Παροχής</option>
+                                    <option value="2.2" @if(isset($outcome->invType) && $outcome->invType == '2.2') selected @endif>Τιμολόγιο Παροχής / Ενδοκοινοτική Παροχή Υπηρεσιών</option>
+                                    <option value="2.3" @if(isset($outcome->invType) && $outcome->invType == '2.3') selected @endif>Τιμολόγιο Παροχής / Παροχή Υπηρεσιών Τρίτων Χωρών</option>
+                                    <option value="2.4" @if(isset($outcome->invType) && $outcome->invType == '2.4') selected @endif>Τιμολόγιο Παροχής / Συμπληρωματικό Παραστατικό</option>
                                     <option value="3" disabled>Τίτλοι Κτήσης</option>
-                                    <option value="3.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '3.1') selected @endif>
-                                        Τίτλος Κτήσης (μη υπόχρεος Εκδότης)
-                                    </option>
-                                    <option value="3.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '3.2') selected @endif>
-                                        Τίτλος Κτήσης (άρνηση έκδοσης από υπόχρεο Εκδότη)
-                                    </option>
+                                    <option value="3.1" @if(isset($outcome->invType) && $outcome->invType == '3.1') selected @endif>Τίτλος Κτήσης (μη υπόχρεος Εκδότης)</option>
+                                    <option value="3.2" @if(isset($outcome->invType) && $outcome->invType == '3.2') selected @endif>Τίτλος Κτήσης (άρνηση έκδοσης από υπόχρεο Εκδότη)</option>
                                     <option value="5" disabled>Πιστωτικά Τιμολόγια</option>
-                                    <option value="5.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '5.1') selected @endif>
-                                        Πιστωτικό Τιμολόγιο / Συσχετιζόμενο
-                                    </option>
-                                    <option value="5.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '5.2') selected @endif>
-                                        Πιστωτικό Τιμολόγιο / Μη Συσχετιζόμενο
-                                    </option>
+                                    <option value="5.1" @if(isset($outcome->invType) && $outcome->invType == '5.1') selected @endif>Πιστωτικό Τιμολόγιο / Συσχετιζόμενο</option>
+                                    <option value="5.2" @if(isset($outcome->invType) && $outcome->invType == '5.2') selected @endif>Πιστωτικό Τιμολόγιο / Μη Συσχετιζόμενο</option>
                                     <option value="6" disabled>Στοιχεία Αυτοπαράδοσης - Ιδιοχρησιμοποίησης</option>
-                                    <option value="6.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '6.1') selected @endif>
-                                        Στοιχείο Αυτοπαράδοσης
-                                    </option>
-                                    <option value="6.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '6.2') selected @endif>
-                                        Στοιχείο Ιδιοχρησιμοποίησης
-                                    </option>
+                                    <option value="6.1" @if(isset($outcome->invType) && $outcome->invType == '6.1') selected @endif>Στοιχείο Αυτοπαράδοσης</option>
+                                    <option value="6.2" @if(isset($outcome->invType) && $outcome->invType == '6.2') selected @endif>Στοιχείο Ιδιοχρησιμοποίησης</option>
                                     <option value="7" disabled>Συμβόλαια - Έσοδα</option>
-                                    <option value="7.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '7.1') selected @endif>
-                                        Συμβόλαιο - Έσοδο
-                                    </option>
+                                    <option value="7.1" @if(isset($outcome->invType) && $outcome->invType == '7.1') selected @endif>Συμβόλαιο - Έσοδο</option>
                                     <option value="8" disabled>Αποδείξεις Είσπραξης</option>
-                                    <option value="8.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '8.1') selected @endif>
-                                        Αποδείξη Είσπραξης
-                                    </option>
-                                    <option value="8.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '8.2') selected @endif>
-                                        Αποδείξη Είσπραξης Φόρου Διαμονής
-                                    </option>
+                                    <option value="8.1" @if(isset($outcome->invType) && $outcome->invType == '8.1') selected @endif>Απόδειξη Είσπραξης</option>
+                                    <option value="8.2" @if(isset($outcome->invType) && $outcome->invType == '8.2') selected @endif>Απόδειξη Είσπραξης Φόρου Διαμονής</option>
                                     <option disabled>Άλλα</option>
-                                    <option value="13.3"
-                                            @if(isset($outcome->invType) && $outcome->invType == '13.3') selected @endif>
-                                        Κοινόχρηστα
-                                    </option>
-                                    <option value="13.4"
-                                            @if(isset($outcome->invType) && $outcome->invType == '13.4') selected @endif>
-                                        Συνδρομές
-                                    </option>
-                                    <option value="14.5"
-                                            @if(isset($outcome->invType) && $outcome->invType == '14.5') selected @endif>
-                                        ΕΦΚΑ και Λοιποί Ασφαλιστικοί Οργανισμοί
-                                    </option>
-                                    <option value="17.1"
-                                            @if(isset($outcome->invType) && $outcome->invType == '17.1') selected @endif>
-                                        Μισθοδοσία
-                                    </option>
-                                    <option value="17.2"
-                                            @if(isset($outcome->invType) && $outcome->invType == '17.1') selected @endif>
-                                        Αποσβέσεις
-                                    </option>
+                                    <option value="13.3" @if(isset($outcome->invType) && $outcome->invType == '13.3') selected @endif>Κοινόχρηστα </option>
+                                    <option value="13.4" @if(isset($outcome->invType) && $outcome->invType == '13.4') selected @endif>Συνδρομές</option>
+                                    <option value="14.1" @if(isset($outcome->invType) && $outcome->invType == '14.1') selected @endif>Ενδοκοινοτικές Αποκτήσεις</option>
+                                    <option value="14.30" @if(isset($outcome->invType) && $outcome->invType == '14.30') selected @endif>Παραστατικά (ΔΕΗ, ΕΥΔΑΠ, ΤΗΛΕΦΩΝΙΑ)</option>
+                                    <option value="14.5" @if(isset($outcome->invType) && $outcome->invType == '14.5') selected @endif>ΕΦΚΑ και Λοιποί Ασφαλιστικοί Οργανισμοί</option>
+                                    <option value="17.1" @if(isset($outcome->invType) && $outcome->invType == '17.1') selected @endif>Μισθοδοσία</option>
+                                    <option value="17.2" @if(isset($outcome->invType) && $outcome->invType == '17.1') selected @endif>Αποσβέσεις</option>
                                 </select>
                                 <label for="invType" class="">Τύπος Παραστατικού *</label>
                             </div>
@@ -169,7 +105,7 @@
                                     <div class="display-flex" style="margin-top: -6px;">
                                         <input type="text" class="datepicker" name="date" placeholder="Επιλέξτε Ημ/νία"
                                                @if(isset($outcome->date)) value="{{old('date', $outcome->date)}}"
-                                               @else value="{{date('Y-m-d')}}" @endif>
+                                               @else value="{{date('Y-m-d')}}" @endif @if(isset($outcome) && $outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
                                     </div>
                                 </div>
                             </div>
@@ -178,34 +114,29 @@
                         <div class="row">
                             <div class="input-field col s12 m5">
                                 <i class="material-icons prefix">local_grocery_store</i>
-                                <select name="shop" id="shop">
-                                    <option value="" disabled selected>@if(count($providers) > 0)Προμηθευτές Εσωτερικού@elseΔεν
-                                        υπάρχουν διαθέσιμοι προμηθευτές Εσωτερικού @endif</option>
+                                <select name="shop" id="shop" @if(isset($outcome) && $outcome->mark) disabled @endif >
+                                    <option value="" disabled selected>@if(count($providers) > 0) Προμηθευτές Εσωτερικού @else Δεν υπάρχουν διαθέσιμοι προμηθευτές Εσωτερικού @endif</option>
                                     @foreach($providers as $provider)
-                                        <option value="{{old('provider_vat', $provider->provider_vat)}}"
-                                                @if(isset($outcome->shop) && $provider->provider_vat == $outcome->shop) selected @endif>@if($provider->provider_name){{$provider->provider_name}}@endif</option>
+                                    <option value="{{old('provider_vat', $provider->provider_vat)}}" @if(isset($outcome->shop) && $provider->provider_vat == $outcome->shop) selected @endif>@if($provider->provider_name){{$provider->provider_name}}@endif</option>
                                     @endforeach
-                                    <option value="" disabled>@if(count($providers) > 0)Προμηθευτές Εξωτερικού@elseΔεν
-                                        υπάρχουν διαθέσιμοι προμηθευτές Εξωτερικού @endif</option>
+                                    <option value="" disabled>@if(count($providers) > 0) Προμηθευτές Εξωτερικού @else Δεν υπάρχουν διαθέσιμοι προμηθευτές Εξωτερικού @endif</option>
                                     @foreach($foreign as $foreigner)
-                                        <option value="{{old('provider_vat', $foreigner->provider_vat)}}"
-                                                @if(isset($outcome->shop) && $foreigner->provider_vat == $outcome->shop) selected @endif>@if($foreigner->provider_name){{$foreigner->provider_name}}@endif</option>
+                                    <option value="{{old('provider_vat', $foreigner->provider_vat)}}"  @if(isset($outcome->shop) && $foreigner->provider_vat == $outcome->shop) selected @endif>@if($foreigner->provider_name){{$foreigner->provider_name}}@endif</option>
                                     @endforeach
                                 </select>
-                                {{--                            <input id="shop" type="text" name="shop" @if(isset($outcome->shop)) value="{{old('shop', $outcome->shop)}}" @endif required>--}}
                                 <label for="shop" class="">Προμηθευτής</label>
                             </div>
                             <div class="input-field col s12 m4">
                                 <i class="material-icons prefix">euro_symbol</i>
                                 <input id="price" type="text" name="price"
                                        @if(isset($outcome->price)) value="{{old('price', $outcome->price)}}"
-                                       @endif required>
+                                       @endif required @if(isset($outcome) && $outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
                                 <label for="price" class="">Ποσό *</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <i class="material-icons prefix">label</i>
                                 <input id="vat" type="text" name="vat"
-                                       @if(isset($outcome->vat))  value="{{old('vat', $outcome->vat)}}" @endif required>
+                                       @if(isset($outcome->vat))  value="{{old('vat', $outcome->vat)}}" @endif required @if(isset($outcome) && $outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
                                 <label for="vat" class="">Φ.Π.Α. *</label>
                             </div>
                         </div>
@@ -238,6 +169,7 @@
             </div>
         </div>
     </form>
+
     @if(isset($outcome->invType))
     <div class="col s12 m9" id="classifications">
         <div class="card">
@@ -259,13 +191,14 @@
                                     </div>
                                     <div class="invoice-item display-flex mb-1 row justify-content-between">
                                         <div class="invoice-item-filed row pt-1" style="width: 95%;">
+
                                             <div class="col s12 m4 input-field">
-                                                <select id="classification_category" name="old[{{$key}}][classification_category]" class="invoice-item-select browser-default select-wrapper">
+                                                <select id="classification_category" name="old[{{$key}}][classification_category]" class="invoice-item-select browser-default select-wrapper" @if($outcome->status == 'classified' && $outcome->classified = 1 || isset($outcome->greekProvider) && $outcome->greekProvider->vat == '997072577') disabled @endif>
                                                     <option value="" disabled="">Επιλέξτε Κατηγορία</option>
                                                     <option value="category2_1" @if($classification->classification_category == 'category2_1') selected @endif>Αγορές Εμπορευμάτων</option>
                                                     <option value="category2_2" @if($classification->classification_category == 'category2_2') selected @endif>Αγορές Α'-Β' Υλών</option>
                                                     <option value="category2_3" @if($classification->classification_category == 'category2_3') selected @endif>Λήψη Υπηρεσιών</option>
-                                                    <option value="category2_4" @if($classification->classification_category == 'category2_4') selected @endif>Γενικά Έξοδα με δικαίωμα έκπτωσης ΦΠΑ</option>
+                                                    <option value="category2_4" @if($classification->classification_category == 'category2_4' || isset($outcome->greekProvider) && $outcome->greekProvider->vat == '997072577') selected @endif>Γενικά Έξοδα με δικαίωμα έκπτωσης ΦΠΑ</option>
                                                     <option value="category2_5" @if($classification->classification_category == 'category2_5') selected @endif>Γενικά Έξοδα χωρίς δικαίωμα έκπτωσης ΦΠΑ</option>
                                                     <option value="category2_6" @if($classification->classification_category == 'category2_6') selected @endif>Αμοιβές και Παροχές προσωπικού</option>
                                                     <option value="category2_7" @if($classification->classification_category == 'category2_7') selected @endif>Αγορές Παγίων</option>
@@ -281,7 +214,7 @@
                                                 <label for="classification_category">Κατηγορία</label>
                                             </div>
                                             <div class="col s12 m3 input-field">
-                                                <select id="classification_type" name="old[{{$key}}][classification_type]" class="browser-default select-wrapper">
+                                                <select id="classification_type" name="old[{{$key}}][classification_type]" class="browser-default select-wrapper" @if($outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
                                                     <option value="" disabled="">Επιλέξτε Είδος</option>
                                                     <option value="E3_101" @if($classification->classification_type == 'E3_101') selected @endif>Εμπορεύματα έναρξης [E3_101]</option>
                                                     <option value="E3_102_001" @if($classification->classification_type == 'E3_102_001') selected @endif>Αγορές εμπορευμάτων χρήσης (καθ.ποσό) Χονδρικές [E3_102_001]</option>
@@ -348,7 +281,7 @@
                                                 <label for="classification_type">Είδος</label>
                                             </div>
                                             <div class="col s2 m4 input-field c-tax">
-                                                <select id="tax" name="old[{{$key}}][tax]" class="invoice-tax browser-default select-wrapper">
+                                                <select id="tax" name="old[{{$key}}][tax]" class="invoice-tax browser-default select-wrapper" @if($outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
                                                     <option value="" disabled="">Χαρακτηρισμός ΦΠΑ</option>
                                                     <option value="VAT_361" @if($classification->vat == 'VAT_361') selected @endif>Αγορές & δαπάνες στο εσωτερικό της χώρας [VAT_361]</option>
                                                     <option value="VAT_362" @if($classification->vat == 'VAT_362') selected @endif>Αγορές & εισαγωγές επενδ. Αγαθών (πάγια) [VAT_362]</option>
@@ -360,7 +293,7 @@
                                                 <label for="tax">Χαρακτηρισμός ΦΠΑ</label>
                                             </div>
                                             <div class="col m1 s12 input-field c-price">
-                                                <input type="text" class="classification-price"  placeholder="0.00" name="old[{{$key}}][price]" value="{{$classification->price}}">
+                                                <input type="text" class="classification-price"  placeholder="0.00" name="old[{{$key}}][price]" value="{{$classification->price}}" @if($outcome->status == 'classified' && $outcome->classified = 1) disabled @endif>
 {{--                                                <label for="price">Ποσό</label>--}}
                                             </div>
                                         </div>
@@ -372,7 +305,7 @@
                                     </div>
                                 </div>
                             @endforeach
-                            @if($classifiedPrice != $outcome->price)
+                            @if(($outcome->price - $classifiedPrice)  > 0 || $classifiedPrice < $outcome->price)
                             <div class="classification-item mb-2" data-repeater-item="">
                                 <div class="row mb-1">
                                     <div class="col s4"><h6 class="m-0">Γραμμή Χαρακτηρισμού</h6></div>
@@ -380,6 +313,7 @@
                                     <div class="col s2"></div>
                                     <div class="col s2"><h6 class="m-0">Καθαρό Ποσό</h6></div>
                                 </div>
+
                                 <div class="invoice-item display-flex mb-1 row justify-content-between">
                                     <div class="invoice-item-filed row pt-1" style="width: 95%;">
                                         <div class="col s12 m4 input-field">
@@ -389,7 +323,7 @@
                                                     <option value="category2_2">Αγορές Α'-Β' Υλών</option>
                                                     <option value="category2_3">Λήψη Υπηρεσιών</option>
                                                     <option value="category2_4" selected>Γενικά Έξοδα με δικαίωμα έκπτωσης ΦΠΑ</option>
-                                                    <option value="category2_5">Γενικά Έξοδα χωρίς δικαίωμα έκπτωσης ΦΠΑ</option>
+                                                    <option value="category2_5" @if(isset($outcome->greekProvider) && $outcome->greekProvider->provider_vat == '997072577') selected @endif>Γενικά Έξοδα χωρίς δικαίωμα έκπτωσης ΦΠΑ</option>
                                                     <option value="category2_6">Αμοιβές και Παροχές προσωπικού</option>
                                                     <option value="category2_7">Αγορές Παγίων</option>
                                                     <option value="category2_8">Αποσβέσεις Παγίων</option>
@@ -441,7 +375,7 @@
                                                 <option value="E3_585_004" data-categories="category2_3,category2_4,category2_5">Δαπάνες για ενημερωτικές ημερίδες [E3_585_004]</option>
                                                 <option value="E3_585_005" data-categories="category2_4,category2_5">Έξοδα υποδοχής και φιλοξενίας [E3_585_005]</option>
                                                 <option value="E3_585_006" data-categories="category2_4,category2_5">Έξοδα ταξιδιών [E3_585_006]</option>
-                                                <option value="E3_585_007">Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [E3_585_007]</option>
+                                                <option value="E3_585_007" @if(isset($outcome->greekProvider) && $outcome->greekProvider->provider_vat == '997072577') selected @endif>Ασφαλιστικές Εισφορές Αυτοαπασχολούμενων [E3_585_007]</option>
                                                 <option value="E3_585_008" data-categories="category2_4,category2_5">Έξοδα και προμήθειες παραγγελιοδόχου για λογαριασμό αγροτών [E3_585_008]</option>
                                                 <option value="E3_585_009" data-categories="category2_3,category2_4,category2_5">Λοιπές Αμοιβές για υπηρεσίες ημεδαπής [E3_585_009]</option>
                                                 <option value="E3_585_010" data-categories="category2_3">Λοιπές Αμοιβές για υπηρεσίες αλλοδαπής [E3_585_010]</option>
@@ -450,7 +384,7 @@
                                                 <option value="E3_585_013" data-categories="category2_4,category2_5">Τηλεπικοινωνίες [E3_585_013]</option>
                                                 <option value="E3_585_014">Ενοίκια [E3_585_014]</option>
                                                 <option value="E3_585_015" data-categories="category2_4,category2_5">Διαφήμιση και προβολή [E3_585_015]</option>
-                                                <option value="E3_585_016" data-categories="category2_3,category2_4,category2_5" selected>Λοιπά έξοδα [E3_585_016]</option>
+                                                <option value="E3_585_016" data-categories="category2_3,category2_4,category2_5" @if(isset($outcome->greekProvider) && $outcome->greekProvider->provider_vat != '997072577' || !isset($outcome->greekProvider)) selected @endif>Λοιπά έξοδα [E3_585_016]</option>
                                                 <option value="E3_586" data-categories="category2_4,category2_5">Χρεωστικοί τόκοι και συναφή έξοδα [E3_586]</option>
                                                 <option value="E3_587">Αποσβέσεις [E3_587]</option>
                                                 <option value="E3_588">Ασυνήθη έξοδα, ζημιές και πρόστιμα [E3_588]</option>
@@ -483,7 +417,7 @@
                                             <label for="tax">Χαρακτηρισμός ΦΠΑ</label>
                                         </div>
                                         <div class="col m1 s12 input-field c-price">
-                                            <input type="text" class="classification-price" id="price" placeholder="0.00" name="price" pattern="^\d{0,8}(\.\d{1,4})?$">
+                                            <input type="text" class="classification-price" id="price" placeholder="0.00" name="price" pattern="/^\-?\d+((\.|\,)\d+)?$/" @if(isset($outcome->greekProvider) && $outcome->greekProvider->provider_vat == '997072577') value="{{$outcome->price}}" @endif>
                                             <label for="price">Ποσό</label>
                                         </div>
                                     </div>
@@ -531,7 +465,7 @@
                     </div>
                 </div>
             </div>
-            @if($classifiedPrice == $outcome->price)
+            @if($classifiedPrice == $outcome->price || $outcome->price < 0)
             <div class="display-flex send-my-data justify-content-center mt-10">
                 <form action="{{route('outcome.mydata')}}" method="post">
                     @csrf

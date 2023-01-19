@@ -7,6 +7,7 @@ use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class SettingsController extends Controller
 {
@@ -31,6 +32,12 @@ class SettingsController extends Controller
     }
 
     public function update(Request $request, $form) {
+//        Schema::connection('mysql')->create($request->table, function($table)
+//        {
+//            $table->increments('id');
+//            $table->string('test');
+//        });
+//
 //        dd($request);
         //$settings = Settings::all()[0];
         $admin = User::all()->first();

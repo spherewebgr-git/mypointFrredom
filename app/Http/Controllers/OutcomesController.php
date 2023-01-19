@@ -22,7 +22,6 @@ class OutcomesController extends Controller
 {
     public function index()
     {
-
         $outcomes = Outcomes::query()->where('date', '>=', date('Y') . '-01-01')->whereNotNull('outcome_number')->get()->sortByDesc('date');
 
         $finalOutcome = [];
@@ -37,6 +36,23 @@ class OutcomesController extends Controller
         $fpa = array_sum($finalFpa);
 
         return view('outcomes.list', ['outcomes' => $outcomes, 'finals' => $final, 'fpa' => $fpa]);
+    }
+
+    public function selectYear($year) {
+        $outcomes = Outcomes::query()->where( DB::raw('YEAR(date)'), '=', $year)->whereNotNull('outcome_number')->get()->sortBy('date');
+
+        $finalOutcome = [];
+        $finalFpa = [];
+
+        foreach ($outcomes as $outcome) {
+            $finalOutcome[] = $outcome->price;
+            $finalFpa[] = $outcome->vat;
+        }
+
+        $final = array_sum($finalOutcome);
+        $fpa = array_sum($finalFpa);
+
+        return view('outcomes.list', ['outcomes' => $outcomes, 'finals' => $final, 'fpa' => $fpa, 'year' => $year]);
     }
 
     public function new()

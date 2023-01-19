@@ -105,9 +105,19 @@ class MyDataController extends Controller
 
     public function sendClassificationsMyData(Request $request) {
         //dd($request);
-        $an = myDataSendExpensesClassification($request->outcome_hash);
-        //dd($an);
         $theOutcome = Outcomes::query()->where('hashID', '=', $request->outcome_hash)->first();
+        if($theOutcome->mark !== null) {
+            $an = myDataSendExpensesClassification($theOutcome->hashID);
+        } elseif($theOutcome->invType == '14.30') {
+            $an = myDataSendDeko($theOutcome->hashID);
+        } elseif($theOutcome->invType == '14.5') {
+            //dd($theOutcome);
+            $an = myDataSendEfka($theOutcome->hashID);
+        } else {
+           // dd('ενδοκοινοτικό');
+            $an = myDataSendExpensesIntracommunity($theOutcome->hashID);
+        }
+        //dd($an);
         $theClassification = RetailClassification::query()->where('outcome_hash', '=', $request->outcome_hash)->first();
         $aadeResponse = array();
         $xml = simplexml_load_string($an);
@@ -122,8 +132,10 @@ class MyDataController extends Controller
             $theOutcome->classified = 1;
             $theOutcome->status = 'classified';
             $theOutcome->save();
-            $theClassification->mark = $xml->response->classificationMark;
-            $theClassification->save();
+            if(isset($xml->response->classificationMark)){
+                $theClassification->mark = $xml->response->classificationMark;
+                $theClassification->save();
+            }
         } else {
             dd($xml->response);
         }
