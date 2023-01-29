@@ -285,7 +285,7 @@
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
 
-                            @if(!isset($invoice->mark))
+                            @if(isset($invoice) && !isset($invoice->mark))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
                                         <a href="{{route('delivery_invoice.mydata', $invoice->hashID)}}" class="btn btn-light-indigo waves-effect waves-light display-flex justify-content-center">
@@ -294,7 +294,7 @@
                                         </a>
                                     </div>
                                 </div>
-                            @else
+                            @elseif(isset($invoice))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
                                         <a href="{{route('delivery_invoice.cancelMydata', $invoice->mark)}}" class="btn btn-light-red waves-effect waves-light display-flex justify-content-center">

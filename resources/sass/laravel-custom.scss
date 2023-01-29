@@ -28,6 +28,40 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(0, 0, 0, 0.45);
 }
 
+#card-stats .card-stats-compare {
+    margin: 0;
+    text-align: center;
+    color: #3949ab;
+    min-height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#card-stats .card-stats-compare {
+    top: inherit;
+}
+.footer-dark {
+    background: #919191;
+}
+div#tour {
+    color: #1e1d1e;
+}
+#main .content-wrapper-before {
+    top:0;
+    height:220px;
+}
+
+#main .content-wrapper-before {
+    background-image: url(../images/system/header-vas.png);
+    background-size: cover;
+    background-position: bottom right;
+}
+.navbar .navbar-light {
+    background: transparent;
+}
+#main {
+    min-height: calc(100% - 131px);
+}
 .sidenav {
     & li {
         &.status-off {
@@ -213,11 +247,11 @@ aside {
     }
 }
 
-.sidenav-main {
-    @media (max-width: 1600px) {
-        width: 64px;
-    }
-}
+//.sidenav-main {
+//    @media (max-width: 1600px) {
+//        width: 64px;
+//    }
+//}
 .nav-collapsed .sidenav .user-options, .nav-collapsed .sidenav .menu-title, .nav-collapsed .sidenav .collapsible-body span, .nav-collapsed .sidenav .collapsible-header:after {
     @media (max-width: 1600px) {
        display: block!important;
@@ -249,7 +283,26 @@ aside {
         }
     }
 }
-
+#task-card {
+    min-height: 376px;
+    position: relative;
+    & li.no-tasks {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        & .this-arrow {
+            position: absolute;
+            width: 118px;
+            height: 65px;
+            background-image: url(../images/system/this-arrow.png);
+            background-size: cover;
+            right: -143px;
+            top: -33px;
+        }
+    }
+}
 table {
     & tr.classified td {
         background: #e4ffe4;

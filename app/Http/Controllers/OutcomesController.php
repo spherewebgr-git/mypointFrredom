@@ -97,7 +97,7 @@ class OutcomesController extends Controller
                 'status' => 'stored'
             )
         );
-        return back()->with('notify', 'Το παραστατικό καταχωρήθηκε με επιτυχία');
+        return redirect('/outcomes')->with('notify', 'Το παραστατικό καταχωρήθηκε με επιτυχία');
     }
 
     public function download($hashID)

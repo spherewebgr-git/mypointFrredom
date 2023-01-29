@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 //Invoice Routes
 Route::name('sale_invoice.')->prefix('/')->group(function () {
     Route::get('/sale-invoices', [SaleInvoicesController::class, 'index'])->name('list');
-//    Route::post('/filter-invoices', [InvoicesController::class, 'filter'])->name('filter');
+    Route::post('/filter-sale-invoices', [SaleInvoicesController::class, 'filter'])->name('filter');
     Route::get('/create-sale-invoice', [SaleInvoicesController::class, 'new'])->name('create');
     Route::post('/store-sale-invoice', [SaleInvoicesController::class, 'store'])->name('store');
     Route::post('/update-sale-invoice/{invoice:hashID}', [SaleInvoicesController::class, 'update'])->name('update');

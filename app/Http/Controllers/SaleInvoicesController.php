@@ -235,4 +235,21 @@ class SaleInvoicesController extends Controller
 
         return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη!');
     }
+
+    public function filter(Request $request)
+    {
+        // dd($request);
+        $fromDate = DateTime::createFromFormat('d/m/Y', $request['date-start']);
+        $from = $fromDate->format('Y-m-d');
+        $toDate = DateTime::createFromFormat('d/m/Y', $request['date-end']);
+        $to = $toDate->format('Y-m-d');
+
+        $finalIncome = [];
+        $invoices = SaleInvoices::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortByDesc('date');
+        foreach($invoices as $invoice) {
+            $finalIncome[] = getFinalPrices($invoice->hashID);
+        }
+        $final = array_sum($finalIncome);
+        return view('sale_invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
+    }
 }

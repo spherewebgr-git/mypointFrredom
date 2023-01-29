@@ -60,7 +60,7 @@
                                 <div class="col s12">
                                     <h6 class="invoice-number mr-4 mb-2">Στοιχεία Πελάτη: </h6>
                                     <div class="input-field">
-                                        <textarea name="client_description" id="client_description" class="materialize-textarea">{{$retail->client_description}}</textarea>
+                                        <textarea name="client_description" id="client_description" class="materialize-textarea">@if(isset($retail)) {{$retail->client_description}} @endif</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                             <div class="invoice-item display-flex">
                                                 <div class="invoice-item-filed row pt-1" style="width: 100%">
                                                     <div class="col m5 s12 input-field">
-                                                        <input type="text" value="ΕΜΠΟΡΕΥΜΑΤΑ" name="product_service"
+                                                        <input type="text" value="" name="product_service"
                                                                class="product-field">
                                                     </div>
                                                     <div class="col m2 s12 input-field">

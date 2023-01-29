@@ -1,13 +1,11 @@
 <!-- BEGIN: Footer-->
 <footer
-  class="{{$configData['mainFooterClass']}} @if($configData['isFooterFixed']=== true){{'footer-fixed'}}@else {{'footer-static'}} @endif @if($configData['isFooterDark']=== true) {{'footer-dark'}} @elseif($configData['isFooterDark']=== false) {{'footer-light'}} @else {{$configData['mainFooterColor']}} @endif">
+  class="page-footer footer gradient-shadow footer-static footer-dark">
   <div class="footer-copyright">
     <div class="container">
-      <span>&copy; myPoint App 2022  All rights reserved.
+      <span>&copy; myPoint App {{date('Y')}}  All rights reserved.
       </span>
-      <span class="right hide-on-small-only">
-        Developed by <a href="https://www.sphereweb.gr"
-                        target="_blank">Sphere Web Solutions</a>
+      <span class="right hide-on-small-only">Developed by <a href="https://www.sphereweb.gr" target="_blank">Sphere Web Solutions</a>
       </span>
     </div>
   </div>

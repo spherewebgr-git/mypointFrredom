@@ -18,7 +18,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
         <!-- Search for small screen-->
         <div class="container">
             <div class="row">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="invoice-head--right row col s12 m6 display-flex justify-content-end align-items-center">
                     <div class="invoice-create-btn col">
-                        <a href="{{route('invoice.create')}}"
+                        <a href="{{route('sale_invoice.create')}}"
                            class="btn waves-effect waves-light invoice-create border-round z-depth-4">
                             <i class="material-icons">add</i>
                             <span>Νέο Τιμολόγιο Πώλησης</span>
@@ -48,7 +48,7 @@
             <div class="card print-hide">
                 <div class="card-content container">
                     <h4 class="card-title">Αναζήτηση Βάσει Ημερομηνίας</h4>
-                    <form action="{{route('invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
+                    <form action="{{route('sale_invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
                         @csrf
                         <div class="invoice-head--left row display-flex col align-items-center">
                             <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
@@ -150,7 +150,7 @@
                                     @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}
                                 </td>
                                 <td class="bold">
-                                    <a href="{{route('client.view', $invoice->client->hashID)}}">{{$invoice->client->company}}</a>
+{{--                                    <a href="{{route('providers.view', $invoice->provider->hashID)}}">{{$invoice->provider->company}}</a>--}}
                                 </td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>

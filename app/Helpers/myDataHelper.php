@@ -34,10 +34,10 @@ if(!function_exists('myDataSendInvoices')) {
             $classificationType = 'E3_561_001';
             $classificationCat = 'category1_3';
             $services = $invoice->services()->get();
-            $parakratisi = getParakratisiValue($invoice->parakratisi_id);
+            $parakratisi = $invoice->has_parakratisi == 1 ? getParakratisiValue($invoice->parakratisi_id) : '0.00';
             $tax = (24 / 100) * $total; // FPA
             $idFormatted = $invoice->invoiceID;
-            if($total > 300) {
+            if($total > 300 && $invoice->has_parakratisi == 1) {
                 $withheld = ($parakratisi / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
                 $grossValue = ($total - $withheld) + $tax; // Μικτό Ποσό - Πληρωτέο (Συνολικό - 20% + ΦΠΑ)
             } else {
@@ -253,7 +253,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
             $sendBody .= '<vatAmount>' . number_format($item->vat, 2, '.', '') . '</vatAmount>' . PHP_EOL;
             $sendBody .= '<incomeClassification>' . PHP_EOL;
             $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>' . PHP_EOL;
-            $sendBody .= '<icls:classificationCategory>category1_1</icls:classificationCategory>' . PHP_EOL;
+            $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>' . PHP_EOL;
             $sendBody .= '<icls:amount>' . number_format($item->price, 2, '.', '') . '</icls:amount>' . PHP_EOL;
             $sendBody .= '</incomeClassification>' . PHP_EOL;
             $sendBody .= '</invoiceDetails>' . PHP_EOL;
@@ -271,7 +271,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
         $sendBody .= '<totalGrossValue>'.number_format( (getRetailPrices($retail)['price'] + getRetailPrices($retail)['vat']), 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
         $sendBody .= '<incomeClassification>'.PHP_EOL;
         $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>'.PHP_EOL;
-        $sendBody .= '<icls:classificationCategory>category1_1</icls:classificationCategory>'.PHP_EOL;
+        $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>'.PHP_EOL;
         $sendBody .= '<icls:amount>'.number_format(getRetailPrices($retail)['price'], 2, '.', '' ).'</icls:amount>'.PHP_EOL;
         $sendBody .= '</incomeClassification>'.PHP_EOL;
         $sendBody .= '</invoiceSummary>'.PHP_EOL;
@@ -470,6 +470,11 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
             'aade-user-id' => $settings['aade_user_id'],
             'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
+//        $request = new  Hrequest('https://mydataapidev.aade.gr/SendInvoices');
+//        $headers = array(
+//                    'aade-user-id' => 'sphereweb',
+//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
+//                );
 
         $request->setHeader($headers);
 
@@ -517,6 +522,7 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
                     $sendBody .= '</expensesClassification>' . PHP_EOL;
                     $sendBody .= '<expensesClassification>' . PHP_EOL;
                         $sendBody .= '<ecls:classificationType>'.$classification->vat.'</ecls:classificationType>' . PHP_EOL;
+                        $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
                         $sendBody .= '<ecls:amount>' . number_format($classification->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
                     $sendBody .= '</expensesClassification>' . PHP_EOL;
                 $sendBody .= '</invoiceDetails>' . PHP_EOL;
@@ -548,7 +554,7 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
         $sendBody .= '</InvoicesDoc>'.PHP_EOL;
 
         $request->setBody($sendBody);
-        dd($sendBody);
+        //dd($sendBody);
         try
         {
             $response = $request->send();
@@ -564,6 +570,136 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
         return $body;
     }
 }
+
+
+
+
+if(!function_exists('myDataSendInvoiceThirdCountry')) {
+    /**
+     * Sends a single third country outcome invoice with it classifications to MyData, Requires outcome hash ID
+     * @param $outcomeHash string
+     * @return object
+     */
+    function myDataSendInvoiceThirdCountry($outcomeHash) {
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+        $outcome = Outcomes::query()->where('hashID', '=', $outcomeHash)->first();
+        $classifications = $outcome->classifications;
+        $address = explode(',', $settings['address']);
+        $tk = $address[1];
+
+        $road = explode(' ', $address[0])[0];
+        $number = explode(' ', $address[0])[1];
+        $provider = $outcome->foreignProvider;
+
+        $counter = 1;
+
+        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
+
+        $headers = array(
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
+        );
+//        $request = new  Hrequest('https://mydataapidev.aade.gr/SendInvoices');
+//        $headers = array(
+//                    'aade-user-id' => 'sphereweb',
+//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
+//                );
+
+        $request->setHeader($headers);
+
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+
+        $sendBody = '<InvoicesDoc xmlns="http://www.aade.gr/myDATA/invoice/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icls="https://www.aade.gr/myDATA/incomeClassificaton/v1.0" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xsi:schemaLocation="http://www.aade.gr/myDATA/invoice/v1.0/InvoicesDoc-v0.6.xsd">'.PHP_EOL;
+        $sendBody .= '<invoice>'.PHP_EOL;
+        $sendBody .= '<issuer>'.PHP_EOL;
+        $sendBody .= '<vatNumber>'.$provider->country_code.$provider->provider_vat.'</vatNumber>'.PHP_EOL;
+        $sendBody .= '<country>'.$provider->country_code.'</country>'.PHP_EOL;
+        $sendBody .= '<branch>0</branch>'.PHP_EOL;
+        $sendBody .= '<name>'.$provider->provider_name.'</name>'.PHP_EOL;
+        $sendBody .= '<address>'.PHP_EOL;
+        $sendBody .= '<street/>'.PHP_EOL;
+        $sendBody .= '<number/>'.PHP_EOL;
+        $sendBody .= '<postalCode>'.$provider->address_tk.'</postalCode>'.PHP_EOL;
+        $sendBody .= '<city>'.$provider->city.'</city>'.PHP_EOL;
+        $sendBody .= '</address>'.PHP_EOL;
+        $sendBody .= '</issuer>'.PHP_EOL;
+        $sendBody .= '<counterpart>'.PHP_EOL;
+        $sendBody .= '<vatNumber>'.str_pad($settings['vat'], 9, '0', STR_PAD_LEFT).'</vatNumber>'.PHP_EOL;
+        $sendBody .= '<country>GR</country>'.PHP_EOL;
+        $sendBody .= '<branch>0</branch>'.PHP_EOL;
+        $sendBody .= '<address>'.PHP_EOL;
+        $sendBody .= '<street>'.$road.'</street>'.PHP_EOL;
+        $sendBody .= '<number>'.$number.'</number>'.PHP_EOL;
+        $sendBody .= '<postalCode>'.trim($tk).'</postalCode>'.PHP_EOL;
+        $sendBody .= '<city>'.$address[3].'</city>'.PHP_EOL;
+        $sendBody .= '</address>'.PHP_EOL;
+        $sendBody .= '</counterpart>'.PHP_EOL;
+        $sendBody .= '<invoiceHeader>'.PHP_EOL;
+        $sendBody .= '<series>'.$outcome->seira.'</series>'.PHP_EOL;
+        $sendBody .= '<aa>'.$outcome->outcome_number.'</aa>'.PHP_EOL;
+        $sendBody .= '<issueDate>'.$outcome->date.'</issueDate>'.PHP_EOL;
+        $sendBody .= '<invoiceType>'.$outcome->invType.'</invoiceType>'.PHP_EOL;
+        $sendBody .= '<currency>EUR</currency>'.PHP_EOL;
+        $sendBody .= '</invoiceHeader>'.PHP_EOL;
+        $counter = 1;
+        if(isset($classifications)) {
+            foreach ($classifications as $classification) {
+                $sendBody .= '<invoiceDetails>' . PHP_EOL;
+                $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
+                $sendBody .= '<netValue>' . number_format($outcome->price, 2, '.', '') . '</netValue>' . PHP_EOL;
+                $sendBody .= '<vatCategory>7</vatCategory>' . PHP_EOL;
+                $sendBody .= '<vatAmount>0.00</vatAmount>' . PHP_EOL;
+                $sendBody .= '<vatExemptionCategory>4</vatExemptionCategory>'.PHP_EOL;
+                $sendBody .= '<expensesClassification>' . PHP_EOL;
+                $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>' . PHP_EOL;
+                $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+                $sendBody .= '<ecls:amount>' . number_format($classification->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+                $sendBody .= '</expensesClassification>' . PHP_EOL;
+                $sendBody .= '</invoiceDetails>' . PHP_EOL;
+                $counter++;
+            }
+        }
+        $sendBody .= '<invoiceSummary>'.PHP_EOL;
+        $sendBody .= '<totalNetValue>'.number_format($outcome->price, 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
+        $sendBody .= '<totalVatAmount>0.00</totalVatAmount>'.PHP_EOL;
+        $sendBody .= '<totalWithheldAmount>0.00</totalWithheldAmount>'.PHP_EOL;
+        $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
+        $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
+        $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
+        $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
+        $sendBody .= '<totalGrossValue>'.number_format( $outcome->price, 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
+
+        $sendBody .= '<expensesClassification>' . PHP_EOL;
+        $sendBody .= '<ecls:classificationType>'.$classifications[0]->classification_type.'</ecls:classificationType>' . PHP_EOL;
+        $sendBody .= '<ecls:classificationCategory>'.$classifications[0]->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+        $sendBody .= '<ecls:amount>' . number_format($outcome->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+        $sendBody .= '</expensesClassification>' . PHP_EOL;
+        $sendBody .= '</invoiceSummary>'.PHP_EOL;
+        $sendBody .= '</invoice>'.PHP_EOL;
+        $sendBody .= '</InvoicesDoc>'.PHP_EOL;
+
+        $request->setBody($sendBody);
+        //dd($sendBody);
+        try
+        {
+            $response = $request->send();
+            $body = $response->getBody();
+        }
+        catch (HttpException $ex)
+        {
+            dd($ex);
+            return $ex;
+
+        }
+        //dd($body);
+        return $body;
+    }
+}
+
 
 if(!function_exists('myDataSendEfka')){
     function myDataSendEfka($outcomeHash) {

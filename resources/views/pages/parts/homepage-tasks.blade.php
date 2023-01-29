@@ -7,6 +7,7 @@
                 <i class="material-icons">add</i>
             </a>
         </li>
+        @if(count(getTasks()) > 0 )
         @foreach(getTasks() as $task)
         <li class="collection-item dismissable">
             <form class="change-task-state" method="post" action="{{route('tasks.state', ['task' => $task])}}">
@@ -21,6 +22,9 @@
 
         </li>
         @endforeach
+        @else
+            <li class="no-tasks">Δεν υπάρχουν διαθέσιμες υπενθυμίσεις. Πατήστε το + για να προσθέσετε μία τώρα.<div class="this-arrow"></div></li>
+            @endif
         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">
                                 Νέα Υπενθύμιση <i class="material-icons right">close</i>

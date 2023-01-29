@@ -18,62 +18,62 @@
 {{--        </div>--}}
         <div class="col s12 m6 l3">
             <div class="card animate fadeLeft card-incomes-retails">
-                <div class="card-content red accent-2 white-text">
+                <div class="card-content accent-2 grey lighten-3">
                     <p class="card-stats-title"><i class="material-icons">euro_symbol</i> Σύνολο Εσόδων {{date('Y')}}<br /> <small>(Αποδείξεις Λιανικής)</small></p>
-                    <h4 class="card-stats-number white-text">&euro; {{ getIncomesRetails()  }}</h4>
+                    <h4 class="card-stats-number">&euro; {{ getIncomesRetails()  }}</h4>
+
+                </div>
+                <div class="card-action grey lighten-3">
                     <p class="card-stats-compare">
                         <i class="material-icons">keyboard_arrow_down</i>
-                        <a href="{{route('retail-receipts.list')}}" class="green-text text-lighten-5">Προβολή Αποδείξεων Λιανικής</a>
+                        <a href="{{route('retail-receipts.list')}}" class="">Προβολή Αποδείξεων Λιανικής</a>
                     </p>
-                </div>
-                <div class="card-action red">
-                    <div id="invoices-compositebar" class="center-align"></div>
                 </div>
             </div>
         </div>
         <div class="col s12 m6 l3">
             <div class="card animate fadeLeft card-incomes-invoices">
-                <div class="card-content red accent-2 white-text">
+                <div class="card-content accent-2 grey lighten-3">
                     <p class="card-stats-title"><i class="material-icons">euro_symbol</i> Σύνολο Εσόδων {{date('Y')}}<br /> <small>(Τιμολόγια)</small></p>
-                    <h4 class="card-stats-number white-text">&euro; {{ getIncomes()  }}</h4>
-                    <p class="card-stats-compare">
-                        <i class="material-icons">keyboard_arrow_down</i>
-                        <a href="{{route('invoice.list')}}" class="green-text text-lighten-5">Προβολή Λίστας Τιμολογίων</a>
-                    </p>
+                    <h4 class="card-stats-number">&euro; {{ getIncomes()  }}</h4>
+
                 </div>
-                <div class="card-action red">
-                    <div id="retails-compositebar" class="center-align"></div>
+                <div class="card-action grey lighten-3">
+                    <p class="card-stats-compare text-center">
+                        <i class="material-icons">keyboard_arrow_down</i>
+                        <a href="{{route('invoice.list')}}">Προβολή Λίστας Τιμολογίων</a>
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="col s12 m6 l3">
             <div class="card animate fadeLeft card-incomes-total">
-                <div class="card-content red accent-2 white-text">
+                <div class="card-content accent-2 grey lighten-3">
                     <p class="card-stats-title"><i class="material-icons">euro_symbol</i> Σύνολο Εσόδων {{date('Y')}}<br /> <small>(Τιμολόγια + Αποδείξεις)</small></p>
-                    <h4 class="card-stats-number white-text">&euro; {{ getAllIncomes() }}</h4>
-                    <p class="card-stats-compare">
+                    <h4 class="card-stats-number">&euro; {{ getAllIncomes() }}</h4>
 
-                    </p>
                 </div>
-                <div class="card-action red">
-                    <div id="retails-compositebar" class="center-align"></div>
+                <div class="card-action grey lighten-3">
+                    <p class="card-stats-compare">
+                        ΤΖΙΡΟΣ {{date('Y')}}
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="col s12 m6 l3">
             <div class="card animate fadeRight card-outcomes">
-                <div class="card-content orange lighten-1 white-text">
-                    <p class="card-stats-title"><i class="material-icons">trending_up</i> Σύνολο Εξόδων</p>
-                    <h4 class="card-stats-number white-text">&euro; {{ getOutcomes()  }}</h4>
+                <div class="card-content grey lighten-3">
+                    <p class="card-stats-title"><i class="material-icons">trending_up</i> Σύνολο Εξόδων<br /> <small>(Έξοδα {{date('Y')}})</small></p>
+                    <h4 class="card-stats-number ">&euro; {{ getOutcomes()  }}</h4>
+
+                </div>
+                <div class="card-action grey lighten-3">
                     <p class="card-stats-compare">
                         <i class="material-icons">keyboard_arrow_down</i>
-                        <a href="{{route('outcome.list')}}" class="green-text text-lighten-5">Προβολή Παραστατικών Εξόδων</a>
+                        <a href="{{route('outcome.list')}}" >Προβολή Παραστατικών Εξόδων</a>
                     </p>
-                </div>
-                <div class="card-action orange">
-                    <div id="profit-tristate" class="center-align"></div>
                 </div>
             </div>
         </div>

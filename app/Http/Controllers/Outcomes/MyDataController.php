@@ -106,19 +106,28 @@ class MyDataController extends Controller
     public function sendClassificationsMyData(Request $request) {
         //dd($request);
         $theOutcome = Outcomes::query()->where('hashID', '=', $request->outcome_hash)->first();
-        if($theOutcome->mark !== null) {
-            $an = myDataSendExpensesClassification($theOutcome->hashID);
-        } elseif($theOutcome->invType == '14.30') {
-            $an = myDataSendDeko($theOutcome->hashID);
-        } elseif($theOutcome->invType == '14.5') {
-            //dd($theOutcome);
-            $an = myDataSendEfka($theOutcome->hashID);
-        } else {
-           // dd('ενδοκοινοτικό');
-            $an = myDataSendExpensesIntracommunity($theOutcome->hashID);
+
+        switch(true) {
+            case $theOutcome->mark !== null: // Αν έχει mark, δλδ έχει έρθει από την εφορία
+                $an = myDataSendExpensesClassification($theOutcome->hashID);
+                break;
+            case $theOutcome->invType === '14.30': // Αν είναι τηλεφωνία - ενέργεια - ΔΕΚΟ
+                $an = myDataSendDeko($theOutcome->hashID);
+                break;
+            case $theOutcome->invType === '14.5': // Αν είναι ΕΦΚΑ
+                $an = myDataSendEfka($theOutcome->hashID);
+                break;
+            case $theOutcome->invType === '14.3': // Αν είναι ενδοκοινοτικό
+                $an = myDataSendExpensesIntracommunity($theOutcome->hashID);
+                break;
+            case $theOutcome->invType === '14.4': // Αν είναι παραστατικό τρίτης χώρας
+                $an = myDataSendInvoiceThirdCountry($theOutcome->hashID);
+                break;
         }
+
         //dd($an);
         $theClassification = RetailClassification::query()->where('outcome_hash', '=', $request->outcome_hash)->first();
+
         $aadeResponse = array();
         $xml = simplexml_load_string($an);
         foreach($xml->response as $aade) {
@@ -131,13 +140,24 @@ class MyDataController extends Controller
         if($aadeResponse[0]['statusCode'] == 'Success') {
             $theOutcome->classified = 1;
             $theOutcome->status = 'classified';
+            if(isset($xml->response->invoiceMark)) {
+                $theOutcome->mark = $xml->response->invoiceMark;
+            }
             $theOutcome->save();
+
             if(isset($xml->response->classificationMark)){
                 $theClassification->mark = $xml->response->classificationMark;
                 $theClassification->save();
             }
         } else {
-            dd($xml->response);
+$status = $xml->response['statusCode'];
+//dd($xml->response[0]->statusCode->__toString());
+            Session::flash('notify', $xml->response[0]->statusCode->__toString());
+            foreach ($xml->response->errors as $error) {
+                //dd();
+                Session::flash('error', $error->error->message->__toString());
+            }
+            return redirect()->back();
         }
 
         return redirect('/outcomes');

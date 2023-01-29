@@ -1,7 +1,7 @@
 @php $trashed = getTrashed(); @endphp
 <div class="navbar @if(($configData['isNavbarFixed'])=== true){{'navbar-fixed'}} @endif">
   <nav
-    class="{{$configData['navbarMainClass']}} @if($configData['isNavbarDark']=== true) {{'navbar-dark'}} @elseif($configData['isNavbarDark']=== false) {{'navbar-light'}} @elseif(!empty($configData['navbarBgColor'])) {{$configData['navbarBgColor']}} @else {{$configData['navbarMainColor']}} @endif">
+    class="navbar-main navbar-color nav-collapsible no-shadow nav-expanded sideNav-lock  navbar-light">
     <div class="nav-wrapper">
         @yield('header-left')
       <ul class="navbar-list right">

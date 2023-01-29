@@ -175,7 +175,7 @@ class DeliveryInvoicesController extends Controller
         $from = $fromDate->format('Y-m-d');
         $toDate = DateTime::createFromFormat('d/m/Y', $request['date-end']);
         $to = $toDate->format('Y-m-d');
-
+        $finalIncome = [];
         $deliveryInvoices = DeliveryInvoices::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortBy('date');
 
         foreach($deliveryInvoices as $invoice) {

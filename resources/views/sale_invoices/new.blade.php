@@ -241,7 +241,7 @@
                 <div class="col xl3 m4 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
-                            @if(!isset($invoice->mark))
+                            @if(isset($invoice) && !isset($invoice->mark))
                                 <div class="invoice-action-btn">
                                     <div class="invoice-action-btn">
                                         <a href="{{route('sale_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">

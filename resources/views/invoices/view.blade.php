@@ -16,7 +16,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
         <!-- Search for small screen-->
         <div class="container">
             <div class="row">
@@ -66,9 +66,9 @@
                 <span class="invoice-color">Πελάτης:</span>
                 <strong>{{$invoice->client->company}}</strong><br>
                 {{$invoice->client->work_title}}<br>
-                {{$invoice->client->address. ' '. $invoice->client->number}}, {{chunk_split($invoice->client->postal_code, 3, ' ')}}<br>
+                {{$invoice->client->addresses[0]->address. ' '. $invoice->client->addresses[0]->number}}, {{chunk_split($invoice->client->addresses[0]->postal_code, 3, ' ')}}<br>
                 <strong>ΑΦΜ:</strong> {{$invoice->client->vat}} - <strong>ΔΟΥ: </strong>{{$invoice->client->doy}}<br>
-                <strong>ΤΗΛ:</strong> {{$invoice->client->phone}} - <strong>ΠΟΛΗ: </strong>{{$invoice->client->city}}
+                <strong>ΤΗΛ:</strong> {{$invoice->client->phone}} - <strong>ΠΟΛΗ: </strong>{{$invoice->client->addresses[0]->city}}
                 <br>
             </div>
             <hr class="main-color">
@@ -133,7 +133,7 @@
                         <img src="{{url('images/system/'.$settings['signature'])}}" alt="signature">
                     </div>
                     @endif
-                    @if(isset($invoice->mark))
+                    @if(isset($invoice->mark) && $invoice->mark > 0)
                     <div class="aade-mydata-mark">ΜΑΡΚ: {{$invoice->mark}}</div>
                     @endif
                     <div class="clear"></div>

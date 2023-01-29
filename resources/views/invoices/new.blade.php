@@ -308,16 +308,16 @@
                                 title="Εφαρμογή παρακράτησης φόρου (στα 300 &euro; και άνω)">Εφαρμογή παρακράτησης</span>
                             <div class="switch">
                                 <label>
-                                    <input type="checkbox" name="hasParakratisi" id="hasParakratisi"
-                                           checked>
+                                    <input type="checkbox" name="hasParakratisi" id="hasParakratisi" @if(isset($invoice) && $invoice->has_parakratisi == 1)
+                                           checked @endif >
                                     <span class="lever"></span>
                                 </label>
                             </div>
                         </div>
                         <div class="input-field col s12 parakratisi_id">
                             <select name="parakratisi_id" id="parakratisi_id">
-                                <option value="3" data-value="20" @if(isset($invoice->parakratisi_id) && $invoice->parakratisi_id == 3) selected @endif>Αμοιβές Συμβουλών Διοίκησης - 20%</option>
-                                <option value="4" data-value="3" @if(isset($invoice->parakratisi_id) && $invoice->parakratisi_id == 4) selected @endif>Τεχνικά Έργα - 3%</option>
+                                <option value="3" data-value="20" @if(isset($invoice->parakratisi_id) && $invoice->has_parakratisis == 1 && $invoice->parakratisi_id == 3) selected @endif>Αμοιβές Συμβουλών Διοίκησης - 20%</option>
+                                <option value="4" data-value="3" @if(isset($invoice->parakratisi_id) && $invoice->has_parakratisis == 1 && $invoice->parakratisi_id == 4) selected @endif>Τεχνικά Έργα - 3%</option>
                             </select>
                             <label for="parakratisi_id">Είδος Παρακράτησης</label>
                         </div>

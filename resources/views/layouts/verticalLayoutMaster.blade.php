@@ -17,9 +17,7 @@
       @if ($configData["navbarLarge"] === true)
           @if(($configData["mainLayoutType"]) === 'vertical-modern-menu')
               {{-- navabar large  --}}
-              <div
-                class="content-wrapper-before @if(!empty($configData['navbarBgColor'])) {{$configData['navbarBgColor']}} @else {{$configData["navbarLargeColor"]}} @endif">
-              </div>
+              <div class="content-wrapper-before"></div>
           @else
               {{-- navabar large  --}}
               <div class="content-wrapper-before {{$configData["navbarLargeColor"]}}">

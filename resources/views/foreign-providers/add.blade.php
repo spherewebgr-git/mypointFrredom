@@ -12,7 +12,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
         <!-- Search for small screen-->
         <div class="container">
             <div class="row">
@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="input-field col s12 m5">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="provider_id" type="text" name="provider_id" @if(isset($provider->provider_id)) value="{{old('provider_id', $provider->provider_id)}}" @else value="{{$number}}" @endif required>
+                            <input id="provider_id" type="text" name="provider_id" @if(isset($provider->provider_id)) value="{{old('provider_id', $provider->provider_id)}}" @else value="{{$number ??  ''}}" @endif required>
                             <label for="provider_id" class="">Κωδικός Προμηθευτή *</label>
                         </div>
                         <div class="input-field col s12 m7">
