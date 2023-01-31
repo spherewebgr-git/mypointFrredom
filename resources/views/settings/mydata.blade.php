@@ -30,7 +30,7 @@
                     <ol>
                         <li>Ακολουθήστε τον σύνδεσμο (<a href="https://www1.aade.gr/saadeapps2/bookkeeper-web/" target="_blank">https://www1.aade.gr/saadeapps2/bookkeeper-web/</a> ) και κάντε σύνδεση με τους κωδικούς taxis σας.</li>
                         <li>Αφού συνδεθείτε, επιλέξτε <strong>"Εγγραφή στο myDATA REST API"</strong></li>
-                        <li>Έπειτα στην ενότητα "Χρήστες" πατήτε το <strong>"Νέα εγγραφή χρήστη"</strong><br /><img src="{{asset('images/new-user-mydata.png')}}" alt="new user my data" /> </li>
+                        <li>Έπειτα στην ενότητα "Χρήστες" πατήτε το <strong>"Νέα εγγραφή χρήστη"</strong></li>
                         <li>Συμπληρώστε τα πεδία ως εξής:
                             <ul>
                                 <li><strong>Όνομα χρήστη</strong> | Μπορεί να αποτελείτε μόνο από λατινικούς χαρακτήρες και αριθμούς</li>

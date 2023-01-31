@@ -5,7 +5,7 @@
       <a class="point-logo darken-1" href="{{asset('/')}}" style="display: block;text-align: center;padding: 5px 0;">
         @if(!empty($configData['mainLayoutType']) && isset($configData['mainLayoutType']))
           @if($configData['mainLayoutType']=== 'vertical-modern-menu')
-          <img class="hide-on-med-and-down mt-1" height="45px" src="{{asset($configData['largeScreenLogo'])}}" alt="materialize logo" />
+          <img class="hide-on-med-and-down mt-4" height="35px" src="{{asset($configData['largeScreenLogo'])}}" alt="materialize logo" />
           <img class="show-on-medium-and-down hide-on-med-and-up mt-10" src="{{asset($configData['smallScreenLogo'])}}"
             alt="materialize logo" />
 

@@ -58,20 +58,32 @@ if(!function_exists('getFinalPrices'))
 {
     /**
      * @param $invoiceHashID
+     * @param $invoiceType
      * @return mixed
      */
-    function getFinalPrices( $invoiceHashID )
+    function getFinalPrices($invoiceHashID, $invoiceType)
     {
-        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
-
         $total = [];
-        $services = $invoice->services()->get();
-        //dd($services);
-        foreach ($services as $service)
-        {
-            $total[] = $service->price * $service->quantity;
+
+        if($invoiceType == 'invoice') {
+            $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+            $services = $invoice->services()->get();
+
+            foreach ($services as $service)
+            {
+                $total[] = $service->price * $service->quantity;
+            }
+        } elseif ($invoiceType == 'saleInvoice') {
+            $deliveredGoods = DeliveredGoods::query()->where('invoice_hash', '=', $invoiceHashID)->get();
+            $total = [];
+            foreach ($deliveredGoods as $product)
+            {
+                $total[] = $product->product_price * $product->quantity;
+            }
         }
+
         $invoicePrice = collect($total)->sum();
+
         return $invoicePrice;
     }
 }
@@ -257,6 +269,17 @@ if(!function_exists('getRetailPrices'))
         ];
 
         return $rPrices;
+    }
+}
+
+if(!function_exists('formatToGreekMonth')) {
+    function formatToGreekMonth($month){
+        //Expected date format m
+        $greekMonths = array('Ιανουάριο','Φεβρουάριο','Μάρτιο','Απρίλιο','Μάιο','Ιούνιο','Ιούλιο','Αύγουστο','Σεπτέμβριο','Οκτώβριο','Νοέμβριο','Δεκέμβριο');
+        $time = strtotime(date('Y-'.$month.'-d'));
+        $newformat = date('Y-m-d',$time);
+
+        return  $greekMonths[date('m', strtotime($newformat))-1]; // . ' '. $date;
     }
 }
 

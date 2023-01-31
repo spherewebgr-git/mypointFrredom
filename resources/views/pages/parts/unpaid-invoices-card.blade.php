@@ -12,9 +12,9 @@
             <p>Τιμολόγια που δεν έχουν ακόμα εξοφληθεί</p>
         </li>
         @foreach($unpaid as $un)
-        <li class="collection-item unpaid-invoice" data-price="{{getFinalPrices($un->hashID)}}">
+        <li class="collection-item unpaid-invoice" data-price="{{getFinalPrices($un->hashID, 'invoice')}}">
             <div class="row display-flex align-items-center">
-                <div class="col s2 center"><strong>&euro; {{getFinalPrices($un->hashID)}}</strong></div>
+                <div class="col s2 center"><strong>&euro; {{getFinalPrices($un->hashID, 'invoice')}}</strong></div>
                 <div class="col s7">
                     <p class="collections-title"><strong>Α.Π. @if($un->seira != 'ANEY') {{$un->seira}} @endif {{$un->invoiceID}}</strong> <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($un->date))->format('d/m/Y')}}</small></p>
                     <p class="collections-content">{{$un->client->company}}</p>

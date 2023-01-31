@@ -1,6 +1,6 @@
 <div class="col s12 m6">
     <div id="flight-card" class="card animate fadeUp">
-        <div class="card-header deep-orange accent-2">
+        <div class="card-header grey accent-2">
             <div class="card-title">
                 <h5 class="task-card-title mb-3 mt-0 white-text">Καιρός Αθήνα</h5>
                 <p class="flight-card-date">{{$todayTime}}</p>

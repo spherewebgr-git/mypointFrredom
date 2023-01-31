@@ -4,7 +4,7 @@
             <form action="{{route('settings.update', ['form' => 'addresses'])}}" method="post" enctype="multipart/form-data" class="form invoice-item-repeater">
                 @csrf
                 @foreach($addresses as $address)
-
+                    @if($address->type !== 'address')
                     <div>
                         <div class="addresses-item position-relative">
                             <div class="col s3">
@@ -33,6 +33,7 @@
                             <div class="clear"></div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
                 <h4 style="font-size: 16px;font-weight: 400;margin: 45px 0 10px 25px;">Προσθήκη Νέων Διευθύνσεων</h4>
                 <div  data-repeater-list="addresses">
@@ -56,7 +57,7 @@
                         </div>
                         <div class="col s9">
                             <div class="input-field">
-                                <input id="address" name="address" type="text" @if(isset($settings['address'])) value="{{$settings['address']}}" @endif>
+                                <input id="address" name="address" type="text">
                                 <label for="address">Διεύθυνση (Οδός Αριθμός, ΤΚ, Περιοχή, Πόλη)</label>
                             </div>
                         </div>

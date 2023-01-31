@@ -1,5 +1,5 @@
 @php $trashed = getTrashed(); @endphp
-<div class="navbar @if(($configData['isNavbarFixed'])=== true){{'navbar-fixed'}} @endif">
+<div class="navbar">
   <nav
     class="navbar-main navbar-color nav-collapsible no-shadow nav-expanded sideNav-lock  navbar-light">
     <div class="nav-wrapper">

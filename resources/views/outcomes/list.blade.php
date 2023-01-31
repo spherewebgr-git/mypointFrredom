@@ -143,7 +143,7 @@
 
                         <tr role="row" class="{{$outcome->status}}">
                             <td class=" control" tabindex="0" style="display: none;"></td>
-                            <td>@if($outcome->outcome_number) {{$outcome->outcome_number}} @else - @endif</td>
+                            <td style="letter-spacing: 0.8px;">@if($outcome->seira && $outcome->seira != '-' && $outcome->seira != '~') {{$outcome->seira}}/@endif{{$outcome->outcome_number}}</td>
                             <td>@if($outcome->status == 'efka') ΕΦΚΑ @else {{getProviderName($outcome->shop)}} @endif</td>
                             <td class="center-align">{{getInvoiceTypeName($outcome->invType)}}</td>
                             <td class="center-align">{{\Carbon\Carbon::createFromTimestamp(strtotime($outcome->date))->format('d/m/Y')}}</td>

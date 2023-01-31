@@ -50,7 +50,20 @@ div#tour {
     top:0;
     height:220px;
 }
-
+.btn, .btn-small, .btn-large {
+    background-color: #4e4e4e;
+}
+.btn:hover, .btn-small:hover, .btn-large:hover {
+    background-color: #000000;
+}
+.sidenav.sidenav-fixed {
+    padding-top: 2rem;
+}
+.tabs-vertical .tabs .tab a.active {
+    background-color: #4e4e4e !important;
+    color: #ffffff!important;
+    border-radius: 4px;
+}
 #main .content-wrapper-before {
     background-image: url(../images/system/header-vas.png);
     background-size: cover;
