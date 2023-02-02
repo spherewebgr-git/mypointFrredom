@@ -26,7 +26,7 @@ class InvoicesController extends Controller
         $finalIncome = [];
         $invoices = Invoice::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('invoiceID');
         foreach($invoices as $invoice) {
-            $finalIncome[] = getFinalPrices($invoice->hashID);
+            $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
         }
         $final = array_sum($finalIncome);
 
@@ -44,7 +44,7 @@ class InvoicesController extends Controller
         $finalIncome = [];
         $invoices = Invoice::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortByDesc('date');
         foreach($invoices as $invoice) {
-            $finalIncome[] = getFinalPrices($invoice->hashID);
+            $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
         }
         $final = array_sum($finalIncome);
         return view('invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
@@ -272,13 +272,13 @@ class InvoicesController extends Controller
         return Redirect::back()->with('notify', 'Το τιμολόγιο τοποθετήθηκε στον κάδο ανακύκλωσης!');
     }
 
-    public function sendInvoice($invoice)
+    public function sendInvoice($invoiceHash)
     {
        // $invoices = $request->invoices;
-        $theInvoice = Invoice::query()->where('invoiceID', '=', $invoice)->first();
+        $theInvoice = Invoice::query()->where('hashID', '=', $invoiceHash)->first();
         //dd($theInvoice);
 
-        $an = myDataSendInvoices('invoice', $invoice);
+        $an = myDataSendInvoices('invoice', $invoiceHash);
         $aadeResponse = array();
         $xml = simplexml_load_string($an);
         foreach($xml->response as $aade) {
@@ -305,7 +305,7 @@ class InvoicesController extends Controller
         foreach($request->ids as $invoice) {
             $theInvoice = Invoice::query()->where('invoiceID', '=', $invoice)->first();
 
-            $an = myDataSendInvoices($invoice);
+            $an = myDataSendInvoices('invoice', $invoice);
             $aadeResponse = array();
             $xml = simplexml_load_string($an);
             foreach($xml->response as $aade) {
@@ -324,6 +324,12 @@ class InvoicesController extends Controller
             }
         }
         return 'ok';
+    }
+
+    public function cancelInvoice(Invoice $invoice)
+    {
+        //dd($invoice);
+        myDataCancelInvoice($invoice->mark, 'invoice');
     }
 
     public function lastInvoiceAjax(Request $request) {

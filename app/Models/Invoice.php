@@ -12,7 +12,7 @@ class Invoice extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'invoiceID', 'seira', 'client_id', 'date', 'paid', 'has_parakratisi',  'payment_method', 'mark', 'file_invoice'
+        'invoiceID', 'seira', 'client_id', 'date', 'paid', 'has_parakratisi',  'payment_method', 'mark', 'cancelation_mark', 'file_invoice'
     ];
 
     public function client()

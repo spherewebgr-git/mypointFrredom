@@ -23,6 +23,7 @@ class CreateInvoicesTable extends Migration
             $table->boolean('paid');
             $table->unsignedBigInteger('payment_method')->nullable()->default(5);
             $table->string('mark')->unique()->nullable();
+            $table->string('cancelation_mark')->unique()->nullable();
             $table->string('file_invoice')->nullable();
             $table->integer('has_parakratisi');
             $table->integer('parakratisi_id')->default(3);

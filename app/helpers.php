@@ -367,7 +367,7 @@ if(!function_exists('getAllIncomes'))
         $incomesTotals = [];
         foreach ($incomes as $invoice)
         {
-            $incomesTotals[] = getFinalPrices($invoice->hashID);
+            $incomesTotals[] = getFinalPrices($invoice->hashID, 'invoice');
         }
         $finalIncomes = collect($incomesTotals)->sum();
 
@@ -472,7 +472,7 @@ if(!function_exists('getFpa'))
         $fpaTotals = [];
         foreach ($invoices as $invoice)
         {
-            $fpaTotals[] = getFinalPrices($invoice->hashID);
+            $fpaTotals[] = getFinalPrices($invoice->hashID, 'invoice');
 
         }
         foreach($outcomes as $outcome)
@@ -521,6 +521,11 @@ if(!function_exists('createInvoiceFile'))
         $invoice = Invoice::query()->where('hashID', $invoiceHash)->first();
         $year = date('Y', strtotime($invoice->date));
         $month = date('m', strtotime($invoice->date));
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
         switch ($invoice->payment_method) {
             case 1:
                 $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
@@ -538,7 +543,7 @@ if(!function_exists('createInvoiceFile'))
                 $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
                 break;
         }
-        $pdf = PDF::loadView('invoices.raw-view', ['invoice' => $invoice, 'payment' => $payment], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
+        $pdf = PDF::loadView('invoices.raw-view', ['invoice' => $invoice, 'payment' => $payment, 'settings' => $settings], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
         $pdf->setPaper('A4', 'portrait');
         Storage::put('public/pdf/'.$year.'/'.$month.'/invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf', $pdf->output());
 

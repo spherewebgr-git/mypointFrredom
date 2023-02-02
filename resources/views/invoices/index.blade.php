@@ -160,21 +160,21 @@
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</small>
                                 </td>
                                 <td class="center-align">
-                                    &euro; {{number_format(getFinalPrices($invoice->hashID), '2', ',', '.')}}</td>
-                                <td class="center-align count-parakratisi hide-on-med-and-down" @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1) data-price="{{(20 / 100) * getFinalPrices($invoice->hashID)}}" @endif>
-                                    @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
-                                    &euro; {{number_format((20 / 100) * getFinalPrices($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format(getFinalPrices($invoice->hashID, 'invoice'), '2', ',', '.')}}</td>
+                                <td class="center-align count-parakratisi hide-on-med-and-down" @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1) data-price="{{(20 / 100) * getFinalPrices($invoice->hashID, 'invoice')}}" @endif>
+                                    @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
+                                    &euro; {{number_format((20 / 100) * getFinalPrices($invoice->hashID, 'invoice'), '2', ',', '.')}}
 
                                         @else
                                         <span class="bullet blue"></span>
                                     @endif
                                 </td>
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->hashID, 'invoice'), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
 
-                                    &euro; {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), '2', ',', '.')}}
+                                    &euro; {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), '2', ',', '.')}}
 
                                 </td>
                                 <td class="center-align print-hide">

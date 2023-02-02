@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\Invoice\UpdateInvoiceController;
 use Illuminate\Support\Facades\Route;
 
 //Invoice Routes
@@ -19,4 +20,5 @@ Route::name('invoice.')->prefix('/')->group(function () {
     Route::post('/myData-invoices-multiple', [InvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');
     Route::post('/last-invoice-ajax', [InvoicesController::class, 'lastInvoiceAjax'])->name('last-retail');
     Route::get('/update-status/{invoice:hashID}', [UpdateInvoiceController::class, 'updateStatus'])->name('update-status');
+    Route::get('/cancel-invoice/{invoice:hashID}', [InvoicesController::class, 'cancelInvoice'])->name('cancel');
 });

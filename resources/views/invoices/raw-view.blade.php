@@ -233,17 +233,17 @@
             <span class="invoice-color">Προς:</span>
             <strong>{{$invoice->client->company}}</strong><br>
             {{$invoice->client->work_title}}<br>
-            {{$invoice->client->address. ' '. $invoice->client->number}}, {{chunk_split($invoice->client->postal_code, 3, ' ')}}<br>
+            {{$invoice->client->addresses[0]->address. ' '. $invoice->client->addresses[0]->number}}, {{chunk_split($invoice->client->addresses[0]->postal_code, 3, ' ')}}<br>
             <strong>ΑΦΜ:</strong> {{$invoice->client->vat}} - <strong>ΔΟΥ: </strong>{{$invoice->client->doy}}<br>
-            <strong>ΤΗΛ:</strong> {{$invoice->client->phone}} - <strong>ΠΟΛΗ: </strong>{{$invoice->client->city}}
+            <strong>ΤΗΛ:</strong> {{$invoice->client->phone}} - <strong>ΠΟΛΗ: </strong>{{$invoice->client->addresses[0]->city}}
             <br>
         </div>
         <hr class="main-color">
-        @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
+        @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
             <div class="paratiriseis">
                 <span class="invoice-color">Σημειώσεις:</span><br>
                 <div id="parakratisi">ΕΓΙΝΕ ΠΑΡΑΚΡΑΤΗΣΗ ΦΟΡΟΥ 20% ΙΣΗ ΜΕ
-                    € {{(20 / 100) * getFinalPrices($invoice->hashID)}} (ΕΥΡΩ)
+                    € {{(20 / 100) * getFinalPrices($invoice->hashID, 'invoice')}} (ΕΥΡΩ)
                 </div>
             </div>
         @endif
@@ -272,23 +272,23 @@
                 <tr class="right-align">
                     <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                     <td colspan="2" class="sinoloAxion" data-saprice="">
-                        € {{number_format(getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
+                        € {{number_format(getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
                     <td colspan="2" class="sinoloFpa">
-                        € {{number_format((24 / 100) * getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
+                        € {{number_format((24 / 100) * getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                     <td colspan="2" class="sinoloGeniko">
-                        € {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}</td>
+                        € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
                     <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
-                    <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
-                                {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
-                                {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}
+                    <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}
                             @endif</strong></td>
                 </tr>
                 </tbody>

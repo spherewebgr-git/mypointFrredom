@@ -29,7 +29,7 @@ if(!function_exists('myDataSendInvoices')) {
         }
         if($type == 'invoice') {
             $invoice = Invoice::query()->where('hashID', '=', $invoice)->first();
-            $total = getFinalPrices($invoice->hashID); // Total price without VAT
+            $total = getFinalPrices($invoice->hashID, 'invoice'); // Total price without VAT
             $invoiceType = '2.1';
             $classificationType = 'E3_561_001';
             $classificationCat = 'category1_3';
@@ -918,18 +918,21 @@ if(!function_exists('myDataSendDeko')){
 }
 
 if(!function_exists('myDataCancelInvoice')) {
-    function myDataCancelInvoice($mark)
+    function myDataCancelInvoice($mark, $type)
     {
-        //dd('test');
-        $settings = Settings::all()->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
 
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/CancelInvoice?mark='.$mark);
         $url = $request->getUrl();
 
         // Official
         $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
 
 
@@ -945,7 +948,7 @@ if(!function_exists('myDataCancelInvoice')) {
         try
         {
             $response = $request->send();
-            dd($response);
+            //dd($response);
             if($response->getBody()) {
                 $xml = simplexml_load_string($response->getBody());
             }

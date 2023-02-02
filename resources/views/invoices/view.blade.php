@@ -72,11 +72,11 @@
                 <br>
             </div>
             <hr class="main-color">
-            @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
+            @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
             <div class="paratiriseis">
                 <span class="invoice-color">Σημειώσεις:</span><br>
                     <div id="parakratisi">ΕΓΙΝΕ ΠΑΡΑΚΡΑΤΗΣΗ ΦΟΡΟΥ 20% ΙΣΗ ΜΕ
-                        € {{(20 / 100) * getFinalPrices($invoice->hashID)}} (ΕΥΡΩ)
+                        € {{(20 / 100) * getFinalPrices($invoice->hashID, 'invoice')}} (ΕΥΡΩ)
                     </div>
             </div>
             @endif
@@ -105,23 +105,23 @@
                     <tr class="right-align">
                         <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                         <td colspan="2" class="sinoloAxion" data-saprice="">
-                            € {{number_format(getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
+                            € {{number_format(getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
                         <td colspan="2" class="sinoloFpa">
-                            € {{number_format((24 / 100) * getFinalPrices($invoice->hashID), 2, ',', '.')}}</td>
+                            € {{number_format((24 / 100) * getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                         <td colspan="2" class="sinoloGeniko">
-                            € {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}</td>
+                            € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="2"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
-                        <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID) > 300 && $invoice->has_parakratisi == 1)
-                                {{number_format(getFinalPrices($invoice->hashID) - ((20 / 100) * getFinalPrices($invoice->hashID)) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
-                                {{number_format(getFinalPrices($invoice->hashID) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}}
+                        <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}} @else
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}
                                 @endif</strong></td>
                     </tr>
                     </tbody>
@@ -161,50 +161,58 @@
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper">
                 <div class="card-content">
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-4">check</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
-                        <a href="javascript:if(window.print)window.print()" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
+                    <div class="invoice-action-btn mb-2">
+                        <a href="javascript:if(window.print)window.print()" class="btn-block btn  waves-effect waves-light invoice-print">
                             <i class="material-icons mr-4">print</i>
                             <span>Εκτύπωση</span>
                         </a>
                     </div>
                     @if(!$invoice->mark)
-                    <div class="invoice-action-btn">
-                        <a href="{{route('invoice.edit', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                    <div class="invoice-action-btn mb-2">
+                        <a href="{{route('invoice.edit', $invoice->hashID)}}" class="btn-block btn  waves-effect waves-light">
                             <i class="material-icons mr-4">edit</i>
                             <span>Επεξεργασία</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
-                        <a href="{{route('invoice.mydata', $invoice->invoiceID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                    <div class="invoice-action-btn mb-2">
+                        <a href="{{route('invoice.mydata', $invoice->hashID)}}" class="btn-block btn  waves-effect waves-light">
                             <i class="material-icons mr-4">backup</i>
                             <span>Αποστολή στο myData</span>
                         </a>
                     </div>
                     @endif
-                    <div class="invoice-action-btn">
-                        <a href="{{route('invoice.save', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                    <div class="invoice-action-btn mb-2">
+                        <a href="{{route('invoice.save', $invoice->hashID)}}" class="btn-block btn waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Δημιουργία PDF & Λήψη</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
-                        <a href="{{route('invoice.download', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                    <div class="invoice-action-btn mb-2">
+                        <a href="{{route('invoice.download', $invoice->hashID)}}" class="btn-block btn waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Λήψη PDF</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="#" id="addPaymentsPage" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-3">euro_symbol</i>
-                            <span class="text-nowrap">Προσθήκη Τρόπων Πληρωμής</span>
+                            <span class="text-nowrap">Εμφάνιση Τρόπων Πληρωμής</span>
                         </a>
                     </div>
+                    @if($invoice->mark)
+                    <div class="invoice-action-btn">
+                        <a href="{{route('invoice.cancel', ['invoice' => $invoice->hashID])}}" class="btn waves-effect deep-orange accent-4 waves-light display-flex align-items-center justify-content-center">
+                            <i class="material-icons mr-3">cancel</i>
+                            <span class="text-nowrap">Ακύρωση Τιμολογίου</span>
+                        </a>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="display-flex justify-content-center pb-2">
