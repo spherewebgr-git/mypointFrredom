@@ -50,19 +50,19 @@
                                 <i class="material-icons prefix">account_circle</i>
                                 <input id="seira" type="text" name="seira"
                                        @if(isset($outcome->seira))value="{{old('seira', $outcome->seira)}}"
-                                       @endif required @if(isset($outcome) && $outcome->mark) disabled @endif>
+                                       @endif required>
                                 <label for="seira" class="">Σειρά *</label>
                             </div>
                             <div class="input-field col s12 m3">
                                 <i class="material-icons prefix">account_circle</i>
-                                <input id="outcome_number" type="text" name="outcome_number" @if(isset($outcome) && $outcome->mark) disabled @endif
+                                <input id="outcome_number" type="text" name="outcome_number"
                                        @if(isset($outcome->outcome_number))value="{{old('outcome_number', $outcome->outcome_number)}}"
                                        @endif required>
                                 <label for="outcome_number" class="">Αριθμός Παραστατικού *</label>
                             </div>
                             <div class="input-field col s12 m4">
                                 <i class="material-icons prefix">local_grocery_store</i>
-                                <select name="invType" id="invType" @if(isset($outcome) && $outcome->mark) disabled @endif>
+                                <select name="invType" id="invType">
                                     <option value="" disabled selected>Επιλέξτε Τύπο Παραστατικού</option>
                                     <option value="1" disabled>Τιμολόγια Πώλησης</option>
                                     <option value="1.1" @if(isset($outcome->invType) && $outcome->invType === '1.1') selected @endif>Τιμολόγιο Πώλησης</option>
@@ -116,7 +116,7 @@
                         <div class="row">
                             <div class="input-field col s12 m5">
                                 <i class="material-icons prefix">local_grocery_store</i>
-                                <select name="shop" id="shop" @if(isset($outcome) && $outcome->mark) disabled @endif >
+                                <select name="shop" id="shop">
                                     <option value="" disabled selected>@if(count($providers) > 0) Προμηθευτές Εσωτερικού @else Δεν υπάρχουν διαθέσιμοι προμηθευτές Εσωτερικού @endif</option>
                                     @foreach($providers as $provider)
                                     <option value="{{old('provider_vat', $provider->provider_vat)}}" @if(isset($outcome->shop) && $provider->provider_vat == $outcome->shop) selected @endif>@if($provider->provider_name){{$provider->provider_name}}@endif</option>

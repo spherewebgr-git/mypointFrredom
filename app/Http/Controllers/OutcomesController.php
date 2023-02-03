@@ -190,14 +190,21 @@ class OutcomesController extends Controller
             $name = $outcome->file;
         }
         $outcome->update([
-            'outcome_number' => $request->outcome_number,
-            'shop' => $request->shop,
-            'date' => $date,
             'price' => $request->price,
-            'invType' => $request->invType,
             'vat' => $request->vat,
+            'date' => $date,
             'file' => $name
         ]);
+        if($outcome->mark === null) {
+            $outcome->update([
+                'seira' => $request->seira,
+                'outcome_number' => $request->outcome_number,
+                'shop' => $request->shop,
+                'invType' => $request->invType
+            ]);
+        }
+
+        Session::flash('notify', 'Το παραστατικό εξόδου ενημερώθηκε');
 
         return back();
     }

@@ -262,14 +262,12 @@
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
                             @if(!isset($invoice->mark) && isset($invoice))
-                                <div class="invoice-action-btn">
-                                    <div class="invoice-action-btn">
-                                        <a href="{{route('invoice.mydata', $invoice->hashID)}}"
-                                           class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                            <i class="material-icons mr-4">backup</i>
-                                            <span>Αποστολή στο myData</span>
-                                        </a>
-                                    </div>
+                                <div class="invoice-action-btn mydata-btn">
+                                    <a href="{{route('invoice.mydata', $invoice->hashID)}}"
+                                       class="btn btn-light-indigo white-text waves-effect waves-light display-flex align-items-center justify-content-center">
+                                        <i class="material-icons mr-4">backup</i>
+                                        <span>Αποστολή στο myData</span>
+                                    </a>
                                 </div>
                             @endif
                             <div class="invoice-action-btn">

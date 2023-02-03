@@ -287,7 +287,7 @@
                 <tr class="right-align">
                     <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
                     <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
-                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + ((24 / 100) * getFinalPrices($invoice->hashID)), 2, ',', '.')}} @else
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + ((24 / 100) * getFinalPrices($invoice->hashID,'invoice')), 2, ',', '.')}} @else
                                 {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}
                             @endif</strong></td>
                 </tr>
@@ -314,7 +314,7 @@
                         @if(isset(settings()['mobile']))
                         <td><span class="invoice-color">Κιν:</span> {{settings()['mobile']}}</td> @endif
 {{--                        <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}
-                        <td><span class="invoice-color">Πληρωμή:</span> {{$payment}}</td>
+                        <td><span class="invoice-color">Τρόπος Πληρωμής:</span> {{$payment}}</td>
                     </tr>
                     </tbody>
                 </table>

@@ -283,7 +283,7 @@ class InvoicesController extends Controller
         $xml = simplexml_load_string($an);
         foreach($xml->response as $aade) {
             $aadeObject = array(
-                "index" => $aade->firstname,
+                "index" => $aade->index,
                 "invoiceUid" => $aade->invoiceUid,
                 "invoiceMark" => $aade->invoiceMark,
                 "statusCode" => $aade->statusCode,
