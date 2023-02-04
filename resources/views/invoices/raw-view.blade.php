@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php $color = settings()['invoice_color']; ?>
+
+    <!DOCTYPE html>
 <html lang="el">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -95,15 +97,15 @@
             padding: 14px 10px;
         }
         .timologioContent hr.main-color {
-            color: #C62828;
-            border: 1px solid #C62828;
+            color: <?php echo $color ? $color : '#C62828'; ?>;
+            border: 1px solid <?php echo $color ? $color : '#C62828'; ?>;
             border-top: 0;
         }
         .timologioContent .invoice-color {
-            color: #C62828;
+            color: <?php echo $color ? $color : '#C62828'; ?>;
         }
         .timologioContent .invoice-color-bg {
-            background-color: #C62828;
+            background-color: <?php echo $color ? $color : '#C62828'; ?>;
         }
         .timologioContent .x_panel.container {
             max-width: 1200px;
@@ -160,7 +162,7 @@
             background: #fff;
         }
         .timologioContent .timTable table tr th {
-            background-color: #C62828;
+            background-color: <?php echo $color ? $color : '#C62828'; ?>;
             color: #fff;
             padding: 6px;
             font-size: 12px;
@@ -169,7 +171,7 @@
             padding: 5px 7px;
             font-size: 13px;
             line-height: 13px;
-            border-bottom: 1px solid #C62828;
+            border-bottom: 1px solid <?php echo $color ? $color : '#C62828'; ?>;
         }
         .timologioContent .timTable table tr.right-align td {
             text-align: right;
@@ -181,7 +183,7 @@
             display: block;
             margin: 50px 0 25px 15px;
             font-size: 16px;
-            color: #C62828;
+            color: <?php echo $color ? $color : '#C62828'; ?>;;
         }
         .timologioContent .timTable .signature img {
             margin-left: 25px;
@@ -206,10 +208,10 @@
             <tbody>
             <tr class="no-border">
                 <td>
-                    @if(isset(settings()['invoice_logo'])) <img src="{{url('images/system/'.settings()['invoice_logo'])}}"
-                         alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
+                    @if(isset(settings()['invoice_logo']) && isset(settings()['show_invoice_logo']) && settings()['show_invoice_logo'] == 'on') <img src="{{url('images/system/'.settings()['invoice_logo'])}}"
+                                                                alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
                 <td class="tim-info">
-                    <h4 style="color: #C62828">{{settings()['title'] ?? 'not set'}}</h4>
+                    <h4 style="color: <?php echo $color ? $color : '#C62828'; ?>;">{{settings()['title'] ?? 'not set'}}</h4>
                     <h5>{{settings()['company'] ?? 'not set'}}</h5>
                     <p>{{settings()['business'] ?? 'not set'}}<br>{{settings()['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{settings()['vat'] ?? 'not set'}} -
                         ΔΟΥ: {{settings()['doy'] ?? 'not set'}}</p></td>
@@ -251,7 +253,7 @@
             <table>
                 <tbody>
                 <tr>
-                    <th style="width: 7%;background: #C62828" class="invoice-color-bg center">Ποσότητα</th>
+                    <th style="width: 7%;background: <?php echo $color ? $color : '#C62828'; ?>;" class="invoice-color-bg center">Ποσότητα</th>
                     <th style="width: 60%" class="invoice-color-bg">Περιγραφή</th>
                     <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
                     <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
@@ -265,9 +267,9 @@
                     </tr>
                 @endforeach
 
-                    <tr>
-                        <td colspan="4">&nbsp;</td>
-                    </tr>
+                <tr>
+                    <td colspan="4">&nbsp;</td>
+                </tr>
 
                 <tr class="right-align">
                     <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
@@ -297,23 +299,26 @@
                 <div class="signature left">
                     <span class="invoice-color">Για τον εκδότη</span>
                     @if(isset(settings()['signature']))
-                    <img src="{{url('images/system/'.settings()['signature'])}}" alt="signature"> @endif
+                        <img src="{{url('images/system/'.settings()['signature'])}}" alt="signature"> @endif
                 </div>
                 <div class="clear"></div>
+                <hr class="main-color">
                 <table class="invoiceform footer">
                     <tbody>
                     <tr>
-                        @if(isset(settings()['phone']))
+                        @if(isset(settings()['phone'])  && isset(settings()['show_invoice_phone']) && settings()['show_invoice_phone'] == 'on')
                             <td><span class="invoice-color">Τηλ:</span> {{settings()['phone']}}</td>
                         @endif
-                        @if(isset(settings()['email']))
-                        <td><span class="invoice-color">Email:</span> {{settings()['email']}}</td> @endif
+                        @if(isset(settings()['email']) && isset(settings()['show_invoice_email']) && settings()['show_invoice_email'] == 'on')
+                            <td><span class="invoice-color">Email:</span> {{settings()['email']}}</td> @endif
                         <td><span class="invoice-color">Χρήση:</span>ΠΕΛΑΤΗΣ</td>
                     </tr>
                     <tr>
-                        @if(isset(settings()['mobile']))
-                        <td><span class="invoice-color">Κιν:</span> {{settings()['mobile']}}</td> @endif
-{{--                        <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}
+                        @if(isset(settings()['mobile'])  && isset(settings()['show_invoice_mobile']) && settings()['show_invoice_mobile'] == 'on')
+                            <td><span class="invoice-color">Κιν:</span> {{settings()['mobile']}}</td> @endif
+                            @if(isset(settings()['website'])  && isset(settings()['show_invoice_website']) && settings()['show_invoice_website'] == 'on')\
+                            <td><span class="invoice-color">Web:</span> {{settings()['website']}}</td>
+                            @endif
                         <td><span class="invoice-color">Τρόπος Πληρωμής:</span> {{$payment}}</td>
                     </tr>
                     </tbody>

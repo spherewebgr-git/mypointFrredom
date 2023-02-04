@@ -133,7 +133,7 @@ class InvoicesController extends Controller
         $services = $request->services;
 
         if(isset($request->paid)) { $paid = 1; } else { $paid = 0; }
-        if(isset($request->has_parakratisi)) { $parakratisi = 1; } else { $parakratisi = 0; }
+        if(isset($request->hasParakratisi)) { $parakratisi = 1; } else { $parakratisi = 0; }
 
         DB::table('invoices')->insert(
             array(

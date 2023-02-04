@@ -233,7 +233,7 @@ $status = $xml->response['statusCode'];
 
         $getLast = Outcomes::all()->sortBy('mark')->last();
         $last = $getLast ? $getLast->mark : 0;
-        $lastID = $getLast->id;
+        //$lastID = $getLast->id;
         $expenses = myDataRequestDocs($last);
 
         foreach ($expenses as $expense) {

@@ -12,6 +12,20 @@
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
+    <style>
+        #main .timologioContent hr.main-color,
+        #main .timologioContent .invoice-color {
+            color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+            border-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+        }
+        #main .timologioContent .timTable table tr td {
+            border-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+        }
+        #main .timologioContent .invoice-color-bg,
+        #main .timologioContent .timTable table tr th {
+            background-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+        }
+    </style>
 @endsection
 
 {{-- page content --}}
@@ -215,7 +229,7 @@
                     @endif
                 </div>
             </div>
-            <div class="display-flex justify-content-center pb-2">
+            <div class="display-flex justify-content-center pb-2 print-hide">
                 <form action="{{route('invoice.update-status', ['invoice' => $invoice->hashID])}}" method="get">
                     @csrf
                     <span class="center-align display-block">Πληρωμένο</span>
@@ -237,17 +251,7 @@
     <div class="payments-page col s12" style="display: none">
         <div class="card">
             <h3>Διαθέσιμοι Τρόποι Πληρωμής</h3>
-            <h4 class="col s12">Τραπεζική Κατάθεση</h4>
-            <div class="col s6">
-                <p><strong>Τράπεζα Πειραιώς</strong></p>
-                <p><strong>IBAN:</strong> GR08 0171 8320 0068 3214 4649 840</p>
-                <p><strong>Διακιούχος:</strong> ΚΑΡΑΓΙΑΝΝΗΣ, ΣΠΥΡΙΔΩΝ, ΔΗΜΗΤΡΙΟΥ</p>
-            </div>
-            <div class="col s6">
-                <p><strong>Εθνική Τράπεζα</strong></p>
-                <p><strong>IBAN:</strong> GR36 0110 0770 0000 0770 0248 219</p>
-                <p><strong>Διακιούχος:</strong> ΣΠΥΡΙΔΩΝ ΚΑΡΑΓΙΑΝΝΗΣ</p>
-            </div>
+            @if(isset($settings['payment_methods'])) {!! html_entity_decode($settings['payment_methods']) !!} @endif
             <div class="clear"></div>
         </div>
     </div>

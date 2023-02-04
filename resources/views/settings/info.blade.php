@@ -51,6 +51,7 @@
                             <option value="ΗΛΙΟΥΠΟΛΗΣ" @if(isset($settings['doy']) && $settings['doy'] == 'ΗΛΙΟΥΠΟΛΗΣ') selected @endif>ΔΟΥ ΗΛΙΟΥΠΟΛΗΣ</option>
                             <option value="ΚΑΛΛΙΘΕΑΣ" @if(isset($settings['doy']) && $settings['doy'] == 'ΚΑΛΛΙΘΕΑΣ') selected @endif>ΔΟΥ ΚΑΛΛΙΘΕΑΣ</option>
                             <option value="ΚΗΦΙΣΙΑΣ" @if(isset($settings['doy']) && $settings['doy'] == 'ΚΗΦΙΣΙΑΣ') selected @endif>ΔΟΥ ΚΗΦΙΣΙΑΣ</option>
+                            <option value="ΚΗΦΙΣΙΑΣ" @if(isset($settings['doy']) && $settings['doy'] == 'ΚΟΡΩΠΙΟΥ') selected @endif>ΔΟΥ ΚΟΡΩΠΙΟΥ</option>
                             <option value="ΜΟΣΧΑΤΟΥ" @if(isset($settings['doy']) && $settings['doy'] == 'ΜΟΣΧΑΤΟΥ') selected @endif>ΔΟΥ ΜΟΣΧΑΤΟΥ</option>
                             <option value="Ν.ΙΩΝΙΑΣ" @if(isset($settings['doy']) && $settings['doy'] == 'Ν.ΙΩΝΙΑΣ') selected @endif>ΔΟΥ Ν.ΙΩΝΙΑΣ</option>
                             <option value="Ν.ΣΜΥΡΝΗΣ" @if(isset($settings['doy']) && $settings['doy'] == 'Ν.ΣΜΥΡΝΗΣ') selected @endif>ΔΟΥ Ν.ΣΜΥΡΝΗΣ</option>
