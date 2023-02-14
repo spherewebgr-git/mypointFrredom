@@ -189,7 +189,7 @@ if(!function_exists('myDataSendInvoices')) {
             return $ex;
 
         }
-        dd($body);
+        //dd($body);
         return $body;
     }
 }

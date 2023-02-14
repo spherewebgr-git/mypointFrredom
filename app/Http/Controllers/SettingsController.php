@@ -113,6 +113,24 @@ class SettingsController extends Controller
                 'letter' => $request->seira,
                 'type' => $request->seiraType
             ]);
+        } else {
+            foreach ($requests as $key => $item) {
+                if($key != '_token' && $key != 'file' && $item != null) {
+                    $setting = Settings::query()->where('type', '=', $key)->first();
+                    if ($setting) {
+                        $setting->update([
+                            'value' => $item,
+                            'updated_at' => date('Y-m-d H:i:s')
+                        ]);
+                    } else {
+                        DB::table('settings')->insert([
+                            'type' => $key,
+                            'value' => $item,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ]);
+                    }
+                }
+            }
         }
 
         return redirect()->back();

@@ -317,7 +317,7 @@ class InvoicesController extends Controller
                 );
                 array_push($aadeResponse, $aadeObject);
             }
-            dd($aadeResponse);
+            //dd($aadeResponse);
             if($aadeResponse[0]['statusCode'] == 'Success') {
                 $theInvoice->mark = $aadeResponse[0]['invoiceMark'];
                 $theInvoice->save();

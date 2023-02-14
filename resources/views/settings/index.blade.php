@@ -73,6 +73,12 @@
                                 <span>ΡΥΘΜΙΣΕΙΣ ΠΡΟΪΟΝΤΩΝ</span>
                             </a>
                         </li>
+                        <li class="tab">
+                            <a href="#services">
+                                <i class="material-icons">autorenew</i>
+                                <span>ΡΥΘΜΙΣΕΙΣ ΥΠΗΡΕΣΙΩΝ</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -95,6 +101,8 @@
                 @include('settings.parastatika')
 
                 @include('settings.products')
+
+                @include('settings.services')
 
             </div>
         </div>

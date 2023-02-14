@@ -17,7 +17,7 @@ class CreateOutcomesTable extends Migration
             $table->id();
             $table->string('hashID')->unique();
             $table->string('seira')->nullable();
-            $table->integer('outcome_number')->nullable();
+            $table->bigInteger('outcome_number')->nullable();
             $table->string('shop')->nullable();
             $table->date('date');
             $table->float('price');

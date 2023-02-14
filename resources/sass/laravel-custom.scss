@@ -100,9 +100,23 @@ table {
                     }
                 }
 
+                &.even {
+                    & td {
+                        background-color: #f9f9f9;
+                    }
+                }
+
                 & td {
                     &.bold {
                         font-weight: 600;
+                    }
+                    & a {
+                        color: #0a669c;
+                        transition: color 0.25s linear;
+                        &:hover {
+                            color: #222221;
+                            transition: color 0.25s linear;
+                        }
                     }
                 }
             }

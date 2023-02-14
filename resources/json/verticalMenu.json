@@ -29,6 +29,14 @@
             "icon": "local_grocery_store"
         },
         {
+            "url": "/services",
+            "name": "Υπηρεσίες",
+            "i18n": "Υπηρεσίες",
+            "class": "waves-effect waves-cyan",
+            "slug": "services",
+            "icon": "autorenew"
+        },
+        {
             "url": "javascript:void(0)",
             "name": "Προμηθευτές",
             "i18n": "Προμηθευτές",
