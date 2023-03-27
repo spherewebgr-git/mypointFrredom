@@ -104,4 +104,15 @@ class ForeignProvidersController extends Controller
 
         return redirect('foreign-providers');
     }
+
+    public function search(Request $request)
+    {
+        $providers = ForeignProviders::query()
+            ->where('provider_name', 'LIKE', '%'.$request->ask.'%')
+            ->orWhere('provider_vat', 'LIKE', '%'.$request->ask.'%')
+            ->orWhere('provider_id', '=', $request->ask)
+            ->get();
+
+        return $providers;
+    }
 }

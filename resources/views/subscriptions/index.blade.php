@@ -64,14 +64,31 @@
                                 <td><a href="{{route('client.view', $service->client->hashID)}}">{{$service->client->company}}</a></td>
                                 <td class="center-align">{{$service->service_type}}</td>
                                 <td class="center-align"><a href="//{{$service->service_domain}}" target="_blank" class="display-flex align-items-center justify-content-center">{{$service->service_domain}} <i class="material-icons" style="font-size: 17px;margin-left: 3px;">launch</i></a></td>
-                                <td class="center-align">{{$service->service_duration}}</td>
+                                <td class="center-align">{{notificationName($service->service_duration)}}</td>
                                 <td class="center-align">&euro; {{$service->duration_price}}</td>
-                                <td class="center-align"><small>{{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->format('d')}}/{{date('m', strtotime('1 month'))}}</small></td>
+                                <td class="center-align">
+                                    <small>
+                                        @if($service->service_duration === 'monthly')
+                                        {{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->addMonth()->format('d/m/').date('Y')}}
+                                        @elseif($service->service_duration === 'annually')
+                                            {{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->format('d/m/').date('Y')}}
+                                        @elseif($service->service_duration === 'twomonths')
+                                            {{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->addMonths(2)->format('d/m/').date('Y')}}
+                                        @elseif($service->service_duration === 'threemonths')
+                                            {{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->addMonths(3)->format('d/m/').date('Y')}}
+                                        @elseif($service->service_duration === 'sixmonths')
+                                            {{\Carbon\Carbon::createFromTimestamp(strtotime($service->first_payment))->addMonths(6)->format('d/m/').date('Y')}}
+                                        @endif
+                                    </small>
+                                </td>
                                 <td class="center-align"><i class="material-icons prefix {{$service->active_subscription == 1 ? 'green-text' : 'red-text'}}">{{$service->active_subscription == 1 ? 'blur_on' : 'blur_off'}}</i></td>
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
-                                        <a href="{{route('subscriptions.edit', ['service' => $service->hashID])}}" class="invoice-action-view mr-4">
+                                        <a href="{{route('subscriptions.edit', ['service' => $service->hashID])}}" class="invoice-action-edit mr-4">
                                             <i class="material-icons">edit</i>
+                                        </a>
+                                        <a href="{{route('notification.send', ['type' => 'subscription' ,'hashID' => $service->hashID])}}" class="invoice-action-notify mr-4" title="Αποστολή ειδοποίησης στον πελάτη">
+                                            <i class="material-icons">contact_mail</i>
                                         </a>
                                     </div>
                                 </td>
@@ -87,6 +104,19 @@
             </div>
         </div>
     </section>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 {{-- scripts --}}
 @section('page-script')
@@ -99,5 +129,11 @@
             timeout: 10000
         });
     @endif
+        $s = jQuery.noConflict();
+        $s(document).ready(function(){
+          $s('.invoice-action-notify').on('click', function(){
+            $s('.ajax-preloader').addClass('active');
+          });
+        })
     </script>
 @endsection

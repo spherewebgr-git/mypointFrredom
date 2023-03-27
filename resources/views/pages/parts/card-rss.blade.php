@@ -1,3 +1,4 @@
+@if(isset($feed->channel))
 <div class="col s12 m6">
     <div class="card">
         <div class="card-content taxheaven-calendar">
@@ -20,4 +21,4 @@
         </div>
     </div>
 </div>
-
+@endif

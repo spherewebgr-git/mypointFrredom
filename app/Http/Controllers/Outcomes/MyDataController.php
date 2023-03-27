@@ -106,7 +106,7 @@ class MyDataController extends Controller
     public function sendClassificationsMyData(Request $request) {
         //dd($request);
         $theOutcome = Outcomes::query()->where('hashID', '=', $request->outcome_hash)->first();
-
+//dd($theOutcome->invType);
         switch(true) {
             case $theOutcome->mark !== null: // Αν έχει mark, δλδ έχει έρθει από την εφορία
                 $an = myDataSendExpensesClassification($theOutcome->hashID);
@@ -234,11 +234,17 @@ $status = $xml->response['statusCode'];
         $getLast = Outcomes::all()->sortBy('mark')->last();
         $last = $getLast ? $getLast->mark : 0;
         //$lastID = $getLast->id;
+        $lastProvider = Provider::all()->last();
+
         $expenses = myDataRequestDocs($last);
 
         foreach ($expenses as $expense) {
             //dd(DB::table('outcomes')->where('shop', '=', $expense->counterVatNumber)->where('date', '=', $expense->issueDate)->where('price', '=', $expense->netValue)->get());
-            $counter = 1000;
+            if($lastProvider) {
+                $counter = $lastProvider->provider_id + 1;
+            } else {
+                $counter = 1000;
+            }
             foreach ($expense as $ex) {
                 //dd($ex);
                 DB::table('outcomes')->insert(
@@ -248,8 +254,8 @@ $status = $xml->response['statusCode'];
                         'outcome_number' => $ex->invoiceHeader->aa,
                         'shop' => $ex->issuer->vatNumber,
                         'date' => $ex->invoiceHeader->issueDate,
-                        'price' => $ex->invoiceDetails->netValue,
-                        'vat' => $ex->invoiceDetails->vatAmount,
+                        'price' => $ex->invoiceSummary->totalNetValue,
+                        'vat' => $ex->invoiceSummary->totalVatAmount,
                         'invType' => $ex->invoiceHeader->invoiceType,
                         'mark' => $ex->mark,
                         'file' => ''

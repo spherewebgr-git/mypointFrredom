@@ -131,6 +131,12 @@ table {
     }
 }
 
+ul#unpaids-collection {
+    max-height: 355px;
+    overflow: auto;
+    position: relative;
+}
+
 .priority-label {
     & label {
         top: -35px;

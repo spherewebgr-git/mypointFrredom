@@ -1,4 +1,4 @@
-<div class="col s12 m12 l6 card card-unpaid-invoices">
+<div class="col s12 m12 l6 card card-unpaid-invoices ps ps--active-y">
     <ul id="unpaids-collection" class="collection animate fadeRight" style="border:none">
         <li class="collection-item avatar">
             <div class="total-unpaid right">Συνολικό Ανεξόφλητο<br />

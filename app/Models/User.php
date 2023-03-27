@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -49,5 +51,15 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendLoginLink()
+    {
+        $plaintext = Str::random(32);
+        $token = $this->loginTokens()->create([
+            'token' => hash('sha256', $plaintext),
+            'expires_at' => now()->addMinutes(15),
+        ]);
+        Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at));
+    }
 
 }

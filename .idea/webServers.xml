@@ -30,6 +30,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="f321bf06-8baa-422d-808a-7cfdc43bd495" name="Sanus Vita" url="http://ftp.mypointapp.gr">
+        <fileTransfer host="ftp.mypointapp.gr" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

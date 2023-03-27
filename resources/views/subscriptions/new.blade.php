@@ -35,7 +35,7 @@
         <div id="prefixes" class="card card card-default scrollspy">
             <div class="card-content">
                 <h4 class="card-title">Στοιχεία Συνδρομής</h4>
-                <form @if(isset($service)) action="{{route('subscriptions.update', ['subscription' => $service])}}" @else action="{{route('subscriptions.store')}}" @endif method="post" class="addresses-item-repeater">
+                <form @if(isset($service)) action="{{route('subscriptions.update', ['service' => $service->hashID])}}" @else action="{{route('subscriptions.store')}}" @endif method="post" class="addresses-item-repeater">
                     @csrf
                     <div class="row">
                         <div class="input-field col s12 m1">
@@ -105,8 +105,8 @@
                         <div class="input-field col s12 m2">
                             <i class="material-icons prefix">date_range</i>
                             <select id="active_subscription" name="active_subscription">
-                                <option value="1" @if(isset($service) && $service->active_subscription = 1) selected @endif>ΕΝΕΡΓΗ</option>
-                                <option value="0" @if(isset($service) && $service->active_subscription = 0) selected @endif>ΑΝΕΝΕΡΓΗ</option>
+                                <option value="1" @if(isset($service) && $service->active_subscription == 1) selected @endif>ΕΝΕΡΓΗ</option>
+                                <option value="0" @if(isset($service) && $service->active_subscription == 0) selected @endif>ΑΝΕΝΕΡΓΗ</option>
                             </select>
                             <label for="active_subscription" class="">Κατάσταση Συνδρομής</label>
                         </div>

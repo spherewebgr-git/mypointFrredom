@@ -805,5 +805,6 @@ if(!function_exists('getClientAddresses')) {
 
 include_once 'Helpers/productsHelper.php';
 include_once 'Helpers/myDataHelper.php';
+include_once 'Helpers/notificationsHelper.php';
 
 

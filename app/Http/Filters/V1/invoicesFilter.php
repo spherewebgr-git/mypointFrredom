@@ -2,30 +2,32 @@
 namespace App\Http\Filters\V1;
 
 use Illuminate\Http\Request;
+use App\Http\Filters\ApiFilter;
 
-
-class invoicesFilter {
+class invoicesFilter extends ApiFilter {
     protected $safeParms = [
         'seira' => ['eq'],
-        'invoiceID' => ['eq', 'lt', 'gt'],
-        'clientId' => ['eq']
+        'invoiceID' => ['eq', 'lt', 'gt', 'gte', 'lte'],
+        'date' => ['eq', 'lt', 'gt', 'gte', 'lte'],
+        'clientId' => ['eq'],
+        'vat' =>  ['eq']
     ];
 
     protected $columnMap = [
-      'clientId' => 'clientId'
+      'clientId' => 'client_id'
     ];
 
     protected $operatorMap = [
         'eq' => '=',
         'lt' => '<',
-        'lte' => '≤',
+        'lte' => '<=',
         'gt' => '>',
-        'gte' => '≥',
+        'gte' => '>=',
     ];
 
     public function transform(Request $request) {
         $eloQuery = [];
-
+//dd($request);
         foreach($this->safeParms as $parm  => $operators) {
             $query = $request->query($parm);
 

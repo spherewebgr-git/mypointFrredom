@@ -122,7 +122,6 @@ class InvoicesController extends Controller
 
     public function store(Request $request)
     {
-//dd($request);
         $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
         if(!$requestDate) {
             $requestDate = DateTime::createFromFormat('Y-m-d', $request->date);
@@ -148,7 +147,6 @@ class InvoicesController extends Controller
                 'payment_method' => $request->paymentMethod
             )
         );
-//dd($services);
         foreach($services as $serv) {
             if(array_key_exists('id', $serv)) {
                 $service = Services::query()->where('id', '=', $serv['id'])->first();

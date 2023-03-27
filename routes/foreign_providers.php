@@ -13,4 +13,5 @@ Route::name('foreign-provider.')->prefix('/')->group(function () {
     Route::post('/update-foreign-provider/{provider}', [ForeignProvidersController::class, 'update'])->name('update');
     Route::get('/delete-foreign-provider/{vat}', [ForeignProvidersController::class, 'softDelete'])->name('delete');
     Route::get('/enable-foreign-provider/{vat}', [ForeignProvidersController::class, 'enable'])->name('enable');
+    Route::post('/foreign-provider-search-ajax', [ForeignProvidersController::class, 'search'])->name('search');
 });

@@ -37,12 +37,12 @@ class PageController extends Controller
             }
         }
         $monthIn = collect($monthIncomes)->sum();
-        $rssLink = file_get_contents('https://www.taxheaven.gr/bibliothiki/soft/xml/soft_dat.xml');
-        $feed = new SimpleXMLElement($rssLink);
+        //$rssLink = file_get_contents('https://www.taxheaven.gr/bibliothiki/soft/xml/soft_dat.xml');
+        //$feed = new SimpleXMLElement($rssLink);
 
         $pageConfigs = ['pageHeader' => true];
 
-        return view('pages.dashboard', ['pageConfigs' => $pageConfigs, 'today' => $today, 'todayTime' => $todayTime, 'unpaid' => $unpaid, 'feed' => $feed, 'mothIncomes' => $monthIn] );
+        return view('pages.dashboard', ['pageConfigs' => $pageConfigs, 'today' => $today, 'todayTime' => $todayTime, 'unpaid' => $unpaid, 'feed' => '', 'mothIncomes' => $monthIn] );
     }
 
     public function collapsePage()

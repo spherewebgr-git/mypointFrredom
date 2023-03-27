@@ -32,4 +32,9 @@ class Subscriptions extends Model
     {
         return $this->belongsTo(Client::class, 'client_hash', 'hashID');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class);
+    }
 }

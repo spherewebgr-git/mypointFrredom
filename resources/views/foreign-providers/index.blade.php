@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
+                <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column providers-table"
                        id="DataTables_Table_0" role="grid">
                     <thead>
                     <tr role="row">
@@ -65,9 +65,10 @@
                     </thead>
 
                     <tbody>
+                    @php $count = 0; @endphp
                     @foreach($providers as $provider)
                         @if($provider->disabled == 0)
-                        <tr role="row" class="odd">
+                            <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} provider-row" data-number="{{$provider->provider_id}}">
                             <td class="center-align">{{$provider->provider_id}}</td>
                             <td>{{$provider->provider_name}}</td>
                             <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
@@ -89,7 +90,7 @@
                     @endforeach
                     @foreach($providers as $provider)
                         @if($provider->disabled == 1)
-                            <tr role="row" class="odd disabled">
+                            <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} disabled provider-row" data-number="{{$provider->provider_id}}">
                                 <td class="center-align">{{$provider->provider_id}}</td>
                                 <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
                                 <td>{{$provider->provider_name}}</td>
@@ -127,6 +128,21 @@
             <a href="#" class="modal-action modal-close waves-effect waves-light green btn delete-action">Διαγραφή</a>
         </div>
     </div>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 {{-- scripts --}}
@@ -153,6 +169,44 @@
             });
             @endif
 
+            $m('.dataTables_filter input').on('keyup', function(){
+                if($m(this).val().length > 2) {
+                    $m('.provider-row').hide();
+                    $m('tr.nothing').remove();
+                    $m('.ajax-preloader').addClass('active');
+                    let pageToken = $m('meta[name="csrf-token"]').attr('content');
+                    $m.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': pageToken
+                        }
+                    });
+
+
+                    let query = $m(this).val();
+                    $m.ajax({
+                        url: "{{ url('/foreign-provider-search-ajax') }}",
+                        method: 'post',
+                        data: {
+                            ask: query
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            $m('.ajax-preloader').removeClass('active');
+                            if(result.length > 0) {
+                                $m.each(result, function(k,v) {
+                                    console.log(v.provider_id);
+                                    $m('.provider-row[data-number="'+v.provider_id+'"]').show();
+                                });
+                            } else {
+                                $m('.providers-table tbody').append('<tr class="nothing"><td colspan="6" class="center-align red-text">Δεν βρέθηκαν πελάτες με τα κριτήρια αναζήτησης που δόθηκαν</td></tr>');
+                            }
+
+                        }
+                    });
+                } else {
+                    $m('.provider-row').show();
+                }
+            });
 
         });
     </script>

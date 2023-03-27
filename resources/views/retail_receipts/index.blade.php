@@ -149,7 +149,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr class="finals gradient-45deg-blue-grey-blue-grey">
+                        <tr class="finals bg-dark">
                             <td></td>
                             <td colspan="3" class="right-align">Σύνολα:</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, 2, ',', '.')}}</td>
