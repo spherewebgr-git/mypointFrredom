@@ -15,7 +15,7 @@ class CreateGoodsStoragesTable extends Migration
     {
         Schema::create('goods_storages', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id')->unique();
+            $table->string('product_id')->unique();
             $table->integer('quantity')->default(0);
             $table->integer('held_quantity')->nullable();
             $table->timestamps();

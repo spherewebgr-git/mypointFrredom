@@ -80,6 +80,7 @@
                         <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
                         <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
                     </tr>
+                    @if($invoice->goods)
                     @foreach($invoice->goods as $service)
                         <tr class="service" data-quantity="1" data-price="300">
                             <td class="center">{{$service->quantity}}</td>
@@ -93,6 +94,7 @@
                             <td colspan="4">&nbsp;</td>
                         </tr>
                     @endfor
+                    @endif
                     <tr class="right-align">
                         <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                         <td colspan="2" class="sinoloAxion" data-saprice="">
@@ -157,19 +159,21 @@
                             <span>Εκτύπωση</span>
                         </a>
                     </div>
-                    @if(!$invoice->mark)
+                    @if(!$invoice->mark || !$invoice->goods)
                         <div class="invoice-action-btn">
                             <a href="{{route('sale_invoice.edit', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">edit</i>
                                 <span>Επεξεργασία</span>
                             </a>
                         </div>
+                        @if(!$invoice->mark)
                         <div class="invoice-action-btn">
                             <a href="{{route('sale_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">backup</i>
                                 <span>Αποστολή στο myData</span>
                             </a>
                         </div>
+                        @endif
                     @endif
                     <div class="invoice-action-btn">
                         <a href="{{route('sale_invoice.save', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">

@@ -80,6 +80,14 @@ class GoodsController extends Controller
             'active' => $request->active,
             'updated_at'  => date('Y-m-d H:i:s')
         ]);
+        if($request->image) {
+            $name = str_replace([' ', '/', '\\'], '_', $request->file('image')->getClientOriginalName());
+            $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, 'images' . DIRECTORY_SEPARATOR . 'products');
+            $request->file('image')->storeAs($path, $name, ['disk' => 'public_folder']);
+            $product->update([
+                'product_image' => $name,
+            ]);
+        }
 
         return back();
     }

@@ -16,8 +16,9 @@ class CreateRetailsTable extends Migration
         Schema::create('retails', function (Blueprint $table) {
             $table->id();
             $table->string('hashID')->unique();
+            $table->string('invoiceType')->nullable();
             $table->string('seira')->default('ΑΝΕΥ');
-            $table->unsignedBigInteger('retailID')->unique();
+            $table->unsignedBigInteger('retailID');
             $table->date('date');
             $table->string('client_description')->nullable();
             $table->string('mark')->nullable();

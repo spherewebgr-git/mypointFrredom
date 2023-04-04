@@ -17,12 +17,15 @@
                         <small class="errorTxt5"></small>
                     </div>
                 </div>
-                <div class="col s12 display-flex justify-content-end form-action">
+                <div class="col s12 m6 mb-4 mt-2 display-flex justify-content-end">
+                    <a href="{{route('invoice.mydata.get-invoices')}}" class="btn display-flex align-items-center" style="gap: 10px;"><i class="material-icons">archive</i> Εισαγωγή Δεδομένων από MyData</a>
+                </div>
+                <div class="col s12 m6 mb-4 mt-2 display-flex justify-content-end form-action">
                     <button type="submit" class="btn indigo waves-effect waves-light mr-1">Αποθήκευση</button>
                 </div>
                 <div class="col s12 mt-1 mb-1">
                     <a href="#" id="openMydataInfo" class="btn cyan waves-effect waves-light">
-                        Οδηγίες δημιουργίας κωδικών myData</strong>
+                        <strong>Οδηγίες δημιουργίας κωδικών myData</strong>
                     </a>
                 </div>
                 <div class="mydata-howto hide col s12 mt-1 mb-1">

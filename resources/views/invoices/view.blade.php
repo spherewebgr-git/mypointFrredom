@@ -9,21 +9,22 @@
 @endif
 
 {{-- page styles --}}
+
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
     <style>
         #main .timologioContent hr.main-color,
         #main .timologioContent .invoice-color {
-            color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
-            border-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+            color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
+            border-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
         }
         #main .timologioContent .timTable table tr td {
-            border-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+            border-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
         }
         #main .timologioContent .invoice-color-bg,
         #main .timologioContent .timTable table tr th {
-            background-color: <?php echo settings()['invoice_color'] ? : '#C62828'; ?>;
+            background-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
         }
     </style>
 @endsection
@@ -79,10 +80,12 @@
             <div class="timClient">
                 <span class="invoice-color">Πελάτης:</span>
                 <strong>{{$invoice->client->company}}</strong><br>
-                {{$invoice->client->work_title}}<br>
+                {{$invoice->client->work_title ?? ''}}<br>
+                @if(count($invoice->client->addresses) > 0)
                 {{$invoice->client->addresses[0]->address. ' '. $invoice->client->addresses[0]->number}}, {{chunk_split($invoice->client->addresses[0]->postal_code, 3, ' ')}}<br>
-                <strong>ΑΦΜ:</strong> {{$invoice->client->vat}} - <strong>ΔΟΥ: </strong>{{$invoice->client->doy}}<br>
-                <strong>ΤΗΛ:</strong> {{$invoice->client->phone}} - <strong>ΠΟΛΗ: </strong>{{$invoice->client->addresses[0]->city}}
+                @endif
+                    <strong>ΑΦΜ:</strong> {{$invoice->client->vat}} - @if($invoice->client->doy)<strong>ΔΟΥ: </strong>{{$invoice->client->doy}}<br>@endif
+                <strong>ΤΗΛ:</strong> {{$invoice->client->phone ?? ''}} @if(count($invoice->client->addresses) > 0) - <strong>ΠΟΛΗ: </strong>{{$invoice->client->addresses[0]->city}}@endif
                 <br>
             </div>
             <hr class="main-color">

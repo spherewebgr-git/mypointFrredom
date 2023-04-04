@@ -17,8 +17,10 @@ Route::name('invoice.')->prefix('/')->group(function () {
     Route::post('/update-invoice/{invoice:hashID}', [InvoicesController::class, 'update'])->name('update');
     Route::get('/download-invoice/{invoice:hashID}', [InvoicesController::class, 'download'])->name('download');
     Route::get('/myData-invoice/{invoice:hashID}', [InvoicesController::class, 'sendInvoice'])->name('mydata');
+    Route::get('/myData-getTransmittedDocs/', [InvoicesController::class, 'getDocs'])->name('mydata.get-invoices');
     Route::post('/myData-invoices-multiple', [InvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');
     Route::post('/last-invoice-ajax', [InvoicesController::class, 'lastInvoiceAjax'])->name('last-retail');
     Route::get('/update-status/{invoice:hashID}', [UpdateInvoiceController::class, 'updateStatus'])->name('update-status');
     Route::get('/cancel-invoice/{invoice:hashID}', [InvoicesController::class, 'cancelInvoice'])->name('cancel');
+    Route::get('/filter-incomes/year/{year}', [InvoicesController::class, 'selectYear'])->name('year');
 });

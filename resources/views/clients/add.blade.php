@@ -63,42 +63,42 @@
                     <div class="row edra">
                         <div class="input-field col s6 m5">
                             <i class="material-icons prefix">markunread_mailbox</i>
-                            <input id="address" type="text" name="address" @if(isset($edra)) value="{{old('address', $edra->address)}}" @endif required>
-                            <label for="address" class="">Διεύθυνση Έδρας *</label>
+                            <input id="address" type="text" name="address" @if(isset($client->address)) value="{{old('address', $client->address)}}" @endif>
+                            <label for="address" class="">Διεύθυνση Έδρας </label>
                         </div>
                         <div class="input-field col s6 m2">
                             <i class="material-icons prefix">looks_one</i>
-                            <input id="number" type="text" name="number" @if(isset($edra->number)) value="{{old('number', $edra->number)}}" @endif required>
-                            <label for="number" class="">Αριθμός *</label>
+                            <input id="number" type="text" name="number" @if(isset($client->number)) value="{{old('number', $client->number)}}" @endif>
+                            <label for="number" class="">Αριθμός </label>
                         </div>
                         <div class="input-field col s6 m3">
                             <i class="material-icons prefix">map</i>
-                            <input id="city" type="text" name="city" @if(isset($edra->city))  value="{{old('city', $edra->city)}}" @endif required>
-                            <label for="city" class="">Πόλη *</label>
+                            <input id="city" type="text" name="city" @if(isset($client->city))  value="{{old('city', $client->city)}}" @endif >
+                            <label for="city" class="">Πόλη </label>
                         </div>
                         <div class="input-field col s6 m2">
                             <i class="material-icons prefix">location_searching
 
                             </i>
-                            <input id="postal_code" type="text" name="postal_code" @if(isset($edra->postal_code))  value="{{old('postal_code', $edra->postal_code)}}" @endif required>
-                            <label for="postal_code" class="">Τ.Κ. *</label>
+                            <input id="postal_code" type="text" name="postal_code" @if(isset($client->postal_code))  value="{{old('postal_code', $client->postal_code)}}" @endif >
+                            <label for="postal_code" class="">Τ.Κ.</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6 m3">
                             <i class="material-icons prefix">flip</i>
-                            <input id="vat" type="text" name="vat" @if(isset($client->vat))  value="{{old('vat', $client->vat)}}" @endif required>
+                            <input id="vat" type="text" name="vat" @if(isset($client->vat))  value="{{old('vat', $client->vat)}}" @endif >
                             <label for="vat" class="">ΑΦΜ *</label>
                         </div>
                         <div class="input-field col s6 m3">
                             <i class="material-icons prefix">layers</i>
-                            <input id="doy" type="text" name="doy" @if(isset($client->doy))  value="{{old('doy', $client->doy)}}" @endif required>
-                            <label for="doy" class="">ΔΟΥ *</label>
+                            <input id="doy" type="text" name="doy" @if(isset($client->doy))  value="{{old('doy', $client->doy)}}" @endif >
+                            <label for="doy" class="">ΔΟΥ</label>
                         </div>
                         <div class="input-field col s6 m6">
                             <i class="material-icons prefix">email</i>
-                            <input id="email" type="email" name="email" @if(isset($client->email))  value="{{old('email', $client->email)}}" @endif required>
-                            <label for="email" class="">E-mail Υπευθύνου *</label>
+                            <input id="email" type="email" name="email" @if(isset($client->email))  value="{{old('email', $client->email)}}" @endif >
+                            <label for="email" class="">E-mail Υπευθύνου</label>
                         </div>
                     </div>
                     <div class="row">
@@ -210,7 +210,7 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">@if(isset($client->vat)) Ενημέρωση @else Καταχώρηση @endif
+                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">@if(isset($client)) Ενημέρωση @else Καταχώρηση @endif
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>

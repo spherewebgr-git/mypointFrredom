@@ -21,6 +21,7 @@ class CreateGoodsTable extends Migration
             $table->text('barcode')->nullable();
             $table->text('product_image')->nullable();
             $table->float('price');
+            $table->float('retail_price')->nullable();
             $table->float('vat_price')->nullable();
             $table->float('discount_price')->nullable();
             $table->text('product_category')->nullable();

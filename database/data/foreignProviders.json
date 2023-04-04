@@ -1,0 +1,49 @@
+[
+    {
+        "provider_id": 20001,
+        "provider_name": "ANTICO MOLINO ROSSO",
+        "country_code": "IT",
+        "vat": "02530440235",
+        "address": "VIA BOVOLINO",
+        "address_number": 1,
+        "country": "Italy",
+        "city": "BUTTAPIETRA"
+    },
+    {
+        "provider_id": 20020,
+        "provider_name": "Le Farine dei Nostri Sacchi S.R.L",
+        "country_code": "IT",
+        "vat": "05634860828",
+        "address": "Viale Ugo Malfa",
+        "address_number": 135,
+        "country": "Italy",
+        "city": "PALERMO"
+    },
+    {
+        "provider_id": 20022,
+        "provider_name": "FOODNESS SPA",
+        "country_code": "IT",
+        "vat": 1930570203,
+        "address": "VIA DELL AGRICOTURA LOC QUATRO VENTI",
+        "address_number": "8-10",
+        "country": "Italy"
+    },
+    {
+        "provider_id": 20027,
+        "provider_name": "FACEBOOK IRELAND LIMITED",
+        "country_code": "IE",
+        "vat": "9692928F",
+        "address": "DUBIN",
+        "address_number": 2,
+        "country": "Ireland"
+    },
+    {
+        "provider_id": 20028,
+        "provider_name": "GOOGLE IRELAND LIMITED",
+        "country_code": "IE",
+        "vat": "6388047V",
+        "address": "DUBIN",
+        "address_number": 4,
+        "country": "Ireland"
+    }
+]

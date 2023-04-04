@@ -38,6 +38,7 @@ class SaleInvoicesController extends Controller
     {
         $invoice = SaleInvoices::query()->where('seira', '=', 'ANEY')->latest()->first();
         //dd($invoice);
+        $products = Goods::query()->where('active', '=', 1)->get();
         $seires = Seires::query()->where('type', '=', 'sale_invoices')->get();
         $clients = Client::all()->sortBy('company');
         if($invoice) {
@@ -46,7 +47,7 @@ class SaleInvoicesController extends Controller
             $lastInvoice = '';
         }
 
-        return view('sale_invoices.new', ['last' => $lastInvoice, 'seires' => $seires, 'clients' => $clients]);
+        return view('sale_invoices.new', ['last' => $lastInvoice, 'seires' => $seires, 'clients' => $clients, 'producta' => $products]);
     }
 
     public function store(Request $request)

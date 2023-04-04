@@ -38,6 +38,6 @@ class Goods extends Model
 
     public function storage()
     {
-        return $this->hasOne(GoodsStorage::class, 'product_id');
+        return $this->hasOne(GoodsStorage::class, 'product_id', 'product_number');
     }
 }

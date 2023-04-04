@@ -98,7 +98,7 @@
                                 <div class="invoice-action">
                                     <a href="{{route('client.view', ['hashID' => $client->hashID])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας πελάτη">                                    <i class="material-icons">remove_red_eye</i>
                                     </a>
-                                    <a href="{{route('client.edit', ['vat' => $client->vat])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επεξεργασία στοιχείων πελάτη">
+                                    <a href="{{route('client.edit', ['hashID' => $client->hashID])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επεξεργασία στοιχείων πελάτη">
                                         <i class="material-icons">edit</i>
                                     </a>
                                     <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger" data-position="left" data-hash="{{$client->hashID}}" data-client="{{$client->company}}" data-tooltip="Διαγραφή πελάτη">
@@ -129,7 +129,7 @@
                                 <div class="invoice-action">
                                     <a href="{{route('client.view', ['hashID' => $client->hashID])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας πελάτη">                                    <i class="material-icons">remove_red_eye</i>
                                     </a>
-                                    <a href="{{route('client.enable', ['vat' => $client->vat])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επανενεργοποίηση Πελάτη">
+                                    <a href="{{route('client.enable', ['hashID' => $client->hashID])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επανενεργοποίηση Πελάτη">
                                         <i class="material-icons">restore</i>
                                     </a>
                                     <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger" data-position="left" data-hash="{{$client->hashID}}" data-client="{{$client->company}}" data-tooltip="Διαγραφή πελάτη">

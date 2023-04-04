@@ -17,9 +17,11 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->text('invoice_number')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();
-            $table->bigInteger('price');
+            $table->float('price');
             $table->integer('quantity');
             $table->text('description');
+            $table->float('vat_amount');
+            $table->integer('vat_category');
             $table->softDeletes();
             $table->timestamps();
         });

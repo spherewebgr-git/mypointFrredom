@@ -17,39 +17,39 @@ class SettingsSeeder extends Seeder
         $settings= [
             [
                 'type' => 'title',
-                'value' =>  'TRE SPORT',
+                'value' =>  'Sanus Vita',
             ],
             [
                 'type' => 'company',
-                'value' =>  'ΤΡΙΑ ΣΠΟΡ - ΑΘΛΗΤΙΚΑ ΕΙΔΗ Ε.Π.Ε.',
+                'value' =>  'ΑΛΕΞΑΚΗΣ ΘΕΟΔΩΡΟΣ - Sanus Vita',
             ],
             [
                 'type' => 'business',
-                'value' =>  'ΑΘΛΗΤΙΚΑ ΕΙΔΗ',
+                'value' =>  'ΕΜΠΟΡΙΑ ΕΙΔΩN ΑΡΤΟΠΟΙΙΑΣ ΚΑΙ ΖΑΧΑΡΟΠΛΑΣΤΙΚΗΣ',
             ],
             [
                 'type' => 'address',
-                'value' =>  'ΣΑΡΚΟΥΔΙΝΟΥ 67, 11744, ΑΘΗΝΑ',
+                'value' =>  'ΠΛΑΤΩΝΟΣ 12, 17455, ΑΛΙΜΟΣ',
             ],
             [
                 'type' => 'phone',
-                'value' =>  '210-9020120',
+                'value' =>  '210-9825580',
             ],
             [
                 'type' => 'vat',
-                'value' =>  '099455517',
+                'value' =>  '079972831',
             ],
             [
                 'type' => 'doy',
-                'value' =>  'ΙΖ ΑΘΗΝΩΝ',
+                'value' =>  'ΓΛΥΦΑΔΑΣ',
             ],
             [
                 'type' => 'aade_user_id',
-                'value' =>  'triasporepe',
+                'value' =>  'WW982808U952',
             ],
             [
                 'type' => 'ocp_apim_subscription_key',
-                'value' =>  '7b10c5fb49b6442a931d3322b354246c',
+                'value' =>  '16e353606d8841a081574f93b77e22d5',
             ],
             [
                 'type' => 'retails',
@@ -61,7 +61,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'type' => 'invoices',
-                'value' =>  'off',
+                'value' =>  'on',
             ],
             [
                 'type' => 'delivery_notes',

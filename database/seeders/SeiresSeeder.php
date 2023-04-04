@@ -19,10 +19,26 @@ class SeiresSeeder extends Seeder
         $seires = [
             [
                 'letter' => 'ANEY',
+                'type' => 'retails'
+            ],
+            [
+                'letter' => 'ΑΛΠ',
+                'type' => 'retails'
+            ],
+            [
+                'letter' => 'ΑΛΠΣΑ',
+                'type' => 'retails'
+            ],
+            [
+                'letter' => 'ΤΙΜ',
                 'type' => 'invoices'
             ],
             [
-                'letter' => 'ANEY',
+                'letter' => 'ΤΠΥ',
+                'type' => 'invoices'
+            ],
+            [
+                'letter' => 'ΑΠΥ',
                 'type' => 'retails'
             ],
             [

@@ -33,15 +33,7 @@
                             <span>Νέο Τιμολόγιο</span>
                         </a>
                     </div>
-                    @if(count($invoices) < 1)
-                        <div class="invoice-create-btn col">
-                            <a href="{{route('invoice.getFromMyData')}}"
-                               class="btn waves-effect waves-light invoice-create border-round z-depth-4">
-                                <i class="material-icons">add</i>
-                                <span>Λήψη Παραστατικών από MyData</span>
-                            </a>
-                        </div>
-                    @endif
+
                     <div class="invoice-filter-action col">
                         <a href="javascript:if(window.print)window.print()" class="btn waves-effect waves-light invoice-export border-round z-depth-4">
                             <i class="material-icons">print</i>
@@ -75,6 +67,17 @@
                             <div class="col">
                                 <button type="submit" class="btn btn-xs btn-info filter-btn display-flex align-items-center border-round z-depth-4">
                                     <i class="material-icons" style="margin-right: 5px;">search</i> <span>Προσαρμογή Φίλτρου</span></button>
+                            </div>
+                        </div>
+                        <div class="invoice-head--right row display-flex col align-items-end">
+                            <div class="col select-wrapper">
+                                <select name="year" id="year" class="browser-default select-wrapper">
+                                    <option value="2023" @if(!isset($year)) selected @endif>2023</option>
+                                    <option value="2022" @if(isset($year) && $year == 2022) selected @endif>2022</option>
+                                    <option value="2021" @if(isset($year) && $year == 2021) selected @endif>2021</option>
+                                    <option value="2020" @if(isset($year) && $year == 2020) selected @endif>2020</option>
+                                </select>
+                                <label for="year" class="active">Επιλέξτε Έτος</label>
                             </div>
                         </div>
                     </form>
@@ -275,27 +278,40 @@
                     $m('a.invoices-myData').addClass('hide');
                 }
             });
-            $m('a.invoices-myData').on('click', function(e){
-                e.preventDefault();
-               let invoiceIds = [];
-                $m('input.myDataSelect:checked').each(function(){
-                    let invoiceId = $m(this).data('invoice');
-                    invoiceIds.push(invoiceId);
-                })
-                $m.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $m('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $m.ajax({
-                    url: "{{route('invoice.mydata.multiple')}}",
-                    method: 'POST',
-                    data: { ids: invoiceIds},
-                    success: function(result) {
-                        console.log(result);
-                    }
-                });
+            $m('#year').on('change', function(){
+                let url = window.location.href;
+                let year = $m(this).val();
+                window.location.href = '/filter-incomes/year/'+year;
             });
+
+            @if(Session::has('notify'))
+            M.toast({
+                html: '{{Session::get("notify") }}',
+                classes: 'rounded',
+                timeout: 10000
+            });
+            @endif
+            {{--$m('a.invoices-myData').on('click', function(e){--}}
+            {{--    e.preventDefault();--}}
+            {{--   let invoiceIds = [];--}}
+            {{--    $m('input.myDataSelect:checked').each(function(){--}}
+            {{--        let invoiceId = $m(this).data('invoice');--}}
+            {{--        invoiceIds.push(invoiceId);--}}
+            {{--    })--}}
+            {{--    $m.ajaxSetup({--}}
+            {{--        headers: {--}}
+            {{--            'X-CSRF-TOKEN': $m('meta[name="csrf-token"]').attr('content')--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--    $m.ajax({--}}
+            {{--        url: "{{route('invoice.mydata.multiple')}}",--}}
+            {{--        method: 'POST',--}}
+            {{--        data: { ids: invoiceIds},--}}
+            {{--        success: function(result) {--}}
+            {{--            console.log(result);--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
         });
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Retails;
 use App\Models\Seires;
 use App\Models\Services;
 use App\Models\Settings;
@@ -48,6 +49,20 @@ class InvoicesController extends Controller
         }
         $final = array_sum($finalIncome);
         return view('invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
+    }
+
+    public function selectYear($year) {
+        $invoices = Invoice::query()->where( DB::raw('YEAR(date)'), '=', $year)->whereNotNull('invoiceID')->get()->sortBy('date');
+
+        $finalIncome = [];
+        $finalFpa = [];
+
+        foreach($invoices as $invoice) {
+            $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
+        }
+        $final = array_sum($finalIncome);
+
+        return view('invoices.index', ['invoices' => $invoices, 'finals' => $final, 'year' => $year]);
     }
 
     public function view($invoiceID) {
@@ -322,6 +337,34 @@ class InvoicesController extends Controller
             }
         }
         return 'ok';
+    }
+
+    public function getDocs() {
+        $getLast = Invoice::all()->sortBy('mark')->last();
+        $last = $getLast ? $getLast->mark : 0;
+        //$lastID = $getLast->id;
+       //$lastProvider = Provider::all()->last();
+
+        $docs = myDataRequestTransmittedDocs($last);
+       // dd($docs);
+        if ($docs) {
+
+            foreach($docs->invoicesDoc->invoice as $invoice) {
+                if ($invoice->invoiceHeader->invoiceType == '1.1') { // Τιμολόγια Πώλησης
+                    addSaleInvoice($invoice);
+                } elseif($invoice->invoiceHeader->invoiceType == '2.1') { // Τιμολόγια Παροχής
+                    if(!$invoice->cancelledByMark) {
+                        addInvoice($invoice);
+                    }
+                } elseif($invoice->invoiceHeader->invoiceType == '11.1' ||  $invoice->invoiceHeader->invoiceType == '11.2') { // Αποδείξεις Λιανικής Πώλησης και παροχής
+                    addRetailReceipt($invoice, $invoice->invoiceHeader->invoiceType);
+                } else {
+                   continue;
+                }
+            }
+        }
+
+        return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη!');
     }
 
     public function cancelInvoice(Invoice $invoice)

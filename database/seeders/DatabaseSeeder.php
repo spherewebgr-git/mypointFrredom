@@ -18,14 +18,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        //$this->call(UsersSeeder::class);
-        //$this->call(SettingsSeeder::class);
-        //$this->call(SeiresSeeder::class);
-        //$this->call(ClientsSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(SettingsSeeder::class);
+        $this->call(SeiresSeeder::class);
+        $this->call(ClientsSeeder::class);
+        $this->call(ProvidersSeeder::class);
+        $this->call(ForeignProvidersSeeder::class);
+        $this->call(GoodsSeeder::class);
         //$this->call(SaleInvoicesSeeder::class);
         //$this->call(RetailsSeeder::class);
 //        $this->call(OutcomesSeeder::class);
 //        $this->call(ReceiptsSeeder::class);
-        $this->call(DeliveryInvoicesSeeder::class);
+        //$this->call(DeliveryInvoicesSeeder::class);
     }
 }

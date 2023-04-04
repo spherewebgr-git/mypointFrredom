@@ -10,10 +10,10 @@ Route::name('client.')->prefix('/')->group(function () {
     Route::get('/add-client', [ClientsController::class, 'new'])->name('add');
     Route::post('/store-client', [ClientsController::class, 'store'])->name('store');
     Route::post('/check-afm', [ClientsController::class, 'vatCheck'])->name('vatCheck');
-    Route::get('/edit-client/{vat}', [ClientsController::class, 'edit'])->name('edit');
+    Route::get('/edit-client/{hashID}', [ClientsController::class, 'edit'])->name('edit');
     Route::post('/update-client/{client}', [ClientsController::class, 'update'])->name('update');
     Route::get('/delete-client/{hashID}', [ClientsController::class, 'softDelete'])->name('delete');
-    Route::get('/enable-client/{vat}', [ClientsController::class, 'enable'])->name('enable');
+    Route::get('/enable-client/{hashID}', [ClientsController::class, 'enable'])->name('enable');
     Route::post('/delete-address-ajax', [ClientsController::class, 'deleteAddress'])->name('delete-address');
     Route::post('/client-address-ajax', [ClientsController::class, 'getAddress'])->name('get-addresses');
     Route::post('/client-search-ajax', [ClientsController::class, 'search'])->name('search');

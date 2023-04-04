@@ -1,0 +1,956 @@
+[
+    {
+        "productNumber": "00157",
+        "productName": "Μίγμα για Τσουρέκι Xωρίς Γλουτένη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "00158",
+        "productName": "Μίγμα για ψωμί με προζύμι χωρίς γλουτένη 500 γρ..",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "00159",
+        "productName": "Μίγμα για ζυμαρικά χωρίς γλουτένη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0697",
+        "productName": "Μίγμα για Ψωμί Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "4.33",
+        "retailPrice": "4.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0698",
+        "productName": "Μίγμα για Πίτσα Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "4.33",
+        "retailPrice": "4.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0699",
+        "productName": "Μίγμα Ζαχαροπλαστικής Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "4.95",
+        "retailPrice": "5.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0700",
+        "productName": "Μίγμα για Ψωμί Πολύσπορο Χωρίς Γλουτένη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "4.15",
+        "retailPrice": "4.70",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0846",
+        "productName": "Μίγμα για Ψωμί Χωρίς Γλουτένη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0848",
+        "productName": "Μίγμα Ζαχαροπλαστικής Χωρίς Γλουτένη Χωρίς Λακτόζη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0849",
+        "productName": "Μίγμα για Πίτσα Χωρίς Γλουτένη 500 γρ.",
+        "category": "Le farine dei nostri sacchi",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0873",
+        "productName": "Μπισκότα Λεμονιού Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Natisani",
+        "price": "3.62",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0874",
+        "productName": "Μπισκότα με Κακάο  Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Natisani",
+        "price": "3.62",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0875",
+        "productName": "Μπισκότα Oλικής Άλεσης Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Natisani",
+        "price": "3.62",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0877",
+        "productName": "Μπισκότα με Ρόδι και Φρούτα Του Δάσους Χωρίς Γλουτένη Χωρίς Λακτόζη 150 γρ.",
+        "category": "Natisani",
+        "price": "3.62",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0878",
+        "productName": "Μπισκότα με Πράσινο Μήλο Χωρίς Γλουτένη Χωρίς Λακτόζη Χωρίς Ζάχαρη 150 γρ.",
+        "category": "Natisani",
+        "price": "3.62",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0879",
+        "productName": "Παξιμαδάκια Κλασικά με Ελαιόλαδο Χωρίς Γλουτένη 130 γρ.",
+        "category": "Natisani",
+        "price": "2.57",
+        "retailPrice": "2.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0880",
+        "productName": "Παξιμαδάκια με Δενδρολίβανο Χωρίς Γλουτένη 130 γρ.",
+        "category": "Natisani",
+        "price": "2.57",
+        "retailPrice": "2.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0881",
+        "productName": "Παξιμαδάκια με Ρίγανη Χωρίς Γλουτένη 130 γρ.",
+        "category": "Natisani",
+        "price": "2.57",
+        "retailPrice": "2.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0882",
+        "productName": "Φρυγανιές Ολικής Αλέσεως Χωρίς Γλουτένη Χωρίς Λακτόζη 150 γρ.",
+        "category": "Natisani",
+        "price": "2.74",
+        "retailPrice": "3.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0883",
+        "productName": "Φρυγανιές Χωρίς Γλουτένη, Χωρίς Λακτόζη 140 γρ.",
+        "category": "Natisani",
+        "price": "2.74",
+        "retailPrice": "3.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "0910",
+        "productName": "Φρυγανία Τριμμένη Χωρίς Γλουτένη, Χωρίς Λακτόζη 350 γρ.",
+        "category": "Natisani",
+        "price": "3.08",
+        "retailPrice": "3.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619024",
+        "productName": "Μαρμελάδα Φράουλα με Ρούμι και Καστανή Ζάχαρη 250 γρ.",
+        "category": "Jukeros",
+        "price": "4.51",
+        "retailPrice": "5.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619055",
+        "productName": "Chutney Kαραμελωμένου κρεμμυδιού με Βαλσαμικό ξύδι 250 γρ.",
+        "category": "Jukeros",
+        "price": "3.54",
+        "retailPrice": "4.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619093",
+        "productName": "Chutney με πιπεριές Φλωρίνης, κόκκινα chili και ντομάτα 250 γρ.",
+        "category": "Jukeros",
+        "price": "5.31",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619185",
+        "productName": "Μαρμελάδα Σύκο με Κρασί Vinsanto 250 γρ.",
+        "category": "Jukeros",
+        "price": "4.25",
+        "retailPrice": "4.80",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619291",
+        "productName": "Chutney δαμάσκηνο με κόκκινες πιπεριές & μαροκινά μπαχαρικά 250 γρ.",
+        "category": "Jukeros",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619352",
+        "productName": "Άλειμμα Καραμέλας Βουτύρου με Θαλασσινό Αλάτι Χωρίς Γλουτένη 250γρ.",
+        "category": "Jukeros",
+        "price": "3.63",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619376",
+        "productName": "Άλειμμα Καραμέλας Βουτύρου με Μπανάνα 250 γρ.",
+        "category": "Jukeros",
+        "price": "3.72",
+        "retailPrice": "4.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619413",
+        "productName": "Χειροποίητη Σάλτσα Ντομάτας με φρέσκο Βασιλικό 380gr",
+        "category": "Jukeros",
+        "price": "3.81",
+        "retailPrice": "4.30",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619482",
+        "productName": "Σάλτσα Ντομάτας Για Ζυμαρικά Με Μελιτζάνα 360 γρ.",
+        "category": "Jukeros",
+        "price": "2.48",
+        "retailPrice": "2.80",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619550",
+        "productName": "Bruschetta Siciliana  με Nτομάτα και Μελιτζάνα 370 γρ.",
+        "category": "Jukeros",
+        "price": "2.65",
+        "retailPrice": "3.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619598",
+        "productName": "Καυτερή σάλτσα με πιπεριές  Jalapeno και πράσινα chili Χωρίς Γλουτένη 100 γρ.",
+        "category": "Jukeros",
+        "price": "2.74",
+        "retailPrice": "3.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "5214000619871",
+        "productName": "Μαρμελάδα Ρόδι 250 γρ.",
+        "category": "Jukeros",
+        "price": "3.89",
+        "retailPrice": "4.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD1702E",
+        "productName": "Nocciolino Χωρίς Γλουτένη σε φακελάκια των 20γρ 10 sachets",
+        "category": "foodNess",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD1703E",
+        "productName": "Στιγμιαίος Καφές Cappuccino Χωρίς Γλουτένη σε φακελάκια των 20γρ. 10 sachets",
+        "category": "foodNess",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD171E",
+        "productName": "Ginseng Coffee Χωρίς Γλουτένη σε φακελάκια 20 gr. 10sachets",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD172E",
+        "productName": "Green Coffee & Ganoderma Χωρίς Γλουτένη σε φακελάκια των 20 gr. 10sachets",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD173E",
+        "productName": "Matcha & Ginseng Τσάι Χωρίς Γλουτένη σε φακελάκια των 20 gr. 10sachets",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD174E",
+        "productName": "Golden Milk  Χωρίς Γλουτένη σε φακελάκια των 20 gr. 10sachets",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD175",
+        "productName": "Κέικ Σοκολάτας στιγμής Χωρίς Γλουτένη σε φακελάκια των 30γρ. 10 sachets",
+        "category": "foodNess",
+        "price": "5.31",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "FD242",
+        "productName": "Ρόφημα Σοκολάτας Χωρίς Γλουτένη Βιολογικό σε φακελάκια των 30γρ. 5 sachets.",
+        "category": "foodNess",
+        "price": "2.65",
+        "retailPrice": "3.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "NUTOR012",
+        "productName": "Φυστικοβούτυρο Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Nutorious",
+        "price": "3.36",
+        "retailPrice": "3.80",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "NUTOR013",
+        "productName": "Βούτυρο Αμυγδάλου με μαύρη σοκολάτα Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Nutorious",
+        "price": "5.66",
+        "retailPrice": "6.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "NUTOR014",
+        "productName": "Βούτυρο Φουντουκιού με Καραμέλα Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Nutorious",
+        "price": "5.66",
+        "retailPrice": "6.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "NUTOR029",
+        "productName": "Άλειμμα Βουτύρου Ξηρών Καρπών Χωρίς Γλουτένη Χωρίς Λακτόζη 200 γρ.",
+        "category": "Nutorious",
+        "price": "5.49",
+        "retailPrice": "6.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2308E",
+        "productName": "Ginseng Coffee Χωρίς Ζάχαρη Χωρίς Γλουτένη σε Κάψουλες Συμβατές με Μηχανή Nespresso® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2309E",
+        "productName": "Macaccino Χωρίς γλουτένη, Χωρίς λακτόζη σε Κάψουλες Συμβατές με Μηχανή Nespresso® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2311E",
+        "productName": "Espresso Coffee & Ginseng Χωρίς γλουτένη, Χωρίς λακτόζη σε Κάψουλες Συμβατές με Μηχανή Nespresso® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2313E",
+        "productName": "Matcha Latte with Ginseng Χωρίς Γλουτένη Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Nespresso® 10caps",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2391E",
+        "productName": "Ginseng Coffee Χωρίς Γλουτένη Χωρίς Λακτόζη Χωρίς Ζάχαρη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2392E",
+        "productName": "Ginseng Coffee with Collagen Χωρίς Γλουτένη Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "5.31",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2395E",
+        "productName": "Mermaid Latte Χωρίς γλουτένη, Χωρίς λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2503",
+        "productName": "Αναπλήρωμα Καφέ από Κριθάρι σε Κάψουλες  Συμβατές με Μηχανή DOLCE GUSTO® 10caps",
+        "category": "foodNess",
+        "price": "3.54",
+        "retailPrice": "4.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2508E",
+        "productName": "Ginger & Lemon Χωρίς Γλουτένη Χωρίς Ζάχαρη Χωρις Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "3.54",
+        "retailPrice": "4.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2509",
+        "productName": "Ρόφημα Σόγιας σε Κάψουλες  Συμβατές με Μηχανή DOLCE GUSTO® 10caps",
+        "category": "foodNess",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2510E",
+        "productName": "Soy Cappuccino Vegan Χωρίς Γλουτένη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2513E",
+        "productName": "Minicao Dark Χωρίς Γλουτένη σε Κάψουλες  Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "5.04",
+        "retailPrice": "5.70",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2514E",
+        "productName": "Ρόφημα Σοκολάτας Ciocko Buono Kidness Χωρίς Γλουτένη σε Κάψουλες Συμβατές με Μηχανή DOLCE GUSTO® 10caps",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2515E",
+        "productName": "Black Tea, Lemon & Safran Χωρίς ζάχαρη, Χωρίς γλουτένη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2516E",
+        "productName": "Green Tea & Ashwagandha Χωρίς Γλουτένη Χωρίς ζάχαρη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2517E",
+        "productName": "Pomegranade & Blueberry Χωρίς γλουτένη σε Κάψουλες  Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2518E",
+        "productName": "Minicao Ruby Χωρίς Γλουτένη σε ΚάψουλεςΣυμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "7.96",
+        "retailPrice": "9.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2519E",
+        "productName": "Minicao Gold Χωρίς γλουτένη σε Κάψουλες Συμβατές  με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "7.52",
+        "retailPrice": "8.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2520E",
+        "productName": "Unicorn Latte Χωρίς γλουτένη, Χωρίς λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "5.31",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2521E",
+        "productName": "Ginseng Coffee Χωρίς Γλουτένη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2522E",
+        "productName": "Ginseng Coffee With Ginger Χωρίς Γλουτένη Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2523E",
+        "productName": "Macaccino with Maca Χωρίς γλουτένη, Χωρίς λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2524E",
+        "productName": "Green Coffee & Ganoderna  Χωρίς Γλουτένη Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2525E",
+        "productName": "Matcha Latte & Ginseng Χωρίς Γλουτένη, Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.42",
+        "retailPrice": "5.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "OB2526E",
+        "productName": "Golden Milk με Κουρκουμά Χωρίς Γλουτένη Χωρίς Λακτόζη σε Κάψουλες Συμβατές με Μηχανή Dolce Gusto® 10caps",
+        "category": "foodNess",
+        "price": "4.87",
+        "retailPrice": "5.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "PA85070",
+        "productName": "Pallet",
+        "category": "Βασική Ομάδα",
+        "price": "0.00",
+        "retailPrice": "0.00",
+        "mm": "1",
+        "vatId": "8"
+    },
+    {
+        "productNumber": "SG00141250",
+        "productName": "Αλεύρι Κινόας & Ρυζιού Χωρίς Γλουτένη Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "3.63",
+        "retailPrice": "4.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG00910150",
+        "productName": "Αλεύρι για όλες τις χρήσεις Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "4.33",
+        "retailPrice": "4.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG00920150",
+        "productName": "Μίγμα για Ψωμί Χωρίς Γλουτένη Βιολογικό Πετρόμυλου 500 γρ.",
+        "category": "Spigabuona",
+        "price": "5.49",
+        "retailPrice": "6.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG00920250",
+        "productName": "Μίγμα για Πίτσα Χωρίς Γλουτένη Βιολογικό Πετρόμυλου 500 γρ.",
+        "category": "Spigabuona",
+        "price": "5.49",
+        "retailPrice": "6.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG00920350",
+        "productName": "Mίγμα για Γλυκά Χωρίς Γλουτένη Βιολογικό πετρόμυλου 500 γρ.",
+        "category": "Spigabuona",
+        "price": "5.49",
+        "retailPrice": "6.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG00920450",
+        "productName": "Μίγμα για Ζυμαρικά Χωρίς Γλουτένη Βιολογικό πετρόμυλου 500 γρ.",
+        "category": "Spigabuona",
+        "price": "5.31",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG020125",
+        "productName": "Κόμμι Γκουάρ Βιολογικό Χωρίς Γλουτένη 100 γρ.",
+        "category": "Spigabuona",
+        "price": "3.71",
+        "retailPrice": "4.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG04101",
+        "productName": "Αλεύρι Καλαμποκιού Βιολογικό Χωρίς Γλουτένη Bramata 1 kgr",
+        "category": "Spigabuona",
+        "price": "3.98",
+        "retailPrice": "4.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG04250",
+        "productName": "Πολέντα Καλαμποκιού Χωρίς Γλουτένη Βιολογική 500 γρ.",
+        "category": "Spigabuona",
+        "price": "2.21",
+        "retailPrice": "2.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG04350",
+        "productName": "Αλεύρι από Άνθος Αραβοσίτου Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "3.18",
+        "retailPrice": "3.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG051050",
+        "productName": "Αλεύρι Λευκού Ρυζιού Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "3.00",
+        "retailPrice": "3.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG051065",
+        "productName": "Αλεύρι Ρυζιού Vialone Nano Χωρίς Γλουτένη Ολικής Άλεσης 500 γρ.",
+        "category": "Spigabuona",
+        "price": "4.60",
+        "retailPrice": "5.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG06150",
+        "productName": "Αλεύρι αμάρανθου βιολογικό χ. γλ. Spigabuona 250 γρ.",
+        "category": "Spigabuona",
+        "price": "3.72",
+        "retailPrice": "4.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG07001",
+        "productName": "Λευκή Κινόα Βιολογική Χωρίς Γλουτένη 500 γρ.",
+        "category": "Spigabuona",
+        "price": "6.11",
+        "retailPrice": "6.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG07150",
+        "productName": "Αλεύρι από Κεχρί Ολικής Άλεσης Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "3.10",
+        "retailPrice": "3.50",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG12150",
+        "productName": "Αλεύρι Φαγόπυρου Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "3.19",
+        "retailPrice": "3.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG14001",
+        "productName": "Αλεύρι Ρεβυθιού Ολικής Αλέσεως Χωρίς Γλουτένη Βιολογικό 400 γρ.",
+        "category": "Spigabuona",
+        "price": "3.72",
+        "retailPrice": "4.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG141250",
+        "productName": "Αλεύρι Κινόας Ολικής Αλέσεως Χωρίς Γλουτένη Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "5.30",
+        "retailPrice": "6.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG17001",
+        "productName": "Άμυλο Πατάτας Χωρίς Γλουτένη Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "3.53",
+        "retailPrice": "4.00",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG18002",
+        "productName": "Άμυλο Καλαμποκιού Χωρίς Γλουτένη Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "3.45",
+        "retailPrice": "3.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG213150",
+        "productName": "Ηλιόσποροι Βιολογικοί Χωρίς Γλουτένη 250 γρ.",
+        "category": "Spigabuona",
+        "price": "2.30",
+        "retailPrice": "2.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG214150",
+        "productName": "Σουσάμι Βιολογικό Χωρίς Γλουτένη 250 γρ.",
+        "category": "Spigabuona",
+        "price": "3.45",
+        "retailPrice": "3.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG215150",
+        "productName": "Λιναρόσποροι Βιολογικοί Χωρίς Γλουτένη 250 γρ.",
+        "category": "Spigabuona",
+        "price": "2.57",
+        "retailPrice": "2.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG217150",
+        "productName": "Παπαρουνόσποροι Βιολογικοί Χωρίς Γλουτένη 250 γρ.",
+        "category": "Spigabuona",
+        "price": "4.51",
+        "retailPrice": "5.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG218150",
+        "productName": "Κολοκυθόσποροι Χωρίς Γλουτένη Βιολογικοί 250 γρ.",
+        "category": "Spigabuona",
+        "price": "4.96",
+        "retailPrice": "5.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG22020",
+        "productName": "Σπόροι Κάνναβης Βιολογικοί Χωρίς Γλουτένη Spigabuona® 250 γρ.",
+        "category": "Spigabuona",
+        "price": "5.66",
+        "retailPrice": "6.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG23020",
+        "productName": "Σπόροι Chia Βιολογικοί Χωρίς Γλουτένη 250 γρ.",
+        "category": "Spigabuona",
+        "price": "5.40",
+        "retailPrice": "6.10",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG23180",
+        "productName": "Ξηρή Μαγιά Χωρίς Γλουτένη Βιολογική 100 γρ.",
+        "category": "Spigabuona",
+        "price": "8.23",
+        "retailPrice": "9.30",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG24051",
+        "productName": "Αλεύρι από Σόργο Ολικής Άλεσης Χωρίς Γλουτένη Βιολογικό 500 γρ.",
+        "category": "Spigabuona",
+        "price": "3.18",
+        "retailPrice": "3.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG25025",
+        "productName": "Αλεύρι από Tεφφ Χωρίς Γλουτένη Oλικής Αλέσεως Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "6.99",
+        "retailPrice": "7.90",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG258250",
+        "productName": "Αλεύρι από Kόκκινες Φακές Ολικής Άλεσης Χωρίς Γλουτένη Βιολογικό 400 γρ.",
+        "category": "Spigabuona",
+        "price": "4.16",
+        "retailPrice": "4.70",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "SG26050",
+        "productName": "Άμυλο Ρυζιού Χωρίς Γλουτένη Βιολογικό 250 γρ.",
+        "category": "Spigabuona",
+        "price": "4.95",
+        "retailPrice": "5.60",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "STAY7107001",
+        "productName": "Άλειμμα Μελιού Με Κακάο Χωρίς Γλουτένη  300 γρ.",
+        "category": "Stayia farm",
+        "price": "3.72",
+        "retailPrice": "4.20",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "STAY7107004",
+        "productName": "Άλειμμα Μελιού Με Κακάο & Μπανάνα Χωρίς Γλουτένη 300 γρ.",
+        "category": "Stayia farm",
+        "price": "3.89",
+        "retailPrice": "4.40",
+        "mm": "1",
+        "vatId": "2"
+    },
+    {
+        "productNumber": "STAY7107006",
+        "productName": "Άλειμμα Μελιού Με Κακάο & Φράουλα Χωρίς Γλουτένη 300gr",
+        "category": "Stayia farm",
+        "price": "3.89",
+        "retailPrice": "4.40",
+        "mm": "1",
+        "vatId": "2"
+    }
+]

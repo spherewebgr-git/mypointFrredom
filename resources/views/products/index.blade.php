@@ -68,7 +68,7 @@
                         <td>{{$product->product_name}}</td>
                         <td class="center-align">&euro; {{number_format($product->price, '2', ',', '.')}}</td>
                         <td class="center-align">&euro; {{number_format($product->vat_price, '2', ',', '.')}}</td>
-                        <td class="center-align">{{$product->storage->quantity}}</td>
+                        <td class="center-align">{{$product->storage->quantity ?? 0}}</td>
                         <td class="center-align">{{$product->active ? 'ΕΝΕΡΓΟ' : 'ΑΝΕΝΕΡΓΟ'}}</td>
                         <td class="center-align print-hide">
                             <div class="invoice-action">
@@ -78,7 +78,7 @@
                                    data-product-number="{{$product->product_number}}"
                                    data-category="{{$product->product_category}}"
                                    data-active="{{$product->active ? '<span class="green">ΕΝΕΡΓΟ</span>' : '<span class="red">ΑΝΕΝΕΡΓΟ</span>'}}"
-                                   data-quantity="{{$product->storage->quantity}}"
+                                   data-quantity="{{$product->storage->quantity ?? 0}}"
                                    data-price="&euro; {{number_format($product->price, '2', ',', '.')}}"
                                    data-vat-price="&euro; {{number_format($product->vat_price, '2', ',', '.')}}"
                                    data-description="{{$product->product_description}}"

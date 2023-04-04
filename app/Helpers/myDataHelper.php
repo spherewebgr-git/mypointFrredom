@@ -375,6 +375,50 @@ if(!function_exists('myDataRequestDocs')) {
     }
 }
 
+
+if(!function_exists('myDataRequestTransmittedDocs')) {
+    /**
+     * Returns all expenses from MyData, Requires last outcome mark
+     * @param $last string
+     * @return object
+     */
+    function myDataRequestTransmittedDocs($last)
+    {
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+
+        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/RequestTransmittedDocs?mark='.$last);
+        $url = $request->getUrl();
+
+        // Official
+        $headers = array(
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
+        );
+
+        $request->setHeader($headers);
+
+        $request->setMethod(HTTP_Request2::METHOD_GET);
+
+        try
+        {
+            $response = $request->send();
+            if($response->getBody()) {
+
+                $xml = simplexml_load_string($response->getBody());
+            }
+            return $xml;
+        }
+        catch (HttpException $ex)
+        {
+            dd($ex);
+        }
+    }
+}
+
 if(!function_exists('myDataSendExpensesClassification')) {
     /**
      * Sends a single outcome classifications to MyData, Requires outcome hash ID
@@ -571,9 +615,6 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
     }
 }
 
-
-
-
 if(!function_exists('myDataSendInvoiceThirdCountry')) {
     /**
      * Sends a single third country outcome invoice with it classifications to MyData, Requires outcome hash ID
@@ -699,7 +740,6 @@ if(!function_exists('myDataSendInvoiceThirdCountry')) {
         return $body;
     }
 }
-
 
 if(!function_exists('myDataSendEfka')){
     function myDataSendEfka($outcomeHash) {

@@ -26,6 +26,7 @@ class ClientsSeeder extends Seeder
             $hash = Str::substr(Str::slug(Hash::make($obj['company'].$obj['vat'])), 0, 32);
             Client::create([
                 'hashID' =>  $hash,
+                'code_number' => $obj['code_number'],
                 'name' => $obj['name'],
                 'company' => $obj['company'],
                 'work_title'  => $obj['work_title'],
@@ -37,15 +38,18 @@ class ClientsSeeder extends Seeder
                 'mail_account'  =>'',
                 'phone_account'  => '',
             ]);
-            ClientAddresses::create([
-                'client_hash' => $hash,
-                'address_type' => 0,
-                'address_name' => 'Έδρα',
-                'address' => $obj['address'],
-                'number' => $obj['number'],
-                'city' => $obj['city'],
-                'postal_code' => $obj['postal_code']
-            ]);
+            if($obj['address'] != null) {
+                ClientAddresses::create([
+                    'client_hash' => $hash,
+                    'address_type' => 0,
+                    'address_name' => 'Έδρα',
+                    'address' => $obj['address'],
+                    'number' => $obj['number'],
+                    'city' => $obj['city'],
+                    'postal_code' => $obj['postal_code']
+                ]);
+            }
+
         }
     }
 }

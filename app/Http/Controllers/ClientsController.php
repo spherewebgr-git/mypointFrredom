@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use nusoap_client;
 use SoapClient;
+use SoapHeader;
 
 class ClientsController extends Controller
 {
@@ -94,6 +96,10 @@ class ClientsController extends Controller
             "name" => $request->name,
             "code_number" => $request->code_number,
             "company" => $request->company,
+            'address' => $request->address,
+            'number' => $request->number,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
             "work_title" => $request->work_title,
             "email" => $request->email,
             "mobile" => $request->mobile,
@@ -107,16 +113,16 @@ class ClientsController extends Controller
         //dd($lastAddress->address_type);
         if ($request->addresses) {
             //dd($request->addresses);
-            foreach ($request->addresses as $address) {
-                if($address['address']) {
-                    if (isset($address->address_id)) {
-                        $oldAddress = ClientAddresses::query()->where('id', '=', $address->address_id)->first();
+            foreach ($request->addresses as $add) {
+                if($add['address']) {
+                    if (isset($add->address_id)) {
+                        $oldAddress = ClientAddresses::query()->where('id', '=', $add->address_id)->first();
                         $oldAddress->update([
-                            "address_name" => $address['type'],
-                            "address" => $address['address'],
-                            "number" => $address['number'],
-                            "city" => $address['city'],
-                            "postal_code" => $address['postal_code'],
+                            "address_name" => $add['type'],
+                            "address" => $add['address'],
+                            "number" => $add['number'],
+                            "city" => $add['city'],
+                            "postal_code" => $add['postal_code'],
                             "updated_at" => date('Y-m-d H:i:s')
                         ]);
                     } else {
@@ -124,11 +130,11 @@ class ClientsController extends Controller
                         ClientAddresses::create([
                             "client_hash" => $client->hashID,
                             "address_type" => $lastAddress->address_type + 1,
-                            "address_name" => $address['address_type'],
-                            "address" => $address['address'],
-                            "number" => $address['number'],
-                            "city" => $address['city'],
-                            "postal_code" => $address['postal_code'],
+                            "address_name" => $add['address_type'],
+                            "address" => $add['address'],
+                            "number" => $add['number'],
+                            "city" => $add['city'],
+                            "postal_code" => $add['postal_code'],
                             "created_at" => date('Y-m-d H:i:s')
                         ]);
                     }
@@ -142,9 +148,9 @@ class ClientsController extends Controller
         return redirect()->back();
     }
 
-    public function edit($vat)
+    public function edit($clientHash)
     {
-        $client = Client::query()->where('vat', '=', $vat)->first();
+        $client = Client::query()->where('hashID', '=', $clientHash)->first();
         $edra = ClientAddresses::query()->where('client_hash', '=', $client->hashID)->where('address_type', '=', 0)->first();
 
         return view('clients.add', ['client' => $client, 'edra' => $edra]);
@@ -195,36 +201,26 @@ class ClientsController extends Controller
 
     public function vatCheck(Request $request)
     {
-        $xmlBodyContent = '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope"
-        xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
-        xmlns:ns2="http://rgwspublic2/RgWsPublic2Service" xmlns:ns3="http://rgwspublic2/RgWsPublic2">
-   <env:Header>
-      <ns1:Security>
-         <ns1:UsernameToken>
-            <ns1:Username>WW1471871U379</ns1:Username>
-            <ns1:Password>WW1471871U379</ns1:Password>
-         </ns1:UsernameToken>
-      </ns1:Security>
-   </env:Header>
-   <env:Body>
-      <ns2:rgWsPublic2AfmMethod>
-         <ns2:INPUT_REC>
-            <ns3:afm_called_by/>
-            <ns3:afm_called_for>'.$request->vat.'</ns3:afm_called_for>
-         </ns2:INPUT_REC>
-      </ns2:rgWsPublic2AfmMethod>
-   </env:Body>
-</env:Envelope>';
-        $http = Http::withHeaders([
-            'Content-Type'=>'application/xml'
-        ])->post('https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL', [$xmlBodyContent]);
+        $afm = $request->vat;
 
+        $soapClient = new SoapClient("https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
 
+        $sh_param = array(
 
-        return response($http->body())
-            ->withHeaders([
-                'Content-Type' => 'text/xml'
-            ]);
+            'Username'    =>    'WW1471871U379',
+
+            'Password'    =>    'WW1471871U379');
+
+        $headers = new SoapHeader('https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2', $sh_param);
+
+        $soapClient->__setSoapHeaders(array($headers));
+
+        $ap_param = array(
+
+            'afm' => $afm
+        );
+        $info = $soapClient->call("RemoteFunction", array($ap_param));
+        return $info->body();
     }
 
     public function search(Request $request)

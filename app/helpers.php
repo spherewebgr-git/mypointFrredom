@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Client;
+use App\Models\ClientAddresses;
 use App\Models\DeliveredGoods;
 use App\Models\DeliveryInvoices;
 use App\Models\ForeignProviders;
+use App\Models\Goods;
 use App\Models\Invoice;
 use App\Models\Outcomes;
 use App\Models\Provider;
@@ -14,9 +16,12 @@ use App\Models\SaleInvoices;
 use App\Models\Settings;
 use App\Models\Tasks;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 
 
 if(!function_exists('settings'))
@@ -801,6 +806,168 @@ if(!function_exists('getClientAddresses')) {
         return $clientAddresses;
     }
 }
+
+if(!function_exists('addRetailReceipt')) {
+    function addRetailReceipt($invoice, $type) {
+
+        $hash = Str::substr(Str::slug(Hash::make( $invoice->invoiceHeader->issueDate.$invoice->invoiceHeader->series.$invoice->invoiceHeader->aa)), 0, 32);
+
+        DB::table('retails')->insert(
+            array(
+                'retailID' => $invoice->invoiceHeader->aa,
+                'hashID' => $hash,
+                'invoiceType' => $type,
+                'seira' => $invoice->invoiceHeader->series,
+                'client_description' => '',
+                'date' => $invoice->invoiceHeader->issueDate,
+                'mark' => $invoice->mark
+            )
+        );
+
+        DB::table('retail_receipts_items')->insert([
+            'retailHash' => $hash,
+            'payment_method' => $invoice->paymentMethods[0]->paymentMethodDetails->type,
+            'product_service' => 'Πώληση Προϊόντων',
+            'vat_id' => $invoice->invoiceDetails->vatCategory,
+            'price' => $invoice->invoiceDetails->netValue,
+            'vat' => $invoice->invoiceDetails->vatAmount
+        ]);
+
+    }
+}
+
+if(!function_exists('addInvoice')) {
+    function addInvoice($invoice) {
+        $hash = Str::substr(Str::slug(Hash::make( $invoice->invoiceHeader->series.$invoice->invoiceHeader->aa)), 0, 32);
+        $client = Client::query()->where('vat', '=', $invoice->counterpart->vatNumber)->first();
+        if($client != null) {
+            $clientId = $client->id;
+        } else {
+            $codeNumber = Client::all()->last()->code_number + 1;
+            $chechClient = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
+            $newClient = $chechClient->checkVat(array(
+                'countryCode' => 'EL',
+                'vatNumber' => $invoice->counterpart->vatNumber
+            ));
+            if(isset($newClient->name)) {
+                $extractName = explode('||', $newClient->name);
+                $company = $extractName[0];
+                $companyName = $extractName[1] ?? $extractName[0];
+                //dd($newClient);
+            } else {
+                dd('vat not found');
+            }
+            $clientHash = Str::substr(Str::slug(Hash::make($company  . $invoice->counterpart->vatNumber)), 0, 32);
+            $clientId = DB::table('clients')->insertGetId([
+                'hashID' => $clientHash,
+                'code_number' => $codeNumber,
+                'name' => $companyName,
+                'company'=> $company,
+                'vat' => $invoice->counterpart->vatNumber
+            ]);
+            $extractAddress = explode(' - ', $newClient->address);
+            $city = $extractAddress[1];
+            $output = preg_replace('!\s+!', ' ', $extractAddress[0]);
+            $extractRoad = explode(' ', $output);
+            if(is_numeric($extractRoad[1]) == 1) {
+                $address = $extractRoad[0];
+                $number = $extractRoad[1];
+                $tk = $extractRoad[2];
+            } else {
+                $address = $extractRoad[0].' '.$extractRoad[1];
+                $number = $extractRoad[2];
+                $tk = $extractRoad[3];
+            }
+            ClientAddresses::create([
+                'client_hash' => $clientHash,
+                'address_type' => 0,
+                'address_name' => 'Έδρα',
+                'address' => $address,
+                'number' => $number,
+                'postal_code' => $tk,
+                'city' => $city
+            ]);
+        }
+        DB::table('invoices')->insert(
+            array(
+                'invoiceID' => $invoice->invoiceHeader->aa,
+                'hashID' => $hash,
+                'seira' => $invoice->invoiceHeader->series,
+                'client_id' => $clientId,
+                'paid' => 1,
+                'has_parakratisi' => 1,
+                'parakratisi_id' => 3,
+                'payment_method' => $invoice->paymentMethods[0]->paymentMethodDetails->type,
+                'date' => $invoice->invoiceHeader->issueDate,
+                'mark' => $invoice->mark
+            )
+        );
+
+        foreach($invoice->invoiceDetails as $line) {
+            DB::table('services')->insert([
+                'invoice_number' => $hash,
+                'client_id' => $clientId,
+                'description' => 'Υπηρεσία',
+                'price' => $line->netValue,
+                'quantity' => 1,
+                'vat_category' => $line->vatCategory,
+                'vat_amount' => $line->vatAmount
+            ]);
+        }
+
+
+
+    }
+}
+
+
+
+if(!function_exists('addSaleInvoice')) {
+    function addSaleInvoice($invoice) {
+
+        $client = Client::query()->where('vat', '=', $invoice->counterpart->vatNumber)->first();
+        if($client != null) {
+            $theClient = $client->id;
+        } else {
+            $codeNumber = Client::all()->last()->code_number + 1;
+            $chechClient = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
+            $newClient = $chechClient->checkVat(array(
+                'countryCode' => 'EL',
+                'vatNumber' => $invoice->counterpart->vatNumber
+            ));
+            if(isset($newClient->name)) {
+                $extractName = explode('||', $newClient->name);
+                $company = $extractName[0];
+                $companyName = $extractName[1] ?? $extractName[0];
+                //dd($newClient);
+            } else {
+                dd('vat not found');
+            }
+            $clientHash = Str::substr(Str::slug(Hash::make($company  . $invoice->counterpart->vatNumber)), 0, 32);
+            $theClient = DB::table('clients')->insertGetId([
+                'hashID' => $clientHash,
+                'code_number' => $codeNumber,
+                'name' => $companyName,
+                'company'=> $company,
+                'vat' => $invoice->counterpart->vatNumber
+            ]);
+        }
+        DB::table('sale_invoices')->insert(
+            array(
+                'seira' => $invoice->invoiceHeader->series,
+                'sale_invoiceID' => $invoice->invoiceHeader->aa,
+                'hashID' => Str::substr(Str::slug(Hash::make($invoice->invoiceHeader->series.$invoice->invoiceHeader->aa)), 0, 32),
+                'client_id' => $theClient,
+                'date' => $invoice->invoiceHeader->issueDate,
+                'paid' => 1,
+                'payment_method' => $invoice->paymentMethods[0]->paymentMethodDetails->type,
+                'mark' => $invoice->mark
+            )
+        );
+    }
+}
+
+
 
 
 include_once 'Helpers/productsHelper.php';
