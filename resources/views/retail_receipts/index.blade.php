@@ -85,7 +85,6 @@
                             <th class="control sorting_disabled" rowspan="1" colspan="1"
                                 style="width: 19.8906px; display: none;" aria-label=""></th>
                             <th class="center-align"><span>Αρ. Απόδειξης</span></th>
-                            <th><span>Υπηρεσία</span></th>
                             <th class="center-align">Ημ/νία Έκδοσης</th>
                             <th class="center-align">Ώρα Έκδοσης</th>
                             <th class="center-align" style="width: 85px!important;">Καθαρό</th>
@@ -100,7 +99,6 @@
                             <tr role="row" class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
                                 <td class="sorting_1 center-align"><a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}">@if($retail->seira != 'ANEY'){{$retail->seira}}@endif - {{$retail->retailID}}</a></td>
-                                <td>{{$retail->items[0]->product_service}}</td>
                                 <td class="center-align">
                                     <small>{{\Carbon\Carbon::createFromTimestamp(strtotime($retail->date))->format('d/m/Y')}}</small>
                                 </td>
@@ -119,14 +117,7 @@
                                 <td class="center-align"> @foreach(getRetailPaymentMethods($retail->hashID) as $method) <small>{{$method}}</small><br /> @endforeach </td>
                                 <td class="center-align print-hide">
                                     <div class="invoice-action">
-                                        @if($retail->mark)
-                                            <a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}" class="invoice-action-view mr-4">
-                                                <i class="material-icons">remove_red_eye</i>
-                                            </a>
-                                            <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="invoice-action-view mr-4 ">
-                                                <i class="material-icons">cloud_download</i>
-                                            </a>
-                                        @else
+                                        @if(!$retail->mark)
                                             <a href="{{route('retail-receipts.mydata', $retail->hashID)}}" class="invoice-action-mydata mr-4 default" data-retail="{{$retail->hashID}}" title="Αποστολή στο MyData" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">cloud_upload</i>
                                             </a>
@@ -137,13 +128,10 @@
                                                 <i class="material-icons">delete</i>
                                             </a>
 
-                                            <a href="{{route('retail-receipts.view', ['retail' => $retail->hashID])}}" class="hasMark invoice-action-view mr-4 hide">
-                                                <i class="material-icons">remove_red_eye</i>
-                                            </a>
-                                            <a href="{{route('retail-receipts.download', $retail->retailID)}}" class="hasMark invoice-action-view mr-4 hide">
-                                                <i class="material-icons">cloud_download</i>
-                                            </a>
                                         @endif
+                                            <a href="{{route('retail-receipts.print', ['retail' => $retail->hashID])}}" class="invoice-action-print default">
+                                                <i class="material-icons">print</i>
+                                            </a>
 
                                     </div>
                                 </td>

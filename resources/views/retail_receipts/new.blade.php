@@ -16,7 +16,8 @@
         <div class="row">
             <form class="form invoice-item-repeater" @if(isset($retail->retailID)) action="{{route('retail-receipts.update', $retail->hashID)}}" @else action="{{route('retail-receipts.store')}}" @endif method="post">
                 @csrf
-                <div class="col xl9 m8 s12">
+                <input type="hidden" name="retail_type" id="retailType">
+                <div class="col xl9 m10 s12">
                     <div class="card">
                         <div class="card-content px-36">
                             <div class="progress" style="display: none">
@@ -78,7 +79,7 @@
                                                     <div class="col s12 m2">
                                                         <h6 class="m-0">Συντελεστής ΦΠΑ</h6>
                                                     </div>
-                                                    <div class="col s12 m3">
+                                                    <div class="col s12 m4">
                                                         <h6 class="m-0">Τρόπος Πληρωμής</h6>
                                                     </div>
                                                     <div class="col s12 m1">
@@ -146,10 +147,13 @@
                                                     <h6 class="m-0">Προϊόν/Υπηρεσία</h6>
                                                 </div>
                                                 <div class="col s12 m2">
-                                                    <h6 class="m-0">Συντελεστής ΦΠΑ</h6>
+                                                    <h6 class="m-0" title="Συντελεστής ΦΠΑ">Συντελεστής ΦΠΑ</h6>
                                                 </div>
-                                                <div class="col s12 m3">
-                                                    <h6 class="m-0">Τρόπος Πληρωμής</h6>
+                                                <div class="col s12 m2">
+                                                    <h6 class="m-0" title="Τρόπος Πληρωμής">Πληρωμή</h6>
+                                                </div>
+                                                <div class="col s12 m1">
+                                                    <h6 style="margin-left: -40px">Ποσότητα</h6>
                                                 </div>
                                                 <div class="col s12 m1">
                                                     <h6 style="margin-left: -40px">Τιμή</h6>
@@ -162,7 +166,17 @@
                                                 <div class="invoice-item-filed row pt-1" style="width: 100%">
                                                     <div class="col m5 s12 input-field">
                                                         <input type="text" value="" name="product_service"
-                                                               class="product-field">
+                                                               class="product_service-field">
+                                                        <select name="product" class="product-field invoice-item-select browser-default" style="display: none">
+                                                            <option value="" disabled selected>Επιλέξτε Προϊόν</option>
+                                                            @foreach($products as $product)
+                                                                <option
+                                                                    value="{{$product->id}}"
+                                                                    data-vatId="{{$product->product_vat_id}}"
+                                                                    data-price="{{$product->retail_price}}"
+                                                                    data-vat="{{$product->vat_price}}">{{$product->product_name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="col m2 s12 input-field">
                                                         <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
@@ -177,7 +191,7 @@
                                                         </select>
                                                     </div>
 
-                                                    <div class="col m3 s12 input-field">
+                                                    <div class="col m2 s12 input-field">
                                                         <select name="payment_method" id="payment_method" class="invoice-item-select browser-default">
                                                             <option value="1">Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
                                                             <option value="2">Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
@@ -187,6 +201,10 @@
                                                             <option value="6">Web Banking</option>
                                                             <option value="7">POS / e-POS</option>
                                                         </select>
+                                                    </div>
+                                                    <div class="col m1 s12 input-field">
+                                                        <input type="number" value="1" name="quantity" placeholder="0"
+                                                               class="quantity-field" style="text-align: center">
                                                     </div>
                                                     <div class="col m1 s12 input-field">
                                                         <input type="text" value="" name="price" placeholder="0.00"
@@ -260,7 +278,7 @@
                     </div>
                 </div>
                 <!-- Sidebar -->
-                <div class="col xl3 m4 s12">
+                <div class="col xl3 m2 s12">
                     <div class="card invoice-action-wrapper mb-10">
                         <div class="card-content">
                             <div class="invoice-action-btn">
@@ -327,6 +345,16 @@
 
                 let retailLetter = $r('select#seira option:selected').text();
 
+                if(retailLetter.indexOf('ΑΛΠ') === 0) {
+                    $r('.product_service-field').hide();
+                    $r('.product-field').show();
+                    $r('#retailType').val('11.1');
+                } else {
+                    $r('.product_service-field').show();
+                    $r('.product-field').hide();
+                    $r('#retailType').val('11.2');
+                }
+
                 let pageToken = $r('meta[name="csrf-token"]').attr('content');
 
                 $r.ajaxSetup({
@@ -347,6 +375,20 @@
                     }
                 });
             });
+
+
+            $r('button.invoice-repeat-btn').on('click', function(){
+                let retailLetter = $r('select#seira option:selected').text();
+
+                if(retailLetter.indexOf('ΑΛΠ') === 0) {
+                    $r('.product_service-field').hide();
+                    $r('.product-field').show();
+                } else {
+                    $r('.product_service-field').show();
+                    $r('.product-field').hide();
+                }
+               console.log('repeater clicked');
+            });
         });
 
         $r('input[type="submit"]').on('click', function () {
@@ -355,7 +397,8 @@
         $r.fn.countPrices = function () {
             let finalPrice = 0.00;
             $r('.count-repeater').each(function () {
-                let price = parseFloat($r(this).find('.price-field').val());
+                let price = parseFloat($r(this).find('.price-field').val() * $r(this).find('.quantity-field').val());
+                console.log(price);
                 if(price) {
                     if($r(this).find('.vat-field').val() === '') {
                         $r(this).find('.vat-field').val(parseFloat((24/100) * price).toFixed(2));
@@ -372,6 +415,18 @@
 
         $r(document).on('mouseout', '.count-repeater', function () {
             $r(this).countPrices();
+        });
+        $r(document).on('change', 'select.product-field', function() {
+            let vatId = $r('option:selected', this).attr('data-vatId');
+            let price = $r('option:selected', this).attr('data-price');
+            let vat = $r('option:selected', this).attr('data-vat');
+            let extractRowName = $r(this).attr('name');
+            let rowName =  extractRowName.substring(0, 11);
+
+            $r('select[name="'+rowName+'[vat_id]"]').val(vatId);
+            $r('input[name="'+rowName+'[price]"]').val(price);
+            $r('input[name="'+rowName+'[vat]"]').val(vat);
+
         });
 
     </script>

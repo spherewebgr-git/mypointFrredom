@@ -260,7 +260,7 @@ if(!function_exists('getRetailPrices'))
         $vats = [];
         $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
         foreach($items as $item) {
-            $netValue[] = $item->price;
+            $netValue[] = $item->price - $item->vat;
             $vats[] = $item->vat;
         }
 
@@ -410,6 +410,14 @@ if(!function_exists('getClient'))
         $client = Client::all()->where('id', '=', $client_id)->first();
 
         return $client;
+    }
+}
+
+if(!function_exists('getProductByID')) {
+    function getProductByID($id) {
+        $product = Goods::query()->where('id', '=', $id)->first();
+
+        return $product;
     }
 }
 
@@ -703,6 +711,10 @@ if(!function_exists('getInvoiceTypeName'))
                 return "Συμβόλαιο - Έσοδο Απόδειξη Είσπραξης";
             case $id === '8.2':
                 return "Απόδειξη Είσπραξης Φόρου Διαμονής";
+            case $id === '11.1' :
+                return "Απόδειξη Λιανικής Πώλησης";
+            case $id === '11.2' :
+                return "Απόδειξη Λιανικής Παροχής Υπηρεσιών";
             case $id === '13.3':
                 return "Κοινόχρηστα";
             case $id === '13.4':

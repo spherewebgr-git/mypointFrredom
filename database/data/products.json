@@ -6,7 +6,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "00158",
@@ -15,7 +16,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "00159",
@@ -24,7 +26,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0697",
@@ -33,7 +36,8 @@
         "price": "4.33",
         "retailPrice": "4.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0698",
@@ -42,7 +46,8 @@
         "price": "4.33",
         "retailPrice": "4.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0699",
@@ -51,7 +56,8 @@
         "price": "4.95",
         "retailPrice": "5.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0700",
@@ -60,7 +66,8 @@
         "price": "4.15",
         "retailPrice": "4.70",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0846",
@@ -69,7 +76,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0848",
@@ -78,7 +86,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0849",
@@ -87,7 +96,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0873",
@@ -96,7 +106,8 @@
         "price": "3.62",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0874",
@@ -105,7 +116,8 @@
         "price": "3.62",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0875",
@@ -114,7 +126,8 @@
         "price": "3.62",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0877",
@@ -123,7 +136,8 @@
         "price": "3.62",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0878",
@@ -132,7 +146,8 @@
         "price": "3.62",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0879",
@@ -141,7 +156,8 @@
         "price": "2.57",
         "retailPrice": "2.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0880",
@@ -150,7 +166,8 @@
         "price": "2.57",
         "retailPrice": "2.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0881",
@@ -159,7 +176,8 @@
         "price": "2.57",
         "retailPrice": "2.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0882",
@@ -168,7 +186,8 @@
         "price": "2.74",
         "retailPrice": "3.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0883",
@@ -177,7 +196,8 @@
         "price": "2.74",
         "retailPrice": "3.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "0910",
@@ -186,7 +206,8 @@
         "price": "3.08",
         "retailPrice": "3.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619024",
@@ -195,7 +216,8 @@
         "price": "4.51",
         "retailPrice": "5.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619055",
@@ -204,7 +226,8 @@
         "price": "3.54",
         "retailPrice": "4.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 5
     },
     {
         "productNumber": "5214000619093",
@@ -213,7 +236,8 @@
         "price": "5.31",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 2
     },
     {
         "productNumber": "5214000619185",
@@ -222,7 +246,8 @@
         "price": "4.25",
         "retailPrice": "4.80",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619291",
@@ -231,7 +256,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619352",
@@ -240,7 +266,8 @@
         "price": "3.63",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619376",
@@ -249,7 +276,8 @@
         "price": "3.72",
         "retailPrice": "4.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619413",
@@ -258,7 +286,8 @@
         "price": "3.81",
         "retailPrice": "4.30",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619482",
@@ -267,7 +296,8 @@
         "price": "2.48",
         "retailPrice": "2.80",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 6
     },
     {
         "productNumber": "5214000619550",
@@ -276,7 +306,8 @@
         "price": "2.65",
         "retailPrice": "3.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 4
     },
     {
         "productNumber": "5214000619598",
@@ -285,7 +316,8 @@
         "price": "2.74",
         "retailPrice": "3.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "5214000619871",
@@ -294,7 +326,8 @@
         "price": "3.89",
         "retailPrice": "4.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "FD1702E",
@@ -303,7 +336,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "FD1703E",
@@ -312,7 +346,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "FD171E",
@@ -321,7 +356,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 26
     },
     {
         "productNumber": "FD172E",
@@ -330,7 +366,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 24
     },
     {
         "productNumber": "FD173E",
@@ -339,7 +376,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 33
     },
     {
         "productNumber": "FD174E",
@@ -348,7 +386,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 28
     },
     {
         "productNumber": "FD175",
@@ -357,7 +396,8 @@
         "price": "5.31",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "FD242",
@@ -366,7 +406,8 @@
         "price": "2.65",
         "retailPrice": "3.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 64
     },
     {
         "productNumber": "NUTOR012",
@@ -375,7 +416,8 @@
         "price": "3.36",
         "retailPrice": "3.80",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 6
     },
     {
         "productNumber": "NUTOR013",
@@ -384,7 +426,8 @@
         "price": "5.66",
         "retailPrice": "6.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 7
     },
     {
         "productNumber": "NUTOR014",
@@ -393,7 +436,8 @@
         "price": "5.66",
         "retailPrice": "6.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 7
     },
     {
         "productNumber": "NUTOR029",
@@ -402,7 +446,8 @@
         "price": "5.49",
         "retailPrice": "6.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 9
     },
     {
         "productNumber": "OB2308E",
@@ -411,7 +456,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2309E",
@@ -420,7 +466,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2311E",
@@ -429,7 +476,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2313E",
@@ -438,7 +486,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2391E",
@@ -447,7 +496,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 12
     },
     {
         "productNumber": "OB2392E",
@@ -456,7 +506,8 @@
         "price": "5.31",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 15
     },
     {
         "productNumber": "OB2395E",
@@ -465,7 +516,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 13
     },
     {
         "productNumber": "OB2503",
@@ -474,7 +526,8 @@
         "price": "3.54",
         "retailPrice": "4.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 14
     },
     {
         "productNumber": "OB2508E",
@@ -483,7 +536,8 @@
         "price": "3.54",
         "retailPrice": "4.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 14
     },
     {
         "productNumber": "OB2509",
@@ -492,7 +546,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2510E",
@@ -501,7 +556,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2513E",
@@ -510,7 +566,8 @@
         "price": "5.04",
         "retailPrice": "5.70",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2514E",
@@ -519,7 +576,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2515E",
@@ -528,7 +586,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2516E",
@@ -537,7 +596,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2517E",
@@ -546,7 +606,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 10
     },
     {
         "productNumber": "OB2518E",
@@ -555,7 +616,8 @@
         "price": "7.96",
         "retailPrice": "9.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2519E",
@@ -564,7 +626,8 @@
         "price": "7.52",
         "retailPrice": "8.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "OB2520E",
@@ -573,7 +636,8 @@
         "price": "5.31",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 12
     },
     {
         "productNumber": "OB2521E",
@@ -582,7 +646,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 15
     },
     {
         "productNumber": "OB2522E",
@@ -591,7 +656,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 12
     },
     {
         "productNumber": "OB2523E",
@@ -600,7 +666,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 16
     },
     {
         "productNumber": "OB2524E",
@@ -609,7 +676,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 7
     },
     {
         "productNumber": "OB2525E",
@@ -618,7 +686,8 @@
         "price": "4.42",
         "retailPrice": "5.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 14
     },
     {
         "productNumber": "OB2526E",
@@ -627,7 +696,8 @@
         "price": "4.87",
         "retailPrice": "5.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 15
     },
     {
         "productNumber": "PA85070",
@@ -636,7 +706,8 @@
         "price": "0.00",
         "retailPrice": "0.00",
         "mm": "1",
-        "vatId": "8"
+        "vatId": "8",
+        "quantity": 0
     },
     {
         "productNumber": "SG00141250",
@@ -645,7 +716,8 @@
         "price": "3.63",
         "retailPrice": "4.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG00910150",
@@ -654,7 +726,8 @@
         "price": "4.33",
         "retailPrice": "4.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG00920150",
@@ -663,7 +736,8 @@
         "price": "5.49",
         "retailPrice": "6.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG00920250",
@@ -672,7 +746,8 @@
         "price": "5.49",
         "retailPrice": "6.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG00920350",
@@ -681,7 +756,8 @@
         "price": "5.49",
         "retailPrice": "6.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG00920450",
@@ -690,7 +766,8 @@
         "price": "5.31",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG020125",
@@ -699,7 +776,8 @@
         "price": "3.71",
         "retailPrice": "4.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG04101",
@@ -708,7 +786,8 @@
         "price": "3.98",
         "retailPrice": "4.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG04250",
@@ -717,7 +796,8 @@
         "price": "2.21",
         "retailPrice": "2.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG04350",
@@ -726,7 +806,8 @@
         "price": "3.18",
         "retailPrice": "3.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG051050",
@@ -735,7 +816,8 @@
         "price": "3.00",
         "retailPrice": "3.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG051065",
@@ -744,7 +826,8 @@
         "price": "4.60",
         "retailPrice": "5.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG06150",
@@ -753,7 +836,8 @@
         "price": "3.72",
         "retailPrice": "4.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG07001",
@@ -762,7 +846,8 @@
         "price": "6.11",
         "retailPrice": "6.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG07150",
@@ -771,7 +856,8 @@
         "price": "3.10",
         "retailPrice": "3.50",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG12150",
@@ -780,7 +866,8 @@
         "price": "3.19",
         "retailPrice": "3.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG14001",
@@ -789,7 +876,8 @@
         "price": "3.72",
         "retailPrice": "4.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG141250",
@@ -798,7 +886,8 @@
         "price": "5.30",
         "retailPrice": "6.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG17001",
@@ -807,7 +896,8 @@
         "price": "3.53",
         "retailPrice": "4.00",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 18
     },
     {
         "productNumber": "SG18002",
@@ -816,7 +906,8 @@
         "price": "3.45",
         "retailPrice": "3.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 18
     },
     {
         "productNumber": "SG213150",
@@ -825,7 +916,8 @@
         "price": "2.30",
         "retailPrice": "2.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG214150",
@@ -834,7 +926,8 @@
         "price": "3.45",
         "retailPrice": "3.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG215150",
@@ -843,7 +936,8 @@
         "price": "2.57",
         "retailPrice": "2.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG217150",
@@ -852,7 +946,8 @@
         "price": "4.51",
         "retailPrice": "5.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG218150",
@@ -861,7 +956,8 @@
         "price": "4.96",
         "retailPrice": "5.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG22020",
@@ -870,7 +966,8 @@
         "price": "5.66",
         "retailPrice": "6.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG23020",
@@ -879,7 +976,8 @@
         "price": "5.40",
         "retailPrice": "6.10",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG23180",
@@ -888,7 +986,8 @@
         "price": "8.23",
         "retailPrice": "9.30",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG24051",
@@ -897,7 +996,8 @@
         "price": "3.18",
         "retailPrice": "3.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG25025",
@@ -906,7 +1006,8 @@
         "price": "6.99",
         "retailPrice": "7.90",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG258250",
@@ -915,7 +1016,8 @@
         "price": "4.16",
         "retailPrice": "4.70",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "SG26050",
@@ -924,7 +1026,8 @@
         "price": "4.95",
         "retailPrice": "5.60",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 0
     },
     {
         "productNumber": "STAY7107001",
@@ -933,7 +1036,8 @@
         "price": "3.72",
         "retailPrice": "4.20",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 12
     },
     {
         "productNumber": "STAY7107004",
@@ -942,7 +1046,8 @@
         "price": "3.89",
         "retailPrice": "4.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 11
     },
     {
         "productNumber": "STAY7107006",
@@ -951,6 +1056,7 @@
         "price": "3.89",
         "retailPrice": "4.40",
         "mm": "1",
-        "vatId": "2"
+        "vatId": "2",
+        "quantity": 12
     }
 ]

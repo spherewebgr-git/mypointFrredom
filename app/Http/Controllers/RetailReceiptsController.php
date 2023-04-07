@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Goods;
 use App\Models\RetailReceiptsItems;
 use App\Models\Retails;
 use App\Models\Seires;
@@ -65,13 +66,14 @@ class RetailReceiptsController extends Controller
     {
         $lastInvoice = Retails::all()->sortBy('invoiceID')->last();
         $seires = Seires::query()->where('type', '=', 'retails')->get();
+        $products = Goods::all();
 
         if($lastInvoice) {
             $last = $lastInvoice->retailID;
         } else {
             $last = null;
         }
-        return view('retail_receipts.new', ['last' => $last, 'seires' => $seires]);
+        return view('retail_receipts.new', ['last' => $last, 'seires' => $seires, 'products' => $products]);
     }
 
     public function store(Request $request)
@@ -90,6 +92,7 @@ class RetailReceiptsController extends Controller
             array(
                 'retailID' => $request->retailID,
                 'hashID' => $hash,
+                'invoiceType' => $request->retail_type,
                 'seira' => $request->seira,
                 'client_description' => $request->client_description,
                 'date' => $date,
@@ -101,7 +104,7 @@ class RetailReceiptsController extends Controller
             DB::table('retail_receipts_items')->insert([
                 'retailHash' => $hash,
                 'payment_method' => $item['payment_method'],
-                'product_service' => $item['product_service'],
+                'product_service' => $item['product_service'] ?? $item['product'],
                 'vat_id' => $item['vat_id'],
                 'price' => $item['price'],
                 'vat' => $item['vat'],
@@ -110,12 +113,22 @@ class RetailReceiptsController extends Controller
         }
 
         if(isset($request->printNow) && $request->printNow == 'on') {
-            $retail_receipt = Retails::query()->where('retailID', '=' , $request->retailID )->first();
-            $settings = Settings::all()->first();
-
-            return view('retail_receipts.print', ['retail' => $retail_receipt, 'settings' => $settings]);
+            return redirect('/print-retail-receipt/'.$hash);
         }
         return redirect('/retail-receipts');
+    }
+
+    public function print($retail) {
+        $retailReceipt = Retails::query()->where('hashID', '=', $retail)->first();
+
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+
+
+        return view('retail_receipts.print80', ['retail' => $retailReceipt, 'settings' => $settings]);
     }
 
     public function edit($retail) {
@@ -244,5 +257,18 @@ class RetailReceiptsController extends Controller
         }
 
         return view('retail_receipts.view', ['retail' => $retail, 'settings' => $settings]);
+    }
+
+    public function qrView($retailHash)
+    {
+        $retail = Retails::query()->where('hashID', '=', $retailHash)->first();
+
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+
+        return view('retail_receipts.qrcode-view', ['retail' => $retail, 'settings' => $settings]);
     }
 }

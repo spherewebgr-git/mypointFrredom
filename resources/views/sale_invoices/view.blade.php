@@ -147,27 +147,27 @@
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper">
                 <div class="card-content">
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-4">check</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="javascript:if(window.print)window.print()" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
                             <i class="material-icons mr-4">print</i>
                             <span>Εκτύπωση</span>
                         </a>
                     </div>
                     @if(!$invoice->mark || !$invoice->goods)
-                        <div class="invoice-action-btn">
+                        <div class="invoice-action-btn mb-2">
                             <a href="{{route('sale_invoice.edit', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">edit</i>
                                 <span>Επεξεργασία</span>
                             </a>
                         </div>
                         @if(!$invoice->mark)
-                        <div class="invoice-action-btn">
+                        <div class="invoice-action-btn mb-2">
                             <a href="{{route('sale_invoice.mydata', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">backup</i>
                                 <span>Αποστολή στο myData</span>
@@ -175,19 +175,19 @@
                         </div>
                         @endif
                     @endif
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="{{route('sale_invoice.save', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Δημιουργία PDF & Λήψη</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="{{route('sale_invoice.download', $invoice->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Λήψη PDF</span>
                         </a>
                     </div>
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="#" id="addPaymentsPage" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-3">euro_symbol</i>
                             <span class="text-nowrap">Προσθήκη Τρόπων Πληρωμής</span>

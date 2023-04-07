@@ -32,6 +32,10 @@ class SettingsSeeder extends Seeder
                 'value' =>  'ΠΛΑΤΩΝΟΣ 12, 17455, ΑΛΙΜΟΣ',
             ],
             [
+                'type' => 'address_0_edra',
+                'value' =>  'ΠΛΑΤΩΝΟΣ 12, 17455, ΑΛΙΜΟΣ, ΑΘΗΝΑ',
+            ],
+            [
                 'type' => 'phone',
                 'value' =>  '210-9825580',
             ],

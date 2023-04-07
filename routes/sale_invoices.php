@@ -18,5 +18,5 @@ Route::name('sale_invoice.')->prefix('/')->group(function () {
     Route::get('/download-sale_invoice/{invoice:hashID}', [SaleInvoicesController::class, 'download'])->name('download');
     Route::get('/myData-sale_invoice/{invoice:hashID}', [SaleInvoicesController::class, 'sendInvoice'])->name('mydata');
 //    Route::post('/myData-invoices-multiple', [SaleInvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');
-//    Route::post('/last-invoice-ajax', [SaleInvoicesController::class, 'lastInvoiceAjax'])->name('last-retail');
+    Route::post('/last-saleInvoice-ajax', [SaleInvoicesController::class, 'lastInvoiceAjax'])->name('last-seira');
 });

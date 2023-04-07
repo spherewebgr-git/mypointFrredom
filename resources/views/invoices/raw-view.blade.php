@@ -303,6 +303,10 @@
                 </div>
                 <div class="clear"></div>
                 <hr class="main-color">
+                @if(isset($invoice->mark) && $invoice->mark > 0)
+                    <div style="padding: 140px 0 0 0;float: right;font-size: 18px;font-weight: 500;">MAPK: {{$invoice->mark}}</div>
+                @endif
+                <div class="clear"></div>
                 <table class="invoiceform footer">
                     <tbody>
                     <tr>

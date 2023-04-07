@@ -1,0 +1,57 @@
+//@import 'variables.scss';
+
+#printRetail {
+    font-family: inherit!important;
+    color: #000;
+
+    & p {
+        font-size: 18px;
+    }
+    & .row {
+        max-width: 700px;
+        width: 100%;
+        & h1, h2, h3, h4, h5 {
+            font-family: inherit!important;
+        }
+        & h4 {
+            font-size: 21px;
+            font-weight: 600;
+            border-bottom: 1px solid;
+            padding: 0 0 7px 0;
+            margin: 12px 0 19px 0
+        }
+        & h5 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 30px 0 5px 0;
+            padding: 0 0 5px 0;
+            border-bottom: 1px solid;
+        }
+        & table {
+            & tr {
+                border: none;
+                & td {
+                    padding: 3px 5px;
+                    font-weight: 400;
+                    font-size: 18px;
+                }
+            }
+            & p {
+                font-family: inherit;
+            }
+        }
+    }
+    & .retail-receipt {
+        &--head {
+            & p {
+                font-size: 22px;
+            }
+        }
+        &--footer {
+            margin-top: 3rem;
+            padding: 1rem 0;
+            border-top: 2px dashed;
+            border-bottom: 2px dashed;
+        }
+    }
+}

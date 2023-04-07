@@ -47,7 +47,7 @@ class SaleInvoicesController extends Controller
             $lastInvoice = '';
         }
 
-        return view('sale_invoices.new', ['last' => $lastInvoice, 'seires' => $seires, 'clients' => $clients, 'producta' => $products]);
+        return view('sale_invoices.new', ['last' => $lastInvoice, 'seires' => $seires, 'clients' => $clients, 'products' => $products]);
     }
 
     public function store(Request $request)
@@ -129,7 +129,7 @@ class SaleInvoicesController extends Controller
     public function edit($hashID) {
         $invoice = SaleInvoices::query()->where('hashID', '=', $hashID)->first();
         $clients = Client::all()->sortBy('company');
-        $seires = Seires::query()->where('type', '=', 'invoices')->get();
+        $seires = Seires::query()->where('type', '=', 'sale_invoices')->get();
 
 
         return view('sale_invoices.new', ['last' => '', 'clients' => $clients, 'invoice' => $invoice, 'seires' => $seires]);
@@ -252,5 +252,16 @@ class SaleInvoicesController extends Controller
         }
         $final = array_sum($finalIncome);
         return view('sale_invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
+    }
+
+    public function lastInvoiceAjax(Request $request)
+    {
+        $letter = $request->seira;
+
+        $last = SaleInvoices::query()->where('seira', '=', $letter)->orderByDesc('sale_invoiceID')->first();
+        if($last == null) {
+            return '00';
+        }
+        return $last->sale_invoiceID + 1;
     }
 }

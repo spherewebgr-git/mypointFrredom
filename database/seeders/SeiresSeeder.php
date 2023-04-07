@@ -30,7 +30,7 @@ class SeiresSeeder extends Seeder
                 'type' => 'retails'
             ],
             [
-                'letter' => 'ΤΙΜ',
+                'letter' => 'ANEY',
                 'type' => 'invoices'
             ],
             [
@@ -43,6 +43,10 @@ class SeiresSeeder extends Seeder
             ],
             [
                 'letter' => 'ANEY',
+                'type' => 'sale_invoices'
+            ],
+            [
+                'letter' => 'ΤΙΜ',
                 'type' => 'sale_invoices'
             ],
             [

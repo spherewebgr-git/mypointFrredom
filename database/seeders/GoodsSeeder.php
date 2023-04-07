@@ -37,7 +37,7 @@ class GoodsSeeder extends Seeder
 
             GoodsStorage::create([
                 'product_id' => $obj['productNumber'],
-                'quantity' => 0,
+                'quantity' => $obj['quantity'],
                 'held_quantity' => 0
             ]);
 

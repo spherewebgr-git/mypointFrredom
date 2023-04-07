@@ -10,6 +10,7 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
 @endsection
 
@@ -32,7 +33,7 @@
                             <div class="row mb-3">
                                 <div class="col xl4 m12 display-flex align-items-center">
                                     <h6 class="invoice-number mr-4 mb-5">Σειρά: </h6>
-                                    <select name="seira" id="seira">
+                                    <select name="seira" id="seira" @if(isset($invoice) && $invoice->mark > 0) disabled @endif>
                                         @foreach($seires as $seira)
                                             <option value="{{$seira->letter}}" @if(isset($invoice->seira) && $invoice->seira == $seira->letter) selected @endif>{{$seira->letter}}</option>
                                         @endforeach
@@ -48,7 +49,7 @@
                                         <div class="display-flex align-items-center">
                                             <small>Ημ/νία Έκδοσης: </small>
                                             <div class="display-flex ml-4">
-                                                <input type="text" class="datepicker mb-1" name="date"
+                                                <input type="text" class="datepicker mb-1" name="date" @if(isset($invoice) && $invoice->mark > 0) disabled @endif
                                                        placeholder="Επιλέξτε Ημ/νία"
                                                        @if(isset($invoice->date))
                                                        value="{{\Carbon\Carbon::parse($invoice->date)->format('d/m/Y')}}"
@@ -69,7 +70,7 @@
                                         <div class="col s3 m4">
                                             <label class="m-0" for="client">Πελάτης</label>
                                         </div>
-                                        <select class="invoice-item-select browser-default" id="client" name="client">
+                                        <select class="invoice-item-select browser-default" id="client" name="client" @if(isset($invoice) && $invoice->mark > 0) disabled @endif>
                                             <option value="" selected disabled>Επιλέξτε Πελάτη</option>
                                             @foreach($clients as $client)
                                                 @if($client->disabled != 1)
@@ -91,7 +92,7 @@
                                         <div class="col s12 m12">
                                             <label class="m-0" for="paymentMethod">Επιλέξτε τρόπο πληρωμής</label>
                                         </div>
-                                        <select name="paymentMethod" id="paymentMethod">
+                                        <select name="paymentMethod" id="paymentMethod" @if(isset($invoice) && $invoice->mark > 0) disabled @endif>
                                             <option value="1" @if(isset($invoice->payment_method) && $invoice->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
                                             <option value="2" @if(isset($invoice->payment_method) && $invoice->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
                                             <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
@@ -171,8 +172,11 @@
                                                                class="quantity-field">
                                                     </div>
                                                     <div class="col m8 s12 input-field">
-                                                        <textarea class="materialize-textarea"
-                                                                  name="description"></textarea>
+                                                        <select name="product" id="product" class="invoice-select2 select2 browser-default select2-hidden-accessible">
+                                                            @foreach($products as $product)
+                                                                <option value="{{$product->id}}">{{$product->product_name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
 
                                                     <div class="col m2 s12 input-field">
@@ -305,10 +309,17 @@
     <script src="{{asset('vendors/form_repeater/jquery.repeater.min.js')}}"></script>
 @endsection
 @section('page-script')
+    <script src="{{asset('js/scripts/select2.full.min.js')}}"></script>
     <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
     <script>
         $m = jQuery.noConflict();
         $m(document).ready(function () {
+
+            $m(".select2").select2({
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
             $m(this).countPrices();
             @if(Session::has('notify'))
             M.toast({
@@ -332,7 +343,7 @@
                 });
 
                 $m.ajax({
-                    url: "{{ url('/last-invoice-ajax') }}",
+                    url: "{{ url('/last-saleInvoice-ajax') }}",
                     method: 'post',
                     data: {
                         seira: invoiceLetter

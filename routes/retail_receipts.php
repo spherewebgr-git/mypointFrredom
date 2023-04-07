@@ -16,6 +16,8 @@ Route::name('retail-receipts.')->prefix('/')->group(function () {
     Route::post('/update-retail-receipt/{retail:hashID}', [RetailReceiptsController::class, 'update'])->name('update');
     Route::get('/download-retail-receipt/{retail:hashID}', [RetailReceiptsController::class, 'download'])->name('download');
     Route::get('/myData-retail-receipt/{retail:hashID}', [RetailReceiptsController::class, 'sendInvoice'])->name('mydata');
+    Route::get('/print-retail-receipt/{retail:hashID}', [RetailReceiptsController::class, 'print'])->name('print');
+    Route::get('/retailReceiptQRCode/{retail:hashID}', [RetailReceiptsController::class, 'qrView'])->name('qrcode');
     Route::post('/myData-ajax-single', [RetailReceiptsController::class, 'sendInvoiceAjax'])->name('mydata-ajax');
     Route::post('/last-retail-ajax', [RetailReceiptsController::class, 'lastRetailAjax'])->name('last-retail');
 });

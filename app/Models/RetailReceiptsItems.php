@@ -9,7 +9,7 @@ class RetailReceiptsItems extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'retailHash', 'product_service', 'price', 'vat', 'vat_id', 'payment_method'
+        'retailHash', 'quantity', 'product_service', 'price', 'vat', 'vat_id', 'payment_method'
     ];
 
 }

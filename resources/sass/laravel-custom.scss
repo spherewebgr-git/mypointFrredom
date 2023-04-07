@@ -52,6 +52,7 @@ div#tour {
 }
 .btn, .btn-small, .btn-large {
     background-color: #4e4e4e;
+    color: #fff!important;
 }
 .btn:hover, .btn-small:hover, .btn-large:hover {
     background-color: #000000;
@@ -81,6 +82,14 @@ div#tour {
             display: none;
         }
     }
+}
+
+select.invoice-select2 + .select2-container--default .select2-selection--single {
+    border: none;
+    border-bottom: thin solid #ddd;
+    border-radius: inherit;
+    padding: 6px;
+    height: 46px;
 }
 
 table {
@@ -353,6 +362,11 @@ table {
         &.active {
             & td:first-child {
                 border-left: 4px solid #60d360;
+            }
+        }
+        &.inactive {
+            & td:first-child {
+                border-left: 4px solid #f36767;
             }
         }
         & td {

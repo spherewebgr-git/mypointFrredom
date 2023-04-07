@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goods;
+use App\Models\GoodsStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -89,6 +90,42 @@ class GoodsController extends Controller
             ]);
         }
 
+        return back();
+    }
+
+    public function viewStorage() {
+        $products = Goods::all();
+
+        return view('products.update-storage', ['products' => $products]);
+    }
+
+    public function addToStorage(Request $request) {
+        //dd($request);
+
+        $products = [];
+
+        foreach($request->all() as $key => $item ) {
+            if($item != null) {
+                if($key != '_token') {
+                    $extractProductId = explode('-', $key);
+                    $id = $extractProductId[1];
+                    $field = $extractProductId[0];
+                    $products[$id][$field] = $item;
+                }
+            }
+        }
+        $new = [];
+        foreach($products as $productId => $element) {
+            $theProduct = Goods::query()->where('id', '=', $productId)->first();
+            $storage = $theProduct->storage;
+            $storageQuantity = $theProduct->storage->quantity;
+            if(isset($element['barcode'])) {
+                $theProduct->update(['barcode' => $element['barcode']]);
+            }
+            if(isset($element['quantity'])) {
+                $storage->update(['quantity' => $storageQuantity + $element['quantity']]);
+            }
+        }
         return back();
     }
 }

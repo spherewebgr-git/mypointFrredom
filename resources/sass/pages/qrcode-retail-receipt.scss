@@ -1,0 +1,151 @@
+//@import 'variables.scss';
+
+body {
+    background-color: #fff;
+    font-family: "Roboto", sans-serif!important;
+    & h1, h2, h3, h4, h5 {
+        font-family: "Roboto", sans-serif!important;
+    }
+
+    & .qrcode-retail-receipt-wrapper {
+        & .retail-receipt {
+            &--head {
+                &---invoiceType {
+                    padding: 35px 0 20px 0;
+                    border-radius: 20px 20px 0 0;
+                    margin: 9px 3px;
+                    & h1 {
+                        font-size: 22px;
+                        font-weight: 400;
+                        text-align: center;
+                        margin: 0;
+                        color: #fff;
+                    }
+                    & .back {
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        left: 45px;
+                        border-left: 2px solid #fff;
+                        border-bottom: 2px solid #fff;
+                        cursor: pointer;
+                        transform: rotate(45deg);
+                    }
+                }
+                &---info {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 15px 25px;
+                    &-left {
+                        width: 60%;
+                        & .info-items {
+                            font-size: 13px;
+                            font-weight: 600;
+                            padding: 8px;
+                        }
+                    }
+                    &-right {
+                        width: 40%;
+                        text-align: right;
+                        & h2 {
+                            font-size: 23px;
+                            font-weight: 600;
+                            margin-bottom: 2px;
+                            margin-top: 55px;
+                        }
+                        & h4 {
+                            font-size: 15px;
+                            font-weight: 400;
+                            margin-bottom: 5px;
+                            margin-top: 45px;
+                        }
+                        & .retailValue {
+                            font-size: 22px;
+                            margin-top: -4px;
+                        }
+                        & .retail-number {
+                            font-size: 16px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+            &--body {
+                padding: 0 25px;
+                display: flex;
+                flex-wrap: wrap;
+                & h3 {
+                    font-weight: 600;
+                    font-size: 17px;
+                    padding: 13px 10px;
+                    margin: 1rem 0 0.5rem 0;
+                    width: 100%;
+                }
+                &---left {
+                    width: 50%;
+                    padding: 0 0 0 10px;
+                }
+                &---right {
+                    width: 50%;
+                    text-align: right;
+                    padding: 0 10px 0 0;
+                }
+                & .item {
+                    margin-bottom: 20px;
+                    &-title {
+                        font-weight: bold;
+                    }
+                    &-value {
+
+                    }
+                }
+                & table {
+                    & tr {
+                        border: none;
+                        &.product-body {
+                            border-bottom: thin solid;
+                        }
+                        &.product-head {
+                            & td {
+                                padding-top: 25px!important;
+                            }
+                        }
+                        & th {
+                            color: #fff;
+                            padding: 5px 10px;
+                        }
+                        & td {
+                            padding: 5px 10px;
+                            &.product-name {
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                    &.synola {
+                        margin-top: 40px;
+                        margin-bottom: 30px;
+                        width: 50%;
+                        margin-left: 50%;
+                        & tr {
+                            & td {
+                                &.right {
+
+                                }
+                            }
+                            &.total {
+                                & td {
+                                    background-color: #919191;
+                                    color: #fff;
+                                    &.right {
+                                        font-size: 18px;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

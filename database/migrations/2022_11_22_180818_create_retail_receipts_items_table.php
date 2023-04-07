@@ -18,6 +18,7 @@ class CreateRetailReceiptsItemsTable extends Migration
             $table->string('retailHash');
             $table->integer('payment_method')->default(3);
             $table->string('product_service');
+            $table->integer('quantity')->default(1);
             $table->float('price');
             $table->float('vat');
             $table->unsignedBigInteger('vat_id')->default(1);

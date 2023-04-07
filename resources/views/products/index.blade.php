@@ -27,6 +27,13 @@
                             <span>Νέο Προϊόν</span>
                         </a>
                     </div>
+                    <div class="invoice-create-btn col">
+                        <a href="{{route('products.storage')}}"
+                           class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                            <i class="material-icons">add</i>
+                            <span>Ενημέρωση Αποθήκης</span>
+                        </a>
+                    </div>
                     <div class="invoice-filter-action col">
                         <a href="javascript:if(window.print)window.print()" class="btn waves-effect waves-light invoice-export border-round z-depth-4">
                             <i class="material-icons">print</i>
