@@ -98,6 +98,8 @@
                                             <option value="3" @if(isset($invoice->payment_method) && $invoice->payment_method == 3) selected @endif>Μετρητά</option>
                                             <option value="4" @if(isset($invoice->payment_method) && $invoice->payment_method == 4) selected @endif>Επιταγή</option>
                                             <option value="5" @if(!isset($invoice->payment_method) || $invoice->payment_method == 5) selected @endif>Επί Πιστώσει</option>
+                                            <option value="6" @if(isset($invoice->payment_method) && $invoice->payment_method == 6) selected @endif>Web Banking</option>
+                                            <option value="7" @if(isset($invoice->payment_method) && $invoice->payment_method == 7) selected @endif>POS / ePOS</option>
                                         </select>
                                     </div>
                                 </div>
@@ -105,7 +107,7 @@
                             </div>
                             <!-- product details table-->
                             <div class="invoice-product-details mb-3">
-                                <div data-repeater-list="services">
+                                <div data-repeater-list="products">
                                     @if(isset($invoice->sale_invoiceID) && count($invoice->deliveredGoods) > 0)
                                         @foreach($invoice->deliveredGoods as $good)
                                             <div class="mb-2 count-repeater" data-repeater-item="">
@@ -115,7 +117,7 @@
                                                         <h6 class="m-0">Ποσότητα</h6>
                                                     </div>
                                                     <div class="col s3 m8">
-                                                        <h6 class="m-0">Περιγραφή</h6>
+                                                        <h6 class="m-0">Προϊόν</h6>
                                                     </div>
                                                     <div class="col s2">
                                                         <h6 style="margin-left: -40px">Τιμή</h6>
@@ -131,8 +133,11 @@
                                                                    class="quantity-field">
                                                         </div>
                                                         <div class="col m8 s12 input-field">
-                                                        <textarea class="materialize-textarea"
-                                                                  name="description">{{getProduct($good->delivered_good_id)['product_name']}}</textarea>
+                                                            <select name="product" id="product" class="invoice-select2 select2 browser-default select2-hidden-accessible">
+                                                                @foreach($products as $product)
+                                                                    <option value="{{$product->id}}" @if($good->id == $proct->id) selected @endif>{{$product->product_name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
 
                                                         <div class="col m2 s12 input-field">
@@ -154,34 +159,63 @@
                                         <div class="mb-2 count-repeater" data-repeater-item="">
                                             <!-- invoice Titles -->
                                             <div class="row mb-1">
-                                                <div class="col s2">
+                                                <div class="col s1">
                                                     <h6 class="m-0">Ποσότητα</h6>
                                                 </div>
-                                                <div class="col s3 m8">
-                                                    <h6 class="m-0">Περιγραφή</h6>
+                                                <div class="col s3 m7">
+                                                    <h6 class="m-0">Προϊόν</h6>
                                                 </div>
                                                 <div class="col s2">
+                                                    <h6 style="margin-left: -40px">Συντελεστής ΦΠΑ</h6>
+                                                </div>
+                                                <div class="col s1">
                                                     <h6 style="margin-left: -40px">Τιμή</h6>
+                                                </div>
+                                                <div class="col s1">
+                                                    <h6 style="margin-left: -40px">ΦΠΑ</h6>
                                                 </div>
 
                                             </div>
                                             <div class="invoice-item display-flex">
                                                 <div class="invoice-item-filed row pt-1" style="width: 100%">
-                                                    <div class="col m2 s12 input-field">
-                                                        <input type="text" value="1" name="quantity"
+                                                    <div class="col m1 s12 input-field">
+                                                        <input type="number" value="1" name="quantity"
                                                                class="quantity-field">
                                                     </div>
-                                                    <div class="col m8 s12 input-field">
-                                                        <select name="product" id="product" class="invoice-select2 select2 browser-default select2-hidden-accessible">
+                                                    <div class="col m7 s12 input-field">
+                                                        <select name="product" id="product" class="product-field invoice-select2 select2 browser-default select2-hidden-accessible">
                                                             @foreach($products as $product)
-                                                                <option value="{{$product->id}}">{{$product->product_name}}</option>
+                                                                <option
+                                                                    value="{{$product->id}}"
+                                                                    data-vatId="{{$product->product_vat_id}}"
+                                                                    data-price="{{$product->price}}"
+                                                                    data-max="{{$product->storage->quantity}}"
+                                                                    data-vat="{{$product->vat_price}}"
+                                                                    @if($product->active == 0 || $product->storage->quantity <= 0) class="inactive" @endif
+                                                                >{{$product->product_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-
                                                     <div class="col m2 s12 input-field">
+                                                        <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
+                                                            <option value="1">24%</option>
+                                                            <option value="4">17%</option>
+                                                            <option value="2" selected>13%</option>
+                                                            <option value="5">9%</option>
+                                                            <option value="3">6%</option>
+                                                            <option value="6">4%</option>
+                                                            <option value="7">0%</option>
+                                                            <option value="8">Μισθοδοσία, Αποσβέσεις κλπ.</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col m1 s12 input-field">
                                                         <input type="text" placeholder="000" name="price"
                                                                class="price-field">
+                                                    </div>
+                                                    <div class="col m1 s12 input-field">
+                                                        <input type="text" value="" name="vat" placeholder="0.00"
+                                                               class="vat-field">
                                                     </div>
                                                 </div>
                                                 <div
@@ -217,7 +251,7 @@
                                                         id="subtotal">00.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
-                                                <span class="invoice-subtotal-title">Φ.Π.Α. (24%)</span>
+                                                <span class="invoice-subtotal-title">Φ.Π.Α. (13%)</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span id="fpa">00.00</span>
                                                 </h6>
                                             </li>
@@ -368,23 +402,37 @@
                 finalPrice += quantity * price;
             });
             $m('#subtotal').text(parseFloat(finalPrice).toFixed(2));
-            $m('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
-            $m('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
-            if (finalPrice > 300 && $m('input#hasParakratisi').is(':checked')) {
-                $m('#parakratisi').text(parseFloat((20 / 100) * finalPrice).toFixed(2));
-                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice - (20 / 100) * finalPrice).toFixed(2));
-                $m('#parakratisiTotal').show();
-            } else {
-                $m('#parakratisi').text(parseFloat(0).toFixed(2));
-                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+            $m('#fpa').text(parseFloat((13 / 100) * finalPrice).toFixed(2));
+            $m('#finalPrice').text(parseFloat((13 / 100) * finalPrice + finalPrice).toFixed(2));
+
+                $m('#toPay').text(parseFloat((13 / 100) * finalPrice + finalPrice).toFixed(2));
                 $m('#parakratisiTotal').hide();
-            }
+
         }
 
         $m(document).on('mouseout', '.count-repeater', function () {
             $m(this).countPrices();
         });
+        $m(document).on('change', 'select.product-field', function() {
+            let vatId = $m('option:selected', this).attr('data-vatId');
+            let price = $m('option:selected', this).attr('data-price');
+            let vat = $m('option:selected', this).attr('data-vat');
+            let extractRowName = $m(this).attr('name');
+            let rowName =  extractRowName.substring(0, 11);
+            console.log(price);
 
+            $m('select[name="'+rowName+'[vat_id]"]').val(vatId);
+            $m('input[name="'+rowName+'[price]"]').val(price);
+            $m('input[name="'+rowName+'[vat]"]').val(vat);
+
+        });
+
+        $m(document).on('click', '.invoice-repeat-btn', function(){
+            $m(".select2").select2({
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+        });
 
     </script>
 

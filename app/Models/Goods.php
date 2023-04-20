@@ -40,4 +40,9 @@ class Goods extends Model
     {
         return $this->hasOne(GoodsStorage::class, 'product_id', 'product_number');
     }
+
+    public function holds()
+    {
+        return $this->hasMany(HoldedProduct::class, 'product_id', 'id');
+    }
 }

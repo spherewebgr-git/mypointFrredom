@@ -12,7 +12,8 @@ class GoodsStorage extends Model
     protected $fillable = [
         'product_id',
         'quantity',
-        'held_quantity'
+        'held_quantity',
+        'held_by'
     ];
 
     public function goods()

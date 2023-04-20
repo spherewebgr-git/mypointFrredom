@@ -105,11 +105,17 @@ class RetailReceiptsController extends Controller
                 'retailHash' => $hash,
                 'payment_method' => $item['payment_method'],
                 'product_service' => $item['product_service'] ?? $item['product'],
+                'quantity' => $item['quantity'],
                 'vat_id' => $item['vat_id'],
                 'price' => $item['price'],
                 'vat' => $item['vat'],
                 'created_at' => date('Y-m-d')
             ]);
+            if(isset($item['product'])) {
+
+                HoldFromStorage($item['quantity'], $item['product'], $hash);
+                removeFromStorage($item['quantity'], $item['product']);
+            }
         }
 
         if(isset($request->printNow) && $request->printNow == 'on') {
@@ -134,9 +140,10 @@ class RetailReceiptsController extends Controller
     public function edit($retail) {
         $retailReceipt = Retails::query()->where('hashID', '=', $retail)->first();
         $seires = Seires::query()->where('type', '=', 'retails')->get();
+        $products = Goods::all();
         //dd($retailReceipt);
 
-        return view('retail_receipts.new', ['retail' => $retailReceipt, 'seires' => $seires] );
+        return view('retail_receipts.new', ['retail' => $retailReceipt, 'seires' => $seires, 'products' => $products] );
     }
 
     public function update(Request $request, $retail) {
@@ -154,7 +161,6 @@ class RetailReceiptsController extends Controller
 
         $retailReceipt->update([
             'retailID' => $retailReceipt->retailID,
-            'hashID' => $retail,
             'seira' => $request->seira,
             'client_description' => $request->client_description,
             'date' => $date,
@@ -166,8 +172,9 @@ class RetailReceiptsController extends Controller
                 $itemRow = RetailReceiptsItems::query()->where('id', '=', $item['item'])->first();
                 $itemRow->update([
                     'payment_method' => $item['payment_method'],
-                    'product_service' => $item['product_service'],
+                    'product_service' => $item['product_service'] ?? $item['product'],
                     'vat_id' => $item['vat_id'],
+                    'quantity' => $item['quantity'],
                     'price' => $item['price'],
                     'vat' => $item['vat']
                 ]);
@@ -175,7 +182,7 @@ class RetailReceiptsController extends Controller
                 DB::table('retail_receipts_items')->insert([
                     'retailHash' => $retail,
                     'payment_method' => $item['payment_method'],
-                    'product_service' => $item['product_service'],
+                    'product_service' => $item['product_service'] ?? $item['product'],
                     'vat_id' => $item['vat_id'],
                     'price' => $item['price'],
                     'vat' => $item['vat'],
@@ -241,7 +248,7 @@ class RetailReceiptsController extends Controller
 
     public function lastRetailAjax(Request $request) {
         $letter = $request->seira;
-        $last = Retails::query()->where('seira', '=', $letter)->orderByDesc('retailID')->first();
+        $last = Retails::query()->where('seira', '=', $letter)->where(DB::raw('YEAR(date)'), '=', '2023' )->orderByDesc('retailID')->first();
         if($last == null) {
             return '00';
         }
@@ -270,5 +277,17 @@ class RetailReceiptsController extends Controller
         }
 
         return view('retail_receipts.qrcode-view', ['retail' => $retail, 'settings' => $settings]);
+    }
+
+    public function delete($retailHash) {
+        $retail = Retails::query()->where('hashID', '=', $retailHash)->first();
+        foreach($retail->items as $item) {
+            addToStorage($item->quantity, $item->product_service);
+            unHoldFromStorage($item->quantity, $item->product_service, $retailHash);
+            $item->delete();
+        }
+        $retail->delete();
+
+        return Redirect::back()->with('notify', 'Η απόδειξη διεγράφη!');
     }
 }

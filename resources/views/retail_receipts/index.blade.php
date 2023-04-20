@@ -124,7 +124,7 @@
                                             <a href="{{route('retail-receipts.edit', $retail->hashID)}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="{{route('retail-receipts.delete', ['retail' => $retail->retailID])}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">
+                                            <a href="{{route('retail-receipts.delete', ['retail' => $retail->hashID])}}" class="invoice-action-edit default" data-hash="{{$retail->hashID}}">
                                                 <i class="material-icons">delete</i>
                                             </a>
 
@@ -174,6 +174,13 @@
     <script>
         $i = jQuery.noConflict();
         $i(document).ready(function() {
+            @if(Session::has('notify'))
+            M.toast({
+                html: '{{Session::get("notify") }}',
+                classes: 'rounded',
+                timeout: 10000
+            });
+            @endif
             $i('a.invoice-action-mydata').on('click', function (e) {
                 e.preventDefault();
 

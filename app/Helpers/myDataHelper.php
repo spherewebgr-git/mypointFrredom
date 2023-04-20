@@ -239,7 +239,7 @@ if(!function_exists('myDataSendRetailReceipt')) {
         foreach($retail->items as $item) {
             $sendBody .= '<paymentMethodDetails>'.PHP_EOL;
             $sendBody .= '<type>'.$item->payment_method.'</type>'.PHP_EOL;
-            $sendBody .= '<amount>'.number_format(($item->price + $item->vat), 2, '.', '' ).'</amount>'.PHP_EOL;
+            $sendBody .= '<amount>'.number_format((($item->price + $item->vat) * $item->quantity), 2, '.', '' ).'</amount>'.PHP_EOL;
             $sendBody .= '<paymentMethodInfo></paymentMethodInfo>'.PHP_EOL;
             $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
         }
@@ -248,13 +248,13 @@ if(!function_exists('myDataSendRetailReceipt')) {
         foreach($retail->items as $item) {
             $sendBody .= '<invoiceDetails>' . PHP_EOL;
             $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
-            $sendBody .= '<netValue>' . number_format($item->price, 2, '.', '') . '</netValue>' . PHP_EOL;
+            $sendBody .= '<netValue>' . number_format(($item->price * $item->quantity), 2, '.', '') . '</netValue>' . PHP_EOL;
             $sendBody .= '<vatCategory>' . $item->vat_id . '</vatCategory>' . PHP_EOL;
-            $sendBody .= '<vatAmount>' . number_format($item->vat, 2, '.', '') . '</vatAmount>' . PHP_EOL;
+            $sendBody .= '<vatAmount>' . number_format(($item->vat * $item->quantity), 2, '.', '') . '</vatAmount>' . PHP_EOL;
             $sendBody .= '<incomeClassification>' . PHP_EOL;
             $sendBody .= '<icls:classificationType>E3_561_003</icls:classificationType>' . PHP_EOL;
             $sendBody .= '<icls:classificationCategory>category1_3</icls:classificationCategory>' . PHP_EOL;
-            $sendBody .= '<icls:amount>' . number_format($item->price, 2, '.', '') . '</icls:amount>' . PHP_EOL;
+            $sendBody .= '<icls:amount>' . number_format(($item->price * $item->quantity), 2, '.', '') . '</icls:amount>' . PHP_EOL;
             $sendBody .= '</incomeClassification>' . PHP_EOL;
             $sendBody .= '</invoiceDetails>' . PHP_EOL;
             $counter++;

@@ -140,6 +140,10 @@ table {
     }
 }
 
+.select2-results__option span.inactive {
+    color: #b7b7b7;
+}
+
 ul#unpaids-collection {
     max-height: 355px;
     overflow: auto;

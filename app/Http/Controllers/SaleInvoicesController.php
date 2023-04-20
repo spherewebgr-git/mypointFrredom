@@ -38,7 +38,7 @@ class SaleInvoicesController extends Controller
     {
         $invoice = SaleInvoices::query()->where('seira', '=', 'ANEY')->latest()->first();
         //dd($invoice);
-        $products = Goods::query()->where('active', '=', 1)->get();
+        $products = Goods::all();
         $seires = Seires::query()->where('type', '=', 'sale_invoices')->get();
         $clients = Client::all()->sortBy('company');
         if($invoice) {
@@ -130,54 +130,47 @@ class SaleInvoicesController extends Controller
         $invoice = SaleInvoices::query()->where('hashID', '=', $hashID)->first();
         $clients = Client::all()->sortBy('company');
         $seires = Seires::query()->where('type', '=', 'sale_invoices')->get();
+        $products = Goods::all();
 
 
-        return view('sale_invoices.new', ['last' => '', 'clients' => $clients, 'invoice' => $invoice, 'seires' => $seires]);
+        return view('sale_invoices.new', ['last' => '', 'clients' => $clients, 'invoice' => $invoice, 'seires' => $seires, 'products' => $products]);
     }
 
     public function update(Request $request, SaleInvoices $invoice) {
-        //dd($request);
-        $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
-        $date = $requestDate->format('Y-m-d');
-        $services = $request->services;
+        dd($request);
+        if(isset($request->date)) {
+            $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
+            $date = $requestDate->format('Y-m-d');
+        } else {
+            $date = $invoice->date;
+        }
+
+        $services = $request->products;
 
         if(isset($request->paid)) { $paid = 1; } else { $paid = 0; }
         $invoice->update([
             'date' => $date,
-            'client_id' => $request->client,
+            'client_id' => $request->client ?? $invoice->client,
             'paid' => $paid,
-            'payment_method' => $request->paymentMethod,
+            'payment_method' => $request->paymentMethod ?? $invoice->payment_method,
             'updated_at' => date('Y-m-d')
         ]);
 
-        foreach($services as $service) {
-            if(isset($request->products)) {
-                foreach ($request->products as $prod) {
 
-                    $theProduct = DeliveredGoods::query()->where('delivered_good_id', '=', $prod['id'])->first();
-                    $vat = getProductVat($prod['product']);
-                    $theProduct->update([
+        if(isset($request->products)) {
+            DeliveredGoods::query()->where('invoice_hash', '=',$invoice->hashID)->delete();
+            foreach ($request->products as $prod) {
+                DB::table('delivered_goods')->insert(
+                    array(
                         'delivered_good_id' => $prod['product'],
                         'quantity' => $prod['quantity'],
                         'product_price' => $prod['price'],
-                        'line_vat' => $vat,
+                        'line_vat' => getProductVat($prod['product']),
                         'line_final_price' => $prod['quantity'] * $prod['price'],
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ]);
-                }
+                        'created_at' => date('Y-m-d')
+                    )
+                );
             }
-//            else {
-//                DB::table('goods')->insert(
-//                    [
-//                        'sale_invoice_id' => $invoice->hashID,
-//                        'client_id' => $invoice->client->id,
-//                        'price' => $service['price'],
-//                        'quantity' => $service['quantity'],
-//                        'description' => $service['description'],
-//                        'created_at' => date('Y-m-d')
-//                    ]
-//                );
-//            }
         }
 
         Session::flash('notify', 'Το τιμολόγιο ενημερώθηκε με επιτυχία');

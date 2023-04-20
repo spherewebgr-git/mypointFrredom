@@ -17,7 +17,6 @@ class CreateGoodsStoragesTable extends Migration
             $table->id();
             $table->string('product_id')->unique();
             $table->integer('quantity')->default(0);
-            $table->integer('held_quantity')->nullable();
             $table->timestamps();
         });
     }

@@ -53,7 +53,6 @@
                     <tr style="border-bottom: 2px dashed">
                         <th style="width:65%">Είδος<br />Ποσ.</th>
                         <th>Τιμή</th>
-                        <th>ΦΠΑ</th>
                         <th style="text-align: right;">Αξία</th>
                     </tr>
                     @if(isset($retail->items) && count($retail->items) > 0)
@@ -63,9 +62,8 @@
                     </tr>
                     <tr>
                         <td>x{{$item->quantity}}</td>
-                        <td>{{number_format($item->price, 2, '.', '')}}</td>
-                        <td>{{number_format($item->vat, 2, '.', '')}}</td>
-                        <td style="text-align: right;">{{number_format($item->quantity * $item->price, 2, '.', '')}}</td>
+                        <td>{{number_format($item->price + $item->vat, 2, '.', '')}}</td>
+                        <td style="text-align: right;">{{number_format($item->quantity * ($item->price + $item->vat), 2, '.', '')}}</td>
                     </tr>
                     @endforeach
                     @endif
@@ -77,7 +75,7 @@
                         <td class="right">&euro; {{  number_format( getRetailPrices($retail)['price'], 2, '.', '' )  }}</td>
                     </tr>
                     <tr>
-                        <td>Αξία Φ.Π.Α. (24%)</td>
+                        <td>Αξία Φ.Π.Α. (13%)</td>
                         <td class="right">&euro; {{number_format(getRetailPrices($retail)['vat'], 2, '.', '') }}</td>
                     </tr>
                     <tr>

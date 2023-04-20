@@ -6,6 +6,8 @@ use App\Models\DeliveredGoods;
 use App\Models\DeliveryInvoices;
 use App\Models\ForeignProviders;
 use App\Models\Goods;
+use App\Models\GoodsStorage;
+use App\Models\HoldedProduct;
 use App\Models\Invoice;
 use App\Models\Outcomes;
 use App\Models\Provider;
@@ -260,10 +262,10 @@ if(!function_exists('getRetailPrices'))
         $vats = [];
         $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
         foreach($items as $item) {
-            $netValue[] = $item->price - $item->vat;
-            $vats[] = $item->vat;
+            $netValue[] = $item->quantity * $item->price;
+            $vats[] = $item->quantity * $item->vat;
         }
-
+//dd($items);
         $retailPrice = array_sum($netValue);
         $retailVats = array_sum($vats);
 
@@ -318,14 +320,18 @@ if(!function_exists('getIncomes'))
     function getIncomes()
     {
         $incomes = Invoice::all()->where('date', '>=', date('Y').'-01-01');
+        $saleInvoices = SaleInvoices::all()->where('date', '>=', date('Y').'-01-01');
 
         $incomesTotals = [];
         foreach ($incomes as $invoice)
         {
-            $incomesTotals[] = getFinalPrices($invoice->hashID);
+            $incomesTotals[] = getFinalPrices($invoice->hashID, 'invoice');
+        }
+        foreach($saleInvoices as $saleInvoice) {
+            $incomesTotals[] = getFinalPrices($saleInvoice->hashID, 'sale_invoice');
         }
         $finalIncomes = collect($incomesTotals)->sum();
-
+//dd($finalIncomes);
         return number_format($finalIncomes, 2, ',', '.');
     }
 }
@@ -362,13 +368,20 @@ if(!function_exists('getAllIncomes'))
     {
         $retails = Retails::all()->where('date', '>=', date('Y').'-01-01');
         $incomes = Invoice::all()->where('date', '>=', date('Y').'-01-01');
+        $saleInvoices = SaleInvoices::all()->where('date', '>=', date('Y').'-01-01');
 
         $retailsTotals = [];
         foreach ($retails as $retail)
         {
-            $retailsTotals[] = $retail->price;
+            $retailsTotals[] = getRetailPrices($retail)['price'];
         }
 
+        $saleInvoicesTotal = [];
+
+        foreach($saleInvoices as $saleInvoice) {
+            $saleInvoicesTotal[] = getFinalPrices($saleInvoice->hashID, 'sale_invoice');
+        }
+//dd($saleInvoicesTotal);
         $incomesTotals = [];
         foreach ($incomes as $invoice)
         {
@@ -599,7 +612,12 @@ if(!function_exists('getRetailPaymentMethods')) {
         $retailItems = RetailReceiptsItems::query()->where('retailHash', '=', $retailHash)->get();
         $payments = [];
         foreach($retailItems as $retailItem) {
-            $payments[] = getPaymentMethodName($retailItem->payment_method);
+            $methodName = getPaymentMethodName($retailItem->payment_method);
+            if (!in_array($methodName, $payments))
+            {
+                $payments[] = $methodName;
+            }
+
         }
         //dd($payments);
         return $payments;
@@ -979,6 +997,81 @@ if(!function_exists('addSaleInvoice')) {
     }
 }
 
+if(!function_exists('toUpper')) {
+    function toUpper($str){
+    $search = array('Ά', 'Έ', 'Ί', 'Ή', 'Ύ', 'Ό', 'Ώ');
+        $replace = array('Α', 'Ε', 'Ι', 'Η', 'Υ', 'Ο', 'Ω');
+        $str = mb_strtoupper($str,  "UTF-8");
+        return str_replace($search, $replace, $str);
+    }
+}
+
+if(!function_exists('removeFromStorage')) {
+    function removeFromStorage($quantity, $id) {
+        $product = GoodsStorage::query()->where('id', '=', $id)->first();
+        $existingQty = $product->quantity;
+        $product->update([
+            'quantity' => $existingQty - $quantity
+        ]);
+    }
+}
+if(!function_exists('addToStorage')) {
+    function addToStorage($quantity, $id) {
+        $product = GoodsStorage::query()->where('id', '=', $id)->first();
+        $existingQty = $product->quantity;
+        $product->update([
+            'quantity' => $existingQty + $quantity
+        ]);
+    }
+}
+
+if(!function_exists('HoldFromStorage')) {
+    function HoldFromStorage($quantity, $id, $retailHash) {
+//dd('OK');
+        $existings = [];
+
+        $holdedByProducts = HoldedProduct::query()->where('holded_by', '=', $retailHash)->get();
+
+        foreach($holdedByProducts as $h) {
+            $existings[] = $h->heled_quantity;
+        }
+        $existingQty = array_sum($existings);
+
+        $hold = new HoldedProduct();
+        $hold->product_id = $id;
+        $hold->held_quantity = $existingQty + $quantity;
+        $hold->holded_by = $retailHash;
+        $hold->save();
+    }
+}
+
+if(!function_exists('unHoldFromStorage')) {
+    function unHoldFromStorage($quantity, $id, $retailHash) {
+        $product = HoldedProduct::query()->where('holded_by', '=', $retailHash)->where('product_id', '=', $id)->first();
+        if($product) {
+            $existingQty = $product->held_quantity;
+            if($existingQty - $quantity <= 0) {
+                $product->delete();
+            } else {
+                $product->update([
+                    'held_quantity' => $quantity
+                ]);
+            }
+        }
+    }
+}
+
+
+if(!function_exists('countHolded')) {
+    function countHolded($holded)
+    {
+        $quantity = 0;
+        foreach($holded as $hold) {
+            $quantity += $hold->held_quantity;
+        }
+        return $quantity;
+    }
+}
 
 
 

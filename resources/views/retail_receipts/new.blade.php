@@ -7,6 +7,7 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
 @endsection
 
@@ -37,7 +38,8 @@
                                     <input type="text" name="retailID" placeholder="000" id="retailID"
                                            @if(isset($retail))
                                                value="{{old('retailID', $retail->retailID)}}"
-                                           disabled @elseif(isset($last) && $last != '') value="{{$last + 1}}" @endif>
+                                           @if(isset($retail->mark))
+                                           disabled @endif @elseif(isset($last) && $last != '') value="{{$last + 1}}" @endif>
                                 </div>
                                 <div class="col xl8 m12">
                                     <div class="invoice-date-picker display-flex align-items-center">
@@ -77,10 +79,13 @@
                                                         <h6 class="m-0">Προϊόν/Υπηρεσία</h6>
                                                     </div>
                                                     <div class="col s12 m2">
-                                                        <h6 class="m-0">Συντελεστής ΦΠΑ</h6>
+                                                        <h6 class="m-0" title="Συντελεστής ΦΠΑ">Συντελεστής ΦΠΑ</h6>
                                                     </div>
-                                                    <div class="col s12 m4">
-                                                        <h6 class="m-0">Τρόπος Πληρωμής</h6>
+                                                    <div class="col s12 m2">
+                                                        <h6 class="m-0" title="Τρόπος Πληρωμής">Πληρωμή</h6>
+                                                    </div>
+                                                    <div class="col s12 m1">
+                                                        <h6 style="margin-left: -40px">Ποσότητα</h6>
                                                     </div>
                                                     <div class="col s12 m1">
                                                         <h6 style="margin-left: -40px">Τιμή</h6>
@@ -92,8 +97,21 @@
                                                 <div class="invoice-item display-flex">
                                                     <div class="invoice-item-filed row pt-1" style="width: 100%">
                                                         <div class="col m5 s12 input-field">
-                                                            <input type="text" value="{{$service->product_service}}" name="product_service"
-                                                                   class="product-field">
+                                                            <input type="text" value="" name="product_service"
+                                                                   class="product_service-field">
+                                                            <select name="product" class="product-field invoice-select2 select2 browser-default select2-hidden-accessible">
+                                                                <option value="" disabled selected>Επιλέξτε Προϊόν</option>
+                                                                @foreach($products as $product)
+                                                                        <option
+                                                                            value="{{$product->id}}"
+                                                                            data-vatId="{{$product->product_vat_id}}"
+                                                                            data-price="{{$product->price}}"
+                                                                            data-max="{{$product->storage->quantity}}"
+                                                                            data-vat="{{$product->vat_price}}"
+                                                                        @if($service->product_service = $product->id) selected @endif>{{$product->product_name}}</option>
+
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                         <div class="col m2 s12 input-field">
                                                             <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
@@ -107,8 +125,7 @@
                                                                 <option value="8" @if($service->vat_id == 8) selected @endif>Μισθοδοσία, Αποσβέσεις κλπ.</option>
                                                             </select>
                                                         </div>
-
-                                                        <div class="col m3 s12 input-field">
+                                                        <div class="col m2 s12 input-field">
                                                             <select name="payment_method" id="payment_method" class="invoice-item-select browser-default">
                                                                 <option value="1" @if($service->payment_method == 1) selected @endif>Επαγ. Λογαριασμός Πληρωμών Ημεδαπής</option>
                                                                 <option value="2" @if($service->payment_method == 2) selected @endif>Επαγ. Λογαριασμός Πληρωμών Αλλοδαπής</option>
@@ -118,6 +135,10 @@
                                                                 <option value="6" @if($service->payment_method == 6) selected @endif>Web Banking</option>
                                                                 <option value="7" @if($service->payment_method == 7) selected @endif>POS / e-POS</option>
                                                             </select>
+                                                        </div>
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="number" value="{{$service->quantity}}" name="quantity" placeholder="0" min="1" max="{{($product->storage->held_by = $retail->hashID)  ?  $product->storage->held_quantity + $product->storage->quantity : $product->storage->quantity}}"
+                                                                   class="quantity-field" style="text-align: center">
                                                         </div>
                                                         <div class="col m1 s12 input-field">
                                                             <input type="text" value="{{$service->price}}" name="price" placeholder="0.00"
@@ -167,14 +188,17 @@
                                                     <div class="col m5 s12 input-field">
                                                         <input type="text" value="" name="product_service"
                                                                class="product_service-field">
-                                                        <select name="product" class="product-field invoice-item-select browser-default" style="display: none">
+                                                        <select name="product" class="product-field invoice-select2 select2 browser-default select2-hidden">
                                                             <option value="" disabled selected>Επιλέξτε Προϊόν</option>
                                                             @foreach($products as $product)
                                                                 <option
                                                                     value="{{$product->id}}"
                                                                     data-vatId="{{$product->product_vat_id}}"
-                                                                    data-price="{{$product->retail_price}}"
-                                                                    data-vat="{{$product->vat_price}}">{{$product->product_name}}</option>
+                                                                    data-price="{{$product->price}}"
+                                                                    data-max="{{$product->storage->quantity}}"
+                                                                    data-vat="{{$product->vat_price}}"
+                                                                @if($product->active == 0 || $product->storage->quantity <= 0) class="inactive" @endif
+                                                                >{{$product->product_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -203,7 +227,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col m1 s12 input-field">
-                                                        <input type="number" value="1" name="quantity" placeholder="0"
+                                                        <input type="number" value="1" name="quantity" placeholder="0" min="1" max="{{$product->storage->quantity}}"
                                                                class="quantity-field" style="text-align: center">
                                                     </div>
                                                     <div class="col m1 s12 input-field">
@@ -228,8 +252,8 @@
                                 </div>
                                 <div class="input-field">
                                     <button class="btn invoice-repeat-btn" data-repeater-create="" type="button">
-                                        <i class="material-icons left">add</i>
-                                        <span>Προσθήκη Υπηρεσίας</span>
+                                        <i class="material-icons left">playlist_add</i>
+                                        <span>Προσθήκη Γραμμής</span>
                                     </button>
                                 </div>
 
@@ -248,7 +272,7 @@
                                                         id="subtotal">00.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
-                                                <span class="invoice-subtotal-title">Φ.Π.Α. (24%)</span>
+                                                <span class="invoice-subtotal-title">Φ.Π.Α. (13%)</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span id="fpa">00.00</span>
                                                 </h6>
                                             </li>
@@ -336,10 +360,37 @@
 
 
 @section('page-script')
+    <script src="{{asset('js/scripts/select2.full.min.js')}}"></script>
     <script src="{{asset('js/scripts/app-invoice.js')}}"></script>
     <script>
         $r = jQuery.noConflict();
         $r(document).ready(function() {
+
+            $r(".select2").select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                templateResult: function (data) {
+                    if (!data.element) {
+                        return data.text;
+                    }
+                    var element = $r(data.element);
+
+                    return $r('<span class="'+element[0].className+'">'+data.text+'</span>');
+                }
+            });
+            let retailLetter = $r('select#seira option:selected').text();
+            $r('select.product-field').next('span.select2').hide();
+
+            if(retailLetter.indexOf('ΑΛΠ') === 0) {
+                $r('.product_service-field').hide();
+                $r('select.product-field').next('span.select2').show();
+                $r('#retailType').val('11.1');
+            } else {
+                $r('.product_service-field').show();
+                $r('select.product-field').next('span.select2').hide();
+                $r('#retailType').val('11.2');
+            }
+
             $r('select#seira').on('change', function () {
                 $r('.ajax-preloader').addClass('active');
 
@@ -347,11 +398,11 @@
 
                 if(retailLetter.indexOf('ΑΛΠ') === 0) {
                     $r('.product_service-field').hide();
-                    $r('.product-field').show();
+                    $r('select.product-field').next('span.select2').show();
                     $r('#retailType').val('11.1');
                 } else {
                     $r('.product_service-field').show();
-                    $r('.product-field').hide();
+                    $r('select.product-field').next('span.select2').hide();
                     $r('#retailType').val('11.2');
                 }
 
@@ -387,7 +438,6 @@
                     $r('.product_service-field').show();
                     $r('.product-field').hide();
                 }
-               console.log('repeater clicked');
             });
         });
 
@@ -398,18 +448,17 @@
             let finalPrice = 0.00;
             $r('.count-repeater').each(function () {
                 let price = parseFloat($r(this).find('.price-field').val() * $r(this).find('.quantity-field').val());
-                console.log(price);
                 if(price) {
                     if($r(this).find('.vat-field').val() === '') {
-                        $r(this).find('.vat-field').val(parseFloat((24/100) * price).toFixed(2));
+                        $r(this).find('.vat-field').val(parseFloat((13/100) * price).toFixed(2));
                     }
                     finalPrice += price;
                 }
             });
             $r('#subtotal').text(parseFloat(finalPrice).toFixed(2));
-            $r('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
-            $r('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
-            $r('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+            $r('#fpa').text(parseFloat((13 / 100) * finalPrice).toFixed(2));
+            $r('#finalPrice').text(parseFloat((13 / 100) * finalPrice + finalPrice).toFixed(2));
+            $r('#toPay').text(parseFloat((13 / 100) * finalPrice + finalPrice).toFixed(2));
             $r('#parakratisiTotal').hide();
         }
 
@@ -420,14 +469,46 @@
             let vatId = $r('option:selected', this).attr('data-vatId');
             let price = $r('option:selected', this).attr('data-price');
             let vat = $r('option:selected', this).attr('data-vat');
+            let maxQty = $r('option:selected', this).attr('data-max');
             let extractRowName = $r(this).attr('name');
             let rowName =  extractRowName.substring(0, 11);
 
             $r('select[name="'+rowName+'[vat_id]"]').val(vatId);
             $r('input[name="'+rowName+'[price]"]').val(price);
             $r('input[name="'+rowName+'[vat]"]').val(vat);
+            $r('input[name="'+rowName+'[quantity]"]').val(1);
+            $r('select[name="'+rowName+'[payment_method]"]').val(3);
+            $r('input[name="'+rowName+'[quantity]"]').attr('max', maxQty);
 
         });
+
+        $r(document).on('change', 'input.price-field', function(){
+            let extractRowName = $r(this).attr('name');
+            let rowName =  extractRowName.substring(0, 11);
+            let newPrice = $r(this).val();
+            let vat = toDecimal($r('select[name="'+rowName+'[vat_id]"] :selected').text());
+            let newVat = (newPrice * vat).toFixed(2);
+            $r('input[name="'+rowName+'[vat]"]').val(newVat);
+        });
+
+        $r(document).on('click', '.invoice-repeat-btn', function(){
+            $r(".select2").select2({
+                dropdownAutoWidth: true,
+                width: '100%',
+                templateResult: function (data) {
+                    if (!data.element) {
+                        return data.text;
+                    }
+                    var element = $r(data.element);
+
+                    return $r('<span class="'+element[0].className+'">'+data.text+'</span>');
+                }
+            });
+        });
+
+        function toDecimal(percent) {
+            return parseFloat(percent) / 100;
+        }
 
     </script>
 @endsection
