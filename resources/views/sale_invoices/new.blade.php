@@ -113,36 +113,58 @@
                                             <div class="mb-2 count-repeater" data-repeater-item="">
                                                 <!-- invoice Titles -->
                                                 <div class="row mb-1">
-                                                    <div class="col s2">
+                                                    <div class="col s1 m1">
                                                         <h6 class="m-0">Ποσότητα</h6>
                                                     </div>
-                                                    <div class="col s3 m8">
+                                                    <div class="col s3 m7">
                                                         <h6 class="m-0">Προϊόν</h6>
                                                     </div>
                                                     <div class="col s2">
+                                                        <h6 style="margin-left: -40px">Συντελεστής ΦΠΑ</h6>
+                                                    </div>
+                                                    <div class="col s1">
                                                         <h6 style="margin-left: -40px">Τιμή</h6>
+                                                    </div>
+                                                    <div class="col s1">
+                                                        <h6 style="margin-left: -40px">ΦΠΑ</h6>
                                                     </div>
 
                                                 </div>
                                                 <div class="invoice-item display-flex">
                                                     <div class="invoice-item-filed row pt-1" style="width: 100%">
-                                                        <div class="col m2 s12 input-field">
-                                                            <input type="hidden" name="id" value="{{$good->id}}">
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="hidden" name="id" value="{{$good->delivered_good_id}}">
                                                             <input type="text" value="{{$good->quantity}}"
                                                                    name="quantity"
                                                                    class="quantity-field">
                                                         </div>
-                                                        <div class="col m8 s12 input-field">
+                                                        <div class="col m7 s12 input-field">
                                                             <select name="product" id="product" class="invoice-select2 select2 browser-default select2-hidden-accessible">
                                                                 @foreach($products as $product)
-                                                                    <option value="{{$product->id}}" @if($good->id == $proct->id) selected @endif>{{$product->product_name}}</option>
+                                                                    <option value="{{$product->id}}" @if($good->delivered_good_id == $product->id) selected @endif>{{$product->product_name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
-
                                                         <div class="col m2 s12 input-field">
+                                                            <select name="vat_id" id="vat_id" class="invoice-item-select browser-default">
+                                                                <option value="1" @if($good->vat_id == 1) selected @endif>24%</option>
+                                                                <option value="4" @if($good->vat_id == 4) selected @endif>17%</option>
+                                                                <option value="2" @if($good->vat_id == 2) selected @endif>13%</option>
+                                                                <option value="5" @if($good->vat_id == 5) selected @endif>9%</option>
+                                                                <option value="3" @if($good->vat_id == 3) selected @endif>6%</option>
+                                                                <option value="6" @if($good->vat_id == 6) selected @endif>4%</option>
+                                                                <option value="7" @if($good->vat_id == 7) selected @endif>0%</option>
+                                                                <option value="8" @if($good->vat_id == 8) selected @endif>Μισθοδοσία, Αποσβέσεις κλπ.</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col m1 s12 input-field">
                                                             <input type="text" placeholder="000" name="price"
                                                                    class="price-field" value="{{$good->product_price}}">
+                                                        </div>
+                                                        <div class="col m1 s12 input-field">
+                                                            <input type="text" placeholder="0.00" name="price"
+                                                                   class="price-field" value="{{$good->line_vat}}">
                                                         </div>
                                                     </div>
                                                     <div
@@ -210,7 +232,7 @@
                                                     </div>
 
                                                     <div class="col m1 s12 input-field">
-                                                        <input type="text" placeholder="000" name="price"
+                                                        <input type="text" placeholder="0.00" name="price"
                                                                class="price-field">
                                                     </div>
                                                     <div class="col m1 s12 input-field">
@@ -248,7 +270,7 @@
                                             <li class="display-flex justify-content-between">
                                                 <span class="invoice-subtotal-title">Υποσύνολο</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span
-                                                        id="subtotal">00.00</span></h6>
+                                                        id="subtotal">0.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
                                                 <span class="invoice-subtotal-title">Φ.Π.Α. (13%)</span>
@@ -261,12 +283,12 @@
                                             <li class="display-flex justify-content-between">
                                                 <span class="invoice-subtotal-title">Συνολικό Ποσό</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span
-                                                        id="finalPrice">00.00</span></h6>
+                                                        id="finalPrice">0.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
                                                 <span class="invoice-subtotal-title">Πληρωτέο</span>
                                                 <h6 class="invoice-subtotal-value" style="font-weight: bold">&euro;
-                                                    <span id="toPay">00.00</span></h6>
+                                                    <span id="toPay">0.00</span></h6>
                                             </li>
                                         </ul>
                                     </div>

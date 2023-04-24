@@ -58,10 +58,16 @@
                                         <label for="product_name">Ονομασία Προϊόντος *</label>
                                     </div>
                                 </div>
-                                <div class="col s6 m4">
+                                <div class="col s6 m2">
                                     <div class="input-field">
                                         <input type="text" id="product_number" name="product_number" @if(isset($product)) value="{{$product['product_number']}}" @endif required>
                                         <label for="product_number">Κωδικός Προϊόντος *</label>
+                                    </div>
+                                </div>
+                                <div class="col s6 m2">
+                                    <div class="input-field">
+                                        <input type="text" id="woocommerce_id" name="woocommerce_id" @if(isset($product)) value="{{$product['woocommerce_id']}}" @endif>
+                                        <label for="woocommerce_id">Woocommerce ID </label>
                                     </div>
                                 </div>
                                 <div class="col s6 m2">
@@ -91,10 +97,14 @@
                                         <i class="material-icons prefix">archive</i>
                                         <select name="product_category" id="product_category">
                                             <option value="" disabled>Επιλέξτε Κατηγορία</option>
-                                            <option value="Κατηγορία 1" @if(isset($product) && $product->product_category == 'Κατηγορία 1') value="{{$product['product_number']}}" @endif >Κατηγορία 1</option>
-                                            <option value="Κατηγορία 2" @if(isset($product) && $product->product_category == 'Κατηγορία 2') value="{{$product['product_number']}}" @endif >Κατηγορία 2</option>
-                                            <option value="Κατηγορία 3" @if(isset($product) && $product->product_category == 'Κατηγορία 3') value="{{$product['product_number']}}" @endif >Κατηγορία 3</option>
-                                            <option value="Κατηγορία 4" @if(isset($product) && $product->product_category == 'Κατηγορία 4') value="{{$product['product_number']}}" @endif >Κατηγορία 4</option>
+                                            <option value="Χωρίς Κατηγορία" @if(isset($product) && $product->product_category === 'Χωρίς Κατηγορία') selected @endif >Χωρίς Κατηγορία</option>
+                                            <option value="Le farine dei nostri sacchi" @if(isset($product) && $product->product_category === 'Le farine dei nostri sacchi') selected @endif >Le farine dei nostri sacchi</option>
+                                            <option value="Natisani" @if(isset($product) && $product->product_category === 'Natisani') selected @endif >Natisani</option>
+                                            <option value="Jukeros" @if(isset($product) && $product->product_category === 'Jukeros') selected @endif >Jukeros</option>
+                                            <option value="foodNess" @if(isset($product) && $product->product_category === 'foodNess') selected @endif >foodNess</option>
+                                            <option value="Nutorious" @if(isset($product) && $product->product_category === 'Nutorious') selected @endif >Nutorious</option>
+                                            <option value="Spigabuona" @if(isset($product) && $product->product_category === 'Spigabuona') selected @endif >Spigabuona</option>
+                                            <option value="Stayia farm" @if(isset($product) && $product->product_category === 'Stayia farm') selected @endif >Stayia farm</option>
                                         </select>
                                         <label for="product_category">Κατηγορία</label>
                                     </div>
@@ -191,14 +201,32 @@
                     </div>
                 </div>
                 <div class="col xl3 m4 s12">
-                    <h6 style="color: #fff;margin-top: -20px">Εικόνα Προϊόντος</h6>
+                    <h6 style="margin-top: -20px">Εικόνα Προϊόντος</h6>
                     <div class="input-field product-image">
                         <input type="file" name="image" data-max-file-size="3M" data-show-errors="true" data-allowed-file-extensions="png jpg JPG JPEG"
                                class="img-field dropify" @if( isset($product) && $product->product_image != NULL )  data-default-file="{{url('images/products/'.$product->product_image)}}" @endif
                                value="" />
                     </div>
+                    <div class="get-from-shop">
+                        <a href="#" class="btn">Get Image from Shop</a>
+                    </div>
                 </div>
             </form>
+        </div>
+        <div class="ajax-preloader">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -209,7 +237,6 @@
         $p = jQuery.noConflict();
         $p(document).ready(function(){
            $p('.dropify').dropify();
-
            $p('input#price').on('mouseout', function(){
               let price = $p(this).val();
               let vat = $p('select#product_vat_id option:selected').data('val');
@@ -221,8 +248,33 @@
                   console.log(vatValue)
               }
            });
-        });
+            @if(isset($product))
+                $p('.get-from-shop a').on('click', function(e){
+                    e.preventDefault();
+                    $p('.ajax-preloader').addClass('active');
 
+                    let pageToken = $p('meta[name="csrf-token"]').attr('content');
+
+                    $p.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': pageToken
+                        }
+                    });
+
+                    $p.ajax({
+                        url: "{{ url('/get-product-image/'.$product->woocommerce_id) }}",
+                        method: 'get',
+
+                        success: function (result) {
+                            console.log(result);
+                            $p('.ajax-preloader').removeClass('active');
+                            location.href='/products';
+                        }
+                    });
+
+                })
+            @endif
+        });
         function custom_number_format( number_input, decimals, dec_point, thousands_sep ) {
             var number       = ( number_input + '' ).replace( /[^0-9+\-Ee.]/g, '' );
             var finite_number   = !isFinite( +number ) ? 0 : +number;

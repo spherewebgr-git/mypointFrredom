@@ -16,13 +16,13 @@
         <!-- Search for small screen-->
         <div class="container">
             <div class="row">
-                <div class="col s10 m6 l6">
+                <div class="col s10 m3 l3">
                     <h5 class="breadcrumbs-title mt-0 mb-0"><span>Αποθήκη Προϊόντων</span></h5>
                 </div>
-                <div class="invoice-head--right row col s12 m6 display-flex justify-content-end align-items-center">
+                <div class="invoice-head--right row col s12 m9 l9 display-flex justify-content-end align-items-center">
                     <div class="invoice-create-btn col">
                         <a href="{{route('products.create')}}"
-                           class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                           class="btn waves-effect waves-light invoice-create border-round z-depth-4 green">
                             <i class="material-icons">add</i>
                             <span>Νέο Προϊόν</span>
                         </a>
@@ -30,8 +30,8 @@
                     <div class="invoice-create-btn col">
                         <a href="{{route('products.storage')}}"
                            class="btn waves-effect waves-light invoice-create border-round z-depth-4">
-                            <i class="material-icons">add</i>
-                            <span>Ενημέρωση Αποθήκης</span>
+                            <i class="material-icons">library_add</i>
+                            <span>Απογραφή Αποθήκης</span>
                         </a>
                     </div>
                     <div class="invoice-filter-action col">
@@ -40,16 +40,18 @@
                             <span>Εκτύπωση Λίστας</span>
                         </a>
                     </div>
+                    <div class="invoice-filter-action col">
+                        <a href="#" class="btn waves-effect waves-light invoice-export border-round z-depth-4" id="updateEshop">
+                            <i class="material-icons">leak_add</i>
+                            <span>Ενημέρωση Αποθήκης Καταστήματος</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card print-hide">
-        <div class="card-content container">
-            <h4 class="card-title">Αναζήτηση Προϊόντος</h4>
-        </div>
-    </div>
-    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+
+    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer mt-3">
         <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
                id="DataTables_Table_0" role="grid" style="border-spacing: 0 5px;">
             <thead>
@@ -63,7 +65,7 @@
                 <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
                 <th class="center-align" style="width: 85px!important;">Ποσότητα</th>
                 <th class="center-align" style="width: 85px!important;">Κατάσταση</th>
-                <th class="center-align print-hide">Ενέργειες</th>
+                <th class="center-align print-hide" style="width: 85px!important;">Ενέργειες</th>
             </tr>
             </thead>
             <tbody>
@@ -129,6 +131,21 @@
             </tbody>
         </table>
     </div>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -157,6 +174,31 @@
            $m('#modal .modal-active').html(status);
            $m('#modal .modal-description').html(productDescription);
            $m('#modal .modal-product-name').html(productName+' <span class="modal-code small">('+productNumber+')</span>');
+
+        });
+
+        $m('#updateEshop').on('click', function(e){
+            e.preventDefault();
+            $m('.ajax-preloader').addClass('active');
+
+            let pageToken = $m('meta[name="csrf-token"]').attr('content');
+
+            $m.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': pageToken
+                }
+            });
+
+            $m.ajax({
+                url: "{{ url('/update-eshop-storage') }}",
+                method: 'post',
+
+                success: function (result) {
+                    console.log(result);
+                    $p('.ajax-preloader').removeClass('active');
+
+                }
+            });
 
         });
     });

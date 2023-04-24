@@ -113,7 +113,7 @@ class SettingsController extends Controller
                 'letter' => $request->seira,
                 'type' => $request->seiraType
             ]);
-        } else {
+        }  else {
             foreach ($requests as $key => $item) {
                 if($key != '_token' && $key != 'file' && $item != null) {
                     $setting = Settings::query()->where('type', '=', $key)->first();
@@ -139,5 +139,17 @@ class SettingsController extends Controller
     public function updatePermissions(Request $request)
     {
         dd($request);
+    }
+
+    public static function envUpdate($key, $value)
+    {
+        $path = base_path('.env');
+
+        if (file_exists($path)) {
+
+            file_put_contents($path, str_replace(
+                $key . '=' . env($key), $key . '=' . $value, file_get_contents($path)
+            ));
+        }
     }
 }

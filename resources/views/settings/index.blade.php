@@ -132,6 +132,10 @@
     <script>
         $m = jQuery.noConflict();
         $m(document).ready(function(){
+            $m(".select2").select2({
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
            $m('#openMydataInfo').on('click', function(){
               $m('.mydata-howto').removeClass('hide');
            });

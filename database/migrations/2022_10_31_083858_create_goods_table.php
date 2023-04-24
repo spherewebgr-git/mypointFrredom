@@ -16,6 +16,7 @@ class CreateGoodsTable extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
             $table->string('product_number')->unique();
+            $table->integer('woocommerce_id')->unique();
             $table->text('product_name');
             $table->text('product_description')->nullable();
             $table->text('barcode')->nullable();

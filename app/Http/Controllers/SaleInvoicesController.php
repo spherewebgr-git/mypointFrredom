@@ -137,7 +137,7 @@ class SaleInvoicesController extends Controller
     }
 
     public function update(Request $request, SaleInvoices $invoice) {
-        dd($request);
+        //dd($request);
         if(isset($request->date)) {
             $requestDate = DateTime::createFromFormat('d/m/Y', $request->date);
             $date = $requestDate->format('Y-m-d');
@@ -145,23 +145,23 @@ class SaleInvoicesController extends Controller
             $date = $invoice->date;
         }
 
-        $services = $request->products;
 
         if(isset($request->paid)) { $paid = 1; } else { $paid = 0; }
         $invoice->update([
             'date' => $date,
-            'client_id' => $request->client ?? $invoice->client,
+            'client_id' => $request->client ?? $invoice->client->id,
             'paid' => $paid,
-            'payment_method' => $request->paymentMethod ?? $invoice->payment_method,
-            'updated_at' => date('Y-m-d')
+            'payment_method' => $request->paymentMethod ?? $invoice->payment_method
         ]);
 
 
         if(isset($request->products)) {
-            DeliveredGoods::query()->where('invoice_hash', '=',$invoice->hashID)->delete();
+            DeliveredGoods::query()->where('invoice_hash', '=', $invoice->hashID)->delete();
             foreach ($request->products as $prod) {
                 DB::table('delivered_goods')->insert(
                     array(
+                        'invoice_hash' => $invoice->hashID,
+                        'delivery_type' => 'saleInvoice',
                         'delivered_good_id' => $prod['product'],
                         'quantity' => $prod['quantity'],
                         'product_price' => $prod['price'],

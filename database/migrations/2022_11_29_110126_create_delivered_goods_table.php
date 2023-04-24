@@ -20,6 +20,7 @@ class CreateDeliveredGoodsTable extends Migration
             $table->integer('delivered_good_id');
             $table->float('product_price');
             $table->integer('quantity');
+            $table->integer('vat_id');
             $table->float('line_vat');
             $table->float('line_final_price');
             $table->timestamps();

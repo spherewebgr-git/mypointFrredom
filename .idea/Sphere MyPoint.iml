@@ -145,6 +145,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/clock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/stella-maris/clock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/viesapi/client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/codexshaper/laravel-woocommerce" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/automattic/woocommerce" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
