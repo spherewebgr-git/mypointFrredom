@@ -34,7 +34,7 @@ class ShopConnectController extends Controller
             $toUpdate[] = [
                 'id' => $product->woocommerce_id,
                 'stock_quantity' => $product->storage->quantity ?? 0,
-                'stock_status' => ($product->storage->quantity != 0) ? 'instock' : 'outofstock'
+                'stock_status' => ($product->storage->quantity != 0 || $product->active == 1) ? 'instock' : 'outofstock'
             ];
         }
         $data = [

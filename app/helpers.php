@@ -1061,6 +1061,12 @@ if(!function_exists('unHoldFromStorage')) {
     }
 }
 
+if(!function_exists('unHoldSaled')) {
+    function unHoldSaled($retailHash) {
+        HoldedProduct::query()->whereIn('holded_by', $retailHash)->delete();
+    }
+}
+
 
 if(!function_exists('countHolded')) {
     function countHolded($holded)

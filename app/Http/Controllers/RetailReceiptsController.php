@@ -239,6 +239,8 @@ class RetailReceiptsController extends Controller
         if($aadeResponse[0]['statusCode'] == 'Success') {
             $theRetail->mark = $aadeResponse[0]['invoiceMark'];
             $theRetail->save();
+            unHoldSaled($theRetail->hashID);
+            eshopUpdateProductStorage($theRetail->hashID);
             return $theRetail->hashID;
         }
 

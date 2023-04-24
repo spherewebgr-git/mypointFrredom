@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Goods;
+use Codexshaper\WooCommerce\Facades\Product;
 
 if(!function_exists('getProductVat')) {
     function getProductVat($productId) {
@@ -41,5 +42,18 @@ if(!function_exists('getProduct')) {
         $productById = Goods::query()->where('id', '=', $productId)->first();
 
         return $productById;
+    }
+}
+
+if(!function_exists('eshopUpdateProductStorage')) {
+    function eshopUpdateProductStorage($productHash) {
+        $product = Goods::query()->where('hashID', '=', $productHash)->first();
+
+        $data = [
+            'stock_quantity' => $product->storage->quantity ?? 0,
+            'stock_status' => ($product->storage->quantity != 0 || $product->active == 1) ? 'instock' : 'outofstock'
+        ];
+
+        Product::update($product->woocommerce_id, $data);
     }
 }
