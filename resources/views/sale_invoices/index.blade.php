@@ -159,11 +159,10 @@
                                     &euro; {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
 
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format(getSaleInvoiceVat($invoice->hashID), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
-
-                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + ((24 / 100) * getSaleInvoicePrices($invoice->hashID)), '2', ',', '.')}}
+                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + (getSaleInvoiceVat($invoice->hashID)), '2', ',', '.')}}
 
                                 </td>
                                 <td class="center-align print-hide">
@@ -191,7 +190,7 @@
                                             <a href="{{route('sale_invoice.edit', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="{{route('invoice.delete', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
+                                            <a href="{{route('sale_invoice.delete', ['invoice' => $invoice->hashID])}}" class="invoice-action-edit">
                                                 <i class="material-icons">delete</i>
                                             </a>
                                         @endif
@@ -204,8 +203,8 @@
                             <td></td>
                             <td colspan="3" class="right-align">Σύνολα:</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
-                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format(((24 / 100) * $finals),  2, ',', '.')}}</td>
-                            <td colspan="1" class="center-align tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format($vats,  2, ',', '.')}}</td>
+                            <td colspan="1" class="center-align tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + $vats), 2, ',', '.' )}}</td>
                             <td colspan="3"></td>
                         </tr>
                         </tbody>

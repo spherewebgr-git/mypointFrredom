@@ -21,17 +21,21 @@ class SaleInvoicesController extends Controller
     public function index()
     {
         $finalIncome = [];
+        $finalVats = [];
         $saleInvoices = SaleInvoices::all()->sortBy('sale_invoiceID');
 
         if(count($saleInvoices) > 0) {
             foreach($saleInvoices as $invoice) {
                 $finalIncome[] = getSaleInvoicePrices($invoice->hashID);
+                $finalVats[] = getSaleInvoiceVat($invoice->hashID);
             }
         }
 
         $final = array_sum($finalIncome);
+        $vats = array_sum($finalVats);
+        //dd($vats);
 
-        return view('sale_invoices.index', ['invoices' => $saleInvoices, 'finals' => $final]);
+        return view('sale_invoices.index', ['invoices' => $saleInvoices, 'finals' => $final, 'vats' => $vats]);
     }
 
     public function new()
@@ -77,25 +81,35 @@ class SaleInvoicesController extends Controller
             )
         );
 
-        foreach($services as $serv) {
-            if(array_key_exists('id', $serv)) {
-                $service = Goods::query()->where('id', '=', $serv['id'])->first();
+        if(isset($request->services)) {
+            foreach($services as $serv) {
+                if(array_key_exists('id', $serv)) {
+                    $service = Goods::query()->where('id', '=', $serv['id'])->first();
+                }
+                    $service->update(['sale_invoice_id' =>  $request->invoiceID]);
+
             }
-            if(isset($service)) {
-                $service->update(['sale_invoice_id' =>  $request->invoiceID]);
-            } else {
-                DB::table('goods')->insert(
+        } elseif(isset($request->products)) {
+            foreach ($request->products as $product) {
+                DB::table('delivered_goods')->insert(
                     array(
-                        'sale_invoice_id' => getSaleInvoiceHash($request->seira, $request->invoiceID),
-                        'client_id' => $request->client,
-                        'price' => $serv['price'],
-                        'quantity' => $serv['quantity'],
-                        'description' => $serv['description'],
+                        'invoice_hash' => getSaleInvoiceHash($request->seira, $request->invoiceID),
+                        'delivery_type' => 'saleInvoice',
+                        'delivered_good_id' => $product['product'],
+                        'product_price' => $product['price'],
+                        'quantity' => $product['quantity'],
+                        'vat_id' => $product['vat_id'],
+                        'line_vat' => $product['vat'],
+                        'line_final_price' => ($product['quantity'] * $product['price']) + $product['vat'],
                         'created_at' => date('Y-m-d')
                     )
                 );
+                HoldFromStorage($product['quantity'], $product['product'], getSaleInvoiceHash($request->seira, $request->invoiceID));
+                removeFromStorage($product['quantity'], $product['product']);
             }
         }
+
+
         if(isset($request->sendClient)) {
             $invoice = SaleInvoices::query()->where('hashID', '=', getSaleInvoiceHash($request->seira, $request->invoiceID))->first();
             $data = array(
@@ -256,5 +270,20 @@ class SaleInvoicesController extends Controller
             return '00';
         }
         return $last->sale_invoiceID + 1;
+    }
+
+    public function delete($hashID)
+    {
+        $products = DeliveredGoods::query()->where('invoice_hash', '=', $hashID)->get();
+        foreach($products as $product) {
+            addToStorage($product->quantity, $product->delivered_good_id);
+            unHoldFromStorage($product->quantity, $product->delivered_good_id, $hashID);
+            $product->delete();
+        }
+
+        $invoice = SaleInvoices::query()->where('hashID', '=', $hashID)->first();
+        $invoice->delete();
+
+        return Redirect::back()->with('notify', 'Το τιμολόγιο τοποθετήθηκε στον κάδο ανακύκλωσης!');
     }
 }

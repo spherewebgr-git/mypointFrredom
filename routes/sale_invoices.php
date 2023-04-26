@@ -14,7 +14,7 @@ Route::name('sale_invoice.')->prefix('/')->group(function () {
     Route::get('/view-sale_invoice/{invoice:hashID}', [SaleInvoicesController::class, 'view'])->name('view');
     Route::get('/save-sale_invoice/{invoiceID}', [SaleInvoicesController::class, 'save'])->name('save');
     Route::get('/edit-sale_invoice/{invoice}', [SaleInvoicesController::class, 'edit'])->name('edit');
-//    Route::get('/delete-invoice/{invoice::hashID}', [SaleInvoicesController::class, 'delete'])->name('delete');
+    Route::get('/delete-sale-invoice/{invoice::hashID}', [SaleInvoicesController::class, 'delete'])->name('delete');
     Route::get('/download-sale_invoice/{invoice:hashID}', [SaleInvoicesController::class, 'download'])->name('download');
     Route::get('/myData-sale_invoice/{invoice:hashID}', [SaleInvoicesController::class, 'sendInvoice'])->name('mydata');
 //    Route::post('/myData-invoices-multiple', [SaleInvoicesController::class, 'sendMyDataInvoices'])->name('mydata.multiple');

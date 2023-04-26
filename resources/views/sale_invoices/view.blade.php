@@ -76,43 +76,45 @@
                     <tbody>
                     <tr>
                         <th style="width: 7%;background: #C62828" class="invoice-color-bg center">Ποσότητα</th>
-                        <th style="width: 70%" class="invoice-color-bg">Περιγραφή</th>
-                        <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
-                        <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
+                        <th style="width: 60%" class="invoice-color-bg">Περιγραφή</th>
+                        <th style="width: 7%" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                        <th style="width: 7%" class="invoice-color-bg center">Φ.Π.Α.</th>
+                        <th style="width: 7%" class="invoice-color-bg right-align">Σύνολο</th>
                     </tr>
-                    @if($invoice->goods)
-                    @foreach($invoice->goods as $service)
+                    @if($invoice->deliveredGoods)
+                    @foreach($invoice->deliveredGoods as $product)
                         <tr class="service" data-quantity="1" data-price="300">
-                            <td class="center">{{$service->quantity}}</td>
-                            <td>{{$service->description}}</td>
-                            <td class="servicePrice center">{{number_format($service->price, 2, ',', '.')}}</td>
-                            <td class="serviceTotalPrice right-align">{{number_format($service->price * $service->quantity, 2, ',', '.')}}</td>
+                            <td class="center">{{$product->quantity}}</td>
+                            <td>{{getProductByID($product->id)->product_name}}</td>
+                            <td class="servicePrice center">{{number_format($product->product_price, 2, ',', '.')}}</td>
+                            <td class="serviceVat center">{{number_format($product->line_vat, 2, ',', '.')}} ({{getVatPercentage($product->vat_id)}}%)</td>
+                            <td class="serviceTotalPrice right-align">{{number_format($product->product_price * $product->quantity, 2, ',', '.')}}</td>
                         </tr>
                     @endforeach
-                    @for($i = $invoice->goods->count(); $i <= 4; $i++)
+                    @for($i = $invoice->deliveredGoods->count(); $i <= 4; $i++)
                         <tr>
-                            <td colspan="4">&nbsp;</td>
+                            <td colspan="5">&nbsp;</td>
                         </tr>
                     @endfor
                     @endif
                     <tr class="right-align">
-                        <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
-                        <td colspan="2" class="sinoloAxion" data-saprice="">
+                        <td colspan="3">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                        <td colspan="3" class="sinoloAxion" data-saprice="">
                             € {{number_format(getSaleInvoicePrices($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
-                        <td colspan="2" class="sinoloFpa">
-                            € {{number_format((24 / 100) * getSaleInvoicePrices($invoice->hashID), 2, ',', '.')}}</td>
+                        <td colspan="3">Σύνολο Φ.Π.Α.:</td>
+                        <td colspan="3" class="sinoloFpa">
+                            € {{number_format((getSaleInvoiceVat($invoice->hashID)), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
-                        <td colspan="2" class="sinoloGeniko">
-                            € {{number_format(getSaleInvoicePrices($invoice->hashID) + ((24 / 100) * getSaleInvoicePrices($invoice->hashID)), 2, ',', '.')}}</td>
+                        <td colspan="3">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                        <td colspan="3" class="sinoloGeniko">
+                            € {{number_format(getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="2"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
-                        <td colspan="2" class="pliroteoPoso"><strong>€ {{number_format(getSaleInvoicePrices($invoice->hashID) + ((24 / 100) * getSaleInvoicePrices($invoice->hashID)), 2, ',', '.')}}</strong></td>
+                        <td colspan="3"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
+                        <td colspan="3" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
                     </tr>
                     </tbody>
                 </table>

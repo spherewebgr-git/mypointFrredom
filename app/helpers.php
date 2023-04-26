@@ -122,7 +122,7 @@ if(!function_exists('getSaleInvoicePrices'))
 {
     /**
      * @param $invoiceHashID
-     * @return mixed
+     * @return float
      */
     function getSaleInvoicePrices( $invoiceHashID )
     {
@@ -136,6 +136,27 @@ if(!function_exists('getSaleInvoicePrices'))
         $invoicePrice = collect($total)->sum();
 
         return $invoicePrice;
+    }
+}
+
+if(!function_exists('getSaleInvoiceVat'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return float
+     */
+    function getSaleInvoiceVat( $invoiceHashID )
+    {
+        $deliveredGoods = DeliveredGoods::query()->where('invoice_hash', '=', $invoiceHashID)->get();
+        $vats = [];
+        foreach ($deliveredGoods as $product)
+        {
+            $vats[] = $product->line_vat * $product->quantity;
+        }
+
+        $invoiceVat = collect($vats)->sum();
+
+        return $invoiceVat;
     }
 }
 
@@ -749,6 +770,31 @@ if(!function_exists('getInvoiceTypeName'))
                 return "Μισθοδοσία";
             case $id === '17.2':
                 return "Αποσβέσεις";
+        }
+        return 'Λάθος Κωδικός Τύπου';
+    }
+}
+
+if(!function_exists('getVatPercentage'))
+{
+    function getVatPercentage($id)
+    {
+        switch ($id) {
+            case 1:
+                return "24";
+            case 2:
+                return "13";
+            case 3:
+                return "6";
+            case 4:
+                return "17";
+            case 5:
+                return "9";
+            case 6:
+                return "4";
+            case 7:
+            case 8:
+                return "0";
         }
         return 'Λάθος Κωδικός Τύπου';
     }

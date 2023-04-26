@@ -176,7 +176,7 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody .= '</invoiceSummary>'.PHP_EOL;
         $sendBody .= '</invoice>'.PHP_EOL;
         $sendBody .= '</InvoicesDoc>'.PHP_EOL;
-        //dd($sendBody);
+        dd($sendBody);
         $request->setBody($sendBody);
         try
         {

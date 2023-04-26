@@ -74,12 +74,14 @@
                                             <option value="" selected disabled>Επιλέξτε Πελάτη</option>
                                             @foreach($clients as $client)
                                                 @if($client->disabled != 1)
+                                                    @if($client->name !== 'Πελάτης Λιανικής')
                                                     <option @if(isset($invoice))
                                                             @if($invoice->client_id == $client->id)
                                                             selected
                                                             @endif
                                                             @endif value="{{$client->id}}">{{$client->company}}
                                                     </option>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                         </select>
@@ -163,8 +165,8 @@
                                                                    class="price-field" value="{{$good->product_price}}">
                                                         </div>
                                                         <div class="col m1 s12 input-field">
-                                                            <input type="text" placeholder="0.00" name="price"
-                                                                   class="price-field" value="{{$good->line_vat}}">
+                                                            <input type="text" placeholder="0.00" name="vat"
+                                                                   class="vat-field " value="{{$good->line_vat}}">
                                                         </div>
                                                     </div>
                                                     <div
@@ -273,7 +275,7 @@
                                                         id="subtotal">0.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
-                                                <span class="invoice-subtotal-title">Φ.Π.Α. (13%)</span>
+                                                <span class="invoice-subtotal-title">Σύνολο Φ.Π.Α.</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span id="fpa">00.00</span>
                                                 </h6>
                                             </li>
@@ -291,6 +293,10 @@
                                                     <span id="toPay">0.00</span></h6>
                                             </li>
                                         </ul>
+                                        <p><small><strong>ΠΡΟΣΟΧΗ:</strong> Ενδέχεται ο παραπάνω συνολικός υπολογισμός να μην είναι απόλυτα σωστός. Το παρόν λειτουργεί υποστηρικτηκά.
+                                                Δείτε στην <a href="{{route('sale_invoice.list')}}">κεντρική λίστα παραστατικών</a> για επιβεβαίωση.</small></p>
+
+
                                     </div>
                                 </div>
                             </div>
