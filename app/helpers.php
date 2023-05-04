@@ -226,13 +226,13 @@ if(!function_exists('getDeliveryInvoiceFinal'))
     }
 }
 
-if(!function_exists('getSaleInvoiceVat'))
+if(!function_exists('getSaleInvoiceLineVat'))
 {
     /**
      * @param $invoiceHashID
      * @return mixed
      */
-    function getSaleInvoiceVat( $invoiceHashID )
+    function getSaleInvoiceLineVat( $invoiceHashID )
     {
         $invoice = SaleInvoices::query()->where('hashID', '=', $invoiceHashID)->first();
         $total = [];
@@ -241,6 +241,28 @@ if(!function_exists('getSaleInvoiceVat'))
         foreach ($products as $product)
         {
             $total[] = $product->line_vat;
+        }
+        $invoiceVat = collect($total)->sum();
+
+        return $invoiceVat;
+    }
+}
+
+if(!function_exists('getInvoiceFinalTax'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getInvoiceFinalTax( $invoiceHashID )
+    {
+        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $services = $invoice->services()->get();
+//         dd($products);
+        foreach ($services as $service)
+        {
+            $total[] = $service->vat_amount;
         }
         $invoiceVat = collect($total)->sum();
 
@@ -589,12 +611,61 @@ if(!function_exists('createInvoiceFile'))
             case 5:
                 $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
                 break;
+            case 6:
+                $payment = 'WEB BANKING';
+                break;
+            case 7:
+                $payment = 'POS/ePOS';
+                break;
         }
         $pdf = PDF::loadView('invoices.raw-view', ['invoice' => $invoice, 'payment' => $payment, 'settings' => $settings], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
         $pdf->setPaper('A4', 'portrait');
         Storage::put('public/pdf/'.$year.'/'.$month.'/invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf', $pdf->output());
 
         $invoice->update(['file_invoice' => 'invoice-m'.str_pad($invoice->invoiceID, 4, '0', STR_PAD_LEFT).'.pdf']);
+    }
+}
+
+if(!function_exists('createSaleInvoiceFile'))
+{
+    function createSaleInvoiceFile($invoiceHash)
+    {
+        $invoice = SaleInvoices::query()->where('hashID', $invoiceHash)->first();
+        $year = date('Y', strtotime($invoice->date));
+        $month = date('m', strtotime($invoice->date));
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+        switch ($invoice->payment_method) {
+            case 1:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
+                break;
+            case 2:
+                $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΞΩΤΕΡΙΚΟΥ';
+                break;
+            case 3:
+                $payment = 'ΜΕΤΡΗΤΑ';
+                break;
+            case 4:
+                $payment = 'ΕΠΙΤΑΓΗ';
+                break;
+            case 5:
+                $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
+                break;
+            case 6:
+                $payment = 'WEB BANKING';
+                break;
+            case 7:
+                $payment = 'POS/ePOS';
+                break;
+        }
+        $pdf = PDF::loadView('sale_invoices.raw-view', ['invoice' => $invoice, 'payment' => $payment, 'settings' => $settings], [], 'ASCII,JIS,UTF-8,EUC-JP,SJIS');
+        $pdf->setPaper('A4', 'portrait');
+        Storage::put('public/pdf/sale_invoices/'.$year.'/'.$month.'/invoice-'.$invoice->seira.$invoice->sale_invoiceID.'.pdf', $pdf->output());
+
+        $invoice->update(['file_invoice' => 'invoice-'.$invoice->seira.$invoice->sale_invoiceID.'.pdf']);
     }
 }
 

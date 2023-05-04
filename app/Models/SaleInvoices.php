@@ -10,7 +10,7 @@ class SaleInvoices extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hashID', 'sale_invoiceID', 'client_id', 'seira', 'date', 'paid', 'payment_method', 'mark'
+        'hashID', 'sale_invoiceID', 'client_id', 'seira', 'date', 'paid', 'payment_method', 'file_invoice', 'mark'
     ];
 
     public function deliveredGoods()

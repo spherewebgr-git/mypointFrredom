@@ -31,6 +31,8 @@ if(!function_exists('getMmType')) {
                 return 'Λίτρα';
             case '150' :
                 return 'Κιλά';
+            default:
+                return 'Τεμάχια';
         }
 
         return '';

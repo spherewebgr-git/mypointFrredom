@@ -1,4 +1,4 @@
-<?php $color = settings()['invoice_color']; ?>
+<?php $color = $settings['invoice_color']; ?>
 
     <!DOCTYPE html>
 <html lang="el">
@@ -173,6 +173,7 @@
             line-height: 13px;
             border-bottom: 1px solid <?php echo $color ? $color : '#C62828'; ?>;
         }
+        .timologioContent .timTable table tr td.center {text-align: center}
         .timologioContent .timTable table tr.right-align td {
             text-align: right;
         }
@@ -199,7 +200,7 @@
         }
 
     </style>
-    <title>Τιμολόγιο Παροχής Υπηρεσιών - @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->invoiceID}}</title>
+    <title>Τιμολόγιο Πώλησης - @if($invoice->seira != 'ANEY') {{$invoice->seira}} @endif {{$invoice->sale_invoiceID}}</title>
 </head>
 <body>
 <div class="timologioContent row">
@@ -209,7 +210,7 @@
             <tr class="no-border">
                 <td>
                     @if(isset(settings()['invoice_logo']) && isset(settings()['show_invoice_logo']) && settings()['show_invoice_logo'] == 'on') <img src="{{url('images/system/'.settings()['invoice_logo'])}}"
-                                                                alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
+                                                                                                                                                     alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
                 <td class="tim-info">
                     <h4 style="color: <?php echo $color ? $color : '#C62828'; ?>;">{{settings()['title'] ?? 'not set'}}</h4>
                     <h5>{{settings()['company'] ?? 'not set'}}</h5>
@@ -223,7 +224,7 @@
                     </div>
                 </td>
                 <td>
-                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->invoiceID}}</strong></span>
+                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΩΛΗΣΗΣ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->sale_invoiceID}}</strong></span>
                     </p>
                 </td>
             </tr>
@@ -241,88 +242,74 @@
             <br>
         </div>
         <hr class="main-color">
-        @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
-            <div class="paratiriseis">
-                <span class="invoice-color">Σημειώσεις:</span><br>
-                <div id="parakratisi">ΕΓΙΝΕ ΠΑΡΑΚΡΑΤΗΣΗ ΦΟΡΟΥ 20% ΙΣΗ ΜΕ
-                    € {{(20 / 100) * getFinalPrices($invoice->hashID, 'invoice')}} (ΕΥΡΩ)
-                </div>
-            </div>
-        @endif
+
         <div class="timTable small-12 columns">
             <table>
                 <tbody>
                 <tr>
                     <th style="width: 7%;background: <?php echo $color ? $color : '#C62828'; ?>;" class="invoice-color-bg center">Ποσότητα</th>
                     <th style="width: 60%" class="invoice-color-bg">Περιγραφή</th>
-                    <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                    <th style="width: 13%" class="invoice-color-bg center">Τιμή / (τεμ.)</th>
+                    <th style="width: 13%" class="invoice-color-bg center">ΦΠΑ / (τεμ.)</th>
                     <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
                 </tr>
-                @foreach($invoice->services as $service)
+                @if(isset($invoice->deliveredGoods))
+                @foreach($invoice->deliveredGoods as $product)
                     <tr class="service" data-quantity="1" data-price="300">
-                        <td style="text-align:center;">{{$service->quantity}}</td>
-                        <td>{{$service->description}}</td>
-                        <td class="servicePrice" style="text-align:center;">{{number_format($service->price, 2, ',', '.')}}</td>
-                        <td class="serviceTotalPrice" style="text-align:right;">{{number_format($service->price * $service->quantity, 2, ',', '.')}}</td>
+                        <td class="center">{{$product->quantity}}</td>
+                        <td>{{getProductByID($product->delivered_good_id)->product_name}}</td>
+                        <td class="servicePrice center">{{number_format($product->product_price, 2, ',', '.')}}</td>
+                        <td class="serviceVat center">{{number_format($product->line_vat / $product->quantity, 2, ',', '.')}} ({{getVatPercentage($product->vat_id)}}%)</td>
+                        <td class="serviceTotalPrice right-align">{{number_format($product->product_price * $product->quantity, 2, ',', '.')}}</td>
                     </tr>
                 @endforeach
+                @endif
 
                 <tr>
-                    <td colspan="4">&nbsp;</td>
+                    <td colspan="5">&nbsp;</td>
                 </tr>
 
                 <tr class="right-align">
-                    <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
-                    <td colspan="2" class="sinoloAxion" data-saprice="">
-                        € {{number_format(getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
+                    <td colspan="3">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                    <td colspan="3" class="sinoloAxion" data-saprice="">
+                        € {{number_format(getSaleInvoicePrices($invoice->hashID), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
-                    <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
-                    <td colspan="2" class="sinoloFpa">
-                        € {{number_format(getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
+                    <td colspan="3">Φ.Π.Α.:</td>
+                    <td colspan="3" class="sinoloFpa">
+                        € {{number_format((getSaleInvoiceLineVat($invoice->hashID)), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
-                    <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
-                    <td colspan="2" class="sinoloGeniko">
-                        € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
+                    <td colspan="3">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                    <td colspan="3" class="sinoloGeniko">
+                        € {{number_format(getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceLineVat($invoice->hashID), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
-                    <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
-                    <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
-                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}} @else
-                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}
-                            @endif</strong></td>
+                    <td colspan="3">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
+                    <td colspan="3" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceLineVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
                 </tr>
                 </tbody>
             </table>
             <div class="small-12 columns">
-                @if(isset(settings()['signature']))
-                <div class="signature left">
-                    <span class="invoice-color">Για τον εκδότη</span>
 
-                        <img src="{{url('images/system/'.settings()['signature'])}}" alt="signature">
-                </div>
-                <div class="clear"></div>
-                <hr class="main-color">
-                @endif
                 @if(isset($invoice->mark) && $invoice->mark > 0)
-                    <div style="padding: 100px 0 0 0;float: right;font-size: 18px;font-weight: 500;">MAPK: {{$invoice->mark}}</div>
+                    <div style="padding: 140px 0 0 0;float: right;font-size: 18px;font-weight: 500;font-family: 'RobotoRegular', sans-serif;">MAPK: {{$invoice->mark}}</div>
                 @endif
                 <div class="clear"></div>
-                <table class="invoiceform footer" style="margin-top: 150px;">
-                    <tbody>
-                    <tr>
-                        <td>@if(isset(settings()['phone']) && isset(settings()['show_invoice_phone']) && settings()['show_invoice_phone'] == 'on') <span class="invoice-color">Τηλ:</span> {{settings()['phone']}} @endif </td>
-                        <td> @if(isset(settings()['email']) && isset(settings()['show_invoice_email']) && settings()['show_invoice_email'] == 'on') <span class="invoice-color">Email:</span> {{settings()['email']}} @endif </td>
-                        <td><span class="invoice-color">Χρήση:</span>ΠΕΛΑΤΗΣ</td>
-                    </tr>
-                    <tr>
-                        <td> @if(isset(settings()['website'])  && isset(settings()['show_invoice_website']) && settings()['show_invoice_website'] == 'on') <span class="invoice-color">Website:</span> {{settings()['website']}} @endif </td>
-                        <td> @if(isset(settings()['mobile'])  && isset(settings()['show_invoice_mobile']) && settings()['show_invoice_mobile'] == 'on') <span class="invoice-color">Κιν:</span> {{settings()['mobile']}} @endif </td>
-                        <td><span class="invoice-color">Τρόπος Πληρωμής:</span> {{$payment}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <table class="invoiceform footer" style="margin-top: 150px;">
+                        <tbody>
+                        <tr>
+                            <td> @if(isset(settings()['phone']) && isset(settings()['show_invoice_phone']) && settings()['show_invoice_phone'] == 'on') <span class="invoice-color">Τηλ:</span> {{settings()['phone']}} @endif </td>
+                            <td> @if(isset(settings()['email']) && isset(settings()['show_invoice_email']) && settings()['show_invoice_email'] == 'on') <span class="invoice-color">Email:</span> {{settings()['email']}} @endif </td>
+                            <td><span class="invoice-color">Χρήση:</span>ΠΕΛΑΤΗΣ</td>
+                        </tr>
+                        <tr>
+                            <td> @if(isset(settings()['website'])  && isset(settings()['show_invoice_website']) && settings()['show_invoice_website'] == 'on') <span class="invoice-color">Website:</span> {{settings()['website']}} @endif </td>
+                            <td> @if(isset(settings()['mobile'])  && isset(settings()['show_invoice_mobile']) && settings()['show_invoice_mobile'] == 'on') <span class="invoice-color">Κιν:</span> {{settings()['mobile']}} @endif </td>
+                            <td><span class="invoice-color">Τρόπος Πληρωμής:</span> {{$payment}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>

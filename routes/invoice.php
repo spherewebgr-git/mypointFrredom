@@ -23,4 +23,5 @@ Route::name('invoice.')->prefix('/')->group(function () {
     Route::get('/update-status/{invoice:hashID}', [UpdateInvoiceController::class, 'updateStatus'])->name('update-status');
     Route::get('/cancel-invoice/{invoice:hashID}', [InvoicesController::class, 'cancelInvoice'])->name('cancel');
     Route::get('/filter-incomes/year/{year}', [InvoicesController::class, 'selectYear'])->name('year');
+    Route::get('/send-invoice/mail/{invoice:hashID}', [InvoicesController::class, 'sendMail'])->name('mail');
 });

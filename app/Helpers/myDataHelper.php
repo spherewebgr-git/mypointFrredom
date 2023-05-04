@@ -35,7 +35,8 @@ if(!function_exists('myDataSendInvoices')) {
             $classificationCat = 'category1_3';
             $services = $invoice->services()->get();
             $parakratisi = $invoice->has_parakratisi == 1 ? getParakratisiValue($invoice->parakratisi_id) : '0.00';
-            $tax = (24 / 100) * $total; // FPA
+
+            $tax =  getInvoiceFinalTax($invoice->hashID); // FPA
             $idFormatted = $invoice->invoiceID;
             if($total > 300 && $invoice->has_parakratisi == 1) {
                 $withheld = ($parakratisi / 100) * $total; // Συνολική Παρακράτηση (Συνολικό - 20%)
@@ -44,6 +45,7 @@ if(!function_exists('myDataSendInvoices')) {
                 $grossValue = $total + $tax;
                 $withheld = 0.00;
             }
+            $final = $grossValue;
         } elseif($type == 'sale_invoice') {
             $invoice = SaleInvoices::query()->where('hashID', '=', $invoice)->first();
             $total = getSaleInvoicePrices($invoice->hashID); // Total price without VAT
@@ -51,8 +53,9 @@ if(!function_exists('myDataSendInvoices')) {
             $classificationType = 'E3_561_001';
             $classificationCat = 'category1_1';
             $products = $invoice->deliveredGoods()->get();
-            $tax = getSaleInvoiceVat($invoice->hashID);
-            $grossValue = getSaleInvoiceFinal($invoice->hashID);
+            $final = getSaleInvoiceFinal($invoice->hashID);
+            $tax = getSaleInvoiceLineVat($invoice->hashID);
+            $grossValue = getSaleInvoiceFinal($invoice->hashID) + $tax;
             $withheld = 0.00;
             $idFormatted = $invoice->sale_invoiceID;
         } elseif($type == 'delivery_invoice') {
@@ -113,7 +116,7 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody .= '<paymentMethods>'.PHP_EOL;
         $sendBody .= '<paymentMethodDetails>'.PHP_EOL;
         $sendBody .= '<type>'.$invoice->payment_method.'</type>'.PHP_EOL;
-        $sendBody .= '<amount>'.number_format($grossValue, 2, '.', '' ).'</amount>'.PHP_EOL;
+        $sendBody .= '<amount>'.number_format($final, 2, '.', '' ).'</amount>'.PHP_EOL;
         $sendBody .= '<paymentMethodInfo></paymentMethodInfo>'.PHP_EOL;
         $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
         $sendBody .= '</paymentMethods>'.PHP_EOL;
@@ -124,7 +127,7 @@ if(!function_exists('myDataSendInvoices')) {
                 $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
                 $sendBody .= '<netValue>' . number_format(($service->price * $service->quantity), 2, '.', '') . '</netValue>' . PHP_EOL;
                 $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
-                $sendBody .= '<vatAmount>' . number_format(((24/100) * ($service->price * $service->quantity)), 2, '.', '') . '</vatAmount>' . PHP_EOL;
+                $sendBody .= '<vatAmount>' . number_format(($service->vat_amount * $service->quantity), 2, '.', '') . '</vatAmount>' . PHP_EOL;
                 $sendBody .= '<incomeClassification>' . PHP_EOL;
                 $sendBody .= '<icls:classificationType>'.$classificationType.'</icls:classificationType>' . PHP_EOL;
                 $sendBody .= '<icls:classificationCategory>'.$classificationCat.'</icls:classificationCategory>' . PHP_EOL;
@@ -138,7 +141,7 @@ if(!function_exists('myDataSendInvoices')) {
                 $sendBody .= '<invoiceDetails>' . PHP_EOL;
                 $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
                 $sendBody .= '<netValue>' . number_format(($product->product_price * $product->quantity), 2, '.', '') . '</netValue>' . PHP_EOL;
-                $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
+                $sendBody .= '<vatCategory>'.$product->vat_id.'</vatCategory>' . PHP_EOL;
                 $sendBody .= '<vatAmount>' . number_format($product->line_vat, 2, '.', '') . '</vatAmount>' . PHP_EOL;
                 $sendBody .= '<incomeClassification>' . PHP_EOL;
                 $sendBody .= '<icls:classificationType>'.$classificationType.'</icls:classificationType>' . PHP_EOL;
@@ -176,7 +179,7 @@ if(!function_exists('myDataSendInvoices')) {
         $sendBody .= '</invoiceSummary>'.PHP_EOL;
         $sendBody .= '</invoice>'.PHP_EOL;
         $sendBody .= '</InvoicesDoc>'.PHP_EOL;
-        dd($sendBody);
+        //dd($sendBody);
         $request->setBody($sendBody);
         try
         {

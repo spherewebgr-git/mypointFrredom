@@ -40,28 +40,28 @@
                                  alt="{{settings()['title']}} logo"></td>
                     @endif
                     <td class="tim-info left" style="text-align: left">
-                        <h4 class="invoice-color">{{settings()['title']}}</h4>
-                        <h5 class="invoice-color">{{settings()['company']}}</h5>
+                        <h4 class="invoice-color" style="color: {{$settings['invoice_color']}}">{{settings()['title']}}</h4>
+                        <h5 class="invoice-color" style="color: {{$settings['invoice_color']}}">{{settings()['company']}}</h5>
                         <p>{{settings()['business']}}<br>{{settings()['address']}}<br>Α.Φ.Μ.: {{settings()['vat']}} -
                             ΔΟΥ: {{settings()['doy'] ?? 'not exist'}}</p></td>
                 </tr>
                 <tr class="no-border">
                     <td>
-                        <div class="tim-date"><span class="invoice-color">Ημερομηνία:</span>
+                        <div class="tim-date"><span class="invoice-color" style="color: {{$settings['invoice_color']}}">Ημερομηνία:</span>
                             <strong>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</strong>
                         </div>
                     </td>
                     <td>
-                        <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΩΛΗΣΗΣ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->sale_invoiceID}}</strong></span>
+                        <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΩΛΗΣΗΣ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color" style="color: {{$settings['invoice_color']}}">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color" style="color: {{$settings['invoice_color']}}">{{$invoice->sale_invoiceID}}</strong></span>
                         </p>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div class="clear"></div>
-            <hr class="main-color">
+            <hr class="main-color" style="color: {{$settings['invoice_color']}}; border-color: {{$settings['invoice_color']}}">
             <div class="timClient">
-                <span class="invoice-color">Πελάτης:</span>
+                <span class="invoice-color" style="color: {{$settings['invoice_color']}}">Πελάτης:</span>
                 <strong>{{$invoice->client->company}}</strong><br>
                 {{$invoice->client->work_title}}<br>
                 {{$invoice->client->address. ' '. $invoice->client->number}}, {{chunk_split($invoice->client->postal_code, 3, ' ')}}<br>
@@ -75,46 +75,46 @@
                 <table>
                     <tbody>
                     <tr>
-                        <th style="width: 7%;background: #C62828" class="invoice-color-bg center">Ποσότητα</th>
-                        <th style="width: 60%" class="invoice-color-bg">Περιγραφή</th>
-                        <th style="width: 7%" class="invoice-color-bg center">Τιμή Μονάδας</th>
-                        <th style="width: 7%" class="invoice-color-bg center">Φ.Π.Α.</th>
-                        <th style="width: 7%" class="invoice-color-bg right-align">Σύνολο</th>
+                        <th style="width: 7%;background: {{$settings['invoice_color']}}" class="invoice-color-bg center">Ποσότητα</th>
+                        <th style="width: 60%;background: {{$settings['invoice_color']}}" class="invoice-color-bg">Περιγραφή</th>
+                        <th style="width: 7%;background: {{$settings['invoice_color']}}" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                        <th style="width: 7%;background: {{$settings['invoice_color']}}" class="invoice-color-bg center">Φ.Π.Α.</th>
+                        <th style="width: 7%;background: {{$settings['invoice_color']}}" class="invoice-color-bg right-align">Σύνολο</th>
                     </tr>
                     @if($invoice->deliveredGoods)
                     @foreach($invoice->deliveredGoods as $product)
                         <tr class="service" data-quantity="1" data-price="300">
-                            <td class="center">{{$product->quantity}}</td>
-                            <td>{{getProductByID($product->id)->product_name}}</td>
-                            <td class="servicePrice center">{{number_format($product->product_price, 2, ',', '.')}}</td>
-                            <td class="serviceVat center">{{number_format($product->line_vat, 2, ',', '.')}} ({{getVatPercentage($product->vat_id)}}%)</td>
-                            <td class="serviceTotalPrice right-align">{{number_format($product->product_price * $product->quantity, 2, ',', '.')}}</td>
+                            <td class="center" style="border-color: {{$settings['invoice_color']}}">{{$product->quantity}}</td>
+                            <td style="border-color: {{$settings['invoice_color']}}">{{getProductByID($product->id)->product_name}}</td>
+                            <td class="servicePrice center" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->product_price, 2, ',', '.')}}</td>
+                            <td class="serviceVat center" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->line_vat, 2, ',', '.')}} ({{getVatPercentage($product->vat_id)}}%)</td>
+                            <td class="serviceTotalPrice right-align" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->product_price * $product->quantity, 2, ',', '.')}}</td>
                         </tr>
                     @endforeach
                     @for($i = $invoice->deliveredGoods->count(); $i <= 4; $i++)
                         <tr>
-                            <td colspan="5">&nbsp;</td>
+                            <td colspan="5" style="border-color: {{$settings['invoice_color']}}">&nbsp;</td>
                         </tr>
                     @endfor
                     @endif
                     <tr class="right-align">
-                        <td colspan="3">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
-                        <td colspan="3" class="sinoloAxion" data-saprice="">
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="sinoloAxion" data-saprice="">
                             € {{number_format(getSaleInvoicePrices($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="3">Σύνολο Φ.Π.Α.:</td>
-                        <td colspan="3" class="sinoloFpa">
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}">Σύνολο Φ.Π.Α.:</td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="sinoloFpa">
                             € {{number_format((getSaleInvoiceVat($invoice->hashID)), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="3">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
-                        <td colspan="3" class="sinoloGeniko">
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="sinoloGeniko">
                             € {{number_format(getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
-                        <td colspan="3"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
-                        <td colspan="3" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
                     </tr>
                     </tbody>
                 </table>
@@ -132,14 +132,14 @@
                     <table class="invoiceform footer">
                         <tbody>
                         <tr>
-                            <td> @if(isset(settings()['phone'])) <span class="invoice-color">Τηλ:</span> {{settings()['phone']}} @endif </td>
-                            <td> @if(isset(settings()['email'])) <span class="invoice-color">Email:</span> {{settings()['email']}} @endif </td>
-                            <td><span class="invoice-color">Χρήση: </span>ΠΕΛΑΤΗΣ</td>
+                            <td> @if(isset(settings()['phone'])) <span class="invoice-color" style="color: {{$settings['invoice_color']}}">Τηλ:</span> {{settings()['phone']}} @endif </td>
+                            <td> @if(isset(settings()['email'])) <span class="invoice-color" style="color: {{$settings['invoice_color']}}">Email:</span> {{settings()['email']}} @endif </td>
+                            <td><span class="invoice-color" style="color: {{$settings['invoice_color']}}">Χρήση: </span>ΠΕΛΑΤΗΣ</td>
                         </tr>
                         <tr>
                             {{--                            <td><span class="invoice-color">Web:</span> wwww.sphereweb.gr</td>--}}<td></td>
-                            <td><span class="invoice-color">Πληρωμή:</span> {{$payment}}</td>
-                            <td> @if(isset(settings()['mobile'])) <span class="invoice-color">Κιν:</span> {{settings()['mobile']}} @endif </td>
+                            <td><span class="invoice-color" style="color: {{$settings['invoice_color']}}">Πληρωμή:</span> {{$payment}}</td>
+                            <td> @if(isset(settings()['mobile'])) <span class="invoice-color" style="color: {{$settings['invoice_color']}}">Κιν:</span> {{settings()['mobile']}} @endif </td>
                         </tr>
                         </tbody>
                     </table>
@@ -149,12 +149,14 @@
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper">
                 <div class="card-content">
+                    @if(isset($invoice->client->email))
                     <div class="invoice-action-btn mb-2">
-                        <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-                            <i class="material-icons mr-4">check</i>
+                        <a href="{{route('sale_invoice.mail', ['invoice' => $invoice->hashID])}}" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                            <i class="material-icons mr-4">mail</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
                     </div>
+                    @endif
                     <div class="invoice-action-btn mb-2">
                         <a href="javascript:if(window.print)window.print()" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
                             <i class="material-icons mr-4">print</i>

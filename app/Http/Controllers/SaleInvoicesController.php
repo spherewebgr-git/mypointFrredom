@@ -7,6 +7,7 @@ use App\Models\DeliveredGoods;
 use App\Models\Goods;
 use App\Models\SaleInvoices;
 use App\Models\Seires;
+use App\Models\Settings;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,31 @@ class SaleInvoicesController extends Controller
         //dd($vats);
 
         return view('sale_invoices.index', ['invoices' => $saleInvoices, 'finals' => $final, 'vats' => $vats]);
+    }
+
+    public function save($hashID)
+    {
+        createSaleInvoiceFile($hashID);
+        //downloadInvoiceFile($hashID);
+        $invoice = SaleInvoices::query()->where('hashID', $hashID)->first();
+
+        $year = (string)date('Y', strtotime($invoice->date));
+        $month = (string)date('m', strtotime($invoice->date));
+        $fileName = $invoice->file_invoice;
+
+        return response()->download(storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR. 'sale_invoices'. DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month . DIRECTORY_SEPARATOR. $fileName );
+
+        //return redirect('invoices');
+    }
+
+    public function download($hashID) {
+        $invoice = SaleInvoices::query()->where('hashID', $hashID)->first();
+
+        $year = (string)date('Y', strtotime($invoice->date));
+        $month = (string)date('m', strtotime($invoice->date));
+        $fileName = $invoice->file_invoice;
+
+        return response()->download(storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR. 'sale_invoices'. DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month . DIRECTORY_SEPARATOR. $fileName );
     }
 
     public function new()
@@ -100,7 +126,7 @@ class SaleInvoicesController extends Controller
                         'quantity' => $product['quantity'],
                         'vat_id' => $product['vat_id'],
                         'line_vat' => $product['vat'],
-                        'line_final_price' => ($product['quantity'] * $product['price']) + $product['vat'],
+                        'line_final_price' => ($product['price'] + $product['vat']) * $product['quantity'],
                         'created_at' => date('Y-m-d')
                     )
                 );
@@ -195,6 +221,11 @@ class SaleInvoicesController extends Controller
 
     public function view( SaleInvoices $invoice) {
         //dd($invoice);
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
         switch ($invoice->payment_method) {
             case 1:
                 $payment = 'ΚΑΤΑΘΕΣΗ ΣΕ ΤΡΑΠΕΖΑ ΕΣΩΤΕΡΙΚΟΥ';
@@ -211,9 +242,17 @@ class SaleInvoicesController extends Controller
             case 5:
                 $payment = 'ΜΕ ΠΙΣΤΩΣΗ';
                 break;
+            case 6:
+                $payment = 'WEB BANKING';
+                break;
+            case 7:
+                $payment = 'POS/ePOS';
+                break;
+            default:
+                $payment = 'ΜΕΤΡΗΤΑ';
         }
 
-        return view('sale_invoices.view', ['invoice' => $invoice, 'payment' => $payment]);
+        return view('sale_invoices.view', ['invoice' => $invoice, 'payment' => $payment, 'settings' => $settings]);
     }
 
     public function sendInvoice($invoice)
@@ -285,5 +324,40 @@ class SaleInvoicesController extends Controller
         $invoice->delete();
 
         return Redirect::back()->with('notify', 'Το τιμολόγιο τοποθετήθηκε στον κάδο ανακύκλωσης!');
+    }
+
+    public function sendInvoiceEmail($hashID) {
+        $saleInvoice = SaleInvoices::query()->where('hashID', '=', $hashID)->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+        $data = array(
+            'seira' => $saleInvoice->seira,
+            'invoice'=> $saleInvoice,
+            'products' => $saleInvoice->deliveredGoods,
+            'title' => $settings['company'].' - '. $settings['title'],
+            'settings' => $settings
+        );
+        $year = date('Y', strtotime($saleInvoice->date));
+        $month = date('m', strtotime($saleInvoice->date));
+        createSaleInvoiceFile($hashID);
+        $file = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'pdf'.DIRECTORY_SEPARATOR.'sale_invoices'.DIRECTORY_SEPARATOR.$year.DIRECTORY_SEPARATOR.$month.DIRECTORY_SEPARATOR.'invoice-'.$saleInvoice->seira.$saleInvoice->sale_invoiceID.'.pdf';
+        try {
+
+            $client = $saleInvoice->client;
+            //dd($settings);
+            Mail::send('emails.notification', $data, function($message) use ($file, $saleInvoice, $client, $settings) {
+                $message->to($client->email, $client->company);
+                $message->subject('Τιμολόγιο Πώλησης '.$settings['title'].' - '.$saleInvoice->seira.'/'.$saleInvoice->sale_invoiceID);
+                $message->attach($file);
+                $message->from($settings['email'], $settings['company'].' - '. $settings['title']);
+            });
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return Redirect::back()->with('notify', $e->getMessage());
+        }
     }
 }

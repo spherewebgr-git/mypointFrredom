@@ -175,6 +175,8 @@ class InvoicesController extends Controller
                         'client_id' => $request->client,
                         'price' => $serv['price'],
                         'quantity' => $serv['quantity'],
+                        'vat_amount' => $serv['price'] / 1.24,
+                        'vat_category' => 1,
                         'description' => $serv['description']
                     )
                 );
@@ -249,6 +251,8 @@ class InvoicesController extends Controller
                 DB::table('services')->where('id', $service['id'])->update([
                     'price' => $service['price'],
                     'quantity' => $service['quantity'],
+                    'vat_amount' => $service['price'] / 1.24,
+                    'vat_category' => 1,
                     'description' => $service['description'],
                     'updated_at' => date('Y-m-d')
                 ]);
@@ -258,6 +262,8 @@ class InvoicesController extends Controller
                         'invoice_number' => $invoice->hashID,
                         'client_id' => $invoice->client->id,
                         'price' => $service['price'],
+                        'vat_amount' => $service['price'] / 1.24,
+                        'vat_category' => 1,
                         'quantity' => $service['quantity'],
                         'description' => $service['description'],
                         'created_at' => date('Y-m-d')
@@ -283,6 +289,42 @@ class InvoicesController extends Controller
         $invoice->delete();
 
         return Redirect::back()->with('notify', 'Το τιμολόγιο τοποθετήθηκε στον κάδο ανακύκλωσης!');
+    }
+
+    public function sendMail(Invoice $invoice) {
+        //dd($invoice->services);
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+        $data = array(
+            'invoice'=> $invoice,
+            'services' => $invoice->services,
+            'title' => $settings['company'].' - '. $settings['title'],
+            'settings' => $settings
+        );
+        $year = (string)date('Y', strtotime($invoice->date));
+        $month = (string)date('m', strtotime($invoice->date));
+        $fileName = $invoice->file_invoice;
+        createInvoiceFile($invoice->hashID);
+        $file = storage_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'pdf'.DIRECTORY_SEPARATOR.$year.DIRECTORY_SEPARATOR.$month.DIRECTORY_SEPARATOR.$fileName;
+        try {
+
+            $client = $invoice->client;
+            //dd($settings);
+            Mail::send('emails.notification', $data, function($message) use ($file, $invoice, $client, $settings) {
+                $message->to($client->email, $client->company);
+                $message->subject('Τιμολόγιο Παροχής Υπηρεσιών '.$settings['title'].' - '.$invoice->seira.'/'.$invoice->invoiceID);
+                $message->attach($file);
+                $message->from($settings['email'], $settings['company'].' - '. $settings['title']);
+            });
+
+        } catch (\Exception $e) {
+
+            return Redirect::back()->with('notify', $e->getMessage());
+        }
+        return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη στον πελάτη με επιτυχία');
     }
 
     public function sendInvoice($invoiceHash)

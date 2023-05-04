@@ -16,15 +16,15 @@
     <style>
         #main .timologioContent hr.main-color,
         #main .timologioContent .invoice-color {
-            color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
-            border-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
+            color: <?php echo $settings['invoice_color'] ??  '#C62828'; ?>;
+            border-color: <?php echo $settings['invoice_color'] ??  '#C62828'; ?>;
         }
         #main .timologioContent .timTable table tr td {
-            border-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
+            border-color: <?php echo $settings['invoice_color'] ??  '#C62828'; ?>;
         }
         #main .timologioContent .invoice-color-bg,
         #main .timologioContent .timTable table tr th {
-            background-color: <?php echo isset($settings['invoice_color']) ??  '#C62828'; ?>;
+            background-color: <?php echo $settings['invoice_color'] ??  '#C62828'; ?>;
         }
     </style>
 @endsection
@@ -101,7 +101,7 @@
                 <table>
                     <tbody>
                     <tr>
-                        <th style="width: 7%;background: #C62828" class="invoice-color-bg center">Ποσότητα</th>
+                        <th style="width: 7%;" class="invoice-color-bg center">Ποσότητα</th>
                         <th style="width: 70%" class="invoice-color-bg">Περιγραφή</th>
                         <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
                         <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
@@ -127,18 +127,18 @@
                     <tr class="right-align">
                         <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
                         <td colspan="2" class="sinoloFpa">
-                            € {{number_format((24 / 100) * getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
+                            € {{number_format(getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                         <td colspan="2" class="sinoloGeniko">
-                            € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}</td>
+                            € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="2"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
                         <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
-                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}} @else
-                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), 2, ',', '.')}}
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}} @else
+                                {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}
                                 @endif</strong></td>
                     </tr>
                     </tbody>
@@ -179,10 +179,12 @@
             <div class="card invoice-action-wrapper">
                 <div class="card-content">
                     <div class="invoice-action-btn mb-2">
-                        <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-                            <i class="material-icons mr-4">check</i>
+                        @if(isset($invoice->client->email))
+                        <a href="{{route('invoice.mail', ['invoice' => $invoice->hashID])}}" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                            <i class="material-icons mr-4">mail</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
+                        @endif
                     </div>
                     <div class="invoice-action-btn mb-2">
                         <a href="javascript:if(window.print)window.print()" class="btn-block btn  waves-effect waves-light invoice-print">
@@ -260,7 +262,18 @@
     </div>
 @endsection
 
-
+@section('vendor-script')
+    <script src="{{asset('vendors/data-tables/js/jquery.dataTables.js')}}"></script>
+    <script>
+        @if(Session::has('notify'))
+        M.toast({
+            html: '{{Session::get("notify") }}',
+            classes: 'rounded',
+            timeout: 10000
+        });
+        @endif
+    </script>
+@endsection
 @section('page-script')
     <script>
         $i = jQuery.noConflict();
