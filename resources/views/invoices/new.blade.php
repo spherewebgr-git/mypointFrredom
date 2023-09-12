@@ -125,13 +125,16 @@
                                             <div class="mb-2 count-repeater" data-repeater-item="">
                                                 <!-- invoice Titles -->
                                                 <div class="row mb-1">
-                                                    <div class="col s2">
+                                                    <div class="col s2 m2">
                                                         <h6 class="m-0">Ποσότητα</h6>
                                                     </div>
-                                                    <div class="col s3 m8">
+                                                    <div class="col s3 m7">
                                                         <h6 class="m-0">Περιγραφή</h6>
                                                     </div>
-                                                    <div class="col s2">
+                                                    <div class="col s2 m2">
+                                                        <h6 style="margin-left: -40px">Κατηγορία Φ.Π.Α.</h6>
+                                                    </div>
+                                                    <div class="col s2 m1">
                                                         <h6 style="margin-left: -40px">Τιμή</h6>
                                                     </div>
 
@@ -144,12 +147,19 @@
                                                                    name="quantity"
                                                                    class="quantity-field">
                                                         </div>
-                                                        <div class="col m8 s12 input-field">
+                                                        <div class="col m7 s12 input-field">
                                                         <textarea class="materialize-textarea"
                                                                   name="description">{{$service->description}}</textarea>
                                                         </div>
-
                                                         <div class="col m2 s12 input-field">
+                                                            <select name="vat_category" class="vat_category_field browser-default">
+                                                                @foreach(getVatCategoriesList() as $vatCat)
+                                                                    <option value="{{$vatCat['code']}}" @if(isset($service) && $service->vat_category == $vatCat['code']) selected @endif data-sum="{{number_format($vatCat['sum'], 2)}}" data-description="{{$vatCat['description']}}">{{$vatCat['display']}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col m1 s12 input-field">
                                                             <input type="text" placeholder="000" name="price"
                                                                    class="price-field" value="{{$service->price}}">
                                                         </div>
@@ -168,13 +178,16 @@
                                         <div class="mb-2 count-repeater" data-repeater-item="">
                                             <!-- invoice Titles -->
                                             <div class="row mb-1">
-                                                <div class="col s2">
+                                                <div class="col s2 m2">
                                                     <h6 class="m-0">Ποσότητα</h6>
                                                 </div>
-                                                <div class="col s3 m8">
+                                                <div class="col s3 m7">
                                                     <h6 class="m-0">Περιγραφή</h6>
                                                 </div>
-                                                <div class="col s2">
+                                                <div class="col s2 m2">
+                                                    <h6 style="margin-left: -40px">Κατηγορία Φ.Π.Α.</h6>
+                                                </div>
+                                                <div class="col s2 m1">
                                                     <h6 style="margin-left: -40px">Τιμή</h6>
                                                 </div>
 
@@ -185,14 +198,29 @@
                                                         <input type="text" value="1" name="quantity"
                                                                class="quantity-field">
                                                     </div>
-                                                    <div class="col m8 s12 input-field">
+                                                    <div class="col m7 s12 input-field">
                                                         <textarea class="materialize-textarea"
                                                                   name="description"></textarea>
                                                     </div>
-
                                                     <div class="col m2 s12 input-field">
+                                                        <select name="vat_category" class="vat_category_field browser-default">
+                                                            @foreach(getVatCategoriesList() as $vatCat)
+                                                                <option value="{{$vatCat['code']}}" data-sum="{{$vatCat['sum']}}" data-description="{{$vatCat['description']}}">{{$vatCat['display']}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col m1 s12 input-field">
                                                         <input type="text" placeholder="000" name="price"
                                                                class="price-field">
+                                                    </div>
+                                                    <div class="col s12 input-field vat_cause" style="display: none">
+                                                        <label for="" class="active">Κατηγορία Αιτίας Εξαίρεσης ΦΠΑ</label>
+                                                        <select name="vat_cause" class="vat_cause_field browser-default">
+                                                            <option value="" disabled selected>Επιλέξτε Αιτία Εξαίρεσης ΦΠΑ</option>
+                                                            @foreach(getVatCauseCategoriesList() as $cause)
+                                                                <option value="{{$cause['code']}}">{{$cause['description']}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div
@@ -212,7 +240,6 @@
                                         <span>Προσθήκη Υπηρεσίας</span>
                                     </button>
                                 </div>
-
                             </div>
                             <!-- invoice subtotal -->
                             <div class="invoice-subtotal">
@@ -306,7 +333,7 @@
                                 title="Εφαρμογή παρακράτησης φόρου (στα 300 &euro; και άνω)">Εφαρμογή παρακράτησης</span>
                             <div class="switch">
                                 <label>
-                                    <input type="checkbox" name="hasParakratisi" id="hasParakratisi" @if(isset($invoice) && $invoice->has_parakratisi == 1)
+                                    <input type="checkbox" name="hasParakratisi" id="hasParakratisi" @if(isset($invoice) && $invoice->has_parakratisi == 1 || !isset($invoice))
                                            checked @endif >
                                     <span class="lever"></span>
                                 </label>
@@ -359,6 +386,7 @@
                 timeout: 10000
             });
             @endif
+            $m('.parakratisi_id select').hide();
             $m('.parakratisi_id').show();
             $m('input#hasParakratisi').on('change', function(){
                 if($m('input#hasParakratisi').is(':checked')) {
@@ -401,23 +429,30 @@
         })
         $m.fn.countPrices = function () {
             let finalPrice = 0;
+            let vatAmmount = 0;
             let parakratisi = $m('#parakratisi_id option:selected').data('value');
             $m('.count-repeater').each(function () {
                 let quantity = $m(this).find('.quantity-field').val();
                 let price = $m(this).find('.price-field').val();
+                let vatPercentage = $m(this).find('select.vat_category_field option:selected').data('sum');
+                vatAmmount += (vatPercentage / 100) * (quantity * price);
+
                 finalPrice += quantity * price;
+                console.log(vatPercentage);
             });
+
+
             $m('#subtotal').text(parseFloat(finalPrice).toFixed(2));
-            $m('#fpa').text(parseFloat((24 / 100) * finalPrice).toFixed(2));
-            $m('#finalPrice').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+            $m('#fpa').text(parseFloat(vatAmmount).toFixed(2));
+            $m('#finalPrice').text(parseFloat(vatAmmount + finalPrice).toFixed(2));
             if (finalPrice > 300 && $m('input#hasParakratisi').is(':checked')) {
                 $m('#parakratisi').text(parseFloat((parakratisi / 100) * finalPrice).toFixed(2));
-                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice - (parakratisi / 100) * finalPrice).toFixed(2));
+                $m('#toPay').text(parseFloat(vatAmmount + finalPrice - (parakratisi / 100) * finalPrice).toFixed(2));
                 $m('#parakratisiTotal').show();
                 $m('.parakratisi_id').show();
             } else {
                 $m('#parakratisi').text(parseFloat(0).toFixed(2));
-                $m('#toPay').text(parseFloat((24 / 100) * finalPrice + finalPrice).toFixed(2));
+                $m('#toPay').text(parseFloat(vatAmmount + finalPrice).toFixed(2));
                 $m('#parakratisiTotal').hide();
                 $m('.parakratisi_id').hide();
             }
@@ -428,6 +463,17 @@
         });
         $m(document).on('change', '#parakratisi_id', function () {
             $m(this).countPrices();
+        });
+        $m(document).on('change', '.vat_category_field', function () {
+            let vatCause = $m(this).parent().parent('.invoice-item-filed').find('.vat_cause');
+            let vatCategorySelected = $m('option:selected', this).data('sum');
+            console.log(vatCategorySelected)
+            if(vatCategorySelected === 0) {
+                vatCause.show();
+            } else {
+                vatCause.hide();
+                vatCause.find('select').val('');
+            }
         });
 
     </script>

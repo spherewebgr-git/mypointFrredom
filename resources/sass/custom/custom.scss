@@ -171,10 +171,20 @@ table, p {
 
     & .invoiceform {
         width: 100%;
+        margin: 0;
         @media print {
             margin-top: 0;
         }
+        & .invoice-form {
+            &--left {
+                @media (max-width: 640px) {
+                    padding: 2rem 0;
+                }
+            }
+            &--right {
 
+            }
+        }
         & .tim-info {
             text-align: right;
             & h4 {
@@ -192,6 +202,10 @@ table, p {
             text-align: right;
             font-size: 13px;
             font-weight: 400;
+            @media (max-width: 640px) {
+                text-align: left;
+                margin: 0;
+            }
         }
 
         & .tim-date {
@@ -213,6 +227,9 @@ table, p {
             height: 30px;
             margin-top: 10px;
             font-weight: 700;
+            @media (max-width: 640px) {
+                height: auto;
+            }
         }
     }
 

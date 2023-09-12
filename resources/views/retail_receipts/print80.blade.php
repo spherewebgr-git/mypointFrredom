@@ -11,6 +11,13 @@
 
 {{-- page content --}}
 @section('content')
+    <div class="print-hide row receipt-buttons">
+        <a href="javascript:if(window.print)window.print()" class="btn"><i class="material-icons left">print</i> Εκτύπωση</a>
+        <a href="{{route('retail-receipts.list')}}" class="btn"><i class="material-icons left">format_list_bulleted</i> Επιστροφή στις αποδείξεις</a>
+        @if(!$retail->mark)
+        <a href="{{route('retail-receipts.mydata', $retail->hashID)}}" class="btn"><i class="material-icons left">cloud_upload</i> Αποστολή στο MyData</a>
+        @endif
+    </div>
     <section class="print-retail-receipt-wrapper section">
         <div class="row retail-receipt">
             <div class="retail-receipt--head">

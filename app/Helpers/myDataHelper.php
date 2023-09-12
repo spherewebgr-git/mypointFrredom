@@ -126,7 +126,7 @@ if(!function_exists('myDataSendInvoices')) {
                 $sendBody .= '<invoiceDetails>' . PHP_EOL;
                 $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
                 $sendBody .= '<netValue>' . number_format(($service->price * $service->quantity), 2, '.', '') . '</netValue>' . PHP_EOL;
-                $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
+                $sendBody .= '<vatCategory>'.$service->vat_category.'</vatCategory>' . PHP_EOL;
                 $sendBody .= '<vatAmount>' . number_format(($service->vat_amount * $service->quantity), 2, '.', '') . '</vatAmount>' . PHP_EOL;
                 $sendBody .= '<incomeClassification>' . PHP_EOL;
                 $sendBody .= '<icls:classificationType>'.$classificationType.'</icls:classificationType>' . PHP_EOL;
@@ -304,15 +304,19 @@ if(!function_exists('myDataRequestMyExpenses')) {
      */
     function myDataRequestMyExpenses()
     {
-        $settings = Settings::all()->first();
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
 
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/RequestMyExpenses?dateFrom=01/01/2021&dateTo=14/10/2022');
         $url = $request->getUrl();
 
         // Official
         $headers = array(
-            'aade-user-id' => $settings->aade_user_id,
-            'Ocp-Apim-Subscription-Key' => $settings->ocp_apim_subscription_key,
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
 
         $request->setHeader($headers);
@@ -322,6 +326,7 @@ if(!function_exists('myDataRequestMyExpenses')) {
         try
         {
             $response = $request->send();
+            //dd($response);
             if($response->getBody()) {
                 $xml = simplexml_load_string($response->getBody());
             }
@@ -377,7 +382,6 @@ if(!function_exists('myDataRequestDocs')) {
         }
     }
 }
-
 
 if(!function_exists('myDataRequestTransmittedDocs')) {
     /**

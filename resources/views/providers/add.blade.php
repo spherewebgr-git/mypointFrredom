@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div class="col s12 m12 l12">
+
         <div id="prefixes" class="card card card-default scrollspy">
             <div class="card-content">
                 <h4 class="card-title">Στοιχεία Προμηθευτή</h4>
@@ -41,44 +41,45 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6 m4">
+                        <div class="input-field col s12 m4">
                             <i class="material-icons prefix">markunread_mailbox</i>
                             <input id="address" type="text" name="address" @if(isset($provider->address)) value="{{old('address', $provider->address)}}" @endif required>
                             <label for="address" class="">Διεύθυνση Έδρας προμηθευτή *</label>
                         </div>
-                        <div class="input-field col s6 m2">
+                        <div class="input-field col s12 m2">
                             <i class="material-icons prefix">markunread_mailbox</i>
                             <input id="address_number" type="text" name="address_number" @if(isset($provider->address_number)) value="{{old('address_number', $provider->address_number)}}" @endif required>
                             <label for="address_number" class="">Αριθμός *</label>
                         </div>
-                        <div class="input-field col s6 m4">
+                        <div class="input-field col s12 m4">
                             <i class="material-icons prefix">map</i>
                             <input id="city" type="text" name="city" @if(isset($provider->city))  value="{{old('city', $provider->city)}}" @endif required>
                             <label for="city" class="">Πόλη *</label>
                         </div>
-                        <div class="input-field col s6 m2">
+                        <div class="input-field col s12 m2">
                             <i class="material-icons prefix">map</i>
                             <input id="address_tk" type="text" name="address_tk" @if(isset($provider->address_tk))  value="{{old('address_tk', $provider->address_tk)}}" @endif required>
                             <label for="address_tk" class="">Τ.Κ. *</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6 m6">
+                        <div class="input-field col s12 m6">
                             <i class="material-icons prefix">flip</i>
                             <input id="provider_vat" type="text" name="provider_vat" @if(isset($provider->provider_vat))  value="{{old('provider_vat', $provider->provider_vat)}}" @endif required>
                             <label for="provider_vat" class="">ΑΦΜ *</label>
+                            <div id="checkVat" style="position: absolute;right: 30px;top: 10px;cursor: pointer;"><i class="material-icons">loop</i></div>
                         </div>
-                        <div class="input-field col s6 m6">
+                        <div class="input-field col s12 m6">
                             <i class="material-icons prefix">layers</i>
                             <input id="provider_doy" type="text" name="provider_doy" @if(isset($provider->provider_doy))  value="{{old('doy', $provider->provider_doy)}}" @endif required>
                             <label for="provider_doy" class="">ΔΟΥ *</label>
                         </div>
-                        <div class="input-field col s6 m6">
+                        <div class="input-field col s12 m6">
                             <i class="material-icons prefix">email</i>
                             <input id="email" type="email" name="email" @if(isset($provider->email))  value="{{old('email', $provider->email)}}" @endif>
                             <label for="email" class="">E-mail Προμηθευτή</label>
                         </div>
-                        <div class="input-field col s6 m6">
+                        <div class="input-field col s12 m6">
                             <i class="material-icons prefix">phone</i>
                             <input id="phone" type="text" name="phone" @if(isset($provider->phone))  value="{{old('phone', $provider->phone)}} @endif">
                             <label for="phone" class="">Τηλέφωνο Προμηθευτή</label>
@@ -92,6 +93,19 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -108,5 +122,45 @@
             timeout: 10000
         });
         @endif
+        $r = jQuery.noConflict();
+        $r(document).ready(function(){
+            $r('#checkVat').on('click', function(){
+                $r('.ajax-preloader').addClass('active');
+                let pageToken = $r('meta[name="csrf-token"]').attr('content');
+
+                let vat = $r('#provider_vat').val();
+
+                $r.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': pageToken
+                    }
+                });
+
+                $r.ajax({
+                    url: "{{ url('/provider-check-vat') }}",
+                    method: 'post',
+                    data: {
+                        vat: vat
+                    },
+                    success: function (result) {
+                        $r('.ajax-preloader').removeClass('active');
+                        var client = jQuery.parseJSON(result);
+                        console.log(client);
+                        $r('input#provider_name').val(client.company);
+                        $r('input#address').val(client.address);
+                        $r('input#address_number').val(client.number);
+                        $r('input#city').val(client.city);
+                        $r('input#address_tk').val(client.postal_code);
+                        if($r('input#provider_doy').val() === '') {
+                            $r('input#provider_doy').val('ΑΓΝΩΣΤΗ ΔΟΥ');
+                            $r('label[for="provider_doy"]').addClass('active');
+                        }
+
+                    }
+                });
+            });
+
+        });
+
     </script>
 @endsection

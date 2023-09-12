@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\DeliveredGoods;
 use App\Models\Goods;
+use App\Models\HoldedProduct;
 use App\Models\SaleInvoices;
 use App\Models\Seires;
 use App\Models\Settings;
@@ -28,7 +29,7 @@ class SaleInvoicesController extends Controller
         if(count($saleInvoices) > 0) {
             foreach($saleInvoices as $invoice) {
                 $finalIncome[] = getSaleInvoicePrices($invoice->hashID);
-                $finalVats[] = getSaleInvoiceVat($invoice->hashID);
+                $finalVats[] = getSaleInvoiceLineVat($invoice->hashID);
             }
         }
 
@@ -125,8 +126,8 @@ class SaleInvoicesController extends Controller
                         'product_price' => $product['price'],
                         'quantity' => $product['quantity'],
                         'vat_id' => $product['vat_id'],
-                        'line_vat' => $product['vat'],
-                        'line_final_price' => ($product['price'] + $product['vat']) * $product['quantity'],
+                        'line_vat' => $product['vat'] * $product['quantity'],
+                        'line_final_price' => $product['price'] * $product['quantity'],
                         'created_at' => date('Y-m-d')
                     )
                 );
@@ -205,7 +206,7 @@ class SaleInvoicesController extends Controller
                         'delivered_good_id' => $prod['product'],
                         'quantity' => $prod['quantity'],
                         'product_price' => $prod['price'],
-                        'line_vat' => getProductVat($prod['product']),
+                        'line_vat' => getProductVat($prod['product']) * $prod['quantity'],
                         'line_final_price' => $prod['quantity'] * $prod['price'],
                         'created_at' => date('Y-m-d')
                     )
@@ -259,6 +260,7 @@ class SaleInvoicesController extends Controller
     {
         // $invoices = $request->invoices;
         $theInvoice = SaleInvoices::query()->where('hashID', '=', $invoice)->first();
+        $products = HoldedProduct::query()->where('holded_by', '=', $invoice)->get();
         //dd($theInvoice);
 
         $an = myDataSendInvoices('sale_invoice', $invoice);
@@ -276,6 +278,10 @@ class SaleInvoicesController extends Controller
         if($aadeResponse[0]['statusCode'] == 'Success') {
             $theInvoice->mark = $aadeResponse[0]['invoiceMark'];
             $theInvoice->save();
+            foreach ($products as $product) {
+                $product->delete();
+            }
+
         } else {
             dd($aadeResponse[0]['statusCode']);
         }
@@ -356,8 +362,9 @@ class SaleInvoicesController extends Controller
             });
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            //dd($e->getMessage());
             return Redirect::back()->with('notify', $e->getMessage());
         }
+        return Redirect::back()->with('notify', 'Το τιμολόγιο εστάλη στον πελάτη με επιτυχία');
     }
 }

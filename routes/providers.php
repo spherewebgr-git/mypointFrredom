@@ -14,4 +14,5 @@ Route::name('provider.')->prefix('/')->group(function () {
     Route::get('/delete-provider/{vat}', [ProvidersController::class, 'softDelete'])->name('delete');
     Route::get('/enable-provider/{vat}', [ProvidersController::class, 'enable'])->name('enable');
     Route::post('/provider-search-ajax', [ProvidersController::class, 'search'])->name('search');
+    Route::post('/provider-check-vat', [ProvidersController::class, 'checkVat'])->name('vies');
 });

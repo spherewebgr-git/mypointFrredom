@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer mt-3">
+    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer mt-3 table-container">
         <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
                id="DataTables_Table_0" role="grid" style="border-spacing: 0 5px;">
             <thead>

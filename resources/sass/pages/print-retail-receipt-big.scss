@@ -4,6 +4,12 @@
     font-family: inherit!important;
     color: #000;
 
+    & .receipt-buttons {
+        display: flex;
+        justify-content: space-around;
+        margin: 2rem 0;
+    }
+
     & p {
         font-size: 18px;
     }
@@ -53,5 +59,12 @@
             border-top: 2px dashed;
             border-bottom: 2px dashed;
         }
+    }
+}
+
+
+@media print {
+    .print-hide {
+        display: none!important;
     }
 }

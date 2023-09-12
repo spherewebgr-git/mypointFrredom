@@ -10,7 +10,7 @@ class Retails extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hashID', 'invoiceType', 'retailID', 'date', 'seira', 'client_description', 'service', 'description', 'mark'
+        'hashID', 'invoiceType', 'retailID', 'date', 'seira', 'client_description', 'product_service', 'description', 'mark'
     ];
 
     protected $payment_method = [

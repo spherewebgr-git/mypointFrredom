@@ -211,7 +211,7 @@
                     @if(isset(settings()['invoice_logo']) && isset(settings()['show_invoice_logo']) && settings()['show_invoice_logo'] == 'on') <img src="{{url('images/system/'.settings()['invoice_logo'])}}"
                                                                 alt="{{settings()['title'] ?? ''}} logo"> @endif </td>
                 <td class="tim-info">
-                    <h4 style="color: <?php echo $color ? $color : '#C62828'; ?>;">{{settings()['title'] ?? 'not set'}}</h4>
+                    <h4 style="color: <?php echo $color ? $color : '#C62828'; ?>;">{{settings()['title'] ?? ''}}</h4>
                     <h5>{{settings()['company'] ?? 'not set'}}</h5>
                     <p>{{settings()['business'] ?? 'not set'}}<br>{{settings()['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{settings()['vat'] ?? 'not set'}} -
                         ΔΟΥ: {{settings()['doy'] ?? 'not set'}}</p></td>
@@ -253,41 +253,47 @@
             <table>
                 <tbody>
                 <tr>
-                    <th style="width: 7%;background: <?php echo $color ? $color : '#C62828'; ?>;" class="invoice-color-bg center">Ποσότητα</th>
-                    <th style="width: 60%" class="invoice-color-bg">Περιγραφή</th>
-                    <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                    <th style="width: 50px" class="invoice-color-bg center">Ποσότητα</th>
+                    <th style="width: 360px; text-align: left" class="invoice-color-bg">Περιγραφή</th>
+                    <th style="width: 80px" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                    <th style="width: 100px" class="invoice-color-bg center">Συντελεστής ΦΠΑ</th>
+                    <th style="width: 8%" class="invoice-color-bg center">ΦΠΑ</th>
                     <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
                 </tr>
                 @foreach($invoice->services as $service)
                     <tr class="service" data-quantity="1" data-price="300">
-                        <td style="text-align:center;">{{$service->quantity}}</td>
+                        <td class="center" style="text-align: center">{{$service->quantity}}</td>
                         <td>{{$service->description}}</td>
-                        <td class="servicePrice" style="text-align:center;">{{number_format($service->price, 2, ',', '.')}}</td>
-                        <td class="serviceTotalPrice" style="text-align:right;">{{number_format($service->price * $service->quantity, 2, ',', '.')}}</td>
+                        <td class="servicePrice center" style="text-align: center">{{number_format($service->price, 2, ',', '.')}}</td>
+                        <td class="serviceVat center" style="text-align: center">{{getVatPercantageByCategory($service->vat_category)}}%</td>
+                        <td class="serviceVat center" style="text-align: center">{{number_format($service->vat_amount, 2, ',', '.')}}</td>
+                        <td class="serviceTotalPrice right-align" style="text-align: right">{{number_format(($service->price * $service->quantity) + $service->vat_amount, 2, ',', '.')}}</td>
                     </tr>
                 @endforeach
 
                 <tr>
-                    <td colspan="4">&nbsp;</td>
+                    <td colspan="6">&nbsp;</td>
                 </tr>
 
                 <tr class="right-align">
-                    <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                    <td colspan="4">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                     <td colspan="2" class="sinoloAxion" data-saprice="">
                         € {{number_format(getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                 </tr>
+                @foreach(getInvoiceTaxByCategory($invoice->hashID) as $key => $finalVat)
+                    <tr class="right-align">
+                        <td colspan="4">Φ.Π.Α. <strong>({{$key}}%)</strong>:</td>
+                        <td colspan="2" class="sinoloFpa">
+                            € {{number_format($finalVat, 2, ',', '.')}}</td>
+                    </tr>
+                @endforeach
                 <tr class="right-align">
-                    <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
-                    <td colspan="2" class="sinoloFpa">
-                        € {{number_format(getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
-                </tr>
-                <tr class="right-align">
-                    <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                    <td colspan="4">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                     <td colspan="2" class="sinoloGeniko">
                         € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
                 </tr>
                 <tr class="right-align">
-                    <td colspan="2">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
+                    <td colspan="4">ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</td>
                     <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
                                 {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}} @else
                                 {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}

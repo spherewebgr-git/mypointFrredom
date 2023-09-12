@@ -27,7 +27,7 @@
               </a>
           </li>
         <li>
-          <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" title="{{settings()['company']. ' - ' . settings()['title']}}"
+          <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" title="@if(isset(settings()['company'])) {{settings()['company']. ' - '}} @endif {{settings()['title']}}"
             data-target="profile-dropdown">
               @if(isset(settings()['logo']))
                 <span class="avatar-status avatar-online">

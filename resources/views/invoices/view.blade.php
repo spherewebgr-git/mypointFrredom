@@ -48,33 +48,33 @@
         </div>
     </div>
     <div class="timologioContent row">
-        <div class="invoice-table card col s9">
-            <table class="invoiceform">
-                <tbody>
-                <tr class="no-border">
+        <div class="invoice-table card col s12 m9">
+            <div class="invoiceform row display-flex align-items-center flex-wrap">
+                <div class="invoice-form--left col s12 m6">
                     @if(isset($settings['invoice_logo']))
-                    <td><img src="{{url('images/system/'.$settings['invoice_logo'])}}"
-                             alt="{{$settings['title'] ?? 'company'}} logo"></td>
+                        <img src="{{url('images/system/'.$settings['invoice_logo'])}}"
+                                 alt="{{$settings['title'] ?? 'company'}} logo">
                     @endif
-                    <td class="tim-info @if(isset($settings['invoice_logo'])) right @else left @endif" style="text-align: left">
-                        <h4 class="invoice-color">{{$settings['title'] ?? 'not set'}}</h4>
-                        <h5 class="invoice-color">{{$settings['company'] ?? 'not set'}}</h5>
-                        <p>{{$settings['business'] ?? 'not set'}}<br>{{$settings['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{$settings['vat'] ?? 'not set'}} -
-                            ΔΟΥ: {{$settings['doy'] ?? 'not set'}}</p></td>
-                </tr>
-                <tr class="no-border">
-                    <td>
-                        <div class="tim-date"><span class="invoice-color">Ημερομηνία:</span>
-                            <strong>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</strong>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->invoiceID}}</strong></span>
-                        </p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                </div>
+                <div class="invoice-form--right col s12 m6 tim-info" style="text-align: left">
+                    <h4 class="invoice-color">{{$settings['title'] ?? ''}}</h4>
+                    <h5 class="invoice-color">{{$settings['company'] ?? 'not set'}}</h5>
+                    <p>{{$settings['business'] ?? 'not set'}}<br>{{$settings['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{$settings['vat'] ?? 'not set'}} -
+                        ΔΟΥ: {{$settings['doy'] ?? 'not set'}}</p>
+                </div>
+            </div>
+            <div class="invoiceform row display-flex align-items-center flex-wrap">
+                <div class="invoice-form--left col s12 m5">
+                    <div class="tim-date"><span class="invoice-color">Ημερομηνία:</span>
+                        <strong>{{\Carbon\Carbon::createFromTimestamp(strtotime($invoice->date))->format('d/m/Y')}}</strong>
+                    </div>
+                </div>
+                <div class="invoice-form--right col s12 m7">
+                    <p class="timNumber">ΤΙΜΟΛΟΓΙΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | @if($invoice->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$invoice->seira}}</strong></span> @endif Αρ. Τιμολογίου <span><strong class="invoice-color">{{$invoice->invoiceID}}</strong></span>
+                    </p>
+                </div>
+            </div>
+
             <div class="clear"></div>
             <hr class="main-color">
             <div class="timClient">
@@ -97,45 +97,55 @@
                     </div>
             </div>
             @endif
-            <div class="timTable small-12 columns">
+            <div class="timTable small-12 columns table-container">
                 <table>
                     <tbody>
                     <tr>
                         <th style="width: 7%;" class="invoice-color-bg center">Ποσότητα</th>
-                        <th style="width: 70%" class="invoice-color-bg">Περιγραφή</th>
-                        <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
-                        <th style="width: 8%" class="invoice-color-bg right-align">Σύνολο</th>
+                        <th style="width: 60%;min-width: 500px" class="invoice-color-bg">Περιγραφή</th>
+                        <th style="width: 10%;min-width: 95px;" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                        <th style="width: 10%;min-width: 115px;" class="invoice-color-bg center">Συντελεστής ΦΠΑ</th>
+                        <th style="width: 8%;min-width: 80px;" class="invoice-color-bg center">ΦΠΑ</th>
+                        <th style="width: 8%;min-width: 75px;" class="invoice-color-bg right-align">Σύνολο</th>
                     </tr>
                     @foreach($invoice->services as $service)
                         <tr class="service" data-quantity="1" data-price="300">
                             <td class="center">{{$service->quantity}}</td>
                             <td>{{$service->description}}</td>
                             <td class="servicePrice center">{{number_format($service->price, 2, ',', '.')}}</td>
-                            <td class="serviceTotalPrice right-align">{{number_format($service->price * $service->quantity, 2, ',', '.')}}</td>
+                            <td class="serviceVat center">{{getVatPercantageByCategory($service->vat_category)}}%</td>
+                            <td class="serviceVat center">{{number_format($service->vat_amount, 2, ',', '.')}}</td>
+                            <td class="serviceTotalPrice right-align">{{number_format(($service->price * $service->quantity) + $service->vat_amount, 2, ',', '.')}}</td>
                         </tr>
                     @endforeach
                     @for($i = $invoice->services->count(); $i <= 4; $i++)
                         <tr>
-                            <td colspan="4">&nbsp;</td>
+                            <td colspan="6">&nbsp;</td>
                         </tr>
                     @endfor
                     <tr class="right-align">
-                        <td colspan="2">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                        <td colspan="4">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                         <td colspan="2" class="sinoloAxion" data-saprice="">
                             € {{number_format(getFinalPrices($invoice->hashID, 'invoice'), 2, ',', '.')}}</td>
                     </tr>
+                    @foreach(getInvoiceTaxByCategory($invoice->hashID) as $key => $finalVat)
+                        @if($key != 0)
+                        <tr class="right-align">
+                            <td colspan="4">Φ.Π.Α. <strong>({{$key}}%)</strong>:</td>
+                            <td colspan="2" class="sinoloFpa">
+                                € {{number_format($finalVat, 2, ',', '.')}}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+
                     <tr class="right-align">
-                        <td colspan="2">Φ.Π.Α. <strong>(24%)</strong>:</td>
-                        <td colspan="2" class="sinoloFpa">
-                            € {{number_format(getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
-                    </tr>
-                    <tr class="right-align">
-                        <td colspan="2">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                        <td colspan="4">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                         <td colspan="2" class="sinoloGeniko">
                             € {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
+
                     <tr class="right-align">
-                        <td colspan="2"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
+                        <td colspan="4"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
                         <td colspan="2" class="pliroteoPoso"><strong>€ @if(getFinalPrices($invoice->hashID, 'invoice') > 300 && $invoice->has_parakratisi == 1)
                                 {{number_format(getFinalPrices($invoice->hashID, 'invoice') - ((20 / 100) * getFinalPrices($invoice->hashID, 'invoice')) + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}} @else
                                 {{number_format(getFinalPrices($invoice->hashID, 'invoice') + getInvoiceFinalTax($invoice->hashID), 2, ',', '.')}}
@@ -180,7 +190,7 @@
                 <div class="card-content">
                     <div class="invoice-action-btn mb-2">
                         @if(isset($invoice->client->email))
-                        <a href="{{route('invoice.mail', ['invoice' => $invoice->hashID])}}" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                        <a href="{{route('invoice.mail', ['invoice' => $invoice->hashID])}}" id="sendEmail" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-4">mail</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
@@ -260,6 +270,21 @@
             <div class="clear"></div>
         </div>
     </div>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('vendor-script')
@@ -278,12 +303,16 @@
     <script>
         $i = jQuery.noConflict();
         $i(document).ready(function(){
+            $i('.ajax-preloader').removeClass('active');
             $i('#addPaymentsPage').on('click', function(e){
                 e.preventDefault();
                 $i('.payments-page').show();
             });
             $i('#payed').on('change', function(){
                 $i('.payed-status-button').show();
+            });
+            $i('a#sendEmail').on('click', function(){
+                $i('.ajax-preloader').addClass('active');
             });
         });
     </script>

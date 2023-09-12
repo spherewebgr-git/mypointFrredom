@@ -261,20 +261,56 @@ $status = $xml->response['statusCode'];
                         'file' => ''
                     )
                 );
+
                 $issuer = Provider::query()->where('provider_vat', '=', $ex->issuer->vatNumber)->first();
                 if(!$issuer) {
-                    DB::table('providers')->insert([
-                        'provider_vat' => $ex->issuer->vatNumber,
-                        'provider_name' => 'Εισάγετε Στοιχεία Προμηθευτή',
-                        'provider_id' => $counter
-                    ]);
+                    $shop = checkIssuerVatVies($ex->issuer->vatNumber);
+                    if($shop) {
+                        //dd($shop);
+                        $provider = [];
+                        if (str_contains($shop->name, '||')) {
+                            $extractName = explode('||', $shop->name);
+                            $provider['name'] = $extractName[1];
+                        } else {
+                            $provider['name'] = $shop->name;
+                        }
+
+                        $extractAddress = explode(' - ', $shop->address);
+                        $provider['city'] = $extractAddress[1];
+                        $output = preg_replace('!\s+!', ' ', $extractAddress[0]);
+                        $extractRoad = explode(' ', $output);
+                        if(is_numeric($extractRoad[1]) == 1) {
+                            $provider['address'] = $extractRoad[0];
+                            $provider['number'] = $extractRoad[1];
+                            $provider['postal_code'] = $extractRoad[2];
+                        } else {
+                            $provider['address'] = $extractRoad[0].' '.$extractRoad[1];
+                            $provider['number'] = $extractRoad[2];
+                            $provider['postal_code'] = $extractRoad[3] ?? '';
+                        }
+                        DB::table('providers')->insert([
+                            'provider_id' => $counter,
+                            'provider_name' => $provider['name'],
+                            'provider_vat' => $ex->issuer->vatNumber,
+                            'provider_doy' => 'ΔΟΥ',
+                            'address' => $provider['address'],
+                            'address_number' => $provider['number'],
+                            'address_tk' => $provider['postal_code'],
+                            'city' => $provider['city']
+                        ]);
+                    } else {
+                        DB::table('providers')->insert([
+                            'provider_vat' => $ex->issuer->vatNumber,
+                            'provider_name' => 'Εισάγετε Στοιχεία Προμηθευτή',
+                            'provider_id' => $counter
+                        ]);
+                    }
                 }
                 $counter++;
             }
 
 
         }
-
         return redirect('/outcomes');
     }
 }

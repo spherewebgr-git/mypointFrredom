@@ -46,7 +46,14 @@ class ClientsController extends Controller
 
     public function new()
     {
-        return view('clients.add');
+        $lastClient = Client::latest('code_number')->first();
+
+        if($lastClient) {
+            $last = $lastClient->code_number + 1;
+        } else {
+            $last = '';
+        }
+        return view('clients.add', ['last' => $last]);
     }
 
     public function store(Request $request)
@@ -59,6 +66,10 @@ class ClientsController extends Controller
                 'code_number' => $request->code_number,
                 'company' => $request->company,
                 'work_title' => $request->work_title,
+//                'address' => $request->address,
+//                'number' => $request->number,
+//                'postal_code' => $request->postal_code,
+//                'city' => $request->city,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'phone' => $request->phone,
@@ -96,10 +107,10 @@ class ClientsController extends Controller
             "name" => $request->name,
             "code_number" => $request->code_number,
             "company" => $request->company,
-            'address' => $request->address,
-            'number' => $request->number,
-            'city' => $request->city,
-            'postal_code' => $request->postal_code,
+//            'address' => $request->address,
+//            'number' => $request->number,
+//            'city' => $request->city,
+//            'postal_code' => $request->postal_code,
             "work_title" => $request->work_title,
             "email" => $request->email,
             "mobile" => $request->mobile,
@@ -201,26 +212,7 @@ class ClientsController extends Controller
 
     public function vatCheck(Request $request)
     {
-        $afm = $request->vat;
-
-        $soapClient = new SoapClient("https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2?WSDL");
-
-        $sh_param = array(
-
-            'Username'    =>    'WW1471871U379',
-
-            'Password'    =>    'WW1471871U379');
-
-        $headers = new SoapHeader('https://www1.gsis.gr/wsaade/RgWsPublic2/RgWsPublic2', $sh_param);
-
-        $soapClient->__setSoapHeaders(array($headers));
-
-        $ap_param = array(
-
-            'afm' => $afm
-        );
-        $info = $soapClient->call("RemoteFunction", array($ap_param));
-        return $info->body();
+        return checkVatVies($request->vat);
     }
 
     public function search(Request $request)

@@ -51,15 +51,15 @@
                     <h4 class="card-title">Αναζήτηση Βάσει Ημερομηνίας</h4>
                     <form action="{{route('invoice.filter')}}" method="post" class="row display-flex flex-wrap align-items-center justify-content-between invoice-head">
                         @csrf
-                        <div class="invoice-head--left row display-flex col align-items-center">
+                        <div class="invoice-head--left row display-flex flex-wrap col align-items-center">
                             <label for="start" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Από:</label>
-                            <div class="col">
+                            <div class="col" style="min-width: 130px;">
                                 <input type="text" id="datepickerStart" name="date-start" class="datepicker"
                                        value="@isset($dateStart){{date('d/m/Y', strtotime($dateStart))}}@else 01/01/{{date('Y')}} @endif"
                                        title="Φίλτρο από:">
                             </div>
                             <label for="end" class="col display-flex align-items-center justify-content-end"><i class="material-icons">date_range</i> Έως: </label>
-                            <div class="col">
+                            <div class="col" style="min-width: 130px;">
                                 <input type="text" id="datepickerEnd" name="date-end" class="datepicker"
                                        value="@isset($dateEnd){{date('d/m/Y', strtotime($dateEnd))}}@else{{date('d/m/Y')}}@endif"
                                        title="Φίλτρο εως:">
@@ -139,12 +139,12 @@
                             <th class="center-align">
                                 <span>Τ.Π.Υ.</span>
                             </th>
-                            <th>Πελάτης</th>
-                            <th class="center-align">Ημ/νία Έκδοσης</th>
-                            <th class="center-align" style="width: 85px!important;">Τιμή</th>
-                            <th class="center-align hide-on-med-and-down" style="width: 85px!important;">Παρ/ση</th>
-                            <th class="center-align" style="width: 85px!important;">Φ.Π.Α.</th>
-                            <th class="center-align print-hide hide-on-med-and-down" style="width: 85px!important;">Σύνολο</th>
+                            <th style="min-width: 400px!important;">Πελάτης</th>
+                            <th class="center-align" style="min-width: 105px!important;">Ημ/νία Έκδοσης</th>
+                            <th class="center-align" style="width: 85px!important; min-width: 85px;" >Τιμή</th>
+                            <th class="center-align hide-on-med-and-down" style="width: 85px!important;min-width: 85px;">Παρ/ση</th>
+                            <th class="center-align" style="width: 85px!important;min-width: 85px;">Φ.Π.Α.</th>
+                            <th class="center-align print-hide hide-on-med-and-down" style="width: 85px!important;min-width: 85px;">Σύνολο</th>
                             <th class="center-align print-hide">Κατάσταση</th>
                             <th class="center-align print-hide">Ενέργειες</th>
                         </tr>
@@ -182,11 +182,11 @@
                                     @endif
                                 </td>
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format((24 / 100) * getFinalPrices($invoice->hashID, 'invoice'), '2', ',', '.')}}
+                                    &euro; {{number_format(getFinalInvoiceVat($invoice->hashID, 'invoice'), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
 
-                                    &euro; {{number_format(getFinalPrices($invoice->hashID, 'invoice') + ((24 / 100) * getFinalPrices($invoice->hashID, 'invoice')), '2', ',', '.')}}
+                                    &euro; {{number_format(getFinalPricesWithVat($invoice->hashID, 'invoice'), '2', ',', '.')}}
 
                                 </td>
                                 <td class="center-align print-hide">
@@ -228,9 +228,8 @@
                             <td colspan="3" class="right-align">Σύνολα:</td>
                             <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Εσόδων">&euro; {{number_format($finals, '2', ',', '.')}}</td>
                             <td class="center-align parakratisi-synolo tooltipped" data-position="top" data-tooltip="Σύνολο Παρακράτησης Φόρου"></td>
-                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format(((24 / 100) * $finals),  2, ',', '.')}}</td>
-
-                            <td colspan="3" class="tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + ((24 / 100) * $finals)), 2, ',', '.' )}}</td>
+                            <td class="center-align tooltipped" data-position="top" data-tooltip="Σύνολο Φ.Π.Α.">&euro; {{number_format($vats,  2, ',', '.')}}</td>
+                            <td colspan="3" class="tooltipped print-hide" data-position="top" data-tooltip="Σύνολο Μικτό">&euro; {{number_format(($finals + $vats), 2, ',', '.' )}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -283,14 +282,6 @@
                 let year = $m(this).val();
                 window.location.href = '/filter-incomes/year/'+year;
             });
-
-            @if(Session::has('notify'))
-            M.toast({
-                html: '{{Session::get("notify") }}',
-                classes: 'rounded',
-                timeout: 10000
-            });
-            @endif
             {{--$m('a.invoices-myData').on('click', function(e){--}}
             {{--    e.preventDefault();--}}
             {{--   let invoiceIds = [];--}}

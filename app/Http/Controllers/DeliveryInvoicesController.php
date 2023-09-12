@@ -41,7 +41,7 @@ class DeliveryInvoicesController extends Controller
         $addresses = Settings::query()->where('type' , 'LIKE', 'address_%')->get();
         $clients = Client::all()->sortBy('company');
         $products = Goods::query()->where('active', '=', 1)->get();
-        dd($products);
+        //dd($products);
         foreach($products as $product) {
             if($product->storage->quantity > 0) {
                 $selectableProducts[] = $product;

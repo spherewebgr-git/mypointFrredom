@@ -119,4 +119,11 @@ class ProvidersController extends Controller
         return $providers;
     }
 
+    public function checkVat(Request $request) {
+
+        $client = checkVatVies($request->vat);
+
+        return($client);
+    }
+
 }

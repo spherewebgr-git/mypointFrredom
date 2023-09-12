@@ -85,7 +85,7 @@
                     @foreach($invoice->deliveredGoods as $product)
                         <tr class="service" data-quantity="1" data-price="300">
                             <td class="center" style="border-color: {{$settings['invoice_color']}}">{{$product->quantity}}</td>
-                            <td style="border-color: {{$settings['invoice_color']}}">{{getProductByID($product->id)->product_name}}</td>
+                            <td style="border-color: {{$settings['invoice_color']}}">{{getProductByID($product->delivered_good_id)->product_name}}</td>
                             <td class="servicePrice center" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->product_price, 2, ',', '.')}}</td>
                             <td class="serviceVat center" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->line_vat, 2, ',', '.')}} ({{getVatPercentage($product->vat_id)}}%)</td>
                             <td class="serviceTotalPrice right-align" style="border-color: {{$settings['invoice_color']}}">{{number_format($product->product_price * $product->quantity, 2, ',', '.')}}</td>
@@ -105,16 +105,16 @@
                     <tr class="right-align">
                         <td colspan="3" style="border-color: {{$settings['invoice_color']}}">Σύνολο Φ.Π.Α.:</td>
                         <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="sinoloFpa">
-                            € {{number_format((getSaleInvoiceVat($invoice->hashID)), 2, ',', '.')}}</td>
+                            € {{number_format((getSaleInvoiceLineVat($invoice->hashID)), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="3" style="border-color: {{$settings['invoice_color']}}">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                         <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="sinoloGeniko">
-                            € {{number_format(getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.')}}</td>
+                            € {{number_format(getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceLineVat($invoice->hashID), 2, ',', '.')}}</td>
                     </tr>
                     <tr class="right-align">
                         <td colspan="3" style="border-color: {{$settings['invoice_color']}}"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
-                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
+                        <td colspan="3" style="border-color: {{$settings['invoice_color']}}" class="pliroteoPoso"><strong>€ {{ number_format( getSaleInvoicePrices($invoice->hashID) + getSaleInvoiceLineVat($invoice->hashID), 2, ',', '.' ) }}</strong></td>
                     </tr>
                     </tbody>
                 </table>
@@ -151,7 +151,7 @@
                 <div class="card-content">
                     @if(isset($invoice->client->email))
                     <div class="invoice-action-btn mb-2">
-                        <a href="{{route('sale_invoice.mail', ['invoice' => $invoice->hashID])}}" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                        <a href="{{route('sale_invoice.mail', ['invoice' => $invoice->hashID])}}" id="sendEmail" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                             <i class="material-icons mr-4">mail</i>
                             <span class="text-nowrap">Αποστολή Τιμολογίου</span>
                         </a>
@@ -201,4 +201,42 @@
             </div>
         </div>
     </div>
+    <div class="ajax-preloader">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('vendor-script')
+    <script src="{{asset('vendors/data-tables/js/jquery.dataTables.js')}}"></script>
+    <script>
+        @if(Session::has('notify'))
+        M.toast({
+            html: '{{Session::get("notify") }}',
+            classes: 'rounded',
+            timeout: 10000
+        });
+        @endif
+    </script>
+@endsection
+@section('page-script')
+    <script>
+        $i = jQuery.noConflict();
+        $i(document).ready(function(){
+            $i('.ajax-preloader').removeClass('active');
+            $i('a#sendEmail').on('click', function(){
+                $i('.ajax-preloader').addClass('active');
+            });
+        });
+    </script>
 @endsection

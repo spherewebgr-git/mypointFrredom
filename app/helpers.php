@@ -40,6 +40,208 @@ if(!function_exists('settings'))
     }
 }
 
+if(!function_exists('getVatCategoriesList')) {
+    function getVatCategoriesList() {
+        $vats = array(
+            1 => array(
+                'code' => 1,
+                'display' => '24%',
+                'description' => 'ΦΠΑ συντελεστής 24%',
+                'sum' => 24
+            ),
+            2 => array(
+                'code' => 2,
+                'display' => '13%',
+                'description' => 'ΦΠΑ συντελεστής 13%',
+                'sum' => 13
+            ),
+            3 => array(
+                'code' => 3,
+                'display' => '6%',
+                'description' => 'ΦΠΑ συντελεστής 6%',
+                'sum' => 6
+            ),
+            4 => array(
+                'code' => 4,
+                'display' => '17%',
+                'description' => 'ΦΠΑ συντελεστής 17%',
+                'sum' => 17
+            ),
+            5 => array(
+                'code' => 5,
+                'display' => '9%',
+                'description' => 'ΦΠΑ συντελεστής 9%',
+                'sum' => 9
+            ),
+            6 => array(
+                'code' => 6,
+                'display' => '4%',
+                'description' => 'ΦΠΑ συντελεστής 4%',
+                'sum' => 4
+            ),
+            7 => array(
+                'code' => 7,
+                'display' => '0%',
+                'description' => 'Άνευ ΦΠΑ',
+                'sum' => 0
+            )
+        );
+        return $vats;
+    }
+}
+
+if(!function_exists('getVatCauseCategoriesList')) {
+    function getVatCauseCategoriesList() {
+        $causes = array(
+            1 => array(
+                'code' => 1,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 2 και 3 του Κώδικα ΦΠΑ'
+            ),
+            2 => array(
+                'code' => 2,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 5 του Κώδικα ΦΠΑ'
+            ),
+            3 => array(
+                'code' => 3,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 13 του Κώδικα ΦΠΑ'
+            ),
+            4 => array(
+                'code' => 4,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 14 του Κώδικα ΦΠΑ'
+            ),
+            5 => array(
+                'code' => 5,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 16 του Κώδικα ΦΠΑ'
+            ),
+            6 => array(
+                'code' => 6,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 19 του Κώδικα ΦΠΑ'
+            ),
+            7 => array(
+                'code' => 7,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 22 του Κώδικα ΦΠΑ'
+            ),
+            8 => array(
+                'code' => 8,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 24 του Κώδικα ΦΠΑ'
+            ),
+            9 => array(
+                'code' => 9,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 25 του Κώδικα ΦΠΑ'
+            ),
+            10 => array(
+                'code' => 10,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 26 του Κώδικα ΦΠΑ'
+            ),
+            11 => array(
+                'code' => 11,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 27 του Κώδικα ΦΠΑ'
+            ),
+            12 => array(
+                'code' => 12,
+                'description' => 'Χωρίς ΦΠΑ - άρθρο 27 - Πλοία Ανοικτής Θαλάσσης του Κώδικα ΦΠΑ'
+            ),
+            13 => array(
+                'code' => 13,
+                'description' => 'Χωρίς ΦΠΑ - άρθρο 27.1.γ - Πλοία Ανοικτής Θαλάσσης του Κώδικα ΦΠΑ'
+            ),
+            14 => array(
+                'code' => 14,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 28 του Κώδικα ΦΠΑ'
+            ),
+            15 => array(
+                'code' => 15,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 39 του Κώδικα ΦΠΑ'
+            ),
+            16 => array(
+                'code' => 16,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 39α του Κώδικα ΦΠΑ'
+            ),
+            17 => array(
+                'code' => 17,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 40 του Κώδικα ΦΠΑ'
+            ),
+            18 => array(
+                'code' => 18,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 41 του Κώδικα ΦΠΑ'
+            ),
+            19 => array(
+                'code' => 19,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 47 του Κώδικα ΦΠΑ'
+            ),
+            20 => array(
+                'code' => 20,
+                'description' => 'ΦΠΑ εμπεριεχόμενος – άρθρο 43 του Κώδικα ΦΠΑ'
+            ),
+            21 => array(
+                'code' => 21,
+                'description' => 'ΦΠΑ εμπεριεχόμενος – άρθρο 44 του Κώδικα ΦΠΑ'
+            ),
+            22 => array(
+                'code' => 22,
+                'description' => 'ΦΠΑ εμπεριεχόμενος – άρθρο 45 του Κώδικα ΦΠΑ'
+            ),
+            23 => array(
+                'code' => 23,
+                'description' => 'ΦΠΑ εμπεριεχόμενος – άρθρο 46 του Κώδικα ΦΠΑ'
+            ),
+            24 => array(
+                'code' => 24,
+                'description' => 'ΦΠΑ εμπεριεχόμενος – άρθρο 6 του Κώδικα ΦΠΑ'
+            ),
+            25 => array(
+                'code' => 25,
+                'description' => 'Χωρίς ΦΠΑ - ΠΟΛ.1029/1995'
+            ),
+            26 => array(
+                'code' => 26,
+                'description' => 'Χωρίς ΦΠΑ - ΠΟΛ.1167/2015'
+            ),
+            27 => array(
+                'code' => 27,
+                'description' => 'Λοιπές Εξαιρέσεις ΦΠΑ'
+            ),
+            28 => array(
+                'code' => 28,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 24 περ. β παρ.1 του Κώδικα ΦΠΑ, (Tax Free)'
+            ),
+            29 => array(
+                'code' => 29,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 47β, του Κώδικα ΦΠΑ (OSS μη ενωσιακό καθεστώς)'
+            ),
+            30 => array(
+                'code' => 30,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 47γ, του Κώδικα ΦΠΑ (OSS ενωσιακό καθεστώς)'
+            ),
+            31 => array(
+                'code' => 31,
+                'description' => 'Χωρίς ΦΠΑ – άρθρο 47δ του Κώδικα ΦΠΑ (IOSS)'
+            )
+        );
+        return $causes;
+    }
+}
+
+if(!function_exists('getVatPercantageByCategory')) {
+    function getVatPercantageByCategory($category) {
+        switch ($category) {
+            case 1:
+                return 24;
+            case 2:
+                return 13;
+            case 3:
+                return 6;
+            case 4:
+                return 17;
+            case 5:
+                return 9;
+            case 6:
+                return 4;
+        }
+        return 0;
+    }
+}
+
 if(!function_exists('countClients'))
 {
     function countClients()
@@ -79,6 +281,61 @@ if(!function_exists('getFinalPrices'))
             foreach ($services as $service)
             {
                 $total[] = $service->price * $service->quantity;
+            }
+        } elseif ($invoiceType == 'saleInvoice') {
+            $deliveredGoods = DeliveredGoods::query()->where('invoice_hash', '=', $invoiceHashID)->get();
+            $total = [];
+            foreach ($deliveredGoods as $product)
+            {
+                $total[] = $product->product_price * $product->quantity;
+            }
+        }
+
+        $invoicePrice = collect($total)->sum();
+
+        return $invoicePrice;
+    }
+}
+
+if(!function_exists('getFinalInvoiceVat'))
+{
+    /**
+     * @param $invoiceHashID
+     * @param $invoiceType
+     * @return mixed
+     */
+    function getFinalInvoiceVat($invoiceHashID, $invoiceType) {
+       $totalVat = [];
+        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+        $services = $invoice->services()->get();
+
+        foreach ($services as $service)
+        {
+            $totalVat[] = $service->vat_amount;
+        }
+       $total = collect($totalVat)->sum();
+       return $total;
+    }
+}
+
+if(!function_exists('getFinalPricesWithVat'))
+{
+    /**
+     * @param $invoiceHashID
+     * @param $invoiceType
+     * @return mixed
+     */
+    function getFinalPricesWithVat($invoiceHashID, $invoiceType)
+    {
+        $total = [];
+
+        if($invoiceType == 'invoice') {
+            $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+            $services = $invoice->services()->get();
+
+            foreach ($services as $service)
+            {
+                $total[] =  ($service->price * $service->quantity) + $service->vat_amount;
             }
         } elseif ($invoiceType == 'saleInvoice') {
             $deliveredGoods = DeliveredGoods::query()->where('invoice_hash', '=', $invoiceHashID)->get();
@@ -243,7 +500,7 @@ if(!function_exists('getSaleInvoiceLineVat'))
             $total[] = $product->line_vat;
         }
         $invoiceVat = collect($total)->sum();
-
+//dd($invoiceVat);
         return $invoiceVat;
     }
 }
@@ -267,6 +524,28 @@ if(!function_exists('getInvoiceFinalTax'))
         $invoiceVat = collect($total)->sum();
 
         return $invoiceVat;
+    }
+}
+
+if(!function_exists('getInvoiceTaxByCategory'))
+{
+    /**
+     * @param $invoiceHashID
+     * @return mixed
+     */
+    function getInvoiceTaxByCategory($invoiceHashID)
+    {
+        $invoice = Invoice::query()->where('hashID', '=', $invoiceHashID)->first();
+        $total = [];
+        $services = $invoice->services()->get();
+//         dd($products);
+        foreach ($services as $service)
+        {
+            $total[getVatPercantageByCategory($service->vat_category)] = $service->vat_amount;
+        }
+        //$invoiceVat = collect($total)->sum();
+
+        return $total;
     }
 }
 
@@ -304,6 +583,7 @@ if(!function_exists('getRetailPrices'))
         $netValue = [];
         $vats = [];
         $items = RetailReceiptsItems::query()->where('retailHash', '=', $retail->hashID)->get();
+
         foreach($items as $item) {
             $netValue[] = $item->quantity * $item->price;
             $vats[] = $item->quantity * $item->vat;
@@ -471,6 +751,7 @@ if(!function_exists('getClient'))
 
 if(!function_exists('getProductByID')) {
     function getProductByID($id) {
+
         $product = Goods::query()->where('id', '=', $id)->first();
 
         return $product;
@@ -983,6 +1264,56 @@ if(!function_exists('addRetailReceipt')) {
     }
 }
 
+if(!function_exists('checkIssuerVatVies')) {
+    function checkIssuerVatVies($vat) {
+        $chechClient = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
+        $newClient = $chechClient->checkVat(array(
+            'countryCode' => 'EL',
+            'vatNumber' => $vat
+        ));
+        return $newClient;
+//        if(is_array($newClient)) {
+//        }
+//        return 'not found';
+    }
+}
+
+if(!function_exists('checkVatVies')) {
+    function checkVatVies($vat) {
+
+        $chechClient = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
+        $newClient = $chechClient->checkVat(array(
+            'countryCode' => 'EL',
+            'vatNumber' => $vat
+        ));
+        //return $newClient;
+        if($newClient) {
+            $client = [];
+            $extractName = explode('||', $newClient->name);
+            $client['company'] = $extractName[1];
+            $client['title'] = $extractName[0] ?? $extractName[1];
+            $extractAddress = explode(' - ', $newClient->address);
+            $client['city'] = $extractAddress[1];
+            $output = preg_replace('!\s+!', ' ', $extractAddress[0]);
+            $extractRoad = explode(' ', $output);
+            if(is_numeric($extractRoad[1]) == 1) {
+                $client['address'] = $extractRoad[0];
+                $client['number'] = $extractRoad[1];
+                $client['postal_code'] = $extractRoad[2];
+            } else {
+                $client['address'] = $extractRoad[0].' '.$extractRoad[1];
+                $client['number'] = $extractRoad[2];
+                $client['postal_code'] = $extractRoad[3];
+            }
+
+            //dd($newClient);
+            return json_encode($client, JSON_UNESCAPED_UNICODE);
+        } else {
+            return 'vat not found';
+        }
+    }
+}
+
 if(!function_exists('addInvoice')) {
     function addInvoice($invoice) {
         $hash = Str::substr(Str::slug(Hash::make( $invoice->invoiceHeader->series.$invoice->invoiceHeader->aa)), 0, 32);
@@ -1067,8 +1398,6 @@ if(!function_exists('addInvoice')) {
     }
 }
 
-
-
 if(!function_exists('addSaleInvoice')) {
     function addSaleInvoice($invoice) {
 
@@ -1132,6 +1461,7 @@ if(!function_exists('removeFromStorage')) {
         ]);
     }
 }
+
 if(!function_exists('addToStorage')) {
     function addToStorage($quantity, $id) {
         $product = GoodsStorage::query()->where('id', '=', $id)->first();
@@ -1183,7 +1513,6 @@ if(!function_exists('unHoldSaled')) {
         HoldedProduct::query()->whereIn('holded_by', $retailHash)->delete();
     }
 }
-
 
 if(!function_exists('countHolded')) {
     function countHolded($holded)

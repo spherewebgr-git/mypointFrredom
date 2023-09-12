@@ -31,13 +31,15 @@
                 <div class="top display-flex  mb-2">
                     <div class="action-filters">
                         <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
-                                <input type="search"  class="" placeholder="Αναζήτηση πελάτη" aria-controls="DataTables_Table_0">
+                                <input type="search" class="" placeholder="Αναζήτηση πελάτη"
+                                       aria-controls="DataTables_Table_0">
                             </label>
                         </div>
                     </div>
                     <div class="actions action-btns display-flex align-items-center">
                         <div class="invoice-filter-action mr-3">
-                            <a href="javascript:if(window.print)window.print()" class="btn waves-effect waves-light invoice-export border-round z-depth-4">
+                            <a href="javascript:if(window.print)window.print()"
+                               class="btn waves-effect waves-light invoice-export border-round z-depth-4">
                                 <i class="material-icons">print</i>
                                 <span class="hide-on-small-only">Εκτύπωση</span>
                             </a>
@@ -52,66 +54,85 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <table class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column providers-table"
-                       id="DataTables_Table_0" role="grid">
-                    <thead>
-                    <tr role="row">
-                        <th class="center-align">Κωδ. Προμηθευτή</th>
-                        <th>Επωνυμία Προμηθευτή</th>
-                        <th class="center-align">ΑΦΜ Προμηθευτή</th>
-                        <th class="center-align">Χώρα</th>
-                        <th>Ενέργειες</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    @php $count = 0; @endphp
-                    @foreach($providers as $provider)
-                        @if($provider->disabled == 0)
-                            <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} provider-row" data-number="{{$provider->provider_id}}">
-                            <td class="center-align">{{$provider->provider_id}}</td>
-                            <td>{{$provider->provider_name}}</td>
-                            <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
-                            <td class="center-align">{{$provider->country}}</td>
-                            <td class="print-hide">
-                                <div class="invoice-action">
-                                    <a href="{{route('foreign-provider.view', ['vat' => $provider->provider_vat])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας προμηθευτή">                                    <i class="material-icons">remove_red_eye</i>
-                                    </a>
-                                    <a href="{{route('foreign-provider.edit', ['vat' => $provider->provider_vat])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επεξεργασία στοιχείων προμηθευτή">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                    <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger" data-position="left" data-vat="{{$provider->provider_vat}}" data-provider="{{$provider->company}}" data-tooltip="Διαγραφή προμηθευτή">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                </div>
-                            </td>
+                <div class="table-container">
+                    <table
+                        class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column providers-table"
+                        id="DataTables_Table_0" role="grid">
+                        <thead>
+                        <tr role="row">
+                            <th class="center-align">Κωδ. Προμηθευτή</th>
+                            <th style="min-width: 240px!important;">Επωνυμία Προμηθευτή</th>
+                            <th class="center-align" style="min-width: 240px!important;">ΑΦΜ Προμηθευτή</th>
+                            <th class="center-align">Χώρα</th>
+                            <th>Ενέργειες</th>
                         </tr>
-                        @endif
-                    @endforeach
-                    @foreach($providers as $provider)
-                        @if($provider->disabled == 1)
-                            <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} disabled provider-row" data-number="{{$provider->provider_id}}">
-                                <td class="center-align">{{$provider->provider_id}}</td>
-                                <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
-                                <td>{{$provider->provider_name}}</td>
-                                <td class="center-align">{{$provider->country}}</td>
-                                <td class="print-hide">
-                                    <div class="invoice-action">
-                                        <a href="{{route('provider.view', ['vat' => $provider->provider_vat])}}" class="invoice-action-view mr-4 tooltipped" data-position="left" data-tooltip="Προβολή καρτέλας προμηθευτή">                                    <i class="material-icons">remove_red_eye</i>
-                                        </a>
-                                        <a href="{{route('provider.edit', ['vat' => $provider->provider_vat])}}" class="invoice-action-edit tooltipped" data-position="left" data-tooltip="Επεξεργασία στοιχείων προμηθευτή">
-                                            <i class="material-icons">edit</i>
-                                        </a>
-                                        <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger" data-position="left" data-vat="{{$provider->provider_vat}}" data-provider="{{$provider->company}}" data-tooltip="Διαγραφή προμηθευτή">
-                                            <i class="material-icons">delete</i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                        @php $count = 0; @endphp
+                        @foreach($providers as $provider)
+                            @if($provider->disabled == 0)
+                                <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} provider-row"
+                                    data-number="{{$provider->provider_id}}">
+                                    <td class="center-align">{{$provider->provider_id}}</td>
+                                    <td>{{$provider->provider_name}}</td>
+                                    <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
+                                    <td class="center-align">{{$provider->country}}</td>
+                                    <td class="print-hide">
+                                        <div class="invoice-action">
+                                            <a href="{{route('foreign-provider.view', ['vat' => $provider->provider_vat])}}"
+                                               class="invoice-action-view mr-4 tooltipped" data-position="left"
+                                               data-tooltip="Προβολή καρτέλας προμηθευτή"> <i class="material-icons">remove_red_eye</i>
+                                            </a>
+                                            <a href="{{route('foreign-provider.edit', ['vat' => $provider->provider_vat])}}"
+                                               class="invoice-action-edit tooltipped" data-position="left"
+                                               data-tooltip="Επεξεργασία στοιχείων προμηθευτή">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger"
+                                               data-position="left" data-vat="{{$provider->provider_vat}}"
+                                               data-provider="{{$provider->company}}"
+                                               data-tooltip="Διαγραφή προμηθευτή">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        @foreach($providers as $provider)
+                            @if($provider->disabled == 1)
+                                <tr role="row" class="{{(++$count%2 ? "odd" : "even")}} disabled provider-row"
+                                    data-number="{{$provider->provider_id}}">
+                                    <td class="center-align">{{$provider->provider_id}}</td>
+                                    <td class="center-align">{{$provider->country_code.' '.$provider->provider_vat}}</td>
+                                    <td>{{$provider->provider_name}}</td>
+                                    <td class="center-align">{{$provider->country}}</td>
+                                    <td class="print-hide">
+                                        <div class="invoice-action">
+                                            <a href="{{route('provider.view', ['vat' => $provider->provider_vat])}}"
+                                               class="invoice-action-view mr-4 tooltipped" data-position="left"
+                                               data-tooltip="Προβολή καρτέλας προμηθευτή"> <i class="material-icons">remove_red_eye</i>
+                                            </a>
+                                            <a href="{{route('provider.edit', ['vat' => $provider->provider_vat])}}"
+                                               class="invoice-action-edit tooltipped" data-position="left"
+                                               data-tooltip="Επεξεργασία στοιχείων προμηθευτή">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a href="#modal" class="invoice-action-delete mr-4 tooltipped modal-trigger"
+                                               data-position="left" data-vat="{{$provider->provider_vat}}"
+                                               data-provider="{{$provider->company}}"
+                                               data-tooltip="Διαγραφή προμηθευτή">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <div class="bottom">
 
                 </div>
@@ -150,15 +171,15 @@
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.js')}}"></script>
     <script>
         $m = jQuery.noConflict();
-        $m(document).ready(function(){
+        $m(document).ready(function () {
             $m('.modal').modal({
                 dismissible: true,
             });
-            $m('.modal-trigger').on('click', function() {
+            $m('.modal-trigger').on('click', function () {
                 let provider = $m(this).data('provider');
                 let vatProvider = $m(this).data('vat');
                 $m('.modal .provider-to-delete').text(provider);
-                $m('.modal .delete-action').attr('href', '/delete-provider/'+vatProvider);
+                $m('.modal .delete-action').attr('href', '/delete-provider/' + vatProvider);
             });
 
             @if(Session::has('notify'))
@@ -169,8 +190,8 @@
             });
             @endif
 
-            $m('.dataTables_filter input').on('keyup', function(){
-                if($m(this).val().length > 2) {
+            $m('.dataTables_filter input').on('keyup', function () {
+                if ($m(this).val().length > 2) {
                     $m('.provider-row').hide();
                     $m('tr.nothing').remove();
                     $m('.ajax-preloader').addClass('active');
@@ -192,10 +213,10 @@
                         success: function (result) {
                             console.log(result);
                             $m('.ajax-preloader').removeClass('active');
-                            if(result.length > 0) {
-                                $m.each(result, function(k,v) {
+                            if (result.length > 0) {
+                                $m.each(result, function (k, v) {
                                     console.log(v.provider_id);
-                                    $m('.provider-row[data-number="'+v.provider_id+'"]').show();
+                                    $m('.provider-row[data-number="' + v.provider_id + '"]').show();
                                 });
                             } else {
                                 $m('.providers-table tbody').append('<tr class="nothing"><td colspan="6" class="center-align red-text">Δεν βρέθηκαν πελάτες με τα κριτήρια αναζήτησης που δόθηκαν</td></tr>');

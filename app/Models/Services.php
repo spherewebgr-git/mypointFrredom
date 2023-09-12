@@ -12,7 +12,7 @@ class Services extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'invoice_number', 'vat_category', 'vat_amount', 'client_id', 'price', 'quantity', 'description'
+        'invoice_number', 'vat_category', 'vat_amount', 'vat_cause', 'client_id', 'price', 'quantity', 'description'
     ];
 
     public function invoice()

@@ -281,6 +281,69 @@ ul#unpaids-collection {
     color: #ffffff;
 }
 
+#breadcrumbs-wrapper .breadcrumbs-title {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    @media (max-width: 601px) {
+        margin-bottom: 1rem !important;
+    }
+}
+
+.invoice-head {
+    &--left {
+        width: 85%;
+        min-width: 853px;
+        @media (max-width: 500px) {
+            width: 100%;
+            margin-bottom: 10px;
+            min-width: inherit;
+            & button {
+                margin-top: 10px;
+            }
+        }
+    }
+    &--right {
+        width: 15%;
+        min-width: 120px;
+        @media (max-width: 500px) {
+            width: 100%;
+            justify-content: flex-start;
+            margin-top: 15px;
+
+            & .select-wrapper {
+                &.col {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: row-reverse;
+                }
+                & + label {
+                    position: relative;
+                    top: inherit;
+                    width: 150px;
+                }
+            }
+        }
+    }
+}
+
+.hide-on-mobile {
+    @media (max-width: 640px) {
+        display: none!important;
+    }
+}
+.sidenav-main {
+    & .brand-sidebar {
+        @media (max-width: 640px) {
+            display: none!important;
+        }
+    }
+}
+.invoice-action {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
 aside {
     &.nav-collapsed {
         img {
@@ -493,3 +556,19 @@ table {
     }
 }
 
+#vatCalulator {
+    background: #fff;
+    padding: 0;
+    box-shadow: 0 0 5px;
+    margin: 2rem 0;
+    border-radius: 5px;
+    & h4 {
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #000;
+        margin: 0 0 40px 0;
+        padding: 17px 15px;
+        color: #fff;
+        border-radius: 5px 5px 0 0;
+    }
+}

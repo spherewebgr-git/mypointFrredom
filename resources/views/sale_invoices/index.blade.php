@@ -159,10 +159,10 @@
                                     &euro; {{number_format(getSaleInvoicePrices($invoice->hashID), '2', ',', '.')}}</td>
 
                                 <td class="center-align print-hide">
-                                    &euro; {{number_format(getSaleInvoiceVat($invoice->hashID), '2', ',', '.')}}
+                                    &euro; {{number_format(getSaleInvoiceLineVat($invoice->hashID), '2', ',', '.')}}
                                 </td>
                                 <td class="center-align hide-on-med-and-down">
-                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + (getSaleInvoiceVat($invoice->hashID)), '2', ',', '.')}}
+                                    &euro; {{number_format(getSaleInvoicePrices($invoice->hashID) + (getSaleInvoiceLineVat($invoice->hashID)), '2', ',', '.')}}
 
                                 </td>
                                 <td class="center-align print-hide">
@@ -180,7 +180,7 @@
                                             <a href="{{route('sale_invoice.view', ['invoice' => $invoice->hashID])}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
-                                            <a href="{{route('invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
+                                            <a href="{{route('sale_invoice.download', $invoice->hashID)}}" class="invoice-action-view mr-4">
                                                 <i class="material-icons">cloud_download</i>
                                             </a>
                                         @else

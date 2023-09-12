@@ -22,6 +22,7 @@ class CreateServicesTable extends Migration
             $table->text('description');
             $table->float('vat_amount');
             $table->integer('vat_category');
+            $table->integer('vat_cause');
             $table->softDeletes();
             $table->timestamps();
         });

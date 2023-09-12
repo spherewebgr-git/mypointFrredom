@@ -107,7 +107,7 @@ class RetailReceiptsController extends Controller
                 'product_service' => $item['product_service'] ?? $item['product'],
                 'quantity' => $item['quantity'],
                 'vat_id' => $item['vat_id'],
-                'price' => $item['price'],
+                'price' => $item['price'] + $item['vat'],
                 'vat' => $item['vat'],
                 'created_at' => date('Y-m-d')
             ]);
@@ -166,7 +166,7 @@ class RetailReceiptsController extends Controller
             'date' => $date,
             'updated_at' => Carbon::now()
         ]);
-//dd($items);
+
         foreach($items as $item) {
             if(isset($item['item'])) {
                 $itemRow = RetailReceiptsItems::query()->where('id', '=', $item['item'])->first();
@@ -175,7 +175,7 @@ class RetailReceiptsController extends Controller
                     'product_service' => $item['product_service'] ?? $item['product'],
                     'vat_id' => $item['vat_id'],
                     'quantity' => $item['quantity'],
-                    'price' => $item['price'],
+                    'price' => $item['price'] + $item['vat'],
                     'vat' => $item['vat']
                 ]);
             } else {
@@ -214,7 +214,7 @@ class RetailReceiptsController extends Controller
             $theRetail->mark = $aadeResponse[0]['invoiceMark'];
             $theRetail->save();
         } else {
-            dd($aadeResponse[0]['statusCode']);
+            return Redirect::back()->with('notify', $aadeResponse[0]['statusCode']);
         }
         return Redirect::back()->with('notify', 'Η απόδειξη εστάλη!');
     }
@@ -283,9 +283,12 @@ class RetailReceiptsController extends Controller
 
     public function delete($retailHash) {
         $retail = Retails::query()->where('hashID', '=', $retailHash)->first();
+        //dd($retail->items);
         foreach($retail->items as $item) {
-            addToStorage($item->quantity, $item->product_service);
-            unHoldFromStorage($item->quantity, $item->product_service, $retailHash);
+            if(is_numeric($item->product_service)) {
+                addToStorage($item->quantity, $item->product_service);
+                unHoldFromStorage($item->quantity, $item->product_service, $retailHash);
+            }
             $item->delete();
         }
         $retail->delete();

@@ -2,12 +2,13 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
+@if(isset($retail->seira))
 @if($retail->seira == 'ANEY' || $retail->seira == 'ΑΝΕΥ')
-    @section('title','Απόδειξη Λιανικής Πώλησης '.$retail->retailID)
+    @section('title','Απόδειξη Λιανικής Πώλησης '.$retail->retailID ?? '')
 @else
     @section('title','Απόδειξη Λιανικής Πώλησης '.$retail->seira.' '.$retail->retailID)
 @endif
-
+@endif
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
@@ -21,6 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
+                    @if(isset($retail->seira))
                     <h5 class="breadcrumbs-title mt-0 mb-0">
                         @if($retail->seira == 'ANEY' || $retail->seira == 'ΑΝΕΥ')
                             <span>Απόδειξη Λιανικής Πώλησης {{$retail->retailID}}</span>
@@ -28,6 +30,7 @@
                             <span>Απόδειξη Λιανικής Πώλησης {{$retail->seira.' '.$retail->retailID}}</span>
                         @endif
                     </h5>
+                        @endif
                 </div>
             </div>
         </div>
@@ -43,7 +46,7 @@
                         </td>
                         @endif
                         <td class="tim-info @if(isset($settings['invoice_logo'])) right @else left @endif" style="text-align: left">
-                            <h4 class="invoice-color">{{$settings['title'] ?? 'not set'}}</h4>
+                            <h4 class="invoice-color">{{$settings['title'] ?? ''}}</h4>
                             <h5 class="invoice-color">{{$settings['company'] ?? 'not set'}}</h5>
                             <p>{{$settings['business'] ?? 'not set'}}<br>{{$settings['address'] ?? 'not set'}}<br>Α.Φ.Μ.: {{$settings['vat'] ?? 'not set'}} -
                                 ΔΟΥ: {{$settings['doy'] ?? 'not set'}}</p></td>
@@ -55,7 +58,7 @@
                             </div>
                         </td>
                         <td>
-                            <p class="timNumber">ΑΠΟΔΕΙΞΗ ΛΙΑΝΙΚΗΣ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ | @if($retail->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$retail->seira}}</strong></span> @endif Αρ. Απόδειξης <span><strong class="invoice-color">{{$retail->retailID}}</strong></span>
+                            <p class="timNumber">ΑΠΟΔΕΙΞΗ ΛΙΑΝΙΚΗΣ ΠΩΛΗΣΗΣ | @if($retail->seira != 'ANEY') Σειρά: <span><strong class="invoice-color">{{$retail->seira}}</strong></span> @endif Αρ. Απόδειξης <span><strong class="invoice-color">{{$retail->retailID}}</strong></span>
                             </p>
                         </td>
                     </tr>
@@ -78,39 +81,41 @@
                             <th style="width: 50%" class="invoice-color-bg">Περιγραφή</th>
                             <th style="width: 20%" class="center-align">Τρόπος Πληρωμής</th>
                             <th style="width: 13%" class="invoice-color-bg center">Τιμή Μονάδας</th>
+                            <th style="width: 13%" class="invoice-color-bg center">Φ.Π.Α.</th>
                             <th style="width: 8%" class="invoice-color-bg center-align">Σύνολο</th>
                         </tr>
                         @foreach($retail->items as $item)
                         <tr>
-                            <td class="center-align">1</td>
-                            <td>{{$item->product_service}}</td>
+                            <td class="center-align">{{$item->quantity}}</td>
+                            <td>{{is_numeric($item->product_service) ? getProductByID($item->product_service)->product_name : $item->product_service}}</td>
                             <td class="center-align">{{getPaymentMethodName($item->payment_method)}}</td>
-                            <td class="center-align">{{number_format($item->price, 2, ',', '.')}}</td>
-                            <td class="center-align">{{number_format($item->price, 2, ',', '.')}}</td>
+                            <td class="center-align">{{number_format(($item->price - $item->vat), 2, ',', '.')}}</td>
+                            <td class="center-align">{{number_format($item->vat, 2, ',', '.')}}</td>
+                            <td class="center-align">{{number_format(($item->quantity * $item->price), 2, ',', '.')}}</td>
                         </tr>
                         @endforeach
                         @for($i = $retail->items->count(); $i <= 5; $i++)
                             <tr>
-                                <td colspan="5">&nbsp;</td>
+                                <td colspan="6">&nbsp;</td>
                             </tr>
                         @endfor
                         <tr class="right-align">
-                            <td colspan="3">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
+                            <td colspan="4">ΣΥΝΟΛΟ ΑΞΙΩΝ:</td>
                             <td colspan="2" class="sinoloAxion" data-saprice="">
-                                € {{number_format(getRetailPrices($retail)['full'], 2, ',', '.')}}</td>
+                                € {{number_format((getRetailPrices($retail)['full'] - getRetailPrices($retail)['vat']), 2, ',', '.')}}</td>
                         </tr>
                         <tr class="right-align">
-                            <td colspan="3">Φ.Π.Α. <strong>(24%)</strong>:</td>
+                            <td colspan="4">Φ.Π.Α.:</td>
                             <td colspan="2" class="sinoloFpa">
                                 € {{number_format(getRetailPrices($retail)['vat'], 2, ',', '.')}}</td>
                         </tr>
                         <tr class="right-align">
-                            <td colspan="3">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
+                            <td colspan="4">ΓΕΝΙΚΟ ΣΥΝΟΛΟ:</td>
                             <td colspan="2" class="sinoloGeniko">
                                 € {{number_format(getRetailPrices($retail)['full'], 2, ',', '.')}}</td>
                         </tr>
                         <tr class="right-align">
-                            <td colspan="3"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
+                            <td colspan="4"><strong>ΠΛΗΡΩΤΕΟ ΠΟΣΟ:</strong></td>
                             <td colspan="2" class="pliroteoPoso"><strong>€ {{number_format(getRetailPrices($retail)['full'], 2, ',', '.')}}</strong></td>
                         </tr>
                     </tbody>
@@ -151,27 +156,27 @@
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper">
                 <div class="card-content">
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="javascript:if(window.print)window.print()" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
                             <i class="material-icons mr-4">print</i>
                             <span>Εκτύπωση</span>
                         </a>
                     </div>
                     @if(!$retail->mark)
-                        <div class="invoice-action-btn">
+                        <div class="invoice-action-btn mb-2">
                             <a href="{{route('retail-receipts.edit', $retail->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">edit</i>
                                 <span>Επεξεργασία</span>
                             </a>
                         </div>
-                        <div class="invoice-action-btn">
+                        <div class="invoice-action-btn mb-2">
                             <a href="{{route('retail-receipts.mydata', $retail->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <i class="material-icons mr-4">backup</i>
                                 <span>Αποστολή στο myData</span>
                             </a>
                         </div>
                     @endif
-                    <div class="invoice-action-btn">
+                    <div class="invoice-action-btn mb-2">
                         <a href="{{route('retail-receipts.save', $retail->hashID)}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
                             <i class="material-icons mr-4">picture_as_pdf</i>
                             <span>Δημιουργία PDF & Λήψη</span>

@@ -14,7 +14,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="col s12">
+
         <div class="container">
             <!-- Contact Us -->
             <div id="contact-us" class="section">
@@ -121,7 +121,7 @@
                                                     </div>
                                                     @endif
                                                     <!-- Business Info -->
-                                                    <a href="{{route('client.edit', ['vat' => $client->vat])}}"
+                                                    <a href="{{route('client.edit', ['hashID' => $client->hashID])}}"
                                                        class="waves-effect waves-light btn mb-1 mr-1 mt-4">
                                                         <i class="material-icons left">edit</i> Επεξεργασία</a>
                                                 </div>
@@ -135,7 +135,7 @@
                         <div class="col s12 m12 l9 contact-form margin-top-contact">
                             <div class="row">
                                 <div id="prosfataTimologia" class="col s12">
-                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer table-container">
                                         <table
                                             class="table invoice-data-table white border-radius-4 pt-1 dataTable no-footer dtr-column"
                                             id="DataTables_Table_0" role="grid">
@@ -495,7 +495,7 @@
             </div>
         </div>
         <div class="content-overlay"></div>
-    </div>
+
 @endsection
 
 {{-- scripts --}}

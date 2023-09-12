@@ -25,13 +25,17 @@ class InvoicesController extends Controller
     public function index()
     {
         $finalIncome = [];
+        $finalVat = [];
+        $finalWithVats = [];
         $invoices = Invoice::query()->where('date', '>=', date('Y').'-01-01')->get()->sortBy('invoiceID');
         foreach($invoices as $invoice) {
             $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
+            $finalVat[] = getFinalInvoiceVat($invoice->hashID, 'invoice');
         }
         $final = array_sum($finalIncome);
+        $vats = array_sum($finalVat);
 
-        return view('invoices.index', ['invoices' => $invoices, 'finals' => $final]);
+        return view('invoices.index', ['invoices' => $invoices, 'finals' => $final, 'vats' => $vats]);
     }
 
     public function filter(Request $request)
@@ -43,12 +47,16 @@ class InvoicesController extends Controller
         $to = $toDate->format('Y-m-d');
 
         $finalIncome = [];
+        $finalVat = [];
         $invoices = Invoice::query()->where('date', '>=', $from)->where('date', '<=', $to)->get()->sortByDesc('date');
         foreach($invoices as $invoice) {
             $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
+            $finalVat[] = getFinalInvoiceVat($invoice->hashID, 'invoice');
         }
         $final = array_sum($finalIncome);
-        return view('invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final]);
+        $vats = array_sum($finalVat);
+
+        return view('invoices.index', ['invoices' => $invoices, 'dateStart' => $from, 'dateEnd' => $to, 'finals' => $final, 'vats' => $vats]);
     }
 
     public function selectYear($year) {
@@ -56,13 +64,15 @@ class InvoicesController extends Controller
 
         $finalIncome = [];
         $finalFpa = [];
-
+        $finalVat = [];
         foreach($invoices as $invoice) {
             $finalIncome[] = getFinalPrices($invoice->hashID, 'invoice');
+            $finalVat[] = getFinalInvoiceVat($invoice->hashID, 'invoice');
         }
         $final = array_sum($finalIncome);
+        $vats = array_sum($finalVat);
 
-        return view('invoices.index', ['invoices' => $invoices, 'finals' => $final, 'year' => $year]);
+        return view('invoices.index', ['invoices' => $invoices, 'finals' => $final, 'year' => $year, 'vats' => $vats]);
     }
 
     public function view($invoiceID) {
@@ -175,8 +185,9 @@ class InvoicesController extends Controller
                         'client_id' => $request->client,
                         'price' => $serv['price'],
                         'quantity' => $serv['quantity'],
-                        'vat_amount' => $serv['price'] / 1.24,
-                        'vat_category' => 1,
+                        'vat_amount' => (getVatPercantageByCategory($serv['vat_category']) / 100) * ($serv['quantity'] * $serv['price']),
+                        'vat_category' => $serv['vat_category'],
+                        'vat_cause' => $serv['vat_cause'] ?? NULL,
                         'description' => $serv['description']
                     )
                 );
@@ -229,7 +240,6 @@ class InvoicesController extends Controller
         $date = $requestDate->format('Y-m-d');
         $services = $request->services;
 
-
         if(isset($request->hasParakratisi)) {
             $parakratisi = 1;
         } else {
@@ -251,8 +261,9 @@ class InvoicesController extends Controller
                 DB::table('services')->where('id', $service['id'])->update([
                     'price' => $service['price'],
                     'quantity' => $service['quantity'],
-                    'vat_amount' => $service['price'] / 1.24,
-                    'vat_category' => 1,
+                    'vat_amount' => (getVatPercantageByCategory($service['vat_category']) / 100) * ($service['quantity'] * $service['price']),
+                    'vat_category' => $service['vat_category'],
+                    'vat_cause' => $service['vat_cause'] ?? NULL,
                     'description' => $service['description'],
                     'updated_at' => date('Y-m-d')
                 ]);
@@ -262,8 +273,9 @@ class InvoicesController extends Controller
                         'invoice_number' => $invoice->hashID,
                         'client_id' => $invoice->client->id,
                         'price' => $service['price'],
-                        'vat_amount' => $service['price'] / 1.24,
-                        'vat_category' => 1,
+                        'vat_amount' => (getVatPercantageByCategory($service['vat_category']) / 100) * ($service['quantity'] * $service['price']),
+                        'vat_category' => $service['vat_category'],
+                        'vat_cause' => $service['vat_cause'] ?? NULL,
                         'quantity' => $service['quantity'],
                         'description' => $service['description'],
                         'created_at' => date('Y-m-d')
@@ -286,6 +298,10 @@ class InvoicesController extends Controller
     public function delete($hashID)
     {
         $invoice = Invoice::query()->where('hashID', '=', $hashID)->first();
+
+        foreach ($invoice->services as $service) {
+            $service->delete();
+        }
         $invoice->delete();
 
         return Redirect::back()->with('notify', 'Το τιμολόγιο τοποθετήθηκε στον κάδο ανακύκλωσης!');
