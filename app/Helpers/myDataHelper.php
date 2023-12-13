@@ -72,12 +72,6 @@ if(!function_exists('myDataSendInvoices')) {
         }
 
         $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
-        // Test
-//                $headers = array(
-//                    'aade-user-id' => 'sphereweb',
-//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
-//                );
-        // Official
 
         $headers = array(
             'aade-user-id' => $settings['aade_user_id'],
@@ -454,24 +448,29 @@ if(!function_exists('myDataSendExpensesClassification')) {
 
         $request->setMethod(HTTP_Request2::METHOD_POST);
 
+
         $sendBody = '<ExpensesClassificationsDoc xmlns="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.aade.gr/myDATA/expensesClassificaton/v1.0">'.PHP_EOL;
         $sendBody .= '<expensesInvoiceClassification>'.PHP_EOL;
         $sendBody .= '<invoiceMark>'.$outcome->mark.'</invoiceMark>'.PHP_EOL;
+
         foreach($classifications as $classification) {
+            $excemption = $classification->vat_exception_category ?? '';
             $sendBody .= '<invoicesExpensesClassificationDetails>'.PHP_EOL;
                 $sendBody .= '<lineNumber>'.$counter.'</lineNumber>'.PHP_EOL;
                 $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
                     $sendBody .= '<classificationType>'.$classification->classification_type.'</classificationType>'.PHP_EOL;
                     $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
                     $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-                    $sendBody .= '<id>1</id>'.PHP_EOL;
                 $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
                 $sendBody .= '<expensesClassificationDetailData>'.PHP_EOL;
                     $sendBody .= '<classificationType>'.$classification->vat.'</classificationType>'.PHP_EOL;
-//                    $sendBody .= '<classificationCategory>'.$classification->classification_category.'</classificationCategory>'.PHP_EOL;
                     $sendBody .= '<amount>'.$classification->price.'</amount>'.PHP_EOL;
-                    $sendBody .= '<id>2</id>'.PHP_EOL;
-                $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
+                    if($excemption >= 7 ) {
+                        $sendBody .= '<vatAmount>'.$classification->vat_amount.'</vatAmount>'.PHP_EOL;
+                        $sendBody .= '<vatCategory>'.$classification->vat_category.'</vatCategory>'.PHP_EOL;
+                        $sendBody .= '<vatExemptionCategory>'.$excemption.'</vatExemptionCategory>' . PHP_EOL;
+                    }
+                    $sendBody .= '</expensesClassificationDetailData>'.PHP_EOL;
             $sendBody .= '</invoicesExpensesClassificationDetails>'.PHP_EOL;
             $counter ++;
         }
@@ -479,7 +478,7 @@ if(!function_exists('myDataSendExpensesClassification')) {
         $sendBody .= '</ExpensesClassificationsDoc>'.PHP_EOL;
 
         $request->setBody($sendBody);
-        //dd($sendBody);
+//       dd($sendBody);
         try
         {
             $response = $request->send();
@@ -521,11 +520,6 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
             'aade-user-id' => $settings['aade_user_id'],
             'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
-//        $request = new  Hrequest('https://mydataapidev.aade.gr/SendInvoices');
-//        $headers = array(
-//                    'aade-user-id' => 'sphereweb',
-//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
-//                );
 
         $request->setHeader($headers);
 
@@ -539,8 +533,6 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
             $sendBody .= '<branch>0</branch>'.PHP_EOL;
             $sendBody .= '<name>'.$provider->provider_name.'</name>'.PHP_EOL;
             $sendBody .= '<address>'.PHP_EOL;
-                $sendBody .= '<street/>'.PHP_EOL;
-                $sendBody .= '<number/>'.PHP_EOL;
                 $sendBody .= '<postalCode>'.$provider->address_tk.'</postalCode>'.PHP_EOL;
                 $sendBody .= '<city>'.$provider->city.'</city>'.PHP_EOL;
             $sendBody .= '</address>'.PHP_EOL;
@@ -549,6 +541,10 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
             $sendBody .= '<vatNumber>'.str_pad($settings['vat'], 9, '0', STR_PAD_LEFT).'</vatNumber>'.PHP_EOL;
             $sendBody .= '<country>GR</country>'.PHP_EOL;
             $sendBody .= '<branch>0</branch>'.PHP_EOL;
+            $sendBody .= '<address>'.PHP_EOL;
+                $sendBody .= '<postalCode>11363</postalCode>'.PHP_EOL;
+                $sendBody .= '<city>ATHENS</city>'.PHP_EOL;
+            $sendBody .= '</address>'.PHP_EOL;
         $sendBody .= '</counterpart>'.PHP_EOL;
         $sendBody .= '<invoiceHeader>'.PHP_EOL;
             $sendBody .= '<series>'.$outcome->seira.'</series>'.PHP_EOL;
@@ -560,12 +556,13 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
         $counter = 1;
         if(isset($classifications)) {
             foreach ($classifications as $classification) {
+                $excemption = $classification->vat_excemption_category ?? '';
                 $sendBody .= '<invoiceDetails>' . PHP_EOL;
                     $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
                     $sendBody .= '<netValue>' . number_format($outcome->price, 2, '.', '') . '</netValue>' . PHP_EOL;
-                    $sendBody .= '<vatCategory>7</vatCategory>' . PHP_EOL;
-                    $sendBody .= '<vatAmount>0.00</vatAmount>' . PHP_EOL;
-                    $sendBody .= '<vatExemptionCategory>4</vatExemptionCategory>'.PHP_EOL;
+                    $sendBody .= '<vatCategory>1</vatCategory>' . PHP_EOL;
+                    $sendBody .= '<vatAmount>4.78</vatAmount>' . PHP_EOL;
+                    //$sendBody .= '<vatExemptionCategory>'.$excemption.'</vatExemptionCategory>'.PHP_EOL;
                     $sendBody .= '<expensesClassification>' . PHP_EOL;
                         $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>' . PHP_EOL;
                         $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
@@ -573,22 +570,24 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
                     $sendBody .= '</expensesClassification>' . PHP_EOL;
                     $sendBody .= '<expensesClassification>' . PHP_EOL;
                         $sendBody .= '<ecls:classificationType>'.$classification->vat.'</ecls:classificationType>' . PHP_EOL;
-                        $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+//                        $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
                         $sendBody .= '<ecls:amount>' . number_format($classification->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
                     $sendBody .= '</expensesClassification>' . PHP_EOL;
+
+
                 $sendBody .= '</invoiceDetails>' . PHP_EOL;
                 $counter++;
             }
         }
         $sendBody .= '<invoiceSummary>'.PHP_EOL;
         $sendBody .= '<totalNetValue>'.number_format($outcome->price, 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
-        $sendBody .= '<totalVatAmount>0.00</totalVatAmount>'.PHP_EOL;
+        $sendBody .= '<totalVatAmount>4.78</totalVatAmount>'.PHP_EOL;
         $sendBody .= '<totalWithheldAmount>0.00</totalWithheldAmount>'.PHP_EOL;
         $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
         $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
         $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
         $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
-        $sendBody .= '<totalGrossValue>'.number_format( $outcome->price, 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
+        $sendBody .= '<totalGrossValue>'.number_format( ($outcome->price + 4.78), 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
 
         $sendBody .= '<expensesClassification>' . PHP_EOL;
             $sendBody .= '<ecls:classificationType>'.$classifications[0]->classification_type.'</ecls:classificationType>' . PHP_EOL;
@@ -597,7 +596,7 @@ if(!function_exists('myDataSendExpensesIntracommunity')) {
         $sendBody .= '</expensesClassification>' . PHP_EOL;
         $sendBody .= '<expensesClassification>' . PHP_EOL;
             $sendBody .= '<ecls:classificationType>'.$classifications[0]->vat.'</ecls:classificationType>' . PHP_EOL;
-            $sendBody .= '<ecls:classificationCategory>'.$classifications[0]->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+//            $sendBody .= '<ecls:classificationCategory>'.$classifications[0]->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
             $sendBody .= '<ecls:amount>' . number_format($outcome->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
         $sendBody .= '</expensesClassification>' . PHP_EOL;
         $sendBody .= '</invoiceSummary>'.PHP_EOL;
@@ -651,11 +650,6 @@ if(!function_exists('myDataSendInvoiceThirdCountry')) {
             'aade-user-id' => $settings['aade_user_id'],
             'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
         );
-//        $request = new  Hrequest('https://mydataapidev.aade.gr/SendInvoices');
-//        $headers = array(
-//                    'aade-user-id' => 'sphereweb',
-//                    'Ocp-Apim-Subscription-Key' => '8c0a25b302714ac3b227d212824e9361',
-//                );
 
         $request->setHeader($headers);
 
@@ -696,12 +690,13 @@ if(!function_exists('myDataSendInvoiceThirdCountry')) {
         $counter = 1;
         if(isset($classifications)) {
             foreach ($classifications as $classification) {
+                $excemption = $classification->vat_exception_category ?? '';
                 $sendBody .= '<invoiceDetails>' . PHP_EOL;
                 $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
                 $sendBody .= '<netValue>' . number_format($outcome->price, 2, '.', '') . '</netValue>' . PHP_EOL;
-                $sendBody .= '<vatCategory>7</vatCategory>' . PHP_EOL;
+                $sendBody .= '<vatCategory>'.$classification->vat_category.'</vatCategory>' . PHP_EOL;
                 $sendBody .= '<vatAmount>0.00</vatAmount>' . PHP_EOL;
-                $sendBody .= '<vatExemptionCategory>4</vatExemptionCategory>'.PHP_EOL;
+                $sendBody .= '<vatExemptionCategory>'.$excemption.'</vatExemptionCategory>'.PHP_EOL;
                 $sendBody .= '<expensesClassification>' . PHP_EOL;
                 $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>' . PHP_EOL;
                 $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
@@ -746,6 +741,141 @@ if(!function_exists('myDataSendInvoiceThirdCountry')) {
         //dd($body);
         return $body;
     }
+}
+
+if(!function_exists('myDataSendInvoiceDeviation')){
+    function myDataSendInvoiceDeviation($outcomeHash) {
+        $settings = [];
+        $allSettings = Settings::all();
+        foreach($allSettings as $set) {
+            $settings[$set->type] = $set->value;
+        }
+        $outcome = Outcomes::query()->where('hashID', '=', $outcomeHash)->first();
+        $classifications = $outcome->classifications;
+        $address = explode(',', $settings['address']);
+        $tk = $address[1];
+
+        $road = explode(' ', $address[0])[0];
+        $number = explode(' ', $address[0])[1];
+        $provider = $outcome->foreignProvider;
+
+        $counter = 1;
+
+        $request = new  Hrequest('https://mydatapi.aade.gr/myDATA/SendInvoices');
+
+        $headers = array(
+            'aade-user-id' => $settings['aade_user_id'],
+            'Ocp-Apim-Subscription-Key' => $settings['ocp_apim_subscription_key'],
+        );
+
+        $request->setHeader($headers);
+
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+
+        $sendBody = '<InvoicesDoc xmlns="http://www.aade.gr/myDATA/invoice/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:icls="https://www.aade.gr/myDATA/incomeClassificaton/v1.0" xmlns:ecls="https://www.aade.gr/myDATA/expensesClassificaton/v1.0" xsi:schemaLocation="http://www.aade.gr/myDATA/invoice/v1.0/InvoicesDoc-v0.6.xsd">'.PHP_EOL;
+        $sendBody .= '<invoice>'.PHP_EOL;
+        $sendBody .= '<issuer>'.PHP_EOL;
+        $sendBody .= '<vatNumber>'.$provider->country_code.$provider->provider_vat.'</vatNumber>'.PHP_EOL;
+        $sendBody .= '<country>'.$provider->country_code.'</country>'.PHP_EOL;
+        $sendBody .= '<branch>0</branch>'.PHP_EOL;
+        $sendBody .= '</issuer>'.PHP_EOL;
+        $sendBody .= '<counterpart>'.PHP_EOL;
+        $sendBody .= '<vatNumber>'.str_pad($settings['vat'], 9, '0', STR_PAD_LEFT).'</vatNumber>'.PHP_EOL;
+        $sendBody .= '<country>GR</country>'.PHP_EOL;
+        $sendBody .= '<branch>0</branch>'.PHP_EOL;
+        $sendBody .= '<address>'.PHP_EOL;
+        $sendBody .= '<street>'.$road.'</street>'.PHP_EOL;
+        $sendBody .= '<number>'.$number.'</number>'.PHP_EOL;
+        $sendBody .= '<postalCode>'.trim($tk).'</postalCode>'.PHP_EOL;
+        $sendBody .= '<city>'.$address[3].'</city>'.PHP_EOL;
+        $sendBody .= '</address>'.PHP_EOL;
+        $sendBody .= '</counterpart>'.PHP_EOL;
+        $sendBody .= '<invoiceHeader>'.PHP_EOL;
+        $sendBody .= '<series>'.$outcome->seira.'</series>'.PHP_EOL;
+        $sendBody .= '<aa>'.$outcome->outcome_number.'</aa>'.PHP_EOL;
+        $sendBody .= '<issueDate>'.$outcome->date.'</issueDate>'.PHP_EOL;
+        $sendBody .= '<invoiceType>'.$outcome->invType.'</invoiceType>'.PHP_EOL;
+        $sendBody .= '<correlatedInvoices>0</correlatedInvoices>'.PHP_EOL;
+        $sendBody .= '<invoiceVariationType >1</invoiceVariationType >'.PHP_EOL;
+        $sendBody .= '<currency>EUR</currency>'.PHP_EOL;
+        $sendBody .= '</invoiceHeader>'.PHP_EOL;
+        $sendBody .= '<paymentMethods>'.PHP_EOL;
+        $sendBody .= '<paymentMethodDetails>'.PHP_EOL;
+        $sendBody .= '<type>'.$outcome->paymentMethod.'</type>'.PHP_EOL;
+        $sendBody .= '<amount>'.number_format($outcome->price, 2, '.', '' ).'</amount>'.PHP_EOL;
+        $sendBody .= '<paymentMethodInfo></paymentMethodInfo>'.PHP_EOL;
+        $sendBody .= '</paymentMethodDetails>'.PHP_EOL;
+        $sendBody .= '</paymentMethods>'.PHP_EOL;
+        $counter = 1;
+        if(isset($classifications)) {
+            foreach ($classifications as $classification) {
+                $sendBody .= '<invoiceDetails>' . PHP_EOL;
+                $sendBody .= '<lineNumber>'.$counter.'</lineNumber>' . PHP_EOL;
+                $sendBody .= '<netValue>' . number_format($outcome->price, 2, '.', '') . '</netValue>' . PHP_EOL;
+                $sendBody .= '<vatCategory>'.$classification->vat_category.'</vatCategory>' . PHP_EOL;
+                $sendBody .= '<vatAmount>'.$classification->vat_amount.'</vatAmount>' . PHP_EOL;
+                $sendBody .= '<expensesClassification>' . PHP_EOL;
+                $sendBody .= '<ecls:classificationType>'.$classification->classification_type.'</ecls:classificationType>' . PHP_EOL;
+                $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+                $sendBody .= '<ecls:amount>' . number_format($classification->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+                $sendBody .= '</expensesClassification>' . PHP_EOL;
+                if($classification->classification_type !== 'E_586') {
+                    $sendBody .= '<expensesClassification>' . PHP_EOL;
+                    $sendBody .= '<ecls:classificationType>'.$classification->vat.'</ecls:classificationType>' . PHP_EOL;
+                    $sendBody .= '<ecls:classificationCategory>'.$classification->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+                    $sendBody .= '<ecls:amount>' . number_format($classification->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+                    $sendBody .= '</expensesClassification>' . PHP_EOL;
+                }
+
+                $sendBody .= '</invoiceDetails>' . PHP_EOL;
+                $counter++;
+            }
+        }
+        $sendBody .= '<invoiceSummary>'.PHP_EOL;
+        $sendBody .= '<totalNetValue>'.number_format($outcome->price, 2, '.', '' ).'</totalNetValue>'.PHP_EOL;
+        $sendBody .= '<totalVatAmount>0.00</totalVatAmount>'.PHP_EOL;
+        $sendBody .= '<totalWithheldAmount>0.00</totalWithheldAmount>'.PHP_EOL;
+        $sendBody .= '<totalFeesAmount>0.00</totalFeesAmount>'.PHP_EOL;
+        $sendBody .= '<totalStampDutyAmount>0.00</totalStampDutyAmount>'.PHP_EOL;
+        $sendBody .= '<totalOtherTaxesAmount>0.00</totalOtherTaxesAmount>'.PHP_EOL;
+        $sendBody .= '<totalDeductionsAmount>0.00</totalDeductionsAmount>'.PHP_EOL;
+        $sendBody .= '<totalGrossValue>'.number_format( $outcome->price, 2, '.', '' ).'</totalGrossValue>'.PHP_EOL;
+
+        if(isset($classifications)) {
+            $sendBody .= '<expensesClassification>' . PHP_EOL;
+            $sendBody .= '<ecls:classificationType>'.$classifications[0]->classification_type.'</ecls:classificationType>' . PHP_EOL;
+            $sendBody .= '<ecls:classificationCategory>'.$classifications[0]->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+            $sendBody .= '<ecls:amount>' . number_format($classifications[0]->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+            $sendBody .= '</expensesClassification>' . PHP_EOL;
+            if($classification->classification_type !== 'E_586') {
+                $sendBody .= '<expensesClassification>' . PHP_EOL;
+                $sendBody .= '<ecls:classificationType>' . $classifications[0]->vat . '</ecls:classificationType>' . PHP_EOL;
+//                $sendBody .= '<ecls:classificationCategory>'.$classifications[0]->classification_category.'</ecls:classificationCategory>' . PHP_EOL;
+                $sendBody .= '<ecls:amount>' . number_format($classifications[0]->price, 2, '.', '') . '</ecls:amount>' . PHP_EOL;
+                $sendBody .= '</expensesClassification>' . PHP_EOL;
+            }
+        }
+        $sendBody .= '</invoiceSummary>'.PHP_EOL;
+        $sendBody .= '</invoice>'.PHP_EOL;
+        $sendBody .= '</InvoicesDoc>'.PHP_EOL;
+
+        $request->setBody($sendBody);
+        //dd($sendBody);
+        try
+        {
+            $response = $request->send();
+            $body = $response->getBody();
+        }
+        catch (HttpException $ex)
+        {
+            dd($ex);
+            return $ex;
+
+        }
+        //dd($body);
+        return $body;
+    }
+
 }
 
 if(!function_exists('myDataSendEfka')){
@@ -894,7 +1024,7 @@ if(!function_exists('myDataSendDeko')){
         $sendBody .='</counterpart>'.PHP_EOL;
         $sendBody .='<invoiceHeader>'.PHP_EOL;
         $sendBody .='<series>0</series>'.PHP_EOL;
-        $sendBody .='<aa>0</aa>'.PHP_EOL;
+        $sendBody .='<aa>'.$outcome->outcome_number.'</aa>'.PHP_EOL;
         $sendBody .='<issueDate>'.$outcome->date.'</issueDate>'.PHP_EOL;
         $sendBody .='<invoiceType>'.$outcome->invType.'</invoiceType>'.PHP_EOL;
         $sendBody .='<currency>EUR</currency>'.PHP_EOL;

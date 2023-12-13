@@ -59,6 +59,14 @@
             ]
         },
         {
+            "url": "/payments",
+            "name": "Πληρωμές",
+            "i18n": "Πληρωμές",
+            "class": "waves-effect waves-cyan",
+            "slug": "payments",
+            "icon": "credit_card"
+        },
+        {
             "url": "/tasks",
             "name": "Υπενθυμίσεις",
             "i18n": "Υπενθυμίσεις",

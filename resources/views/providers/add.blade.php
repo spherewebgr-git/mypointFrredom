@@ -23,7 +23,7 @@
         </div>
     </div>
 
-        <div id="prefixes" class="card card card-default scrollspy">
+    <div id="prefixes" class="card card card-default scrollspy">
             <div class="card-content">
                 <h4 class="card-title">Στοιχεία Προμηθευτή</h4>
                 <form @if(isset($provider)) action="{{route('provider.update', ['provider' => $provider])}}" @else action="{{route('provider.store')}}" @endif method="post">

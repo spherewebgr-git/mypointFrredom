@@ -255,7 +255,7 @@
                                                         id="subtotal">00.00</span></h6>
                                             </li>
                                             <li class="display-flex justify-content-between">
-                                                <span class="invoice-subtotal-title">Φ.Π.Α. (24%)</span>
+                                                <span class="invoice-subtotal-title">Συνολικό Φ.Π.Α.</span>
                                                 <h6 class="invoice-subtotal-value">&euro; <span id="fpa">00.00</span>
                                                 </h6>
                                             </li>
@@ -480,12 +480,4 @@
 
 @endsection
 
-@section('page-script')
-    {{--    <script src="{{asset('js/scripts/app-invoice.js')}}"></script>--}}
-    <script>
-        $r = jQuery.noConflict();
-        $r(document).ready(function () {
 
-        });
-    </script>
-@endsection

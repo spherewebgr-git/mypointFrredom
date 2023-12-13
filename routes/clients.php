@@ -17,4 +17,5 @@ Route::name('client.')->prefix('/')->group(function () {
     Route::post('/delete-address-ajax', [ClientsController::class, 'deleteAddress'])->name('delete-address');
     Route::post('/client-address-ajax', [ClientsController::class, 'getAddress'])->name('get-addresses');
     Route::post('/client-search-ajax', [ClientsController::class, 'search'])->name('search');
+    Route::post('/client-invoices-search-ajax', [ClientsController::class, 'invoices'])->name('search.invoices');
 });

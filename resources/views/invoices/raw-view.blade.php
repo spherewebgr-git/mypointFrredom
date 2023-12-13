@@ -301,7 +301,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="small-12 columns">
+            <div class="small-12 columns" style="margin-top:-20px;">
                 @if(isset(settings()['signature']))
                 <div class="signature left">
                     <span class="invoice-color">Για τον εκδότη</span>
@@ -312,10 +312,10 @@
                 <hr class="main-color">
                 @endif
                 @if(isset($invoice->mark) && $invoice->mark > 0)
-                    <div style="padding: 100px 0 0 0;float: right;font-size: 18px;font-weight: 500;">MAPK: {{$invoice->mark}}</div>
+                    <div style="padding: 50px 0 0 0;float: right;font-size: 18px;font-weight: 500;font-family: 'RobotoRegular', sans-serif;">MAPK: {{$invoice->mark}}</div>
                 @endif
                 <div class="clear"></div>
-                <table class="invoiceform footer" style="margin-top: 150px;">
+                <table class="invoiceform footer" style="margin-top: 100px;">
                     <tbody>
                     <tr>
                         <td>@if(isset(settings()['phone']) && isset(settings()['show_invoice_phone']) && settings()['show_invoice_phone'] == 'on') <span class="invoice-color">Τηλ:</span> {{settings()['phone']}} @endif </td>

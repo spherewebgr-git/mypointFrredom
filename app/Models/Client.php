@@ -14,12 +14,17 @@ class Client extends Model
     protected $table = 'clients';
 
     protected $fillable = [
-        'code_number', 'name', 'company', 'work_title', 'email', 'mobile', 'phone', 'address', 'number', 'postal_code', 'city', 'vat', 'doy', 'mail_account', 'phone_account', 'company_logo', 'disabled'
+        'code_number', 'name', 'company', 'work_title', 'email', 'mobile', 'price_balance', 'vat_balance', 'parakratisi_balance', 'phone', 'address', 'number', 'postal_code', 'city', 'vat', 'doy', 'mail_account', 'phone_account', 'company_logo', 'disabled'
     ];
+
+    public function services()
+    {
+        return $this->hasMany(Services::class);
+    }
 
     public function invoices()
     {
-        return $this->hasMany(Services::class);
+        return $this->hasMany(Invoice::class);
     }
 
     public function saleInvoices()

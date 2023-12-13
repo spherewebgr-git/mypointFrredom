@@ -21,6 +21,9 @@ class CreateRetailClassificationsTable extends Migration
             $table->string('classification_type');
             $table->date('date');
             $table->float('price', 8, 2);
+            $table->float('vat_amount', 8, 2);
+            $table->integer('vat_category');
+            $table->integer('vat_ecxemption_category');
             $table->string('vat');
             $table->string('mark');
             $table->timestamps();

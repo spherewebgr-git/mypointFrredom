@@ -66,10 +66,6 @@ class ClientsController extends Controller
                 'code_number' => $request->code_number,
                 'company' => $request->company,
                 'work_title' => $request->work_title,
-//                'address' => $request->address,
-//                'number' => $request->number,
-//                'postal_code' => $request->postal_code,
-//                'city' => $request->city,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'phone' => $request->phone,
@@ -101,16 +97,10 @@ class ClientsController extends Controller
 
     public function update(Request $request, Client $client)
     {
-
-        //dd($request);
         $client->update([
             "name" => $request->name,
             "code_number" => $request->code_number,
             "company" => $request->company,
-//            'address' => $request->address,
-//            'number' => $request->number,
-//            'city' => $request->city,
-//            'postal_code' => $request->postal_code,
             "work_title" => $request->work_title,
             "email" => $request->email,
             "mobile" => $request->mobile,
@@ -224,6 +214,13 @@ class ClientsController extends Controller
             ->get();
 
         return $clients;
+    }
+
+    public function invoices(Request $request)
+    {
+        $client = Client::query()->where('hashID', '=', $request->client)->first();
+
+        return $client->invoices()->where('date', '>=', date('Y').'-01-01')->orderBy('date', 'desc')->get();
     }
 
 }

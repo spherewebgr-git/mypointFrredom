@@ -78,7 +78,8 @@ class SubscriptionsController extends Controller
             'service_domain' => $request->service_domain,
             'first_payment' => $date,
             'service_duration' => $request->service_duration,
-            'active_subscription' => $request->active_subscription
+            'active_subscription' => $request->active_subscription,
+            'duration_price' => $request->duration_price
         ]);
         $service->save();
 

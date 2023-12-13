@@ -1525,6 +1525,20 @@ if(!function_exists('countHolded')) {
     }
 }
 
+if (! function_exists('getBankNames')) {
+    function getBankNames(): array
+    {
+        $banks = [
+            'Τράπεζα Πειραιώς',
+            'Εθνική Τράπεζα',
+            'Alpha Bank',
+            'Eurobank'
+        ];
+
+        return $banks;
+    }
+}
+
 
 
 include_once 'Helpers/productsHelper.php';

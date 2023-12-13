@@ -53,8 +53,8 @@ class MyDataController extends Controller
 
         $outcome = Outcomes::query()->where('hashID', '=', $hashID)->first();
         $hash = Str::substr(Str::slug(Hash::make($outcome->shop . Carbon::now())), 0, 32);
-
         $classifications = $request['group-a'];
+        //dd($classifications);
 
         $classificationsPrice = [];
         if(isset($classifications)) {
@@ -70,6 +70,8 @@ class MyDataController extends Controller
                             'date' => date('Y-m-d'),
                             'price' => $classification['price'],
                             'vat' => $classification['tax'],
+                            'vat_amount' => $classification['vat_amount'],
+                            'vat_excemption_category' => 0
                         )
                     );
                 }
@@ -106,8 +108,11 @@ class MyDataController extends Controller
     public function sendClassificationsMyData(Request $request) {
         //dd($request);
         $theOutcome = Outcomes::query()->where('hashID', '=', $request->outcome_hash)->first();
-//dd($theOutcome->invType);
+        //dd($theOutcome->invType);
         switch(true) {
+            case isset($request->deviation) && $request->deviation == 'on':
+                $an = myDataSendInvoiceDeviation($theOutcome->hashID);
+                break;
             case $theOutcome->mark !== null: // Αν έχει mark, δλδ έχει έρθει από την εφορία
                 $an = myDataSendExpensesClassification($theOutcome->hashID);
                 break;
@@ -123,6 +128,7 @@ class MyDataController extends Controller
             case $theOutcome->invType === '14.4': // Αν είναι παραστατικό τρίτης χώρας
                 $an = myDataSendInvoiceThirdCountry($theOutcome->hashID);
                 break;
+
         }
 
         //dd($an);
@@ -166,7 +172,7 @@ $status = $xml->response['statusCode'];
     public function updateClassifications(Request $request, $hashID) {
 
         $outcome = Outcomes::query()->where('hashID', '=', $hashID)->first();
-
+//dd($request);
         $oldClassifications = $request['old'];
         $newClassifications = $request['group-a'];
 
@@ -174,12 +180,17 @@ $status = $xml->response['statusCode'];
         if($oldClassifications != null && count($oldClassifications) > 0) {
             foreach($oldClassifications as $old) {
                 $newPrices[] = $old['price'];
+
+                //dd($oldClass);
                 DB::table('retail_classifications')->where('hashID', '=', $old['classificationHash'])->update([
                     'classification_category' => $old['classification_category'],
                     'classification_type' => $old['classification_type'],
                     'updated_at' => date('Y-m-d'),
                     'price' => $old['price'],
-                    'vat' => $old['tax']
+                    'vat' => $old['tax'],
+                    'vat_amount' => $old['vat_amount'],
+                    'vat_category' => $old['vat_category'],
+                    'vat_excemption_category' => $old['vat_excemption_category'] ?? 0
                 ]);
             }
         }
@@ -197,6 +208,9 @@ $status = $xml->response['statusCode'];
                             'date' => date('Y-m-d'),
                             'price' => $classification['price'],
                             'vat' => $classification['tax'],
+                            'vat_amount' => $classification['vat_amount'],
+                            'vat_category' => $classification['vat_category'],
+                            'vat_excemption_category' => $classification['vat_excemption_category'] ?? ''
                         )
                     );
                 }
@@ -210,7 +224,7 @@ $status = $xml->response['statusCode'];
                 $outcome->status = 'efka';
             } elseif($newPrice = $outcome->price) {
                 $outcome->status = 'crosschecked';
-            } elseif(!$outcome->minMark && $newPrice = $outcome->price) {
+            } elseif(!$outcome->minMark && $newPrice == $outcome->price) {
                 $outcome->status = 'uncrosschecked';
             } else {
                 $outcome->status = 'presaved';

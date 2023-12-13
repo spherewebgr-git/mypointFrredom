@@ -100,7 +100,7 @@
                                         {{$client->company}}
                                     </td>
                                     <td class="sorting_1 center-align">
-                                        0
+                                        {{number_format($client->price_balance, 2, ',', '.')}}
                                     </td>
                                     <td class="print-hide right-align">
                                         <div class="invoice-action">
@@ -137,7 +137,7 @@
                                         {{$client->company}}
                                     </td>
                                     <td class="sorting_1 center-align">
-                                        0
+                                        {{number_format($client->price_balance, 2, ',', '.')}}
                                     </td>
                                     <td class="print-hide">
                                         <div class="invoice-action">

@@ -191,16 +191,22 @@ class OutcomesController extends Controller
         }
         $outcome->update([
             'price' => $request->price,
+            'seira' => $request->seira,
+            'outcome_number' => $request->outcome_number,
+            'invType' => $request->invType,
+            'paymentMethod' => $request->paymentMethod,
             'vat' => $request->vat,
             'date' => $date,
-            'file' => $name
+            'file' => $name,
+            'mark' => $request->mark
         ]);
         if($outcome->mark === null) {
             $outcome->update([
                 'seira' => $request->seira,
+                'invType' => $request->invType,
                 'outcome_number' => $request->outcome_number,
                 'shop' => $request->shop,
-                'invType' => $request->invType
+                'mark' => $request->mark
             ]);
         }
 
